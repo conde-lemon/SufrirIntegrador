@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Reservas - Travel For U</title>
+    <link rel="stylesheet" href="../static/css/reservas_style.css">
+</head>
+
+<body>
+    <!-- cabeza principal -->
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo">Travel For U</div>
+            <nav>
+                <ul class="main-nav">
+                    <li><a href="./index1.html">Inicio</a></li>
+                    <li><a href="./paquetes_y_promociones.html">Ofertas</a></li>
+                    <li><a href="./reservas.html" class="active">Reservas</a></li>
+                    <li><a href="#">Perfil</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Encabezado de página -->
+        <div class="page-header">
+            <h1 class="page-title">Mis Reservas</h1>
+            <p class="page-subtitle">Gestiona y revisa todas tus reservas de viaje</p>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters-section">
+            <span class="filter-label">Filtrar por:</span>
+            <select class="filter-select">
+                <option>Todas las fechas</option>
+                <option>Próximos 7 días</option>
+                <option>Próximos 30 días</option>
+                <option>Este mes</option>
+            </select>
+            <select class="filter-select">
+                <option>Todos los estados</option>
+                <option>Confirmadas</option>
+                <option>Pendientes</option>
+                <option>Canceladas</option>
+            </select>
+            <select class="filter-select">
+                <option>Ordenar por fecha</option>
+                <option>Ordenar por precio</option>
+                <option>Ordenar por destino</option>
+            </select>
+        </div>
+
+        <!-- Tarjetas de reservas -->
+        <div class="reservations-grid">
+            <!-- Reserva 1 -->
+            <div class="reservation-card">
+                <div class="reservation-header">
+                    <div class="reservation-code">Código: TFU-2025-8472</div>
+                    <div class="reservation-title">Vuelo a Buenos Aires</div>
+                </div>
+                <div class="reservation-body">
+                    <div class="reservation-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Origen</span>
+                            <span class="detail-value">Lima, Peru</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Destino</span>
+                            <span class="detail-value">Buenos Aires, Argentina</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Fecha de salida</span>
+                            <span class="detail-value">15 Oct 2025</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Pasajeros</span>
+                            <span class="detail-value">2 Adultos</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Estado</span>
+                            <span class="reservation-status status-confirmed">Confirmada</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="reservation-footer">
+                    <div class="reservation-price">3 panetones</div>
+                    <div class="action-buttons">
+                        <a href="#" class="btn btn-primary">Ver Detalles</a>
+                        <a href="../static/img/reporte_semana.jpg" class="btn btn-outline">Descargar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paginación -->
+        <div class="pagination">
+            <div class="pagination-nav">
+                <a href="#" class="pagination-btn">Anterior</a>
+                <a href="#" class="pagination-btn active">1</a>
+                <a href="#" class="pagination-btn">2</a>
+                <a href="#" class="pagination-btn">3</a>
+                <a href="#" class="pagination-btn">Siguiente</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

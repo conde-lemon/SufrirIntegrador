@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Usamos th:h para que Spring resuelva la ruta a la carpeta static -->
+    <link rel="stylesheet" th:href="@{/css/header_style.css}">
+    <link rel="stylesheet" th:href="@{/css/index1_style.css}">
+    <link rel="stylesheet" href="../static/css/index1_style.css">
+    <title>Travel For U</title>
+</head>
+
+<body>
+<!-- Reemplazamos el header antiguo con nuestro fragmento -->
+<div th:replace="~{fragments/header :: main-header}"></div>
+
+<div class="container">
+    <!-- Navegación de categorías -->
+    <nav class="category-nav">
+        <a href="vuelos.html" target="contenido" class="category-item">Vuelos</a>
+        <a href="cruceros.html" target="contenido" class="category-item">Cruceros</a>
+        <a href="bus.html" target="contenido" class="category-item">Bus</a>
+        <a href="hospedaje.html" target="contenido" class="category-item">Hospedaje</a>
+    </nav>
+
+    <!-- Formulario de búsqueda -->
+    <section class="search-section">
+        <h2 class="search-title">Elija destino:</h2>
+        <form class="search-form">
+            <div class="form-group">
+                <label class="form-label">Desde:</label>
+                <select class="form-select">
+                    <option>Ej. Peru</option>
+                    <option>Argentina</option>
+                    <option>Brasil</option>
+                    <option>Chile</option>
+                    <option>Colombia</option>
+                    <option>México</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Hacia:</label>
+                <select class="form-select">
+                    <option>Ej. Peru</option>
+                    <option>Argentina</option>
+                    <option>Brasil</option>
+                    <option>Chile</option>
+                    <option>Colombia</option>
+                    <option>México</option>
+                    <option>España</option>
+                    <option>Francia</option>
+                    <option>Italia</option>
+                </select>
+            </div>
+        </form>
+    </section>
+
+    <iframe name="contenido" src="vuelos.html" style="width:100%;height:800px;border:none;"></iframe>
+
+
+</div>
+</body>
+
+</html>

@@ -1,0 +1,166 @@
+/*Recomendaciones:
+    -Ordenar los estilos en orden alfabetico
+    -Cada Estilo ordenar de arriba para abajo segun la pagina */
+html,body {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+.container {
+    box-sizing: border-box;
+    overflow: hidden;
+    min-height: 100vh;
+    width: 100%;
+    border: none;
+}
+
+/*---------LINE ONE-----------*/
+.line_one {
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 1% 10% 1% 10%;
+    border: none;
+    width: 100%;
+}
+
+.header-navbar {
+    color: white;
+    display: flex;
+    padding: none;
+    border: 1px rgba(255, 255, 255, 0) solid;
+    background-color:none;
+    justify-content: space-between;
+}
+.header-navbar-img-one img {
+    width: 50px;
+    display: block; 
+    align-items: center; 
+}
+
+.header-navbar-img-container {
+    display: flex;
+    gap: 15px;
+    align-items: center; 
+}
+
+.header-navbar-img-two img {
+    width: 50px;
+    display: block;
+}
+.header-navbar-img-tree {
+    width: 50px;
+    height: auto;
+}
+.header-navbar-img-tree img {
+    max-width: 100%;
+    display: block;
+}
+.header-navbar-img-four{
+    width: 50px;
+    height: auto;
+}
+
+.btn_navbar_class {
+  background: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.header-navbar-img-four img{
+    max-width: 100%;
+    display: block;
+}
+
+ul {
+    gap: 1rem;
+}
+
+.ul_navbar {
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 0; 
+}
+
+.ul_navbar.active {
+    padding: 2% 0 0 0;
+    border: none;
+    display: flex;
+    flex-direction: column; 
+    gap: 10px;
+}
+
+.li_cruceros{
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+    flex: 1;
+}
+.li_hosp{
+    background-color: black;
+    justify-content: center;
+    display: flex;
+    padding: 8px;
+    border: none;
+    flex: 1;
+}
+.li_viajes{
+    background-color: black;
+    justify-content: center;
+    display: flex;
+    padding: 8px;
+    border: none;
+    flex: 1;
+}
+.li_buss{
+    background-color: black;
+    justify-content: center;
+    display: flex;
+    padding: 8px;
+    border:none;
+    flex: 1;
+}
+.menu-cotainer {
+    position: relative;
+    display: inline-block;
+}
+.menu {
+    text-decoration: none;
+    color: rgb(248, 248, 248); 
+    display: block;
+    padding: 3px 0;
+}
+.menu::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    border-radius: 5px;
+    transform: scaleX(0);
+    transition: all .5s ease;
+    bottom: 0;
+    left: 0;
+}
+.menu:hover::before {
+            transform: scaleX(1);
+        }
+
+/*---------LINE TWO-----------*/
+.line_two {
+    box-sizing: border-box;
+    width: 100%;
+    border: 4px rgb(14, 194, 134) solid;
+}
+
+/*---------LINE TREE-----------*/
+.line_tree {
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 20px 20px 20px 20px;
+    border: 5px rgb(214, 15, 15) solid;
+    width: 100%;
+}

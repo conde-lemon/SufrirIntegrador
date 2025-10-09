@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel For U</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f5f5;
+        }
+
+        .main-header {
+            background: #7b1fa2;
+            padding: 15px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .category-nav {
+            display: flex;
+            background: #eee;
+            border-bottom: 2px solid #7b1fa2;
+        }
+
+        .category-item {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .category-item:hover {
+            background: #ddd;
+        }
+
+        #contenido {
+            padding: 20px;
+            min-height: 400px;
+            background: white;
+            margin: 20px;
+            border-radius: 10px;
+        }
+
+        .packages-section {
+            margin-top: 40px;
+        }
+
+        .section-title {
+            color: #7b1fa2;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .package-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .package-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .package-content {
+            padding: 20px;
+            background: #7b1fa2;
+            color: white;
+        }
+
+        .package-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .package-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .package-tags {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .package-tag {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .tag-latam {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .tag-familiar {
+            background: #4caf50;
+            color: white;
+        }
+
+        .tag-top {
+            background: #f44336;
+            color: white;
+        }
+
+        .package-price {
+            background: white;
+            color: #7b1fa2;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-left: auto;
+        }
+
+        /* Paginación */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .pagination-info {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .pagination-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .pagination-btn {
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="main-header">
+        Travel For U
+    </header>
+    <article class="package-card">
+        <div
+            style="width:100%; height:200px; background:#e0e0e0; display:flex; align-items:center; justify-content:center; font-weight:bold;">
+            Imagen aquí
+        </div>
+        <div class="package-content">
+            <h3 class="package-title">Título pendiente</h3>
+            <p class="package-description">Descripción en construcción...</p>
+            <div class="package-tags">
+                <span class="package-tag tag-latam">Etiqueta</span>
+                <span class="package-price">---</span>
+            </div>
+        </div>
+    </article>
+    <a href="./static/asientos.html" target="_blank">
+        <article class="package-card">
+        <div
+            style="width:100%; height:200px; background:#e0e0e0; display:flex; align-items:center; justify-content:center; font-weight:bold;">
+            Imagen aquí
+        </div>
+        <div class="package-content">
+            <h3 class="package-title">Título pendiente</h3>
+            <p class="package-description">Descripción en construcción...</p>
+            <div class="package-tags">
+                <span class="package-tag tag-latam">Etiqueta</span>
+                <span class="package-price">---</span>
+            </div>
+        </div>
+    </article>
+    </a>
+    
+    <section class="packages-section">
+        <h2 class="section-title">Paquetes y promociones</h2>
+
+        <div class="packages-grid">
+            <!-- Paquete 1 -->
+            <article class="package-card">
+                <img src="../static/img/presentation-login-image.jpg" alt="Ciudad de México" class="package-image">
+                <div class="package-content">
+                    <h3 class="package-title">Guía por CDMX</h3>
+                    <p class="package-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+                    <div class="package-tags">
+                        <span class="package-tag tag-latam">Latam</span>
+                        <span class="package-tag tag-top">Top Ventas</span>
+                        <span class="package-price">$100</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Paquete 2 -->
+            <article class="package-card">
+                <img src="../static/img/presentation-login-image.jpg" alt="Lima" class="package-image">
+                <div class="package-content">
+                    <h3 class="package-title">Turismo por Lima</h3>
+                    <p class="package-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+                    <div class="package-tags">
+                        <span class="package-tag tag-latam">Latam</span>
+                        <span class="package-tag tag-top">Top Ventas</span>
+                        <span class="package-price">$100</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Paquete 3 -->
+            <article class="package-card">
+                <img src="../static/img/presentation-login-image.jpg" alt="Niágara" class="package-image">
+                <div class="package-content">
+                    <h3 class="package-title">Experiencia en el Niágara</h3>
+                    <p class="package-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+                    <div class="package-tags">
+                        <span class="package-tag tag-familiar">Familiar</span>
+                        <span class="package-tag tag-top">Top Ventas</span>
+                        <span class="package-price">$100</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Paginación -->
+        <div class="pagination">
+            <div class="pagination-info">1-3 de 15 resultados</div>
+            <div class="pagination-nav">
+                <a href="#" class="pagination-btn">« Anterior</a>
+                <a href="#" class="pagination-btn">1</a>
+                <a href="#" class="pagination-btn">2</a>
+                <a href="#" class="pagination-btn">3</a>
+                <a href="#" class="pagination-btn">Siguiente »</a>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
