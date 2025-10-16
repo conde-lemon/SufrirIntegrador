@@ -9,14 +9,18 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Table(name = "proveedor") // Es buena práctica siempre definir el nombre de la tabla
 public class Proveedor {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id_proveedor;
+    @Column(name = "id_proveedor")
+    private int idProveedor;
 
     private String nombre;
-    private String tipo_proveedor;
+
+    @Column(name = "tipo_proveedor")
+    private String tipoProveedor;
+
     private String contacto;
     private String email;
     private String telefono;

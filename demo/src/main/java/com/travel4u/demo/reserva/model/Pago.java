@@ -5,26 +5,31 @@ import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 @Table(name="pago")
-
 public class Pago {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id_pago;
+    @Column(name = "id_pago")
+    private int idPago;
 
     private float monto;
-    private String metodo_pago;
-    private String estado_pago; // puede ser boolean, se realizo el pago o no (verdadero o falso)
-    private java.time.LocalDateTime fecha_pago;
+
+    @Column(name = "metodo_pago")
+    private String metodoPago;
+
+    @Column(name = "estado_pago")
+    private String estadoPago;
+
+    @Column(name = "fecha_pago")
+    private LocalDateTime fechaPago;
 
     @OneToOne
-    @JoinColumn(name="id_reserva",referencedColumnName = "id_reserva")
+    @JoinColumn(name="id_reserva", referencedColumnName = "id_reserva")
     private Reserva reserva;
-    //id_reserva de la tabla reserva
-
 }

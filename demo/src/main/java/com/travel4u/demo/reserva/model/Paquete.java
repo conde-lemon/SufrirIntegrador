@@ -12,21 +12,22 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 @Table(name="paquete")
-
 public class Paquete {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id_paquete;
+    @Column(name = "id_paquete")
+    private int idPaquete;
 
     private String nombre;
     private String descripcion;
-    private float precio_total;
+
+    @Column(name = "precio_total")
+    private float precioTotal;
 
     @OneToMany(mappedBy = "paquete")
-    private Set<Paquete_Reserva> paquete_reservas;
+    private Set<Paquete_Reserva> paqueteReservas;
 
-    //variables ocultas tomada automaticamente]
-    private LocalDateTime fecha_paquete;
+    @Column(name = "fecha_paquete")
+    private LocalDateTime fechaPaquete;
 }
