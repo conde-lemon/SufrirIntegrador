@@ -1,21 +1,22 @@
+<!-- C:/Users/LENOVO/Documents/utp/ciclo7/integrador/demo (1)/demo/src/main/resources/templates/index.html -->
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Usamos th:h para que Spring resuelva la ruta a la carpeta static -->
+    <title>Travel For U - Inicio</title>
+    <!-- Rutas a los archivos CSS manejadas por Thymeleaf -->
     <link rel="stylesheet" th:href="@{/css/header_style.css}">
     <link rel="stylesheet" th:href="@{/css/index1_style.css}">
-    <link rel="stylesheet" href="../static/css/index1_style.css">
-    <title>Travel For U</title>
 </head>
 
 <body>
-<!-- Reemplazamos el header antiguo con nuestro fragmento -->
+<!-- Reemplazamos el header estático con nuestro fragmento dinámico -->
 <div th:replace="~{fragments/header :: main-header}"></div>
 
 <div class="container">
+
     <!-- Navegación de categorías -->
     <nav class="category-nav">
         <a href="vuelos.html" target="contenido" class="category-item">Vuelos</a>
@@ -56,10 +57,44 @@
         </form>
     </section>
 
+    <!-- El iframe se puede mantener si es parte del diseño, o eliminar si ya no es necesario -->
     <iframe name="contenido" src="vuelos.html" style="width:100%;height:800px;border:none;"></iframe>
 
+    <hr style="margin: 40px 0;">
+
+    <!-- Sección dinámica para mostrar las reservas de la base de datos -->
+    <section class="reservations-section">
+        <h2 class="section-title">Reservas Recientes</h2>
+
+        <!-- Contenedor para las tarjetas de reserva -->
+        <div class="packages-grid" th:if="${!reservas.isEmpty()}">
+            <!-- Usamos th:each para iterar sobre la lista 'reservas' que pasamos desde el controlador -->
+            <article class="package-card" th:each="reserva : ${reservas}">
+                <div class="package-content">
+                    <h3 class="package-title" th:text="'Reserva #' + ${reserva.idReserva}">Reserva #123</h3>
+                    <p class="package-description">
+                        <strong>Cliente:</strong> <span th:text="${reserva.usuario.nombres} + ' ' + ${reserva.usuario.apellidos}"></span><br>
+                        <!-- CORRECCIÓN: Se usa 'createdAt' que es el campo correcto en la entidad Reserva.java -->
+                        <strong>Fecha:</strong> <span th:text="${#temporals.format(reserva.createdAt, 'dd/MM/yyyy HH:mm')}"></span><br>
+                        <strong>Estado:</strong> <span th:text="${reserva.estado}" class="package-tag">CONFIRMADA</span>
+                    </p>
+                    <div class="package-tags">
+                        <span class="package-price" th:text="'S/ ' + ${#numbers.formatDecimal(reserva.total, 1, 2)}">$100.00</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Mensaje que se muestra si no hay reservas -->
+        <div th:if="${reservas.isEmpty()}" class="alert alert-info">
+            No se encontraron reservas en la base de datos.
+        </div>
+    </section>
 
 </div>
-</body>
 
+<!-- NUEVO: Inclusión del archivo JavaScript al final del body -->
+<script th:src="@{/js/js.js}"></script>
+
+</body>
 </html>

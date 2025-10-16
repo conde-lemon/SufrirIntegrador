@@ -36,6 +36,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' // <-- AÑADE ESTA LÍNEA
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
 }
 
 tasks.named('test') {

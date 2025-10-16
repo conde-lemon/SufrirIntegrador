@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -14,19 +17,45 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="reserva")
-
 public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_reserva;
-    private LocalDateTime fecha_reserva;
+    @Column(name = "id_reserva")
+    private Integer idReserva; // CAMBIO: a camelCase y tipo Wrapper
+
+    @Column(nullable = false)
     private String estado;
-    private float total;
+
+    @Column(precision = 12, scale = 2, nullable = false)
+    private BigDecimal total; // CAMBIO: de float a BigDecimal
+
+    // NUEVO: Campos que coinciden con la BD
+    @Column(name = "fecha_inicio")
+    private LocalDateTime fechaInicio;
+
+    @Column(name = "fecha_fin")
+    private LocalDateTime fechaFin;
+
+    private String moneda;
+
+    @Column(columnDefinition = "TEXT")
+    private String observaciones;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_usuario", nullable = false)
+    private Usuario usuario;
 
     @OneToMany(mappedBy = "reserva")
-    private Set<Paquete_Reserva> paquete_reservas;
+    private Set<Paquete_Reserva> paqueteReservas; // CAMBIO: a camelCase
 
-    @ManyToOne
-    @JoinColumn(name="id_usuario",referencedColumnName = "id_usuario")
-    private Usuario usuario;
+    // NUEVO: Campos de auditoría
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    // El campo 'fecha_reserva' del SQL es manejado por 'createdAt'
 }

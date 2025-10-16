@@ -1,11 +1,13 @@
-// C:/Users/LENOVO/Documents/utp/ciclo7/integrador/demo (1)/demo/src/main/java/com/travel4u/demo/servicio/model/Servicio.java
 package com.travel4u.demo.servicio.model;
 
-import com.travel4u.demo.reserva.model.Detalle_Reserva;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -16,22 +18,33 @@ public class Servicio {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_servicio")
-    private Long idServicio; // CORREGIDO: de int a Long para coincidir con IServicioDAO
+    private Long idServicio;
 
-    @Column(name = "tipo_servicio")
-    private String tipoServicio; // CORREGIDO: a camelCase
+    @Column(name = "tipo_servicio", nullable = false)
+    private String tipoServicio;
 
+    @Column(nullable = false)
     private String nombre;
 
-    @Column(name = "precio_base")
-    private float precioBase; // CORREGIDO: a camelCase
+    @Column(name = "precio_base", precision = 10, scale = 2, nullable = false)
+    private BigDecimal precioBase; // CAMBIO: de float a BigDecimal
 
+    @Column(nullable = false)
     private int disponibilidad;
 
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
-    @ManyToOne
-    @JoinColumn(name="id_reserva", referencedColumnName = "id_reserva")
-    private Detalle_Reserva detalleReservaServicio; // CORREGIDO: a camelCase
+    // CORRECCIÓN: La relación es con Proveedor, no con Detalle_Reserva
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_proveedor")
+    private Proveedor proveedor;
+
+    // NUEVO: Campo para borrado lógico
+    private boolean activo = true;
+
+    // NUEVO: Campo de auditoría
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 }

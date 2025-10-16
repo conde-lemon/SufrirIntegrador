@@ -1,67 +1,68 @@
+<!-- C:/Users/LENOVO/Documents/utp/ciclo7/integrador/demo (1)/demo/src/main/resources/templates/login.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/login_style.css">
-    <title>Travel For You</title>
+    <link rel="stylesheet" th:href="@{/css/login_style.css}">
+    <title>Travel For You - Login</title>
+    <style>
+        .dev-note {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="floating-elements">
-        <div class="floating-element"></div>
-        <div class="floating-element"></div>
-        <div class="floating-element"></div>
+<div class="login-container">
+    <div class="header">
+        <h1 class="welcome-title">¡Bienvenido!</h1>
     </div>
 
-    <div class="login-container">
-        <div class="header">
-            <h1 class="welcome-title">¡Bienvenido!</h1>
-            <div class="image-container">
-                <img src="../img/presentation-login-image.jpg" alt="Imagen de viajes" class="travel-image"
-                    id="travelImage">
-            </div>
-        </div>
+    <div class="form-container">
+        <form th:action="@{/login}" method="post">
 
-        <div class="form-container">
-            <form id="loginForm">
-                <div class="form-group">
-                    <label class="form-label" for="usuario">Usuario</label>
-                    <input type="text" id="usuario" class="form-input" placeholder="Ej. U12345678" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="password">Contraseña</label>
-                    <input type="password" id="password" class="form-input" placeholder="••••••••••" required>
-                </div>
-
-                <div class="forgot-password">
-                    <a href="#" onclick="showForgotPassword()">¿Olvidaste tu contraseña?</a>
-                </div>
-
-                <button class="login-btn">
-                    <a href="../static/html/index.html" class="login-btn">Login</a>
-                </button>
-            </form>
-
-            <div class="divider">
-                <span>Ingresar con</span>
+            <!-- NOTA DE DESARROLLO: Pista para el login de admin -->
+            <div class="dev-note">
+                <strong>Modo Desarrollo:</strong><br>
+                Usuario: <code>admin@travel4u.com</code><br>
+                Contraseña: <code>1234</code>
             </div>
 
-            <div class="social-login">
-                <button class="social-btn google" title="Iniciar con Google">
-                    <img src="../static/img/presentation-login-image.jpg">
-                </button>
-                <button class="social-btn facebook" title="Iniciar con Facebook">
-                    <img src="../static/img/presentation-login-image.jpg">
-                </button>
-                <button class="social-btn microsoft" title="Iniciar con Microsoft">
-                    <img src="../static/img/presentation-login-image.jpg">
-                </button>
+            <!-- Mensaje de error si el login falla -->
+            <div th:if="${param.error}" class="alert alert-danger">
+                Usuario o contraseña inválidos.
             </div>
-        </div>
+            <!-- Mensaje al cerrar sesión -->
+            <div th:if="${param.logout}" class="alert alert-success">
+                Has cerrado sesión.
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="username">Email</label>
+                <input type="text" id="username" name="username" class="form-input" placeholder="tu@email.com" required autofocus>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">Contraseña</label>
+                <input type="password" id="password" name="password" class="form-input" placeholder="••••••••••" required>
+            </div>
+
+            <div class="forgot-password">
+                <a href="#">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <button type="submit" class="login-btn">Login</button>
+        </form>
     </div>
+</div>
 </body>
-
 </html>
