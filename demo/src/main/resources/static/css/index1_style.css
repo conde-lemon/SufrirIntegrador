@@ -1,3 +1,5 @@
+/* Reemplaza el contenido de: /static/css/index1_style.css */
+
 * {
     margin: 0;
     padding: 0;
@@ -10,40 +12,10 @@ body {
     color: #333;
 }
 
-/* Header principal */
-.main-header {
-    background: #7b1fa2;
-    padding: 15px 0;
-}
-
-.header-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-}
-
-.logo {
-    color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.main-nav {
-    display: flex;
-    list-style: none;
-    gap: 30px;
-}
-
-.main-nav a {
-    color: white;
-    text-decoration: none;
-    padding: 10px 15px;
-    border-radius: 8px;
-    font-weight: 500;
-}
+/*
+   NOTA: Los estilos de .main-header, .header-content, .logo y .main-nav
+   han sido MOVIDOS a header_style.css para evitar duplicidad.
+*/
 
 /* Contenedor principal */
 .container {
@@ -58,72 +30,110 @@ body {
     background: white;
     border-radius: 15px;
     margin-bottom: 30px;
+    overflow: hidden; /* Para que los bordes redondeados se apliquen bien */
 }
 
 .category-item {
     flex: 1;
     text-align: center;
     padding: 20px;
-    background: #e1bee7;
-    color: #7b1fa2;
+    color: #7c4dff;
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;
     display: block;
+    transition: background-color 0.2s;
+}
+
+.category-item:hover {
+    background-color: #f0eaff;
 }
 
 .category-item.active {
-    background: #7b1fa2;
+    background: #7c4dff;
     color: white;
 }
 
-/* Formulario de búsqueda */
+/* --- ESTILOS PARA LA SECCIÓN DE BÚSQUEDA --- */
 .search-section {
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
+    background-image: linear-gradient(rgba(20, 20, 35, 0.6), rgba(20, 20, 35, 0.6)), url(../img/vueloBackground.png);
+    background-size: cover;
+    background-position: center center;
+    padding: 50px 30px;
+    border-radius: 16px;
     margin-bottom: 40px;
-}
-
-.search-title {
-    color: #666;
-    font-size: 1.2rem;
-    margin-bottom: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
 
 .search-form {
-    display: grid;
-    gap: 20px;
-}
-
-.form-group {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-end;
 }
 
-.form-label {
-    color: #666;
-    font-weight: 600;
+.search-title {
+    color: #ffffff;
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+}
+
+.search-section .form-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.search-section .form-label {
+    color: #e0e0e0;
+    font-weight: 500;
     margin-bottom: 8px;
+    display: block;
 }
 
-.form-select {
-    padding: 15px;
-    border: 2px solid #e0e0e0;
-    border-radius: 10px;
-    background: #f8f9fa;
+.search-section .form-select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
     font-size: 1rem;
-    color: #666;
+}
+
+.form-group-full {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.search-flight-btn {
+    background-color: #7c4dff;
+    color: white;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
+    transition: all 0.3s ease;
+    width: auto;
+    min-width: 200px;
 }
 
-/* Sección de paquetes */
-.packages-section {
-    margin-top: 40px;
+.search-flight-btn:hover {
+    background-color: #651fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(124, 77, 255, 0.4);
 }
 
-.section-title {
-    color: #7b1fa2;
+.hidden {
+    display: none;
+}
+
+/* --- ESTILOS PARA LAS TARJETAS DE RESERVAS RECIENTES --- */
+.reservations-section .section-title {
+    color: #333;
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 30px;
@@ -140,97 +150,58 @@ body {
     background: white;
     border-radius: 15px;
     overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.package-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+.package-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
 }
 
 .package-content {
     padding: 20px;
-    background: #7b1fa2;
-    color: white;
 }
 
 .package-title {
     font-size: 1.3rem;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    color: #333;
 }
 
 .package-description {
-    font-size: 0.9rem;
-    opacity: 0.9;
+    font-size: 0.95rem;
+    color: #666;
     margin-bottom: 20px;
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
 .package-tags {
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
 }
 
 .package-tag {
-    padding: 6px 12px;
+    padding: 5px 12px;
     border-radius: 20px;
     font-size: 0.8rem;
     font-weight: 600;
-    text-transform: uppercase;
-}
-
-.tag-latam {
-    background: #ffc107;
+    background-color: #e0e0e0;
     color: #333;
 }
 
-.tag-familiar {
-    background: #4caf50;
-    color: white;
-}
-
-.tag-top {
-    background: #f44336;
-    color: white;
-}
-
 .package-price {
-    background: white;
-    color: #7b1fa2;
-    padding: 8px 15px;
-    border-radius: 25px;
+    color: #7c4dff;
     font-weight: bold;
-    font-size: 1.1rem;
-    margin-left: auto;
+    font-size: 1.2rem;
 }
 
-/* Paginación */
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    margin-top: 30px;
-}
-
-.pagination-info {
-    color: #666;
-    font-weight: 500;
-}
-
-.pagination-nav {
-    display: flex;
-    gap: 10px;
-}
-
-.pagination-btn {
-    padding: 10px 15px;
-    border: 2px solid #e0e0e0;
-    background: white;
-    color: #666;
+.alert.alert-info {
+    background-color: #e7f3fe;
+    border-color: #d0eaff;
+    color: #0c5460;
+    padding: 15px;
     border-radius: 8px;
-    text-decoration: none;
 }

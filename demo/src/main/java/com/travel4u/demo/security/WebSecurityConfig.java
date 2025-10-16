@@ -15,7 +15,6 @@ public class WebSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // Usamos BCrypt para encriptar las contraseñas
         return new BCryptPasswordEncoder();
     }
 
@@ -23,20 +22,17 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        // Permitimos el acceso sin login a estas rutas y a los recursos estáticos
-                        .requestMatchers("/login", "/css/**", "/js/**", "/img/**").permitAll()
-                        // Cualquier otra petición requiere autenticación
+                        // CORRECCIÓN: Añadimos "/registrar" a las rutas públicas
+                        .requestMatchers("/login", "/registrar", "/css/**", "/js/**", "/img/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        // Usamos nuestra página de login personalizada
                         .loginPage("/login")
-                        // Redirigimos a la página de inicio después de un login exitoso
                         .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login?logout") // Redirigir a login al cerrar sesión
+                        .logoutSuccessUrl("/login?logout")
                         .permitAll()
                 );
         return http.build();

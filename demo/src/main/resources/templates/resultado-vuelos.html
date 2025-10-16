@@ -1,0 +1,44 @@
+<!-- Crear este nuevo archivo en: src/main/resources/templates/resultados-vuelos.html -->
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de Vuelos - Travel For U</title>
+    <link rel="stylesheet" th:href="@{/css/header_style.css}">
+    <link rel="stylesheet" th:href="@{/css/perfil_style.css}"> <!-- Reutilizamos estilos de perfil para el contenedor -->
+</head>
+<body>
+
+<!-- Incluimos el header -->
+<div th:replace="~{fragments/header :: main-header}"></div>
+
+<main>
+    <div class="container">
+        <section class="profile-section"> <!-- Reutilizamos esta clase para el estilo de tarjeta -->
+            <h2 class="profile-title">Resultados de Búsqueda</h2>
+
+            <div class="profile-details" style="text-align: left;">
+                <p>
+                    Buscando vuelos desde <strong><span th:text="${origenBusqueda}"></span></strong>
+                    hacia <strong><span th:text="${destinoBusqueda}"></span></strong>.
+                </p>
+                <hr>
+                <!--
+                    Aquí es donde iterarías sobre una lista de vuelos encontrados.
+                    Ejemplo: <div th:each="vuelo : ${vuelos}"> ... </div>
+                -->
+                <p style="text-align: center; margin-top: 20px;">
+                    (Actualmente no hay resultados. La lógica de búsqueda debe implementarse en el backend).
+                </p>
+            </div>
+
+            <div class="profile-actions">
+                <a th:href="@{/}" class="edit-btn">Volver a Buscar</a>
+            </div>
+        </section>
+    </div>
+</main>
+
+</body>
+</html>

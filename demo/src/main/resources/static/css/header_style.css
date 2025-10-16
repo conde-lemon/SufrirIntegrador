@@ -1,79 +1,52 @@
-/* Estilo base para el header, lo hacemos fijo en la parte superior */
+/* Crear o reemplazar este archivo en: /static/css/header_style.css */
+
+/* Estilos base para el header, aplicables a toda la web */
 .main-header {
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    padding: 0 5%; /* Usamos porcentaje para que sea más responsivo */
-    position: sticky;
+    background: #7c4dff; /* Un morado moderno y consistente */
+    padding: 12px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: sticky; /* Fija el header en la parte superior al hacer scroll */
     top: 0;
-    z-index: 1000;
-    width: 100%;
-    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
 }
 
 .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 70px;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-/* Estilo y animación para el logo */
-.logo {
-    font-size: 28px;
-    font-weight: 700;
-    color: #2c3e50;
-    transition: transform 0.3s ease-in-out; /* Animación suave */
+    padding: 0 20px;
 }
 
 .logo-link {
     text-decoration: none;
 }
 
-.logo-link:hover .logo {
-    transform: scale(1.05); /* Efecto de zoom al pasar el cursor */
-    color: #3498db;
+.logo {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -1px;
 }
 
-/* Estilo y animación para la navegación */
 .main-nav {
-    list-style: none;
     display: flex;
-    gap: 35px; /* Espacio entre elementos */
+    list-style: none;
+    gap: 20px;
     margin: 0;
     padding: 0;
 }
 
 .main-nav a {
+    color: white;
     text-decoration: none;
-    color: #555;
-    font-size: 16px;
+    padding: 8px 16px;
+    border-radius: 6px;
     font-weight: 500;
-    padding: 8px 4px;
-    position: relative; /* Necesario para la animación de la línea */
-    transition: color 0.3s ease;
-}
-
-/* Animación de superposición (línea inferior) */
-.main-nav a::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: #3498db;
-    transform: scaleX(0); /* Inicia invisible */
-    transform-origin: bottom right;
-    transition: transform 0.3s ease-out;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .main-nav a:hover {
-    color: #2c3e50; /* Color del texto al pasar el cursor */
-}
-
-.main-nav a:hover::after {
-    transform: scaleX(1); /* La línea aparece */
-    transform-origin: bottom left;
+    background-color: rgba(255, 255, 255, 0.15);
 }

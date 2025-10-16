@@ -1,0 +1,53 @@
+<!-- C:/Users/LENOVO/Documents/utp/ciclo7/integrador/demo (1)/demo/src/main/resources/templates/perfil.html -->
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Rutas de CSS con Thymeleaf -->
+    <link rel="stylesheet" th:href="@{/css/header_style.css}">
+    <link rel="stylesheet" th:href="@{/css/perfil_style.css}">
+    <title>Perfil de Usuario - Travel For U</title>
+</head>
+
+<body>
+<!-- Usar el fragmento del header -->
+<div th:replace="~{fragments/header :: main-header}"></div>
+
+<!-- NUEVO: Envolvemos el contenido principal en una etiqueta <main> -->
+<main>
+    <div class="container">
+        <!-- Información del usuario -->
+        <section class="profile-section">
+            <h2 class="profile-title">Mi Perfil</h2>
+
+            <div class="profile-info" th:if="${usuario != null}">
+                <div class="profile-avatar">
+                    <img th:src="@{/images/avatar-placeholder.png}" alt="Avatar de usuario" class="avatar-img">
+                </div>
+                <div class="profile-details">
+                    <!-- Mostrar datos dinámicos del usuario -->
+                    <p><strong>Nombre:</strong> <span th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></span></p>
+                    <p><strong>Correo Electrónico:</strong> <span th:text="${usuario.email}"></span></p>
+                    <p><strong>Teléfono:</strong> <span th:text="${usuario.telefono ?: 'No especificado'}"></span></p>
+                    <p><strong>Miembro desde:</strong> <span th:text="${#temporals.format(usuario.fechaRegistro, 'dd MMMM, yyyy')}"></span></p>
+                </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="profile-actions">
+                <button class="edit-btn">Editar Perfil</button>
+                <!-- El botón de logout debe ser un formulario que envía a /logout -->
+                <form th:action="@{/logout}" method="post" style="display: inline;">
+                    <button type="submit" class="logout-btn">Cerrar sesión</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- (El historial de reservas se puede implementar de forma similar en el futuro) -->
+    </div>
+</main>
+
+</body>
+</html>

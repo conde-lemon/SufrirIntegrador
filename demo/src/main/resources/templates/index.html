@@ -6,18 +6,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel For U - Inicio</title>
-    <!-- Rutas a los archivos CSS manejadas por Thymeleaf -->
     <link rel="stylesheet" th:href="@{/css/header_style.css}">
     <link rel="stylesheet" th:href="@{/css/index1_style.css}">
 </head>
 
 <body>
-<!-- Reemplazamos el header estático con nuestro fragmento dinámico -->
 <div th:replace="~{fragments/header :: main-header}"></div>
 
 <div class="container">
 
-    <!-- Navegación de categorías -->
     <nav class="category-nav">
         <a href="vuelos.html" target="contenido" class="category-item">Vuelos</a>
         <a href="cruceros.html" target="contenido" class="category-item">Cruceros</a>
@@ -25,56 +22,60 @@
         <a href="hospedaje.html" target="contenido" class="category-item">Hospedaje</a>
     </nav>
 
-    <!-- Formulario de búsqueda -->
+    <!-- SECCIÓN DE BÚSQUEDA MEJORADA -->
     <section class="search-section">
-        <h2 class="search-title">Elija destino:</h2>
-        <form class="search-form">
+        <h2 class="search-title">Busca tu próximo vuelo</h2>
+        <!-- El 'action' se manejará con JavaScript para una mejor experiencia -->
+        <form class="search-form" id="flight-search-form" onsubmit="return false;">
             <div class="form-group">
-                <label class="form-label">Desde:</label>
-                <select class="form-select">
-                    <option>Ej. Peru</option>
-                    <option>Argentina</option>
-                    <option>Brasil</option>
-                    <option>Chile</option>
-                    <option>Colombia</option>
-                    <option>México</option>
+                <label class="form-label" for="select-from">Desde:</label>
+                <!-- AÑADIDO: id y una opción por defecto con valor vacío -->
+                <select class="form-select" id="select-from">
+                    <option value="">Selecciona un origen</option>
+                    <option value="Peru">Perú</option>
+                    <option value="Argentina">Argentina</option>
+                    <option value="Brasil">Brasil</option>
+                    <option value="Chile">Chile</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="Mexico">México</option>
                 </select>
             </div>
             <div class="form-group">
-                <label class="form-label">Hacia:</label>
-                <select class="form-select">
-                    <option>Ej. Peru</option>
-                    <option>Argentina</option>
-                    <option>Brasil</option>
-                    <option>Chile</option>
-                    <option>Colombia</option>
-                    <option>México</option>
-                    <option>España</option>
-                    <option>Francia</option>
-                    <option>Italia</option>
+                <label class="form-label" for="select-to">Hacia:</label>
+                <!-- AÑADIDO: id y una opción por defecto con valor vacío -->
+                <select class="form-select" id="select-to">
+                    <option value="">Selecciona un destino</option>
+                    <option value="Peru">Perú</option>
+                    <option value="Argentina">Argentina</option>
+                    <option value="Brasil">Brasil</option>
+                    <option value="Chile">Chile</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="Mexico">México</option>
+                    <option value="Espana">España</option>
+                    <option value="Francia">Francia</option>
+                    <option value="Italia">Italia</option>
                 </select>
+            </div>
+            <!-- AÑADIDO: Botón de búsqueda que aparecerá dinámicamente -->
+            <div class="form-group-full">
+                <button type="button" id="search-flight-btn" class="search-flight-btn hidden">Buscar Vuelos</button>
             </div>
         </form>
     </section>
 
-    <!-- El iframe se puede mantener si es parte del diseño, o eliminar si ya no es necesario -->
     <iframe name="contenido" src="vuelos.html" style="width:100%;height:800px;border:none;"></iframe>
 
     <hr style="margin: 40px 0;">
 
-    <!-- Sección dinámica para mostrar las reservas de la base de datos -->
+    <!-- ... (la sección de reservas recientes se mantiene igual) ... -->
     <section class="reservations-section">
         <h2 class="section-title">Reservas Recientes</h2>
-
-        <!-- Contenedor para las tarjetas de reserva -->
         <div class="packages-grid" th:if="${!reservas.isEmpty()}">
-            <!-- Usamos th:each para iterar sobre la lista 'reservas' que pasamos desde el controlador -->
             <article class="package-card" th:each="reserva : ${reservas}">
                 <div class="package-content">
                     <h3 class="package-title" th:text="'Reserva #' + ${reserva.idReserva}">Reserva #123</h3>
                     <p class="package-description">
                         <strong>Cliente:</strong> <span th:text="${reserva.usuario.nombres} + ' ' + ${reserva.usuario.apellidos}"></span><br>
-                        <!-- CORRECCIÓN: Se usa 'createdAt' que es el campo correcto en la entidad Reserva.java -->
                         <strong>Fecha:</strong> <span th:text="${#temporals.format(reserva.createdAt, 'dd/MM/yyyy HH:mm')}"></span><br>
                         <strong>Estado:</strong> <span th:text="${reserva.estado}" class="package-tag">CONFIRMADA</span>
                     </p>
@@ -84,8 +85,6 @@
                 </div>
             </article>
         </div>
-
-        <!-- Mensaje que se muestra si no hay reservas -->
         <div th:if="${reservas.isEmpty()}" class="alert alert-info">
             No se encontraron reservas en la base de datos.
         </div>
@@ -93,7 +92,6 @@
 
 </div>
 
-<!-- NUEVO: Inclusión del archivo JavaScript al final del body -->
 <script th:src="@{/js/js.js}"></script>
 
 </body>

@@ -1,0 +1,101 @@
+/* C:/Users/LENOVO/Documents/utp/ciclo7/integrador/demo (1)/demo/src/main/resources/static/css/perfil_style.css */
+
+/* --- NUEVO: Estilos base para la página --- */
+body {
+    background-color: #f0f2f5; /* Un fondo gris claro para que resalte el contenido */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px; /* Ancho máximo para el contenido */
+    margin: 40px auto; /* Centra el contenedor horizontalmente y le da espacio arriba/abajo */
+    padding: 20px;
+}
+
+/* --- ESTILOS REFINADOS para la sección de perfil --- */
+.profile-section {
+    background-color: #ffffff; /* Fondo blanco para la tarjeta de perfil */
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* Sombra más suave y pronunciada */
+    padding: 30px 40px; /* Más espaciado interno */
+    text-align: center; /* Centra el contenido de la tarjeta */
+}
+
+.profile-title {
+    font-size: 2.2rem; /* Título más grande */
+    margin-bottom: 30px;
+    color: #1c1e21;
+    font-weight: 600;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column; /* Apila el avatar y los detalles verticalmente */
+    align-items: center; /* Centra los elementos */
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.profile-avatar {
+    margin-bottom: 20px; /* Espacio entre el avatar y los detalles */
+}
+
+.avatar-img {
+    width: 120px; /* Avatar más grande */
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff; /* Borde blanco para separar del fondo */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-details p {
+    font-size: 1.1rem; /* Texto ligeramente más grande */
+    margin: 8px 0;
+    color: #4b4f56;
+}
+
+.profile-details p strong {
+    color: #1c1e21;
+    margin-right: 8px;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center; /* Centra los botones */
+    margin-top: 20px;
+}
+
+.edit-btn,
+.logout-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.edit-btn {
+    background-color: #7c4dff;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #651fff;
+    transform: translateY(-2px); /* Pequeño efecto al pasar el mouse */
+}
+
+.logout-btn {
+    background-color: #f44336; /* Color rojo para una acción destructiva como cerrar sesión */
+    color: white;
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f;
+    transform: translateY(-2px);
+}
