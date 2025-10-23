@@ -61,8 +61,7 @@
             <div class="reservation-footer">
                 <div class="reservation-price" th:text="'S/ ' + ${#numbers.formatDecimal(reserva.total, 1, 'COMMA', 2, 'POINT')}">S/ 350.00</div>
                 <div class="action-buttons">
-                    <!-- Estos botones están listos para añadir funcionalidad en el futuro -->
-                    <a href="#" class="btn btn-outline">Ver Detalles</a>
+                    <a th:href="@{/reservas/{id}(id=${reserva.idReserva})}" class="btn btn-outline">Ver Detalles</a>
                     <a href="#" class="btn btn-primary">Descargar PDF</a>
                 </div>
             </div>

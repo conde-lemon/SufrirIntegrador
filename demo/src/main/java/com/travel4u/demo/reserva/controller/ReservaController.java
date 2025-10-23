@@ -135,4 +135,38 @@ public class ReservaController {
         attributes.addFlashAttribute("success", "¡Tu reserva ha sido creada con éxito!");
         return "redirect:/reservas";
     }
+    // ... (importaciones existentes)
+
+    /**
+     * NUEVO: Muestra la página de detalles de una reserva específica.
+     * Incluye una validación de seguridad para asegurar que el usuario solo vea sus propias reservas.
+     */
+    @GetMapping("/reservas/{id}")
+    public String showReservaDetallePage(@PathVariable("id") Integer id, Model model, Principal principal) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        // 1. Buscar la reserva por su ID
+        Reserva reserva = reservaDAO.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Reserva no encontrada con ID: " + id));
+
+        // 2. ¡VALIDACIÓN DE SEGURIDAD CRUCIAL!
+        // Verificamos que el email del dueño de la reserva coincida con el del usuario logueado.
+        if (!reserva.getUsuario().getEmail().equals(principal.getName())) {
+            // Si no coincide, es un intento de acceso no autorizado.
+            throw new IllegalStateException("Acceso denegado. No tienes permiso para ver esta reserva.");
+        }
+
+        // 3. Buscar los equipajes asociados a esta reserva
+        List<Reserva_Equipaje> equipajesDeLaReserva = reservaEquipajeDAO.findByReserva(reserva);
+
+        // 4. Pasar todos los datos a la vista
+        model.addAttribute("reserva", reserva);
+        model.addAttribute("equipajes", equipajesDeLaReserva);
+
+        return "reserva-detalle"; // Renderiza la nueva plantilla 'reserva-detalle.html'
+    }
+
+// ... (resto de los métodos del controlador)
 }
