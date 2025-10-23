@@ -25,26 +25,31 @@ repositories {
 }
 
 dependencies {
-	// Dependencias de Spring Boot (sin duplicados)
+	// --- Dependencias Principales de Spring Boot ---
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6' // Para sec:authorize en HTML
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-	// Dependencia para base de datos
+	// --- Base de Datos ---
 	runtimeOnly 'org.postgresql:postgresql'
 
-	// Lombok para reducir código repetitivo
+	// --- Utilidades ---
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	// Dependencias de Test
+	// --- Web Scraping (Jsoup) ---
+	implementation 'org.jsoup:jsoup:1.17.2'
+
+	// --- API de Amadeus (SDK Oficial) ---
+	// Esta es la única dependencia de Amadeus que necesitas.
+	implementation 'com.amadeus:amadeus-java:8.0.0'
+
+	// --- Test ---
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-	// --- NUEVA DEPENDENCIA PARA WEB SCRAPING ---
-	implementation 'org.jsoup:jsoup:1.17.2' // O la versión estable más reciente
 }
 
 tasks.named('test') {

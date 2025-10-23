@@ -1,12 +1,14 @@
-// C:/Users/LENOVO/Documents/utp/ciclo7/integrador/demo (1)/demo/src/main/java/com/travel4u/demo/controller/AppController.java
 package com.travel4u.demo.controller;
 
 import com.travel4u.demo.reserva.model.Reserva;
 import com.travel4u.demo.reserva.repository.IReservaDAO;
 import com.travel4u.demo.scraper.model.Oferta;
+import com.travel4u.demo.scraper.service.FlightService;
 import com.travel4u.demo.scraper.service.ScrapingService;
 import com.travel4u.demo.usuario.model.Usuario;
 import com.travel4u.demo.usuario.repository.IUsuarioDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -14,7 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody; // ¡Importante!
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
@@ -25,6 +27,9 @@ import java.util.List;
 @Controller
 public class AppController {
 
+    // CORRECCIÓN: Se añade el logger que faltaba
+    private static final Logger logger = LoggerFactory.getLogger(AppController.class);
+
     @Autowired
     private IReservaDAO reservaDAO;
 
@@ -34,46 +39,49 @@ public class AppController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // CORRECCIÓN: Se elimina la inyección duplicada
     @Autowired
     private ScrapingService scrapingService;
 
+    @Autowired
+    private FlightService flightService;
+
     /**
-     * Muestra la página de inicio con ofertas destacadas y la lista de reservas recientes.
+     * Muestra la página de inicio con ofertas de la API de Amadeus.
+     * Si la API falla, usa el web scraper como respaldo.
      */
     @GetMapping("/")
-    public String viewHomePage(Model model, Principal principal) { // Añadimos Principal
-        // 1. Obtenemos las ofertas del web scraper (esto no cambia).
-        List<Oferta> ofertasDestacadas = scrapingService.scrapeOfertasPrincipales();
+    public String viewHomePage(Model model, Principal principal) {
+        // 1. Intentamos obtener ofertas REALES desde la API de Amadeus.
+        List<Oferta> ofertasDestacadas = flightService.buscarOfertasDeVuelosParaIndex();
+
+        // 2. PLAN B: Si la API no devuelve nada, usamos el scraper.
+        if (ofertasDestacadas.isEmpty()) {
+            logger.warn("La API de Amadeus no devolvió ofertas. Usando el ScrapingService como fallback.");
+            ofertasDestacadas = scrapingService.scrapeOfertasPrincipales();
+        }
+
         model.addAttribute("ofertas", ofertasDestacadas);
 
-        // 2. CORRECCIÓN DE SEGURIDAD: Obtenemos solo las reservas del usuario logueado.
+        // 3. Lógica de reservas del usuario (esto no cambia)
         if (principal != null) {
-            // Si hay un usuario logueado, buscamos sus reservas.
             usuarioDAO.findByEmail(principal.getName()).ifPresent(usuario -> {
                 List<Reserva> misReservas = reservaDAO.findByUsuario(usuario);
                 model.addAttribute("reservas", misReservas);
             });
         } else {
-            // Si no hay nadie logueado, pasamos una lista vacía para evitar errores.
             model.addAttribute("reservas", Collections.emptyList());
         }
 
         return "index";
     }
 
-
     /**
-     * NUEVO: Endpoint de prueba para verificar el funcionamiento del web scraping.
-     * Devuelve los resultados en formato JSON para una fácil revisión.
-     *
-     * Para usarlo, simplemente accede a esta URL en tu navegador: http://localhost:8080/test-scraping
-     *
-     * @return Una lista de las ofertas extraídas en formato JSON.
+     * Endpoint de prueba para verificar el funcionamiento del web scraping.
      */
     @GetMapping("/test-scraping")
-    @ResponseBody // Esta anotación es clave: devuelve los datos directamente, sin buscar una plantilla HTML.
+    @ResponseBody
     public List<Oferta> testWebScraping() {
-        // Llama al servicio y devuelve el resultado.
         return scrapingService.scrapeOfertasPrincipales();
     }
 
@@ -156,5 +164,4 @@ public class AppController {
     public String showTerminosPage() {
         return "terminos_y_condiciones";
     }
-
 }
