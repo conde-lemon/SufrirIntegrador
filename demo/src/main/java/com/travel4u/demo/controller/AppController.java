@@ -3,6 +3,8 @@ package com.travel4u.demo.controller;
 
 import com.travel4u.demo.reserva.model.Reserva;
 import com.travel4u.demo.reserva.repository.IReservaDAO;
+import com.travel4u.demo.scraper.model.Oferta;
+import com.travel4u.demo.scraper.service.ScrapingService;
 import com.travel4u.demo.usuario.model.Usuario;
 import com.travel4u.demo.usuario.repository.IUsuarioDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody; // ¡Importante!
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -30,97 +34,98 @@ public class AppController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private ScrapingService scrapingService;
+
     /**
-     * Muestra la página de inicio y le pasa la lista de todas las reservas.
+     * Muestra la página de inicio con ofertas destacadas y la lista de reservas recientes.
      */
     @GetMapping("/")
-    public String viewHomePage(Model model) {
-        List<Reserva> listaReservas = reservaDAO.findAll();
-        model.addAttribute("reservas", listaReservas);
+    public String viewHomePage(Model model, Principal principal) { // Añadimos Principal
+        // 1. Obtenemos las ofertas del web scraper (esto no cambia).
+        List<Oferta> ofertasDestacadas = scrapingService.scrapeOfertasPrincipales();
+        model.addAttribute("ofertas", ofertasDestacadas);
+
+        // 2. CORRECCIÓN DE SEGURIDAD: Obtenemos solo las reservas del usuario logueado.
+        if (principal != null) {
+            // Si hay un usuario logueado, buscamos sus reservas.
+            usuarioDAO.findByEmail(principal.getName()).ifPresent(usuario -> {
+                List<Reserva> misReservas = reservaDAO.findByUsuario(usuario);
+                model.addAttribute("reservas", misReservas);
+            });
+        } else {
+            // Si no hay nadie logueado, pasamos una lista vacía para evitar errores.
+            model.addAttribute("reservas", Collections.emptyList());
+        }
+
         return "index";
     }
 
+
     /**
-     * Muestra la página de login.
+     * NUEVO: Endpoint de prueba para verificar el funcionamiento del web scraping.
+     * Devuelve los resultados en formato JSON para una fácil revisión.
+     *
+     * Para usarlo, simplemente accede a esta URL en tu navegador: http://localhost:8080/test-scraping
+     *
+     * @return Una lista de las ofertas extraídas en formato JSON.
      */
+    @GetMapping("/test-scraping")
+    @ResponseBody // Esta anotación es clave: devuelve los datos directamente, sin buscar una plantilla HTML.
+    public List<Oferta> testWebScraping() {
+        // Llama al servicio y devuelve el resultado.
+        return scrapingService.scrapeOfertasPrincipales();
+    }
+
+    // --- El resto de tus métodos del controlador permanecen igual ---
+
     @GetMapping("/login")
     public String viewLoginPage() {
         return "login";
     }
 
-    /**
-     * Muestra el formulario de registro.
-     */
     @GetMapping("/registrar")
     public String showRegistrationForm(Model model) {
         model.addAttribute("usuario", new Usuario());
         return "registrar";
     }
 
-    /**
-     * Procesa los datos del formulario de registro.
-     */
     @PostMapping("/registrar")
     public String processRegistration(Usuario usuario, RedirectAttributes redirectAttributes) {
-        // Verificar si el email ya existe
         if (usuarioDAO.findByEmail(usuario.getEmail()).isPresent()) {
             redirectAttributes.addFlashAttribute("error", "El correo electrónico ya está registrado.");
             return "redirect:/registrar";
         }
-
-        // Encriptar la contraseña antes de guardarla
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-        // Establecer valores por defecto
         usuario.setRol("USUARIO");
         usuario.setActivo(true);
         usuario.setFechaRegistro(LocalDateTime.now());
-
         usuarioDAO.save(usuario);
-
         redirectAttributes.addFlashAttribute("success", "¡Registro exitoso! Ahora puedes iniciar sesión.");
         return "redirect:/login";
     }
 
-    /**
-     * Muestra el perfil del usuario autenticado.
-     */
     @GetMapping("/perfil")
     public String showProfilePage(Model model, Principal principal) {
         if (principal == null) {
             return "redirect:/login";
         }
-        // Obtenemos el email del usuario logueado y lo buscamos en la BD
         String email = principal.getName();
         Usuario usuario = usuarioDAO.findByEmail(email)
                 .orElseThrow(() -> new IllegalStateException("No se encontró al usuario autenticado."));
-
         model.addAttribute("usuario", usuario);
         return "perfil";
     }
 
-    /**
-     * Muestra la página de resultados de búsqueda de vuelos.
-     */
     @GetMapping("/vuelos/buscar")
     public String showFlightResults(
             @RequestParam("origen") String origen,
             @RequestParam("destino") String destino,
             Model model) {
-
-        // Pasamos los parámetros de búsqueda al modelo para que la plantilla los pueda usar
         model.addAttribute("origenBusqueda", origen);
         model.addAttribute("destinoBusqueda", destino);
-
-        // Aquí iría la lógica para buscar vuelos en la base de datos.
-        // Por ahora, solo mostramos una página de resultados de ejemplo.
-        // List<Vuelo> vuelosEncontrados = vueloService.buscarVuelos(origen, destino);
-        // model.addAttribute("vuelos", vuelosEncontrados);
-
-        return "resultados-vuelos"; // Renderiza la plantilla 'resultados-vuelos.html'
+        return "resultados-vuelos";
     }
-
-
-    // --- Métodos para el resto de páginas de navegación ---
 
     @GetMapping("/vuelos")
     public String showVuelosPage() {
@@ -144,18 +149,12 @@ public class AppController {
 
     @GetMapping("/paquetes-y-promociones")
     public String showOfertasPage() {
-        // Lógica para mostrar ofertas, por ahora redirige a una página de ejemplo
-        return "ofertas"; // Asume que tienes una plantilla ofertas.html
-    }
-
-    @GetMapping("/reservas")
-    public String showReservasPage() {
-        // Lógica para mostrar las reservas del usuario
-        return "reservas"; // Asume que tienes una plantilla reservas.html
+        return "ofertas";
     }
 
     @GetMapping("/terminos-y-condiciones")
     public String showTerminosPage() {
-        return "terminos_y_condiciones"; // Asume que tienes un terminos_y_condiciones.html
+        return "terminos_y_condiciones";
     }
+
 }
