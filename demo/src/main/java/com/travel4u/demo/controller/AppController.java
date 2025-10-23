@@ -27,7 +27,6 @@ import java.util.List;
 @Controller
 public class AppController {
 
-    // CORRECCIÓN: Se añade el logger que faltaba
     private static final Logger logger = LoggerFactory.getLogger(AppController.class);
 
     @Autowired
@@ -39,7 +38,6 @@ public class AppController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // CORRECCIÓN: Se elimina la inyección duplicada
     @Autowired
     private ScrapingService scrapingService;
 
@@ -85,8 +83,6 @@ public class AppController {
         return scrapingService.scrapeOfertasPrincipales();
     }
 
-    // --- El resto de tus métodos del controlador permanecen igual ---
-
     @GetMapping("/login")
     public String viewLoginPage() {
         return "login";
@@ -125,14 +121,22 @@ public class AppController {
         return "perfil";
     }
 
+    /**
+     * Procesa la búsqueda de vuelos desde el index.
+     * En lugar de mostrar una página de resultados, redirige directamente
+     * al flujo de reserva de un vuelo de ejemplo (ID 1).
+     */
     @GetMapping("/vuelos/buscar")
-    public String showFlightResults(
+    public String processFlightSearch(
             @RequestParam("origen") String origen,
             @RequestParam("destino") String destino,
             Model model) {
-        model.addAttribute("origenBusqueda", origen);
-        model.addAttribute("destinoBusqueda", destino);
-        return "resultados-vuelos";
+
+        logger.info("Búsqueda iniciada desde {} hacia {}", origen, destino);
+
+        // Redirigimos al usuario a la página de selección de asientos
+        // para un vuelo de ejemplo con ID 1.
+        return "redirect:/reservar/vuelo/1";
     }
 
     @GetMapping("/vuelos")
