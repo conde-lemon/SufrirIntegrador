@@ -1,5 +1,6 @@
 package com.travel4u.demo.security;
 
+// Ya no necesitamos importar UserDetailsServiceImpl ni DaoAuthenticationProvider
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,6 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
+    // El codificador de contraseñas sigue siendo necesario para el registro de usuarios.
     @Bean
     @SuppressWarnings("deprecation")
     public PasswordEncoder passwordEncoder() {
@@ -19,6 +21,10 @@ public class WebSecurityConfig {
         // NOTA: Solo para desarrollo, NO usar en producción
         return NoOpPasswordEncoder.getInstance();
     }
+
+    // ¡HEMOS QUITADO LOS BEANS de userDetailsService y authenticationProvider!
+
+    // ... (resto de la clase)
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -31,12 +37,15 @@ public class WebSecurityConfig {
                         // Las demás rutas requieren autenticación
                         .anyRequest().authenticated()
                 )
+                // ... (el resto de la configuración de formLogin y logout no cambia)
                 .formLogin(form -> form
                         .loginPage("/login")
+                        .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
+                        .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
                 )

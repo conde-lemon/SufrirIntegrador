@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Reserva - Travel For U</title>
+    <link rel="stylesheet" th:href="@{/css/header_style.css}">
+    <!-- Usaremos los mismos estilos de la página de reservas para mantener la consistencia -->
+    <link rel="stylesheet" th:href="@{/css/reservas_style.css}">
+    <style>
+        /* Estilos adicionales para la página de detalle */
+        .detail-card { background-color: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        .detail-header { padding: 20px; border-bottom: 1px solid #eee; }
+        .detail-body { padding: 20px; }
+        .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .baggage-list { list-style: none; padding: 0; }
+        .baggage-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+        .baggage-item:last-child { border-bottom: none; }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: main-header}"></div>
+
+<div class="container" th:object="${reserva}">
+    <div class="page-header">
+        <h1 class="page-title">Detalle de la Reserva</h1>
+        <p class="page-subtitle" th:text="'Código: TFU-' + *{idReserva}">Código: TFU-123</p>
+    </div>
+
+    <!-- Card de Resumen General -->
+    <div class="detail-card">
+        <div class="detail-header"><h3 class="reservation-title">Resumen del Viaje</h3></div>
+        <div class="detail-body">
+            <div class="detail-grid">
+                <div class="detail-item">
+                    <span class="detail-label">Observaciones</span>
+                    <span class="detail-value" th:text="*{observaciones}">Vuelo a Buenos Aires</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Fecha de Viaje</span>
+                    <span class="detail-value" th:text="${#temporals.format(reserva.fechaInicio, 'dd MMMM yyyy, HH:mm')}"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Estado</span>
+                    <span class="reservation-status" th:text="*{estado}" th:classappend="*{estado == 'Confirmada' ? 'status-confirmed' : (estado == 'Cancelada' ? 'status-cancelled' : 'status-pending')}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card de Detalles del Pasajero -->
+    <div class="detail-card">
+        <div class="detail-header"><h3 class="reservation-title">Información del Pasajero</h3></div>
+        <div class="detail-body">
+            <div class="detail-grid">
+                <div class="detail-item">
+                    <span class="detail-label">Nombre Completo</span>
+                    <span class="detail-value" th:text="*{usuario.nombres} + ' ' + *{usuario.apellidos}"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Email de Contacto</span>
+                    <span class="detail-value" th:text="*{usuario.email}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card de Equipaje y Costos -->
+    <div class="detail-card">
+        <div class="detail-header"><h3 class="reservation-title">Equipaje y Desglose de Costos</h3></div>
+        <div class="detail-body">
+            <ul class="baggage-list">
+                <li class="baggage-item">
+                    <span>Costo base del vuelo</span>
+                    <strong>S/ 350.00</strong> <!-- Asumimos el precio base que pusiste en el controlador -->
+                </li>
+                <!-- Iteramos sobre la lista de equipajes -->
+                <li class="baggage-item" th:each="item : ${equipajes}">
+                    <span th:text="${item.equipaje.tipo} + ' (x' + ${item.cantidad} + ')'">Equipaje de Bodega (x1)</span>
+                    <strong th:text="'S/ ' + ${#numbers.formatDecimal(item.subtotal, 1, 'COMMA', 2, 'POINT')}"></strong>
+                </li>
+                <li th:if="${equipajes.isEmpty()}" class="baggage-item">
+                    <span>Sin equipaje adicional</span>
+                    <strong>S/ 0.00</strong>
+                </li>
+            </ul>
+            <hr>
+            <div class="reservation-footer" style="background: none; padding: 10px 0 0 0;">
+                <h3 class="reservation-title">Total Pagado</h3>
+                <div class="reservation-price" th:text="'S/ ' + ${#numbers.formatDecimal(reserva.total, 1, 'COMMA', 2, 'POINT')}"></div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <a th:href="@{/reservas}" class="btn btn-outline">Volver a Mis Reservas</a>
+    </div>
+
+</div>
+</body>
+</html>
