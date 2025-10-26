@@ -1,7 +1,6 @@
 // C:/Users/LENOVO/Documents/utp/ciclo7/integrador/demo (1)/demo/src/main/java/com/travel4u/demo/usuario/model/Usuario.java
 package com.travel4u.demo.usuario.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.travel4u.demo.reserva.model.Reserva;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -43,10 +42,5 @@ public class Usuario {
     private boolean activo = true;
 
     @OneToMany(mappedBy = "usuario")
-    @JsonIgnore  // ← AGREGAR ESTA ANOTACIÓN
     private Set<Reserva> reservas;
-
-    public enum Rol {
-        ADMIN, USER, MODERATOR
-    }
 }

@@ -3,12 +3,9 @@ package com.travel4u.demo.usuario.repository;
 
 import com.travel4u.demo.usuario.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional; // Importar Optional
-import java.util.List;
 
 @Repository
 public interface IUsuarioDAO extends JpaRepository<Usuario, Long> {
@@ -21,16 +18,4 @@ public interface IUsuarioDAO extends JpaRepository<Usuario, Long> {
      * Usamos Optional para manejar de forma segura el caso en que el usuario no exista.
      */
     Optional<Usuario> findByEmail(String email);
-
-    // Búsqueda por nombres, apellidos o email
-    @Query("SELECT u FROM Usuario u WHERE " + "(u.nombres LIKE %:criterio% OR u.apellidos LIKE %:criterio% OR u.email LIKE %:criterio%) " + "AND u.activo = true")
-    List<Usuario> buscarUsuariosActivos(@Param("criterio") String criterio);
-
-    // Buscar todos incluyendo inactivos para administracion
-    @Query("SELECT u FROM Usuario u WHERE " + "u.nombres LIKE %:criterio% OR u.apellidos LIKE %:criterio% OR u.email LIKE %:criterio%")
-    List<Usuario> buscarTodosUsuarios(@Param("criterio") String criterio);
-
-    boolean existsByEmailAndIdUsuarioNot(String email, Long id);
-
-    List<Usuario> findByActivoTrue();
 }
