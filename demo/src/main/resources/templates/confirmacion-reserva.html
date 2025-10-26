@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reserva Completada - Travel For U</title>
-    <link rel="stylesheet" href="../static/css/confirmacion_reserva_style.css">
+    <link rel="stylesheet" th:href="@{/css/confirmacion_reserva_style.css}">
+    <link rel="stylesheet" th:href="@{/css/header_style.css}">
+    <link rel="stylesheet" th:href="@{/css/index_style.css}">
 </head>
 
 <body>
@@ -15,10 +17,10 @@
             <div class="logo">Travel For U</div>
             <nav>
                 <ul class="main-nav">
-                    <li><a href="./index1.html">Inicio</a></li>
-                    <li><a href="./paquetes_y_promociones.html">Ofertas</a></li>
-                    <li><a href="./reservas.html" class="active">Reservas</a></li>
-                    <li><a href="#">Perfil</a></li>
+                    <li><a th:href="@{/}">Inicio</a></li>
+                    <li><a th:href="@{/paquetes}">Ofertas</a></li>
+                    <li><a th:href="@{/reservas}" class="active">Reservas</a></li>
+                    <li><a th:href="@{/perfil}">Perfil</a></li>
                 </ul>
             </nav>
         </div>
@@ -32,7 +34,7 @@
 
             <div class="confirmation-code">
                 <div class="code-label">Código de Reserva</div>
-                <div class="code-value">TFU-2025-8472</div>
+                <div class="code-value" th:text="${codigoReserva}">TFU-2025-8472</div>
             </div>
 
             <p style="color: #666; margin-top: 20px;">
@@ -40,24 +42,247 @@
             </p>
         </div>
 
+        <!-- Mensaje de error -->
+        <div class="error-message" id="errorMessage" style="display: none; background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 5px; margin: 20px 0;"></div>
 
-
-        <!-- Botones de acción -->
-        <div class="action-buttons">
-            <a href="../img/reporte_semana.jpg" class="btn btn-primary">Descargar Reserva PDF</a>
-
-        </div>
-
-        <!-- Información adicional -->
-        <div class="info-box">
-            <div class="info-title">Información Importante</div>
-            <div class="info-text">
-                Por favor, presenta tu código de reserva y documento de identidad en el mostrador de check-in.
-                Te recomendamos llegar al aeropuerto con al menos 2 horas de anticipación.
-                Si necesitas realizar cambios o cancelaciones, puedes hacerlo desde la sección de Mis Reservas.
+        <!-- Loading overlay -->
+        <div id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center;">
+            <div style="background: white; padding: 30px; border-radius: 10px; text-align: center;">
+                <div style="font-size: 24px; margin-bottom: 10px;"></div>
+                <div>Generando reporte...</div>
             </div>
         </div>
+
+        <!-- Botones de acción -->
+        <div style="display: flex; gap: 15px; justify-content: center; margin-top: 30px; flex-wrap: wrap;">
+            <!-- Botón para descargar PDF -->
+            <button onclick="descargarPDF()" class="btn btn-primary" style="background-color: #E74C3C; color: white; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; display: flex; align-items: center; gap: 10px; transition: all 0.3s;">
+                <span style="font-size: 20px;"></span>
+                Descargar PDF
+            </button>
+
+            <!-- Botón para visualizar PDF -->
+            <button onclick="visualizarPDF()" class="btn btn-secondary" style="background-color: #34495E; color: white; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; display: flex; align-items: center; gap: 10px; transition: all 0.3s;">
+                <span style="font-size: 20px;">️</span>
+                Ver PDF
+            </button>
+
+            <!-- Botón para volver al inicio -->
+            <a th:href="@{/}" class="btn btn-tertiary" style="background-color: #95a5a6; color: white; padding: 15px 30px; border: none; border-radius: 5px; text-decoration: none; font-size: 16px; font-weight: bold; display: flex; align-items: center; gap: 10px; transition: all 0.3s;">
+                <span style="font-size: 20px;"></span>
+                Volver al Inicio
+            </a>
+        </div>
+
+        <!-- Modal para visualizar PDF -->
+        <div id="pdfModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; justify-content: center; align-items: center; padding: 20px;">
+            <div style="background: white; width: 90%; max-width: 1200px; height: 90%; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column;">
+                <div style="padding: 15px; background: #34495E; color: white; display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="margin: 0;">Vista Previa del Reporte</h3>
+                    <button onclick="cerrarModal()" style="background: #E74C3C; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;">✕ Cerrar</button>
+                </div>
+                <iframe id="pdfViewer" style="width: 100%; height: 100%; border: none;"></iframe>
+            </div>
+        </div>
+
+    <!-- Información adicional -->
+    <div class="info-box">
+        <div class="info-title">Información Importante</div>
+        <div class="info-text">
+            Por favor, presenta tu código de reserva y documento de identidad en el mostrador de check-in.
+            Te recomendamos llegar al aeropuerto con al menos 2 horas de anticipación.
+            Si necesitas realizar cambios o cancelaciones, puedes hacerlo desde la sección de Mis Reservas.
+        </div>
     </div>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // Variables de Thymeleaf
+        const idUsuario = /*[[${idUsuario}]]*/ 1;
+        const codigoReserva = /*[[${codigoReserva}]]*/ 'TFU-2025-0000';
+
+        console.log('=== Configuración del Reporte ===');
+        console.log('ID Usuario:', idUsuario);
+        console.log('Código Reserva:', codigoReserva);
+
+        // URL base de la API
+        const API_URL = `/api/reportes/reservas?idUsuario=${idUsuario}&formato=pdf`;
+        console.log('URL API:', API_URL);
+
+        function mostrarMensaje(mensaje, tipo = 'error') {
+            const errorElement = document.getElementById('errorMessage');
+            errorElement.textContent = mensaje;
+
+            if (tipo === 'exito') {
+                errorElement.style.backgroundColor = '#d4edda';
+                errorElement.style.color = '#155724';
+            } else {
+                errorElement.style.backgroundColor = '#f8d7da';
+                errorElement.style.color = '#721c24';
+            }
+
+            errorElement.style.display = 'block';
+
+            setTimeout(() => {
+                errorElement.style.display = 'none';
+            }, 5000);
+        }
+
+        function mostrarLoading(mostrar) {
+            const loading = document.getElementById('loadingOverlay');
+            if (mostrar) {
+                loading.style.display = 'flex';
+            } else {
+                loading.style.display = 'none';
+            }
+        }
+
+        /**
+         * Descarga el PDF directamente
+         */
+        async function descargarPDF() {
+            console.log('=== Iniciando descarga de PDF ===');
+            mostrarLoading(true);
+
+            try {
+                console.log('Haciendo fetch a:', API_URL);
+                const response = await fetch(API_URL);
+
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Error del servidor:', errorText);
+                    throw new Error(`Error del servidor (${response.status}): ${errorText}`);
+                }
+
+                const blob = await response.blob();
+                console.log('Blob recibido. Tamaño:', blob.size, 'bytes');
+                console.log('Blob type:', blob.type);
+
+                if (blob.size === 0) {
+                    throw new Error('El archivo PDF está vacío. Puede que no tengas reservas registradas.');
+                }
+
+                // Crear un enlace temporal para descargar
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Reserva_${codigoReserva}_${new Date().toISOString().split('T')[0]}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+
+                console.log('✓ Descarga iniciada');
+
+                // Limpiar
+                setTimeout(() => {
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                }, 100);
+
+                // Mostrar mensaje de éxito
+                mostrarMensaje(' PDF descargado correctamente', 'exito');
+
+            } catch (error) {
+                console.error(' Error al descargar PDF:', error);
+                mostrarMensaje(' Error: ' + error.message, 'error');
+            } finally {
+                mostrarLoading(false);
+            }
+        }
+
+        /**
+         * Visualiza el PDF en un modal
+         */
+        async function visualizarPDF() {
+            console.log('=== Visualizando PDF ===');
+            mostrarLoading(true);
+
+            try {
+                const response = await fetch(API_URL);
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Error del servidor (${response.status}): ${errorText}`);
+                }
+
+                const blob = await response.blob();
+
+                if (blob.size === 0) {
+                    throw new Error('El archivo PDF está vacío. Puede que no tengas reservas registradas.');
+                }
+
+                const blobUrl = URL.createObjectURL(blob);
+
+                // Mostrar en el modal
+                document.getElementById('pdfViewer').src = blobUrl;
+                document.getElementById('pdfModal').style.display = 'flex';
+
+                console.log('✓ PDF cargado en viewer');
+
+            } catch (error) {
+                console.error(' Error al visualizar PDF:', error);
+                mostrarMensaje(' Error: ' + error.message, 'error');
+            } finally {
+                mostrarLoading(false);
+            }
+        }
+
+        /**
+         * Cierra el modal de visualización
+         */
+        function cerrarModal() {
+            const modal = document.getElementById('pdfModal');
+            modal.style.display = 'none';
+
+            // Limpiar el iframe
+            const iframe = document.getElementById('pdfViewer');
+            const blobUrl = iframe.src;
+            iframe.src = '';
+
+            // Liberar el objeto URL
+            if (blobUrl && blobUrl.startsWith('blob:')) {
+                URL.revokeObjectURL(blobUrl);
+            }
+        }
+
+        // Cerrar modal al hacer clic fuera del contenido
+        document.getElementById('pdfModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                cerrarModal();
+            }
+        });
+
+        // Cerrar modal con tecla ESC
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('pdfModal');
+                if (modal.style.display === 'flex') {
+                    cerrarModal();
+                }
+            }
+        });
+
+        // Agregar estilos hover a los botones
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✓ DOM cargado. Sistema de reportes listo.');
+
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+                });
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+        });
+        /*]]>*/
+    </script>
 </body>
 
 </html>
