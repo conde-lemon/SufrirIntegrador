@@ -154,6 +154,11 @@ public class AppController {
         return "reservas"; // Asume que tienes una plantilla reservas.html
     }
 
+    @GetMapping("/admin")
+    public String showAdminPage() {
+        return "vistadmin"; // Asume que tienes una plantilla reserva.html
+    }
+
     @GetMapping("/terminos-y-condiciones")
     public String showTerminosPage() {
         return "terminos_y_condiciones"; // Asume que tienes un terminos_y_condiciones.html
