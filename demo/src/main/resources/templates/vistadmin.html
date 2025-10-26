@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../static/css/vistadmin-style.css">
     <link rel="stylesheet" href="../static/css/Power BI.css">
     <title>Panel de Administración</title>
-
 </head>
 
 <body>
@@ -27,88 +26,16 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Dashboard Section -->
-            <section id="dashboard-section">
-                <h2 class="section-title">Dashboard</h2>
+            <!-- Dashboard Section CREAR POWER BI -->
 
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-label">Total Usuarios</div>
-                        <div class="stat-value">1,234</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Usuarios Activos</div>
-                        <div class="stat-value">987</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Promociones Activas</div>
-                        <div class="stat-value">15</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Reservas Hoy</div>
-                        <div class="stat-value">43</div>
-                    </div>
-                </div>
 
-                <h3 class="section-title">Actividad Reciente</h3>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Usuario</th>
-                                <th>Acción</th>
-                                <th>Detalles</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>2025-10-22 14:30</td>
-                                <td>usuario@email.com</td>
-                                <td>Registro</td>
-                                <td>Nuevo usuario registrado</td>
-                            </tr>
-                            <tr>
-                                <td>2025-10-22 14:15</td>
-                                <td>admin@email.com</td>
-                                <td>Promocion</td>
-                                <td>Creó promocion de Navidad</td>
-                            </tr>
-                            <tr>
-                                <td>2025-10-22 14:00</td>
-                                <td>cliente@email.com</td>
-                                <td>Reserva</td>
-                                <td>Hotel en Lima</td>
-                            </tr>
-                            <tr>
-                                <td>2025-10-22 13:45</td>
-                                <td>usuario2@email.com</td>
-                                <td>Login</td>
-                                <td>Inicio de sesion exitoso</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
 
             <!-- Usuarios Section -->
             <section id="usuarios-section" style="display:none;">
                 <h2 class="section-title">Gestión de Usuarios</h2>
 
                 <div class="toolbar">
-                    <input type="text" class="search-input" id="search-users" placeholder="Buscar usuarios...">
-                    <select class="select-filter" id="filter-status">
-                        <option value="">Todos los estados</option>
-                        <option value="Activo">Activos</option>
-                        <option value="Inactivo">Inactivos</option>
-                        <option value="Bloqueado">Bloqueados</option>
-                    </select>
-                    <select class="select-filter" id="filter-role">
-                        <option value="">Todos los roles</option>
-                        <option value="Usuario">Usuarios</option>
-                        <option value="Administrador">Administradores</option>
-                    </select>
-                    <button class="toggle-filters" id="toggle-filters">Filtros Avanzados</button>
+                    <input type="text" class="search-input" id="search-users" placeholder="Buscar usuarios Id">
                 </div>
 
                 <!-- Advanced Filters -->
@@ -186,12 +113,7 @@
 
                 <div class="toolbar">
                     <button class="btn btn-primary">Nueva Promocion</button>
-                    <select class="select-filter">
-                        <option>Todas las promociones</option>
-                        <option>Activas</option>
-                        <option>Programadas</option>
-                        <option>Vencidas</option>
-                    </select>
+                    <input type="text" class="search-input" id="search-users" placeholder="Buscar usuarios Id">
                 </div>
 
                 <div class="table-container">

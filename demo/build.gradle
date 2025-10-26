@@ -25,19 +25,31 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'org.postgresql:postgresql'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' // <-- AÑADE ESTA LÍNEA
+	// --- Dependencias Principales de Spring Boot ---
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6' // Para sec:authorize en HTML
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+	// --- Base de Datos ---
+	runtimeOnly 'org.postgresql:postgresql'
+
+	// --- Utilidades ---
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// --- Web Scraping (Jsoup) ---
+	implementation 'org.jsoup:jsoup:1.17.2'
+
+	// --- API de Amadeus (SDK Oficial) ---
+	// Esta es la única dependencia de Amadeus que necesitas.
+	implementation 'com.amadeus:amadeus-java:8.0.0'
+
+	// --- Test ---
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
