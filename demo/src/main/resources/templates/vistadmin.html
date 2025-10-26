@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +27,7 @@
             <!-- Dashboard Section -->
             <section id="dashboard-section">
                 <h2 class="section-title">Dashboard</h2>
-                
+
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-label">Total Usuarios</div>
@@ -90,7 +91,7 @@
             <!-- Usuarios Section -->
             <section id="usuarios-section" style="display:none;">
                 <h2 class="section-title">Gestión de Usuarios</h2>
-                
+
                 <div class="toolbar">
                     <input type="text" class="search-input" id="search-users" placeholder="Buscar usuarios...">
                     <select class="select-filter" id="filter-status">
@@ -156,7 +157,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr data-id="001" data-name="Juan Perez" data-email="juan.perez@email.com" data-date="2025-01-15" data-status="Activo" data-role="Usuario">
+                            <tr data-id="001" data-name="Juan Perez" data-email="juan.perez@email.com"
+                                data-date="2025-01-15" data-status="Activo" data-role="Usuario">
                                 <td>001</td>
                                 <td>Juan Perez</td>
                                 <td>juan.perez@email.com</td>
@@ -178,7 +180,7 @@
             <!-- Promociones Section -->
             <section id="promociones-section" style="display:none;">
                 <h2 class="section-title">Gestión de Promociones</h2>
-                
+
                 <div class="toolbar">
                     <button class="btn btn-primary">Nueva Promocion</button>
                     <select class="select-filter">
@@ -209,57 +211,13 @@
 
             <!-- Estadisticas Section -->
             <section id="estadisticas-section" style="display:none;">
-                <h2 class="section-title">Estadisticas del Sistema</h2>
-                
-                <h3 class="section-title">Resumen General</h3>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-label">Total Reservas</div>
-                        <div class="stat-value">5,678</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Ingresos Totales</div>
-                        <div class="stat-value">$234,567</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Reservas Este Mes</div>
-                        <div class="stat-value">892</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Promedio por Reserva</div>
-                        <div class="stat-value">$412</div>
-                    </div>
-                </div>
+                <h2 class="section-title">Estadísticas del Sistema - Power BI</h2>
 
-                <h3 class="section-title">Uso de Promociones</h3>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Promocion</th>
-                                <th>Veces Usada</th>
-                                <th>Descuento Total</th>
-                                <th>Ahorro Usuarios</th>
-                                <th>Efectividad</th>
-                            </tr>
-                        </thead>
-                        
-                    </table>
-                </div>
-
-                <h3 class="section-title">Actividad por Mes</h3>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Mes</th>
-                                <th>Nuevos Usuarios</th>
-                                <th>Reservas</th>
-                                <th>Ingresos</th>
-                                <th>Uso Promociones</th>
-                            </tr>
-                        </thead>
-                    </table>
+                <!-- Dashboard de Power BI Integrado -->
+                <div class="powerbi-container">
+                    <iframe title="Prueba" width="1024" height="1060"
+                        src="https://app.powerbi.com/view?r=eyJrIjoiYTIzNzFiMjItZmMzMi00M2FhLWFiMDktN2UzMTJhMTNmNDM0IiwidCI6ImM0YTY2YzM0LTJiYjctNDUxZi04YmUxLWIyYzI2YTQzMDE1OCIsImMiOjR9"
+                        frameborder="0" allowFullScreen="true"></iframe>
                 </div>
             </section>
         </main>
@@ -326,18 +284,18 @@
     <script>
         // Navegación entre secciones
         document.querySelectorAll('.sidebar-item').forEach(item => {
-            item.addEventListener('click', function(e) {
+            item.addEventListener('click', function (e) {
                 e.preventDefault();
-                
+
                 // Actualizar sidebar activo
                 document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
                 this.classList.add('active');
-                
+
                 // Ocultar todas las secciones
                 document.querySelectorAll('section').forEach(section => {
                     section.style.display = 'none';
                 });
-                
+
                 // Mostrar sección correspondiente
                 const target = this.getAttribute('href').substring(1);
                 document.getElementById(`${target}-section`).style.display = 'block';
@@ -347,10 +305,10 @@
         // Funcionalidad de filtros avanzados
         const toggleFiltersBtn = document.getElementById('toggle-filters');
         const advancedFilters = document.getElementById('advanced-filters');
-        
-        toggleFiltersBtn.addEventListener('click', function() {
+
+        toggleFiltersBtn.addEventListener('click', function () {
             advancedFilters.classList.toggle('active');
-            this.textContent = advancedFilters.classList.contains('active') ? 
+            this.textContent = advancedFilters.classList.contains('active') ?
                 'Ocultar Filtros' : 'Filtros Avanzados';
         });
 
@@ -413,7 +371,7 @@
 
                 // Mostrar u ocultar fila
                 row.style.display = showRow ? '' : 'none';
-                
+
                 if (showRow) {
                     visibleRows.push(row);
                 }
@@ -422,8 +380,8 @@
             // Ordenar filas
             visibleRows.sort((a, b) => {
                 let aValue, bValue;
-                
-                switch(sortBy) {
+
+                switch (sortBy) {
                     case 'name':
                         aValue = a.dataset.name;
                         bValue = b.dataset.name;
@@ -440,7 +398,7 @@
                         aValue = a.dataset.name;
                         bValue = b.dataset.name;
                 }
-                
+
                 if (sortOrder === 'asc') {
                     return aValue.localeCompare(bValue);
                 } else {
@@ -456,7 +414,7 @@
 
         // Event listeners para filtros
         applyFiltersBtn.addEventListener('click', applyFilters);
-        clearFiltersBtn.addEventListener('click', function() {
+        clearFiltersBtn.addEventListener('click', function () {
             searchInput.value = '';
             filterStatus.value = '';
             filterRole.value = '';
@@ -474,15 +432,15 @@
 
 
         // Guardar cambios del usuario
-        editUserForm.addEventListener('submit', function(e) {
+        editUserForm.addEventListener('submit', function (e) {
             e.preventDefault();
-            
+
             const userId = document.getElementById('edit-user-id').value;
             const name = document.getElementById('edit-user-name').value;
             const email = document.getElementById('edit-user-email').value;
             const status = document.getElementById('edit-user-status').value;
             const role = document.getElementById('edit-user-role').value;
-            
+
             // Actualizar la fila en la tabla
             const row = document.querySelector(`tr[data-id="${userId}"]`);
             if (row) {
@@ -490,23 +448,23 @@
                 row.dataset.email = email;
                 row.dataset.status = status;
                 row.dataset.role = role;
-                
+
                 row.cells[1].textContent = name;
                 row.cells[2].textContent = email;
                 row.cells[4].textContent = status;
                 row.cells[5].textContent = role;
             }
-            
+
             // Cerrar modal
             editUserModal.classList.remove('active');
-            
+
             // Mostrar mensaje de éxito (en una implementación real, aquí se haría una petición al servidor)
             alert('Usuario actualizado correctamente');
         });
 
         // Cerrar modales
         document.querySelectorAll('.close-modal').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 this.closest('.modal').classList.remove('active');
             });
         });
@@ -521,4 +479,5 @@
         });
     </script>
 </body>
+
 </html>

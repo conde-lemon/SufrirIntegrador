@@ -11,8 +11,20 @@
 </head>
 
 <body>
-<!-- Incluimos el fragmento del header -->
-<div th:replace="~{fragments/header :: main-header}"></div>
+    <!-- cabeza principal -->
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo">Travel For U</div>
+            <nav>
+                <ul class="main-nav">
+                    <li><a href="./index.html">Inicio</a></li>
+                    <li><a href="./paquetes_y_promociones.html">Ofertas</a></li>
+                    <li><a href="./reservas.html" class="active">Reservas</a></li>
+                    <li><a href="#">Perfil</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
 <div class="container">
     <div class="page-header">
