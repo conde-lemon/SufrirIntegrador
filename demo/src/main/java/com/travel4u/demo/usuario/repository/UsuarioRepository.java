@@ -1,4 +1,3 @@
-// C:/Users/LENOVO/Documents/utp/ciclo7/integrador/demo (1)/demo/src/main/java/com/travel4u/demo/usuario/repository/IUsuarioDAO.java
 package com.travel4u.demo.usuario.repository;
 
 import com.travel4u.demo.usuario.model.Usuario;
@@ -7,26 +6,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional; // Importar Optional
 import java.util.List;
+import java.util.Optional;
 
-@Repository
-public interface IUsuarioDAO extends JpaRepository<Usuario, Long> {
-    // Spring Data JPA creará automáticamente los métodos CRUD básicos.
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> { // ← Long con L mayúscula
 
-    /**
-     * MÉTODO AÑADIDO:
-     * Spring Data JPA generará automáticamente la consulta para buscar un usuario
-     * por su columna 'email'.
-     * Usamos Optional para manejar de forma segura el caso en que el usuario no exista.
-     */
     Optional<Usuario> findByEmail(String email);
 
     // Búsqueda por nombres, apellidos o email
     @Query("SELECT u FROM Usuario u WHERE " + "(u.nombres LIKE %:criterio% OR u.apellidos LIKE %:criterio% OR u.email LIKE %:criterio%) " + "AND u.activo = true")
     List<Usuario> buscarUsuariosActivos(@Param("criterio") String criterio);
 
-    // Buscar todos incluyendo inactivos para administracion
+    // Buscar todos incluyendo inactivos para administración
     @Query("SELECT u FROM Usuario u WHERE " + "u.nombres LIKE %:criterio% OR u.apellidos LIKE %:criterio% OR u.email LIKE %:criterio%")
     List<Usuario> buscarTodosUsuarios(@Param("criterio") String criterio);
 
@@ -34,3 +25,4 @@ public interface IUsuarioDAO extends JpaRepository<Usuario, Long> {
 
     List<Usuario> findByActivoTrue();
 }
+
