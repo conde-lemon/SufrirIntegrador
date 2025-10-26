@@ -68,8 +68,8 @@ public class AppController {
             return "redirect:/registrar";
         }
 
-        // Encriptar la contraseña antes de guardarla
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        // Guardar contraseña en texto plano (sin encriptar)
+        // NOTA: Solo para desarrollo, en producción usar BCrypt
         // Establecer valores por defecto
         usuario.setRol("USUARIO");
         usuario.setActivo(true);
@@ -157,5 +157,37 @@ public class AppController {
     @GetMapping("/terminos-y-condiciones")
     public String showTerminosPage() {
         return "terminos_y_condiciones"; // Asume que tienes un terminos_y_condiciones.html
+    }
+
+
+    @GetMapping("/confirmacion-reserva")
+    public String showConfirmacionReservaPage(
+            @RequestParam(required = false) Long idReserva,
+            Model model,
+            Principal principal) {
+
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        // Obtener el usuario autenticado
+        String email = principal.getName();
+        Usuario usuario = usuarioDAO.findByEmail(email)
+                .orElseThrow(() -> new IllegalStateException("Usuario no encontrado"));
+
+        // Si se pasó un ID de reserva, buscarla
+        String codigoReserva = "TFU-2025-0000";
+        if (idReserva != null) {
+            // Generar código de reserva basado en el ID
+            codigoReserva = String.format("TFU-%d-%04d",
+                java.time.LocalDate.now().getYear(),
+                idReserva);
+        }
+
+        // Pasar datos al template
+        model.addAttribute("idUsuario", usuario.getIdUsuario());
+        model.addAttribute("codigoReserva", codigoReserva);
+
+        return "confirmacion-reserva";
     }
 }
