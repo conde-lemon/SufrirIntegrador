@@ -1,11 +1,17 @@
-// C:/Users/LENOVO/Documents/utp/ciclo7/integrador/demo (1)/demo/src/main/java/com/travel4u/demo/reserva/repository/IReservaDAO.java
 package com.travel4u.demo.reserva.repository;
 
-import com.travel4u.demo.reserva.model.Reserva; // Tu entidad 'Pago' ya la referencia, así que debe existir.
+import com.travel4u.demo.reserva.model.Reserva;
+import com.travel4u.demo.usuario.model.Usuario; // Asegúrate de importar Usuario
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List; // Asegúrate de importar List
+
 @Repository
 public interface IReservaDAO extends JpaRepository<Reserva, Integer> {
-    // El segundo parámetro 'Integer' debe coincidir con el tipo de la clave primaria de tu entidad 'Reserva'.
+
+    // NUEVO MÉTODO: Spring Data JPA creará automáticamente la consulta
+    // para encontrar todas las reservas que pertenecen a un usuario específico.
+    List<Reserva> findByUsuario(Usuario usuario);
+
 }

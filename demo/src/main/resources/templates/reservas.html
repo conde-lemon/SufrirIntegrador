@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Reservas - Travel For U</title>
-    <link rel="stylesheet" href="../static/css/reservas_style.css">
+    <!-- Usamos Thymeleaf para las rutas de CSS -->
+    <link rel="stylesheet" th:href="@{/css/header_style.css}">
+    <link rel="stylesheet" th:href="@{/css/reservas_style.css}">
 </head>
 
 <body>
@@ -24,88 +26,59 @@
         </div>
     </header>
 
-    <div class="container">
-        <!-- Encabezado de página -->
-        <div class="page-header">
-            <h1 class="page-title">Mis Reservas</h1>
-            <p class="page-subtitle">Gestiona y revisa todas tus reservas de viaje</p>
-        </div>
+<div class="container">
+    <div class="page-header">
+        <h1 class="page-title">Mis Reservas</h1>
+        <p class="page-subtitle">Gestiona y revisa todas tus reservas de viaje</p>
+    </div>
 
-        <!-- Filtros -->
-        <div class="filters-section">
-            <span class="filter-label">Filtrar por:</span>
-            <select class="filter-select">
-                <option>Todas las fechas</option>
-                <option>Próximos 7 días</option>
-                <option>Próximos 30 días</option>
-                <option>Este mes</option>
-            </select>
-            <select class="filter-select">
-                <option>Todos los estados</option>
-                <option>Confirmadas</option>
-                <option>Pendientes</option>
-                <option>Canceladas</option>
-            </select>
-            <select class="filter-select">
-                <option>Ordenar por fecha</option>
-                <option>Ordenar por precio</option>
-                <option>Ordenar por destino</option>
-            </select>
-        </div>
+    <!-- Mensaje de éxito (si vienes de crear una reserva) -->
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
 
-        <!-- Tarjetas de reservas -->
-        <div class="reservations-grid">
-            <!-- Reserva 1 -->
-            <div class="reservation-card">
-                <div class="reservation-header">
-                    <div class="reservation-code">Código: TFU-2025-8472</div>
-                    <div class="reservation-title">Vuelo a Buenos Aires</div>
-                </div>
-                <div class="reservation-body">
-                    <div class="reservation-details">
-                        <div class="detail-item">
-                            <span class="detail-label">Origen</span>
-                            <span class="detail-value">Lima, Peru</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Destino</span>
-                            <span class="detail-value">Buenos Aires, Argentina</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Fecha de salida</span>
-                            <span class="detail-value">15 Oct 2025</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Pasajeros</span>
-                            <span class="detail-value">2 Adultos</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Estado</span>
-                            <span class="reservation-status status-confirmed">Confirmada</span>
-                        </div>
+    <!-- Si no hay reservas, muestra un mensaje amigable -->
+    <div th:if="${reservas.isEmpty()}" class="no-reservations">
+        <p>Aún no tienes ninguna reserva. ¡Anímate a planificar tu próximo viaje!</p>
+        <a th:href="@{/}" class="btn btn-primary">Buscar Ofertas</a>
+    </div>
+
+    <!-- Grid para mostrar las tarjetas de reservas dinámicas -->
+    <div class="reservations-grid" th:if="${!reservas.isEmpty()}">
+        <!-- Iteramos sobre la lista de reservas del usuario -->
+        <div class="reservation-card" th:each="reserva : ${reservas}">
+            <div class="reservation-header">
+                <div class="reservation-title" th:text="${reserva.observaciones ?: 'Reserva General'}">Vuelo a Buenos Aires</div>
+                <div class="reservation-code" th:text="'Código: TFU-' + ${reserva.idReserva}">Código: TFU-123</div>
+            </div>
+            <div class="reservation-body">
+                <div class="reservation-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Fecha de Reserva</span>
+                        <span class="detail-value" th:text="${#temporals.format(reserva.createdAt, 'dd MMM yyyy')}">10 Oct 2025</span>
                     </div>
-                </div>
-                <div class="reservation-footer">
-                    <div class="reservation-price">3 panetones</div>
-                    <div class="action-buttons">
-                        <a href="#" class="btn btn-primary">Ver Detalles</a>
-                        <a href="../static/img/reporte_semana.jpg" class="btn btn-outline">Descargar</a>
+                    <div class="detail-item">
+                        <span class="detail-label">Fecha de Viaje</span>
+                        <span class="detail-value" th:text="${#temporals.format(reserva.fechaInicio, 'dd MMM yyyy')}">15 Oct 2025</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Estado</span>
+                        <!-- Añadimos clases dinámicas para el color del estado -->
+                        <span class="reservation-status"
+                              th:text="${reserva.estado}"
+                              th:classappend="${reserva.estado == 'Confirmada' ? 'status-confirmed' : (reserva.estado == 'Cancelada' ? 'status-cancelled' : 'status-pending')}">
+                                  Confirmada
+                        </span>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Paginación -->
-        <div class="pagination">
-            <div class="pagination-nav">
-                <a href="#" class="pagination-btn">Anterior</a>
-                <a href="#" class="pagination-btn active">1</a>
-                <a href="#" class="pagination-btn">2</a>
-                <a href="#" class="pagination-btn">3</a>
-                <a href="#" class="pagination-btn">Siguiente</a>
+            <div class="reservation-footer">
+                <div class="reservation-price" th:text="'S/ ' + ${#numbers.formatDecimal(reserva.total, 1, 'COMMA', 2, 'POINT')}">S/ 350.00</div>
+                <div class="action-buttons">
+                    <a th:href="@{/reservas/{id}(id=${reserva.idReserva})}" class="btn btn-outline">Ver Detalles</a>
+                    <a href="#" class="btn btn-primary">Descargar PDF</a>
+                </div>
             </div>
         </div>
     </div>
+</div>
 </body>
-
 </html>
