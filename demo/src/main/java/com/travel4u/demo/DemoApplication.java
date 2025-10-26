@@ -43,17 +43,17 @@ public class DemoApplication {
 				admin.setActivo(true);
 				admin.setFechaRegistro(LocalDateTime.now());
 				usuarioDAO.save(admin);
-				System.out.println("✅ Usuario 'admin' creado con contraseña '1234'.");
+				System.out.println(" Usuario 'admin' creado con contraseña '1234'.");
 			} else {
-				System.out.println("ℹ️ Usuario 'admin' ya existe.");
+				System.out.println(" Usuario 'admin' ya existe.");
 			}
 
 			// 2. Listar todos los usuarios para verificar
 			List<Usuario> usuarios = usuarioDAO.findAll();
 			if (usuarios.isEmpty()) {
-				System.out.println("❌ No se encontraron usuarios en la base de datos.");
+				System.out.println(" No se encontraron usuarios en la base de datos.");
 			} else {
-				System.out.println("📋 Usuarios encontrados (" + usuarios.size() + "):");
+				System.out.println(" Usuarios encontrados (" + usuarios.size() + "):");
 				for (Usuario u : usuarios) {
 					System.out.println("  -> ID: " + u.getIdUsuario() +
 							", Email: " + u.getEmail() +
