@@ -27,7 +27,7 @@ public class DemoApplication {
 	 */
 	@Bean
 	@Transactional
-	public CommandLineRunner dataLoader(IUsuarioDAO usuarioDAO, PasswordEncoder passwordEncoder) {
+	public CommandLineRunner dataLoader(IUsuarioDAO usuarioDAO) {
 		return args -> {
 			System.out.println("--- [MODO DEBUG] Verificando usuarios en la base de datos ---");
 
@@ -38,27 +38,26 @@ public class DemoApplication {
 				admin.setNombres("Administrador");
 				admin.setApellidos("del Sistema");
 				admin.setEmail(adminEmail);
-				admin.setPassword(passwordEncoder.encode("1234")); // Contraseña '1234' encriptada
+				admin.setPassword("1234"); // Contraseña en texto plano (sin encriptar)
 				admin.setRol("ADMIN"); // Rol de administrador
 				admin.setActivo(true);
 				admin.setFechaRegistro(LocalDateTime.now());
 				usuarioDAO.save(admin);
-				System.out.println("✅ Usuario 'admin' creado con contraseña '1234'.");
+				System.out.println("✓ Usuario 'admin' creado con contraseña '1234'.");
 			} else {
-				System.out.println("ℹ️ Usuario 'admin' ya existe.");
+				System.out.println("✓ Usuario 'admin' ya existe.");
 			}
 
 			// 2. Listar todos los usuarios para verificar
 			List<Usuario> usuarios = usuarioDAO.findAll();
 			if (usuarios.isEmpty()) {
-				System.out.println("❌ No se encontraron usuarios en la base de datos.");
+				System.out.println("⚠️  No se encontraron usuarios en la base de datos.");
 			} else {
-				System.out.println("📋 Usuarios encontrados (" + usuarios.size() + "):");
+				System.out.println("✓ Usuarios encontrados (" + usuarios.size() + "):");
 				for (Usuario u : usuarios) {
 					System.out.println("  -> ID: " + u.getIdUsuario() +
 							", Email: " + u.getEmail() +
-							", Rol: " + u.getRol() +
-							", Contraseña (Encriptada): " + u.getPassword());
+							", Rol: " + u.getRol());
 				}
 			}
 			System.out.println("--- [MODO DEBUG] Verificación finalizada ---");

@@ -1,2 +1,2 @@
-# SufrirIntegrador
-Repositorio para subir los avances de proyecto del curso Integrador - UTP de la carrera de Sistemas
+#SufrirIntegrador
+Repositorio para subir los avances de proyecto del curso Integrador - ssUTP de la carrera de Sistemas
