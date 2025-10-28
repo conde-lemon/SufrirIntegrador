@@ -4,7 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+// ¡CAMBIO! Importamos el PasswordEncoder que no hace nada (No Operation)
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -13,12 +14,14 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
 
     /**
-     * Define el codificador de contraseñas que Spring Security debe usar.
-     * Se recomienda encarecidamente BCryptPasswordEncoder para la seguridad.
+     * ADVERTENCIA: Se usa NoOpPasswordEncoder, que NO encripta las contraseñas.
+     * Las contraseñas se guardan y comparan en texto plano.
+     * Esto es INSEGURO y solo debe usarse para fines de depuración o demostración.
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        // Devuelve una instancia que trata las contraseñas como texto plano.
+        return NoOpPasswordEncoder.getInstance();
     }
 
     /**
