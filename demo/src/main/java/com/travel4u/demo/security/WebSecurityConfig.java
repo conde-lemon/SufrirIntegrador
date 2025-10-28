@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -12,37 +12,45 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
+    /**
+     * Define el codificador de contraseñas que Spring Security debe usar.
+     * Se recomienda encarecidamente BCryptPasswordEncoder para la seguridad.
+     */
     @Bean
-    @SuppressWarnings("deprecation")
     public PasswordEncoder passwordEncoder() {
-        // Usar NoOpPasswordEncoder para aceptar contraseñas en texto plano
-        // NOTA: Solo para desarrollo, NO usar en producción
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Configura la cadena de filtros de seguridad HTTP.
+     * Define qué rutas son públicas, cuáles requieren autenticación y cómo se manejan
+     * el login, logout y CSRF.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        // Rutas públicas
-                        .requestMatchers("/login", "/registrar", "/css/**", "/js/**", "/img/**").permitAll()
-                        // Rutas de reportes - requieren autenticación
+                        // Rutas públicas accesibles sin autenticación
+                        .requestMatchers("/login", "/registrar", "/css/**", "/js/**", "/img/**", "/").permitAll()
+                        // Rutas de API de reportes requieren autenticación
                         .requestMatchers("/api/reportes/**").authenticated()
-                        // Las demás rutas requieren autenticación
+                        // Todas las demás rutas requieren autenticación
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/", true)
-                        .permitAll()
+                        .loginPage("/login") // Especifica la página de login personalizada
+                        .defaultSuccessUrl("/", true) // Redirige a la raíz después de un login exitoso
+                        .permitAll() // Permite el acceso a la página de login
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll()
+                        .logoutSuccessUrl("/login?logout") // Redirige a la página de login con mensaje de logout
+                        .permitAll() // Permite el acceso a la URL de logout
                 )
-                // IMPORTANTE: Deshabilitar CSRF para endpoints de API (reportes)
+                // IMPORTANTE: Deshabilitar CSRF para endpoints de API (como los de reportes)
+                // si se van a consumir desde clientes externos que no manejan tokens CSRF.
+                // Para formularios HTML gestionados por Thymeleaf, CSRF suele ser útil.
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/api/reportes/**")
+                        .ignoringRequestMatchers("/api/reportes/**") // Ignora CSRF para la API de reportes
                 );
 
         return http.build();

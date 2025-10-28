@@ -1,12 +1,11 @@
-// C:/Users/LENOVO/Documents/utp/ciclo7/integrador/demo (1)/demo/src/main/java/com/travel4u/demo/controller/AppController.java
 package com.travel4u.demo.controller;
 
-import com.travel4u.demo.reserva.model.Reserva;
-import com.travel4u.demo.reserva.repository.IReservaDAO;
+import com.travel4u.demo.reserva.model.Reserva; // Mantener si viewHomePage realmente necesita reservas
+import com.travel4u.demo.reserva.repository.IReservaDAO; // Mantener si viewHomePage realmente necesita reservas
 import com.travel4u.demo.usuario.model.Usuario;
 import com.travel4u.demo.usuario.repository.IUsuarioDAO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder; // Importar PasswordEncoder
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,27 +15,31 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.List; // Mantener si viewHomePage realmente necesita reservas
 
 @Controller
 public class AppController {
 
-    @Autowired
-    private IReservaDAO reservaDAO;
+    @Autowired(required = false) // Hacer opcional si viewHomePage no usa reservas
+    private IReservaDAO reservaDAO; // Considerar si es necesario aquí, o si viewHomePage debería mostrar otra cosa.
 
     @Autowired
     private IUsuarioDAO usuarioDAO;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder; // Inyectar PasswordEncoder
 
     /**
-     * Muestra la página de inicio y le pasa la lista de todas las reservas.
+     * Muestra la página de inicio.
+     * Si la intención es mostrar reservas, debería ser las del usuario autenticado o contenido general.
      */
     @GetMapping("/")
     public String viewHomePage(Model model) {
-        List<Reserva> listaReservas = reservaDAO.findAll();
-        model.addAttribute("reservas", listaReservas);
+        // Si la página de inicio es general, esta línea podría no ser necesaria o debería filtrar.
+        // if (reservaDAO != null) {
+        //     List<Reserva> listaReservas = reservaDAO.findAll();
+        //     model.addAttribute("reservas", listaReservas);
+        // }
         return "index";
     }
 
@@ -59,6 +62,7 @@ public class AppController {
 
     /**
      * Procesa los datos del formulario de registro.
+     * CRÍTICO: Ahora encripta la contraseña.
      */
     @PostMapping("/registrar")
     public String processRegistration(Usuario usuario, RedirectAttributes redirectAttributes) {
@@ -68,10 +72,9 @@ public class AppController {
             return "redirect:/registrar";
         }
 
-        // Guardar contraseña en texto plano (sin encriptar)
-        // NOTA: Solo para desarrollo, en producción usar BCrypt
-        // Establecer valores por defecto
-        usuario.setRol("USUARIO");
+        // CRÍTICO: Encriptar la contraseña antes de guardarla
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        usuario.setRol("USUARIO"); // Considerar usar un enum para roles
         usuario.setActivo(true);
         usuario.setFechaRegistro(LocalDateTime.now());
 
@@ -89,10 +92,9 @@ public class AppController {
         if (principal == null) {
             return "redirect:/login";
         }
-        // Obtenemos el email del usuario logueado y lo buscamos en la BD
         String email = principal.getName();
         Usuario usuario = usuarioDAO.findByEmail(email)
-                .orElseThrow(() -> new IllegalStateException("No se encontró al usuario autenticado."));
+                .orElseThrow(() -> new IllegalStateException("Error de seguridad: Usuario autenticado no encontrado en la BD."));
 
         model.addAttribute("usuario", usuario);
         return "perfil";
@@ -107,18 +109,15 @@ public class AppController {
             @RequestParam("destino") String destino,
             Model model) {
 
-        // Pasamos los parámetros de búsqueda al modelo para que la plantilla los pueda usar
         model.addAttribute("origenBusqueda", origen);
         model.addAttribute("destinoBusqueda", destino);
 
-        // Aquí iría la lógica para buscar vuelos en la base de datos.
-        // Por ahora, solo mostramos una página de resultados de ejemplo.
+        // Aquí iría la lógica para buscar vuelos en la base de datos o API externa.
         // List<Vuelo> vuelosEncontrados = vueloService.buscarVuelos(origen, destino);
         // model.addAttribute("vuelos", vuelosEncontrados);
 
-        return "resultados-vuelos"; // Renderiza la plantilla 'resultados-vuelos.html'
+        return "resultados-vuelos";
     }
-
 
     // --- Métodos para el resto de páginas de navegación ---
 
@@ -144,21 +143,19 @@ public class AppController {
 
     @GetMapping("/paquetes-y-promociones")
     public String showOfertasPage() {
-        // Lógica para mostrar ofertas, por ahora redirige a una página de ejemplo
-        return "ofertas"; // Asume que tienes una plantilla ofertas.html
+        return "ofertas";
     }
 
-    @GetMapping("/reservas")
-    public String showReservasPage() {
-        // Lógica para mostrar las reservas del usuario
-        return "reservas"; // Asume que tienes una plantilla reservas.html
-    }
+    // REMOVIDO: El mapeo /reservas ahora es manejado exclusivamente por ReservaController.
+    // @GetMapping("/reservas")
+    // public String showReservasPage() {
+    //     return "reservas";
+    // }
 
     @GetMapping("/terminos-y-condiciones")
     public String showTerminosPage() {
-        return "terminos_y_condiciones"; // Asume que tienes un terminos_y_condiciones.html
+        return "terminos_y_condiciones";
     }
-
 
     @GetMapping("/confirmacion-reserva")
     public String showConfirmacionReservaPage(
@@ -170,21 +167,20 @@ public class AppController {
             return "redirect:/login";
         }
 
-        // Obtener el usuario autenticado
         String email = principal.getName();
         Usuario usuario = usuarioDAO.findByEmail(email)
-                .orElseThrow(() -> new IllegalStateException("Usuario no encontrado"));
+                .orElseThrow(() -> new IllegalStateException("Usuario no encontrado para confirmación de reserva."));
 
-        // Si se pasó un ID de reserva, buscarla
-        String codigoReserva = "TFU-2025-0000";
+        // Sugerencia: El código de reserva debería generarse y guardarse con la Reserva.
+        String codigoReserva = "TFU-PENDIENTE"; // Valor por defecto más claro
         if (idReserva != null) {
-            // Generar código de reserva basado en el ID
+            // Idealmente, buscar la reserva por idReserva y obtener su código de reserva guardado.
+            // Por ahora, mantenemos la lógica de generación si no hay un campo en Reserva.
             codigoReserva = String.format("TFU-%d-%04d",
-                java.time.LocalDate.now().getYear(),
-                idReserva);
+                    java.time.LocalDate.now().getYear(),
+                    idReserva);
         }
 
-        // Pasar datos al template
         model.addAttribute("idUsuario", usuario.getIdUsuario());
         model.addAttribute("codigoReserva", codigoReserva);
 

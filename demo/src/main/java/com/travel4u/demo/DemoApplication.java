@@ -1,8 +1,9 @@
-// C:/Users/LENOVO/Documents/utp/ciclo7/integrador/demo (1)/demo/src/main/java/com/travel4u/demo/DemoApplication.java
 package com.travel4u.demo;
 
 import com.travel4u.demo.usuario.model.Usuario;
 import com.travel4u.demo.usuario.repository.IUsuarioDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,56 +12,75 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 public class DemoApplication {
+
+	// Es una buena práctica usar un logger en lugar de System.out.println
+	private static final Logger log = LoggerFactory.getLogger(DemoApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
 	/**
-	 * Bean que se ejecuta al iniciar la aplicación para verificar datos.
-	 * 1. Crea un usuario 'admin' si no existe.
-	 * 2. Lista todos los usuarios en la consola para depuración.
+	 * Bean que se ejecuta al iniciar la aplicación para verificar y/o crear
+	 * una cuenta de administrador.
+	 * 1. Busca el usuario 'admin@travel4u.com'.
+	 * 2. Si no existe, lo crea con la contraseña '1234' (encriptada).
+	 * 3. Si existe, verifica que la contraseña '1234' coincida con el hash guardado.
+	 *    También verifica si el usuario está activo.
 	 */
 	@Bean
 	@Transactional
-	public CommandLineRunner dataLoader(IUsuarioDAO usuarioDAO) {
+	public CommandLineRunner adminAccountVerifier(IUsuarioDAO usuarioDAO, PasswordEncoder passwordEncoder) {
 		return args -> {
-			System.out.println("--- [MODO DEBUG] Verificando usuarios en la base de datos ---");
+			log.info("--- [STARTUP] Verificando cuenta de administrador ---");
 
-			// 1. Crear usuario admin si no existe
 			String adminEmail = "admin@travel4u.com";
-			if (usuarioDAO.findByEmail(adminEmail).isEmpty()) {
+			String adminPassword = "1234"; // Contraseña en texto plano para la verificación/creación
+
+			Optional<Usuario> adminOptional = usuarioDAO.findByEmail(adminEmail);
+
+			if (adminOptional.isEmpty()) {
+				log.warn("⚠️ Usuario '{}' no encontrado. Creando uno nuevo...", adminEmail);
+
 				Usuario admin = new Usuario();
 				admin.setNombres("Administrador");
 				admin.setApellidos("del Sistema");
 				admin.setEmail(adminEmail);
-				admin.setPassword("1234"); // Contraseña en texto plano (sin encriptar)
-				admin.setRol("ADMIN"); // Rol de administrador
-				admin.setActivo(true);
+
+				// ¡IMPORTANTE! Encriptar la contraseña antes de guardarla en la base de datos.
+				admin.setPassword(passwordEncoder.encode(adminPassword));
+
+				admin.setRol("ADMIN"); // Asignar el rol de administrador
+				admin.setActivo(true); // Asegurarse de que el usuario esté activo
 				admin.setFechaRegistro(LocalDateTime.now());
 				usuarioDAO.save(admin);
-				System.out.println("✓ Usuario 'admin' creado con contraseña '1234'.");
-			} else {
-				System.out.println("✓ Usuario 'admin' ya existe.");
-			}
+				log.info("✓ Usuario '{}' creado exitosamente con contraseña: '{}'", adminEmail, adminPassword);
 
-			// 2. Listar todos los usuarios para verificar
-			List<Usuario> usuarios = usuarioDAO.findAll();
-			if (usuarios.isEmpty()) {
-				System.out.println("⚠️  No se encontraron usuarios en la base de datos.");
 			} else {
-				System.out.println("✓ Usuarios encontrados (" + usuarios.size() + "):");
-				for (Usuario u : usuarios) {
-					System.out.println("  -> ID: " + u.getIdUsuario() +
-							", Email: " + u.getEmail() +
-							", Rol: " + u.getRol());
+				log.info("✓ Usuario '{}' ya existe. Verificando contraseña...", adminEmail);
+				Usuario existingAdmin = adminOptional.get();
+
+				// Usamos el PasswordEncoder (BCryptPasswordEncoder) para verificar
+				// si la contraseña en texto plano coincide con el hash guardado.
+				if (passwordEncoder.matches(adminPassword, existingAdmin.getPassword())) {
+					log.info("  ✓ ¡ÉXITO! La contraseña '{}' es correcta para el usuario '{}'.", adminPassword, adminEmail);
+				} else {
+					log.error("  ❌ ¡FALLO! La contraseña NO coincide. La contraseña esperada era '{}' pero la guardada es '{}'.", adminPassword, existingAdmin.getPassword());
+					log.error("  -> Solución: Borra el usuario de la BD y reinicia la app para que se cree correctamente con la contraseña encriptada.");
+				}
+
+				// Verificamos también si el usuario está activo, ya que es crucial para el login.
+				if (existingAdmin.isActivo()) {
+					log.info("  ✓ El usuario está ACTIVO.");
+				} else {
+					log.warn("  ⚠️ El usuario está INACTIVO. El inicio de sesión fallará por esta razón. Considere activarlo en la BD.");
 				}
 			}
-			System.out.println("--- [MODO DEBUG] Verificación finalizada ---");
+			log.info("--- [STARTUP] Verificación de cuenta de administrador finalizada ---");
 		};
 	}
 }

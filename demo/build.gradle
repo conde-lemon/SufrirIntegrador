@@ -35,7 +35,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-
+    implementation 'com.amadeus:amadeus-java:8.1.0'
+    implementation 'org.jsoup:jsoup:1.17.2' // <--- ¡AÑADIDO AQUÍ!
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
