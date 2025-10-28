@@ -5,10 +5,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collection;
 
 @Configuration
 @EnableWebSecurity
@@ -17,8 +24,6 @@ public class WebSecurityConfig {
     @Bean
     @SuppressWarnings("deprecation")
     public PasswordEncoder passwordEncoder() {
-        // Usar NoOpPasswordEncoder para aceptar contraseñas en texto plano
-        // NOTA: Solo para desarrollo, NO usar en producción
         return NoOpPasswordEncoder.getInstance();
     }
 
@@ -29,27 +34,62 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/login", "/registrar", "/css/**", "/js/**", "/img/**").permitAll()
                         .requestMatchers("/vistadmin/**", "/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/perfil", "/reservas", "/vuelos/**").hasAnyRole("USER", "ADMIN")
-                     
-                        // Rutas de reportes - requieren autenticación
-                        .requestMatchers("/api/reportes/**").authenticated()
-                        // Las demás rutas requieren autenticación
+                        .requestMatchers("/","/perfil", "/reservas", "/vuelos", "/verperfil").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/redirect-by-role", true) // ← CAMBIAR AQUÍ
+                        .successHandler(authenticationSuccessHandler())  // ← USA EL SUCCESS HANDLER
+                        .failureUrl("/login?error=true")
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutSuccessUrl("/login?logout=true")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                         .permitAll()
                 )
-                // IMPORTANTE: Deshabilitar CSRF para endpoints de API (reportes)
-                .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/api/reportes/**")
+                .exceptionHandling(exception -> exception
+                        .accessDeniedPage("/access-denied")
                 );
 
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new AuthenticationSuccessHandler() {
+            @Override
+            public void onAuthenticationSuccess(HttpServletRequest request,
+                                                HttpServletResponse response,
+                                                org.springframework.security.core.Authentication authentication)
+                    throws IOException, ServletException {
+
+                Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+                System.out.println("===  DEBUG ROLES DESPUÉS DEL LOGIN ===");
+                System.out.println("Usuario: " + authentication.getName());
+                for (GrantedAuthority authority : authorities) {
+                    System.out.println("Rol detectado: '" + authority.getAuthority() + "'");
+                }
+
+                String targetUrl = "/"; // Por defecto para usuarios normales
+
+                for (GrantedAuthority authority : authorities) {
+                    if (authority.getAuthority().equals("ROLE_ADMIN")) {
+                        targetUrl = "/vistadmin";  // ← Redirige a /vistadmin
+                        System.out.println(" Redirigiendo ADMIN a: " + targetUrl);
+                        break;
+                    } else if (authority.getAuthority().equals("ROLE_USER")) {
+                        targetUrl = "/";
+                        System.out.println(" Redirigiendo USER a: " + targetUrl);
+                        break;
+                    }
+                }
+
+                System.out.println("🎯 URL final: " + targetUrl);
+                response.sendRedirect(targetUrl);
+            }
+        };
     }
 }

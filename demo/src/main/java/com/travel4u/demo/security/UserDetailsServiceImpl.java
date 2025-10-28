@@ -18,21 +18,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private IUsuarioDAO usuarioDAO;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        // Buscamos al usuario por su email
+    public UserDetails loadUserByUsername(String email) {
         Usuario usuario = usuarioDAO.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con el email: " + email));
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + email));
 
-        // Verificar si el usuario está activo
-        if (!usuario.isActivo()) {
-            throw new UsernameNotFoundException("Usuario inactivo: " + email);
-        }
-
-        // Crear el objeto UserDetails con la información del usuario
         return org.springframework.security.core.userdetails.User.builder()
                 .username(usuario.getEmail())
-                .password(usuario.getPassword()) // Ya está encriptada
-                .authorities(Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + usuario.getRol())))
+                .password(usuario.getPassword())
+                .roles(usuario.getRol()) // "USER" se convierte automáticamente en "ROLE_USER"
                 .build();
     }
 }

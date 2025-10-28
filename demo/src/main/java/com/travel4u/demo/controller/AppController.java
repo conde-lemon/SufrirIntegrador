@@ -1,4 +1,3 @@
-// C:/Users/LENOVO/Documents/utp/ciclo7/integrador/demo (1)/demo/src/main/java/com/travel4u/demo/controller/AppController.java
 package com.travel4u.demo.controller;
 
 import com.travel4u.demo.reserva.model.Reserva;
@@ -6,6 +5,8 @@ import com.travel4u.demo.reserva.repository.IReservaDAO;
 import com.travel4u.demo.usuario.model.Usuario;
 import com.travel4u.demo.usuario.repository.IUsuarioDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -71,7 +73,7 @@ public class AppController {
         // Guardar contraseña en texto plano (sin encriptar)
         // NOTA: Solo para desarrollo, en producción usar BCrypt
         // Establecer valores por defecto
-        usuario.setRol("USUARIO");
+        usuario.setRol("USER");
         usuario.setActivo(true);
         usuario.setFechaRegistro(LocalDateTime.now());
 
@@ -99,6 +101,36 @@ public class AppController {
     }
 
     /**
+     * Redirección por rol después del login
+     */
+    /*@GetMapping("/redirect-by-role")
+    public String redirectByRole(Authentication authentication) {
+        if (authentication == null) {
+            return "redirect:/login";
+        }
+
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+        // DEBUG
+        System.out.println("=== 🚨 REDIRECCIÓN POR ROL 🚨 ===");
+        System.out.println("Usuario: " + authentication.getName());
+        for (GrantedAuthority authority : authorities) {
+            System.out.println("Rol: '" + authority.getAuthority() + "'");
+        }
+        System.out.println("================================");
+
+        for (GrantedAuthority authority : authorities) {
+            if (authority.getAuthority().equals("ROLE_ADMIN")) {
+                return "redirect:/vistadmin/dashboard";
+            } else if (authority.getAuthority().equals("ROLE_USER")) {
+                return "redirect:/vuelos";
+            }
+        }
+
+        return "redirect:/";
+    }
+*/
+    /**
      * Muestra la página de resultados de búsqueda de vuelos.
      */
     @GetMapping("/vuelos/buscar")
@@ -118,7 +150,6 @@ public class AppController {
 
         return "resultados-vuelos"; // Renderiza la plantilla 'resultados-vuelos.html'
     }
-
 
     // --- Métodos para el resto de páginas de navegación ---
 
@@ -154,16 +185,21 @@ public class AppController {
         return "reservas"; // Asume que tienes una plantilla reservas.html
     }
 
-    @GetMapping("/admin")
-    public String showAdminPage() {
-        return "vistadmin"; // Asume que tienes una plantilla reserva.html
+    @GetMapping("/adminasdad/vistadmin")
+    public String showAdminDashboard(Authentication authentication, Model model) {
+        System.out.println("=== ACCEDIENDO AL PANEL ADMIN ===");
+        System.out.println("Admin: " + authentication.getName());
+
+        // Opcional: Agregar datos al modelo si necesitas
+        model.addAttribute("usuario", authentication.getName());
+
+        return "vistadmin"; // Esta vista debe existir
     }
 
     @GetMapping("/terminos-y-condiciones")
     public String showTerminosPage() {
         return "terminos_y_condiciones"; // Asume que tienes un terminos_y_condiciones.html
     }
-
 
     @GetMapping("/confirmacion-reserva")
     public String showConfirmacionReservaPage(
@@ -185,8 +221,8 @@ public class AppController {
         if (idReserva != null) {
             // Generar código de reserva basado en el ID
             codigoReserva = String.format("TFU-%d-%04d",
-                java.time.LocalDate.now().getYear(),
-                idReserva);
+                    java.time.LocalDate.now().getYear(),
+                    idReserva);
         }
 
         // Pasar datos al template
