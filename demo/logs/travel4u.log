@@ -1,0 +1,49 @@
+2025-10-28 02:01:35.749 [Test worker] INFO  c.t.demo.DatabaseConnectionTest - Starting DatabaseConnectionTest using Java 21.0.7 with PID 29328 (started by LENOVO in C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)\demo)
+2025-10-28 02:01:35.750 [Test worker] DEBUG c.t.demo.DatabaseConnectionTest - Running with Spring Boot v3.5.6, Spring v6.2.11
+2025-10-28 02:01:35.752 [Test worker] INFO  c.t.demo.DatabaseConnectionTest - No active profile set, falling back to 1 default profile: "default"
+2025-10-28 02:01:36.759 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-28 02:01:36.855 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 85 ms. Found 8 JPA repository interfaces.
+2025-10-28 02:01:38.420 [Test worker] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-28 02:01:38.474 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-10-28 02:01:38.768 [Test worker] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2e0163cb
+2025-10-28 02:01:38.772 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-10-28 02:01:38.900 [Test worker] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2003, org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@73aae7a) replaced previous registration(org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@3856d0cb)
+2025-10-28 02:01:38.901 [Test worker] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(6, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@1c8e2850) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@50ac1249)
+2025-10-28 02:01:42.636 [Test worker] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-28 02:01:43.353 [Test worker] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-28 02:01:43.413 [Test worker] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-10-28 02:01:43.763 [Test worker] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-10-28 02:01:44.541 [Test worker] INFO  c.t.demo.DatabaseConnectionTest - Started DatabaseConnectionTest in 9.332 seconds (process running for 11.03)
+2025-10-28 02:01:44.548 [Test worker] INFO  com.travel4u.demo.DemoApplication - --- [STARTUP] Verificando cuenta de administrador ---
+2025-10-28 02:01:44.801 [Test worker] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id_usuario,
+        u1_0.activo,
+        u1_0.apellidos,
+        u1_0.email,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-10-28 02:01:44.846 [Test worker] INFO  com.travel4u.demo.DemoApplication - ✓ Usuario 'admin@travel4u.com' ya existe. Verificando contraseña...
+2025-10-28 02:01:44.847 [Test worker] INFO  com.travel4u.demo.DemoApplication -   ✓ ¡ÉXITO! La contraseña '1234' es correcta para el usuario 'admin@travel4u.com'.
+2025-10-28 02:01:44.848 [Test worker] INFO  com.travel4u.demo.DemoApplication -   ✓ El usuario está ACTIVO.
+2025-10-28 02:01:44.849 [Test worker] INFO  com.travel4u.demo.DemoApplication - --- [STARTUP] Verificación de cuenta de administrador finalizada ---
+2025-10-28 02:01:45.739 [Test worker] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        usuarios
+        (activo, apellidos, email, fecha_registro, nombres, password, rol, telefono) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2025-10-28 02:01:45.777 [Test worker] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 23505
+2025-10-28 02:01:45.777 [Test worker] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: duplicate key value violates unique constraint "usuarios_pkey"
+  Detail: Key (id_usuario)=(2) already exists.
+2025-10-28 02:01:45.885 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-10-28 02:01:45.891 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-10-28 02:01:45.908 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
