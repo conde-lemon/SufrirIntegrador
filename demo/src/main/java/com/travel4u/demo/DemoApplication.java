@@ -1,4 +1,3 @@
-// C:/Users/LENOVO/Documents/utp/ciclo7/integrador/demo (1)/demo/src/main/java/com/travel4u/demo/DemoApplication.java
 package com.travel4u.demo;
 
 import com.travel4u.demo.usuario.model.Usuario;
@@ -11,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @SpringBootApplication
 public class DemoApplication {
@@ -21,44 +19,32 @@ public class DemoApplication {
 	}
 
 	/**
-	 * Bean que se ejecuta al iniciar la aplicación para verificar datos.
-	 * 1. Crea un usuario 'admin' si no existe.
-	 * 2. Lista todos los usuarios en la consola para depuración.
+	 * Este CommandLineRunner se encarga únicamente de crear el usuario administrador
+	 * si no existe, ya que requiere lógica de encriptación de contraseña que no
+	 * se puede hacer en un script SQL.
 	 */
 	@Bean
 	@Transactional
-	public CommandLineRunner dataLoader(IUsuarioDAO usuarioDAO) {
+	public CommandLineRunner adminUserInitializer(
+			IUsuarioDAO usuarioDAO,
+			PasswordEncoder passwordEncoder) {
 		return args -> {
-			System.out.println("--- [MODO DEBUG] Verificando usuarios en la base de datos ---");
+			System.out.println("--- [MODO DEBUG] Verificando usuario admin ---");
 
-			// 1. Crear usuario admin si no existe
-			String adminEmail = "admin@travel4u.com";
-			if (usuarioDAO.findByEmail(adminEmail).isEmpty()) {
+			// Crear usuario admin si no existe
+			if (usuarioDAO.findByEmail("admin@travel4u.com").isEmpty()) {
 				Usuario admin = new Usuario();
 				admin.setNombres("Administrador");
 				admin.setApellidos("del Sistema");
-				admin.setEmail(adminEmail);
-				admin.setPassword("1234"); // Contraseña en texto plano (sin encriptar)
-				admin.setRol("ADMIN"); // Rol de administrador
+				admin.setEmail("admin@travel4u.com");
+				admin.setPassword(passwordEncoder.encode("1234"));
+				admin.setRol("ADMIN");
 				admin.setActivo(true);
 				admin.setFechaRegistro(LocalDateTime.now());
 				usuarioDAO.save(admin);
-				System.out.println("✓ Usuario 'admin' creado con contraseña '1234'.");
+				System.out.println("✓ Usuario 'admin' creado con contraseña encriptada.");
 			} else {
 				System.out.println("✓ Usuario 'admin' ya existe.");
-			}
-
-			// 2. Listar todos los usuarios para verificar
-			List<Usuario> usuarios = usuarioDAO.findAll();
-			if (usuarios.isEmpty()) {
-				System.out.println("⚠️  No se encontraron usuarios en la base de datos.");
-			} else {
-				System.out.println("✓ Usuarios encontrados (" + usuarios.size() + "):");
-				for (Usuario u : usuarios) {
-					System.out.println("  -> ID: " + u.getIdUsuario() +
-							", Email: " + u.getEmail() +
-							", Rol: " + u.getRol());
-				}
 			}
 			System.out.println("--- [MODO DEBUG] Verificación finalizada ---");
 		};

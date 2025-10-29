@@ -1,4 +1,3 @@
-<!-- C:/Users/LENOVO/Documents/utp/ciclo7/integrador/demo (1)/demo/src/main/resources/templates/index.html -->
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
@@ -15,22 +14,23 @@
 
 <div class="container">
 
+    <!-- NAVEGACIÓN SIMPLIFICADA: Los enlaces ahora son placeholders -->
     <nav class="category-nav">
-        <a href="vuelos.html" target="contenido" class="category-item">Vuelos</a>
-        <a href="cruceros.html" target="contenido" class="category-item">Cruceros</a>
-        <a href="bus.html" target="contenido" class="category-item">Bus</a>
-        <a href="hospedaje.html" target="contenido" class="category-item">Hospedaje</a>
+        <a href="#" class="category-item">Vuelos</a>
+        <a href="#" class="category-item">Cruceros</a>
+        <a href="#" class="category-item">Bus</a>
+        <a href="#" class="category-item">Hospedaje</a>
     </nav>
 
-    <!-- SECCIÓN DE BÚSQUEDA MEJORADA -->
+    <!-- SECCIÓN DE BÚSQUEDA MEJORADA: Envía datos directamente al controlador -->
     <section class="search-section">
         <h2 class="search-title">Busca tu próximo vuelo</h2>
-        <!-- El 'action' se manejará con JavaScript para una mejor experiencia -->
-        <form class="search-form" id="flight-search-form" onsubmit="return false;">
+        <!-- El formulario ahora apunta al endpoint del VueloController -->
+        <form class="search-form" id="flight-search-form" th:action="@{/vuelos/buscar}" method="GET">
             <div class="form-group">
                 <label class="form-label" for="select-from">Desde:</label>
-                <!-- AÑADIDO: id y una opción por defecto con valor vacío -->
-                <select class="form-select" id="select-from">
+                <!-- Se añade el atributo 'name' para que Spring lo reconozca -->
+                <select class="form-select" id="select-from" name="origen" required>
                     <option value="">Selecciona un origen</option>
                     <option value="Peru">Perú</option>
                     <option value="Argentina">Argentina</option>
@@ -42,8 +42,8 @@
             </div>
             <div class="form-group">
                 <label class="form-label" for="select-to">Hacia:</label>
-                <!-- AÑADIDO: id y una opción por defecto con valor vacío -->
-                <select class="form-select" id="select-to">
+                <!-- Se añade el atributo 'name' para que Spring lo reconozca -->
+                <select class="form-select" id="select-to" name="destino" required>
                     <option value="">Selecciona un destino</option>
                     <option value="Peru">Perú</option>
                     <option value="Argentina">Argentina</option>
@@ -56,18 +56,18 @@
                     <option value="Italia">Italia</option>
                 </select>
             </div>
-            <!-- AÑADIDO: Botón de búsqueda que aparecerá dinámicamente -->
             <div class="form-group-full">
-                <button type="button" id="search-flight-btn" class="search-flight-btn hidden">Buscar Vuelos</button>
+                <!-- El botón ahora es de tipo 'submit' para enviar el formulario -->
+                <button type="submit" id="search-flight-btn" class="search-flight-btn">Buscar Vuelos</button>
             </div>
         </form>
     </section>
 
-    <iframe name="contenido" src="vuelos.html" style="width:100%;height:800px;border:none;"></iframe>
+    <!-- ELIMINADO: El iframe ya no es necesario. Los resultados se mostrarán en una nueva página. -->
 
     <hr style="margin: 40px 0;">
 
-    <!-- ... (la sección de reservas recientes se mantiene igual) ... -->
+    <!-- La sección de reservas recientes se mantiene sin cambios -->
     <section class="reservations-section">
         <h2 class="section-title">Reservas Recientes</h2>
         <div class="packages-grid" th:if="${!reservas.isEmpty()}">
@@ -92,7 +92,7 @@
 
 </div>
 
-<script th:src="@{/js/js.js}"></script>
+<!-- ELIMINADO: El script js.js ya no es necesario para esta funcionalidad. -->
 
 </body>
 </html>
