@@ -18,20 +18,28 @@
         <section class="profile-section"> <!-- Reutilizamos esta clase para el estilo de tarjeta -->
             <h2 class="profile-title">Resultados de Búsqueda</h2>
 
+            <!-- En: /src/main/resources/templates/resultados-vuelos.html -->
+            <!-- ... (resto del archivo) ... -->
             <div class="profile-details" style="text-align: left;">
                 <p>
                     Buscando vuelos desde <strong><span th:text="${origenBusqueda}"></span></strong>
                     hacia <strong><span th:text="${destinoBusqueda}"></span></strong>.
                 </p>
                 <hr>
-                <!--
-                    Aquí es donde iterarías sobre una lista de vuelos encontrados.
-                    Ejemplo: <div th:each="vuelo : ${vuelos}"> ... </div>
-                -->
+
+                <!-- EJEMPLO DE UN VUELO ENCONTRADO -->
+                <div class="flight-result-card">
+                    <p><strong>Vuelo de ejemplo:</strong> LATAM LA-123</p>
+                    <p>Precio: S/ 350.00</p>
+                    <!-- Este enlace te llevará a la página de asientos para este vuelo específico -->
+                    <a th:href="@{/reservar/vuelo/1}" class="btn btn-primary">Seleccionar Vuelo</a>
+                </div>
+
                 <p style="text-align: center; margin-top: 20px;">
-                    (Actualmente no hay resultados. La lógica de búsqueda debe implementarse en el backend).
+                    (Actualmente no hay resultados reales. La lógica de búsqueda debe implementarse en el backend).
                 </p>
             </div>
+            <!-- ... (resto del archivo) ... -->
 
             <div class="profile-actions">
                 <a th:href="@{/}" class="edit-btn">Volver a Buscar</a>

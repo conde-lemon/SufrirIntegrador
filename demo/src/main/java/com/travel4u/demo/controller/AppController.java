@@ -1,8 +1,9 @@
-// C:/Users/LENOVO/Documents/utp/ciclo7/integrador/demo (1)/demo/src/main/java/com/travel4u/demo/controller/AppController.java
 package com.travel4u.demo.controller;
 
 import com.travel4u.demo.reserva.model.Reserva;
 import com.travel4u.demo.reserva.repository.IReservaDAO;
+import com.travel4u.demo.scraper.model.Oferta;
+import com.travel4u.demo.scraper.service.ScrapingService;
 import com.travel4u.demo.usuario.model.Usuario;
 import com.travel4u.demo.usuario.repository.IUsuarioDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
 public class AppController {
 
-    @Autowired
+    @Autowired(required = false)
     private IReservaDAO reservaDAO;
 
     @Autowired
@@ -30,13 +32,34 @@ public class AppController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private ScrapingService scrapingService;
+
     /**
-     * Muestra la página de inicio y le pasa la lista de todas las reservas.
+     * Muestra la página de inicio.
+     * AHORA: Obtiene las ofertas Y las reservas del usuario (si está logueado).
      */
     @GetMapping("/")
-    public String viewHomePage(Model model) {
-        List<Reserva> listaReservas = reservaDAO.findAll();
-        model.addAttribute("reservas", listaReservas);
+    public String viewHomePage(Model model, Principal principal) { // <-- CAMBIO 1: Añadir Principal
+        // 1. Obtener las ofertas (esto ya estaba bien)
+        List<Oferta> ofertas = scrapingService.scrapeOfertasPrincipales();
+        model.addAttribute("ofertas", ofertas);
+
+        // ¡CAMBIO 2: Obtener las reservas del usuario!
+        List<Reserva> reservas;
+        if (principal != null) {
+            // Si el usuario está logueado, buscamos sus reservas
+            reservas = usuarioDAO.findByEmail(principal.getName())
+                    .map(reservaDAO::findByUsuario)
+                    .orElse(Collections.emptyList());
+        } else {
+            // Si no está logueado, la lista de reservas está vacía
+            reservas = Collections.emptyList();
+        }
+
+        // ¡CAMBIO 3: Añadir la lista de reservas al modelo!
+        model.addAttribute("reservas", reservas);
+
         return "index";
     }
 
@@ -59,6 +82,7 @@ public class AppController {
 
     /**
      * Procesa los datos del formulario de registro.
+     * Usa el PasswordEncoder configurado (actualmente NoOpPasswordEncoder).
      */
     @PostMapping("/registrar")
     public String processRegistration(Usuario usuario, RedirectAttributes redirectAttributes) {
@@ -68,9 +92,8 @@ public class AppController {
             return "redirect:/registrar";
         }
 
-        // Encriptar la contraseña antes de guardarla
+        // Se usa el PasswordEncoder que esté configurado (NoOpPasswordEncoder en tu caso)
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-        // Establecer valores por defecto
         usuario.setRol("USUARIO");
         usuario.setActivo(true);
         usuario.setFechaRegistro(LocalDateTime.now());
@@ -89,10 +112,9 @@ public class AppController {
         if (principal == null) {
             return "redirect:/login";
         }
-        // Obtenemos el email del usuario logueado y lo buscamos en la BD
         String email = principal.getName();
         Usuario usuario = usuarioDAO.findByEmail(email)
-                .orElseThrow(() -> new IllegalStateException("No se encontró al usuario autenticado."));
+                .orElseThrow(() -> new IllegalStateException("Error de seguridad: Usuario autenticado no encontrado en la BD."));
 
         model.addAttribute("usuario", usuario);
         return "perfil";
@@ -107,18 +129,15 @@ public class AppController {
             @RequestParam("destino") String destino,
             Model model) {
 
-        // Pasamos los parámetros de búsqueda al modelo para que la plantilla los pueda usar
         model.addAttribute("origenBusqueda", origen);
         model.addAttribute("destinoBusqueda", destino);
 
-        // Aquí iría la lógica para buscar vuelos en la base de datos.
-        // Por ahora, solo mostramos una página de resultados de ejemplo.
+        // Aquí iría la lógica para buscar vuelos en la base de datos o API externa.
         // List<Vuelo> vuelosEncontrados = vueloService.buscarVuelos(origen, destino);
         // model.addAttribute("vuelos", vuelosEncontrados);
 
-        return "resultados-vuelos"; // Renderiza la plantilla 'resultados-vuelos.html'
+        return "resultados-vuelos";
     }
-
 
     // --- Métodos para el resto de páginas de navegación ---
 
@@ -144,18 +163,41 @@ public class AppController {
 
     @GetMapping("/paquetes-y-promociones")
     public String showOfertasPage() {
-        // Lógica para mostrar ofertas, por ahora redirige a una página de ejemplo
-        return "ofertas"; // Asume que tienes una plantilla ofertas.html
-    }
-
-    @GetMapping("/reservas")
-    public String showReservasPage() {
-        // Lógica para mostrar las reservas del usuario
-        return "reservas"; // Asume que tienes una plantilla reservas.html
+        return "ofertas";
     }
 
     @GetMapping("/terminos-y-condiciones")
     public String showTerminosPage() {
-        return "terminos_y_condiciones"; // Asume que tienes un terminos_y_condiciones.html
+        return "terminos_y_condiciones";
+    }
+
+    @GetMapping("/confirmacion-reserva")
+    public String showConfirmacionReservaPage(
+            @RequestParam(required = false) Long idReserva,
+            Model model,
+            Principal principal) {
+
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        String email = principal.getName();
+        Usuario usuario = usuarioDAO.findByEmail(email)
+                .orElseThrow(() -> new IllegalStateException("Usuario no encontrado para confirmación de reserva."));
+
+        // Sugerencia: El código de reserva debería generarse y guardarse con la Reserva.
+        String codigoReserva = "TFU-PENDIENTE"; // Valor por defecto más claro
+        if (idReserva != null) {
+            // Idealmente, buscar la reserva por idReserva y obtener su código de reserva guardado.
+            // Por ahora, mantenemos la lógica de generación si no hay un campo en Reserva.
+            codigoReserva = String.format("TFU-%d-%04d",
+                    java.time.LocalDate.now().getYear(),
+                    idReserva);
+        }
+
+        model.addAttribute("idUsuario", usuario.getIdUsuario());
+        model.addAttribute("codigoReserva", codigoReserva);
+
+        return "confirmacion-reserva";
     }
 }

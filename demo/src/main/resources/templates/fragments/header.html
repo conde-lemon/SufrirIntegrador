@@ -1,28 +1,61 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <body>
 
-<!--/*
-    Definimos el fragmento del encabezado con th:fragment.
-    Cualquier otra página podrá incluir este bloque usando su nombre: "main-header".
-*/-->
+<!-- =============================================================== -->
+<!-- ============ FRAGMENTO DEL HEADER (VERSIÓN PRO) =============== -->
+<!-- =============================================================== -->
 <header class="main-header" th:fragment="main-header">
     <div class="header-content">
-        <a th:href="@{/}" class="logo-link">
-            <div class="logo">Travel For U</div>
-        </a>
-        <nav>
-            <ul class="main-nav">
-                <!--
-                    Usamos th:href="@{/url}" para que Spring/Thymeleaf resuelva las rutas correctamente.
-                    Esto es más robusto que usar rutas relativas como "./pagina.html".
-                -->
-                <li><a th:href="@{/}">Inicio</a></li>
-                <li><a th:href="@{/paquetes-y-promociones}">Ofertas</a></li>
-                <li><a th:href="@{/reservas}">Reservas</a></li>
-                <li><a th:href="@{/perfil}">Perfil</a></li>
+        <a th:href="@{/}" class="logo">Travel For U</a>
+
+        <nav class="main-nav">
+            <ul>
+                <li><a th:href="@{/vuelos}">Vuelos</a></li>
+                <li><a th:href="@{/cruceros}">Cruceros</a></li>
+                <li><a th:href="@{/bus}">Buses</a></li>
+                <li><a th:href="@{/hospedaje}">Hospedaje</a></li>
             </ul>
         </nav>
+
+        <div class="user-actions">
+            <!-- SE MUESTRA SI EL USUARIO NO ESTÁ AUTENTICADO -->
+            <div sec:authorize="!isAuthenticated()">
+                <a th:href="@{/login}" class="action-btn login-btn">Login</a>
+                <a th:href="@{/registrar}" class="action-btn register-btn">Registrarse</a>
+            </div>
+
+            <!-- SE MUESTRA SI EL USUARIO SÍ ESTÁ AUTENTICADO (CON MENÚ DESPLEGABLE) -->
+            <div sec:authorize="isAuthenticated()" class="dropdown">
+                <button class="dropdown-toggle">
+                    <!-- Icono de usuario -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <!-- Nombre del usuario -->
+                    <span sec:authentication="principal.username"></span>
+                </button>
+                <div class="dropdown-menu">
+                    <a th:href="@{/perfil}" class="dropdown-item">
+                        <!-- Icono de perfil -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Mi Perfil
+                    </a>
+                    <a th:href="@{/reservas}" class="dropdown-item">
+                        <!-- Icono de maleta -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                        Mis Reservas
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <form th:action="@{/logout}" method="post" class="logout-form">
+                        <button type="submit" class="dropdown-item logout-button">
+                            <!-- Icono de cerrar sesión -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                            Cerrar Sesión
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </header>
 

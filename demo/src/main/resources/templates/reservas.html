@@ -1,12 +1,15 @@
+<!-- C:/Users/LENOVO/Documents/utp/ciclo7/integrador/demo (1)/demo/src/main/resources/templates/index.html -->
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mis Reservas - Travel For U</title>
-    <link rel="stylesheet" href="../static/css/reservas_style.css">
+    <title>Travel For U - Inicio</title>
+    <link rel="stylesheet" th:href="@{/css/header_style.css}">
+    <link rel="stylesheet" th:href="@{/css/index1_style.css}">
 </head>
+
 
 <body>
     <!-- cabeza principal -->
@@ -15,7 +18,7 @@
             <div class="logo">Travel For U</div>
             <nav>
                 <ul class="main-nav">
-                    <li><a href="./index1.html">Inicio</a></li>
+                    <li><a href="./index.html">Inicio</a></li>
                     <li><a href="./paquetes_y_promociones.html">Ofertas</a></li>
                     <li><a href="./reservas.html" class="active">Reservas</a></li>
                     <li><a href="#">Perfil</a></li>
@@ -86,10 +89,10 @@
                     </div>
                 </div>
                 <div class="reservation-footer">
-                    <div class="reservation-price">3 panetones</div>
+                    <div class="reservation-price"></div>
                     <div class="action-buttons">
                         <a href="#" class="btn btn-primary">Ver Detalles</a>
-                        <a href="../static/img/reporte_semana.jpg" class="btn btn-outline">Descargar</a>
+                        <a href="/confirmacion-reserva" class="btn btn-outline">Descargar</a>
                     </div>
                 </div>
             </div>
@@ -106,6 +109,7 @@
             </div>
         </div>
     </div>
+    <script th:src="@{/js/js.js}"></script>
 </body>
 
 </html>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/demo/ACTUALIZAR_PASSWORDS_BCRYPT.sql">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/demo/ACTUALIZAR_PASSWORDS_BCRYPT.sql" />
+              <option name="updatedContent" value="-- =====================================================&#10;-- SOLUCIÓN: Actualizar contraseñas a BCrypt&#10;-- =====================================================&#10;&#10;-- Las contraseñas en tu BD están en texto plano: &quot;password123&quot;&#10;-- Pero Spring Security espera BCrypt&#10;&#10;-- OPCIÓN 1: Actualizar todas las contraseñas a BCrypt&#10;-- Password: &quot;password123&quot; encriptado con BCrypt = $2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy&#10;&#10;UPDATE usuarios &#10;SET password = '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy'&#10;WHERE password = 'password123';&#10;&#10;-- OPCIÓN 2: Actualizar solo algunos usuarios específicos&#10;UPDATE usuarios &#10;SET password = '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy'&#10;WHERE email IN (&#10;    'maria.gonzalez@email.com',&#10;    'carlos.rodriguez@email.com',&#10;    'ana.martinez@email.com',&#10;    'pedro.lopez@email.com'&#10;);&#10;&#10;-- Verificar que se actualizaron&#10;SELECT &#10;    id_usuario,&#10;    email,&#10;    nombres,&#10;    apellidos,&#10;    LEFT(password, 20) || '...' as password_encrypted,&#10;    rol&#10;FROM usuarios&#10;ORDER BY id_usuario;&#10;&#10;-- =====================================================&#10;-- CREAR USUARIO ADMIN SI NO EXISTE&#10;-- =====================================================&#10;&#10;-- Insertar o actualizar usuario admin&#10;INSERT INTO usuarios (nombres, apellidos, email, password, telefono, rol, fecha_registro, activo)&#10;VALUES (&#10;    'Admin',&#10;    'Sistema',&#10;    'admin@travel4u.com',&#10;    '$2a$10$rYQk5H.M9PFZqvL9ZKGOPeXRSGPyLhXxA8QjQz5kFJJ5l7pM7uPnC',  -- Password: 1234&#10;    '+999999999',&#10;    'ADMIN',&#10;    CURRENT_TIMESTAMP,&#10;    true&#10;)&#10;ON CONFLICT (email) DO UPDATE SET&#10;    password = '$2a$10$rYQk5H.M9PFZqvL9ZKGOPeXRSGPyLhXxA8QjQz5kFJJ5l7pM7uPnC',&#10;    rol = 'ADMIN',&#10;    activo = true;&#10;&#10;-- =====================================================&#10;-- CONTRASEÑAS PARA REFERENCIA&#10;-- =====================================================&#10;&#10;-- password123 (BCrypt) = $2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy&#10;-- 1234 (BCrypt) = $2a$10$rYQk5H.M9PFZqvL9ZKGOPeXRSGPyLhXxA8QjQz5kFJJ5l7pM7uPnC&#10;&#10;-- =====================================================&#10;-- VERIFICACIÓN FINAL&#10;-- =====================================================&#10;&#10;-- Ver todos los usuarios con sus roles&#10;SELECT &#10;    id_usuario,&#10;    email,&#10;    nombres || ' ' || apellidos as nombre_completo,&#10;    rol,&#10;    activo,&#10;    CASE &#10;        WHEN password LIKE '$2a$%' THEN 'BCrypt ✓'&#10;        ELSE 'Texto plano ✗'&#10;    END as tipo_password&#10;FROM usuarios&#10;ORDER BY id_usuario;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
