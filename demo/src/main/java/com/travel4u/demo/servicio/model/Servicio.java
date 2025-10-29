@@ -21,13 +21,23 @@ public class Servicio {
     private Long idServicio;
 
     @Column(name = "tipo_servicio", nullable = false)
-    private String tipoServicio;
+    private String tipoServicio; // "VUELO", "CRUCERO", etc.
 
     @Column(nullable = false)
     private String nombre;
 
+    // NUEVOS CAMPOS PARA VUELOS
+    @Column(name = "origen")
+    private String origen; // Ej: "Peru"
+
+    @Column(name = "destino")
+    private String destino; // Ej: "Espana"
+
+    @Column(name = "tags")
+    private String tags; // Ej: "vacaciones,top ventas,familiar"
+
     @Column(name = "precio_base", precision = 10, scale = 2, nullable = false)
-    private BigDecimal precioBase; // CAMBIO: de float a BigDecimal
+    private BigDecimal precioBase;
 
     @Column(nullable = false)
     private int disponibilidad;
@@ -35,15 +45,12 @@ public class Servicio {
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
-    // CORRECCIÓN: La relación es con Proveedor, no con Detalle_Reserva
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_proveedor")
     private Proveedor proveedor;
 
-    // NUEVO: Campo para borrado lógico
     private boolean activo = true;
 
-    // NUEVO: Campo de auditoría
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

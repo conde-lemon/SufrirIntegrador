@@ -5,7 +5,6 @@ import com.travel4u.demo.reserva.model.Reserva;
 import com.travel4u.demo.reserva.repository.IReservaDAO;
 import com.travel4u.demo.usuario.model.Usuario;
 import com.travel4u.demo.usuario.repository.IUsuarioDAO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,14 +20,16 @@ import java.util.List;
 @Controller
 public class AppController {
 
-    @Autowired
-    private IReservaDAO reservaDAO;
+    // MEJORA: Inyección de dependencias por constructor (práctica recomendada)
+    private final IReservaDAO reservaDAO;
+    private final IUsuarioDAO usuarioDAO;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private IUsuarioDAO usuarioDAO;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public AppController(IReservaDAO reservaDAO, IUsuarioDAO usuarioDAO, PasswordEncoder passwordEncoder) {
+        this.reservaDAO = reservaDAO;
+        this.usuarioDAO = usuarioDAO;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     /**
      * Muestra la página de inicio y le pasa la lista de todas las reservas.
@@ -68,8 +69,9 @@ public class AppController {
             return "redirect:/registrar";
         }
 
-        // Guardar contraseña en texto plano (sin encriptar)
-        // NOTA: Solo para desarrollo, en producción usar BCrypt
+        // MEJORA DE SEGURIDAD: Encriptar la contraseña antes de guardarla
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+
         // Establecer valores por defecto
         usuario.setRol("USUARIO");
         usuario.setActivo(true);
@@ -98,26 +100,9 @@ public class AppController {
         return "perfil";
     }
 
-    /**
-     * Muestra la página de resultados de búsqueda de vuelos.
-     */
-    @GetMapping("/vuelos/buscar")
-    public String showFlightResults(
-            @RequestParam("origen") String origen,
-            @RequestParam("destino") String destino,
-            Model model) {
-
-        // Pasamos los parámetros de búsqueda al modelo para que la plantilla los pueda usar
-        model.addAttribute("origenBusqueda", origen);
-        model.addAttribute("destinoBusqueda", destino);
-
-        // Aquí iría la lógica para buscar vuelos en la base de datos.
-        // Por ahora, solo mostramos una página de resultados de ejemplo.
-        // List<Vuelo> vuelosEncontrados = vueloService.buscarVuelos(origen, destino);
-        // model.addAttribute("vuelos", vuelosEncontrados);
-
-        return "resultados-vuelos"; // Renderiza la plantilla 'resultados-vuelos.html'
-    }
+    // --- CORRECCIÓN ---
+    // Se eliminó el método showFlightResults que causaba el conflicto con VueloController.
+    // La lógica para "/vuelos/buscar" ahora está centralizada en VueloController.java
 
 
     // --- Métodos para el resto de páginas de navegación ---
@@ -180,8 +165,8 @@ public class AppController {
         if (idReserva != null) {
             // Generar código de reserva basado en el ID
             codigoReserva = String.format("TFU-%d-%04d",
-                java.time.LocalDate.now().getYear(),
-                idReserva);
+                    java.time.LocalDate.now().getYear(),
+                    idReserva);
         }
 
         // Pasar datos al template
