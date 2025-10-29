@@ -1,199 +1,334 @@
-<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
-<jasperReport name="ReportePromociones" language="java" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" uuid="7eddbb89-b5f7-4570-9bc7-f753b2799df8">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Travel4YOU"/>
-	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<style name="Title" forecolor="#FFFFFF" fontName="SansSerif" fontSize="50.0" bold="false"/>
-	<style name="SubTitle" forecolor="#CCCCCC" fontName="SansSerif" fontSize="18.0" bold="false"/>
-	<style name="Column header" forecolor="#666666" fontName="SansSerif" fontSize="14.0" bold="true"/>
-	<style name="Detail" mode="Transparent" fontName="SansSerif"/>
-	<style name="Row" mode="Transparent" fontName="SansSerif" pdfFontName="Times-Roman">
-		<conditionalStyle mode="Opaque" backcolor="#FFF8E1">
-			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
-		</conditionalStyle>
-	</style>
-	<query language="SQL"><![CDATA[SELECT 
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with JasperReports Library version 6.21.0 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+              http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="ReportePromociones"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="535"
+              leftMargin="30"
+              rightMargin="30"
+              topMargin="20"
+              bottomMargin="20">
+
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="Travel4YOU"/>
+    <property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+
+    <style name="Title" forecolor="#FFFFFF" fontName="SansSerif" fontSize="50" isBold="false"/>
+    <style name="SubTitle" forecolor="#CCCCCC" fontName="SansSerif" fontSize="18" isBold="false"/>
+    <style name="Column header" forecolor="#666666" fontName="SansSerif" fontSize="14" isBold="true"/>
+    <style name="Detail" mode="Transparent" fontName="SansSerif"/>
+    <style name="Row" mode="Transparent" fontName="SansSerif" pdfFontName="Times-Roman">
+        <conditionalStyle>
+            <conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+            <style mode="Opaque" backcolor="#FFF8E1"/>
+        </conditionalStyle>
+    </style>
+
+    <queryString language="SQL">
+        <![CDATA[SELECT
             id_oferta,
             nombre,
             descripcion,
             precio,
             fecha_extraccion,
             activa,
-            CASE 
-                WHEN activa = true AND fecha_extraccion > CURRENT_TIMESTAMP - INTERVAL '30 days' 
+            CASE
+                WHEN activa = true AND fecha_extraccion > CURRENT_TIMESTAMP - INTERVAL '30 days'
                     THEN 'VIGENTE'
-                WHEN activa = true AND fecha_extraccion <= CURRENT_TIMESTAMP - INTERVAL '30 days' 
+                WHEN activa = true AND fecha_extraccion <= CURRENT_TIMESTAMP - INTERVAL '30 days'
                     THEN 'POR VENCER'
                 ELSE 'EXPIRADA'
             END as estado_promocion
         FROM public.oferta
-        ORDER BY activa DESC, fecha_extraccion DESC]]></query>
-	<field name="id_oferta" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.name" value="id_oferta"/>
-		<property name="com.jaspersoft.studio.field.label" value="id_oferta"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="oferta"/>
-	</field>
-	<field name="nombre" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="nombre"/>
-		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="oferta"/>
-	</field>
-	<field name="descripcion" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="descripcion"/>
-		<property name="com.jaspersoft.studio.field.label" value="descripcion"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="oferta"/>
-	</field>
-	<field name="precio" class="java.math.BigDecimal">
-		<property name="com.jaspersoft.studio.field.name" value="precio"/>
-		<property name="com.jaspersoft.studio.field.label" value="precio"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="oferta"/>
-	</field>
-	<field name="fecha_extraccion" class="java.sql.Timestamp">
-		<property name="com.jaspersoft.studio.field.name" value="fecha_extraccion"/>
-		<property name="com.jaspersoft.studio.field.label" value="fecha_extraccion"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="oferta"/>
-	</field>
-	<field name="activa" class="java.lang.Boolean">
-		<property name="com.jaspersoft.studio.field.name" value="activa"/>
-		<property name="com.jaspersoft.studio.field.label" value="activa"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="oferta"/>
-	</field>
-	<field name="estado_promocion" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="estado_promocion"/>
-		<property name="com.jaspersoft.studio.field.label" value="estado_promocion"/>
-	</field>
-	<variable name="total_promociones" calculation="Count" class="java.lang.Integer">
-		<expression><![CDATA[$F{id_oferta}]]></expression>
-	</variable>
-	<variable name="promociones_vigentes" calculation="Sum" class="java.lang.Integer">
-		<expression><![CDATA[$F{estado_promocion}.equals("VIGENTE") ? 1 : 0]]></expression>
-	</variable>
-	<variable name="promociones_expiradas" calculation="Sum" class="java.lang.Integer">
-		<expression><![CDATA[$F{estado_promocion}.equals("EXPIRADA") ? 1 : 0]]></expression>
-	</variable>
-	<background splitType="Stretch"/>
-	<title height="132" splitType="Stretch">
-		<element kind="frame" uuid="6c6ca4e1-17cd-4913-93d6-5e670ea9ae8a" mode="Opaque" x="0" y="0" width="535" height="95" backcolor="#2C3E50">
-			<element kind="staticText" uuid="a2a2cac8-5a7d-4487-8c5f-7d3627b1d8e8" x="10" y="10" width="515" height="50" forecolor="#FFFFFF" fontSize="31.0" bold="true" hTextAlign="Center" vTextAlign="Middle" style="Title">
-				<text><![CDATA[REPORTE DE PROMOCIONES]]></text>
-			</element>
-			<element kind="staticText" uuid="92bf23b9-6cf5-4ca3-9c5b-5c5b7f6c1c0e" x="10" y="60" width="515" height="30" forecolor="#FFFFFF" fontSize="16.0" hTextAlign="Center" vTextAlign="Middle" style="SubTitle">
-				<text><![CDATA[Sistema de Gestión TravelReserva]]></text>
-			</element>
-		</element>
-		<element kind="frame" uuid="e3c14156-5b51-4201-918b-97fdc012e5d4" mode="Opaque" x="0" y="100" width="535" height="32" forecolor="#000000" backcolor="#ECF0F1">
-			<element kind="textField" uuid="5c3301e7-a737-4c59-8a3f-48aa5c2c168a" x="370" y="6" width="155" height="20" forecolor="#030303" fontSize="10.0" blankWhenNull="false" bold="true" hTextAlign="Right" vTextAlign="Middle">
-				<expression><![CDATA[new java.text.SimpleDateFormat("EEEE dd 'de' MMMM 'de' yyyy", new java.util.Locale("es", "ES")).format(new java.util.Date())]]></expression>
-			</element>
-			<element kind="staticText" uuid="b8cc42fd-b569-497b-834f-b17d0c6c22f7" x="10" y="6" width="120" height="20" forecolor="#030303" fontSize="10.0" bold="true" vTextAlign="Middle">
-				<text><![CDATA[Fecha de emisión:]]></text>
-			</element>
-		</element>
-	</title>
-	<pageHeader height="13"/>
-	<columnHeader height="40" splitType="Stretch">
-		<element kind="frame" uuid="b3d91985-df6e-498d-9b3a-0f5e37e9c9e8" x="0" y="0" width="535" height="40" backcolor="#C9C9C9">
-			<element kind="staticText" uuid="c7b7c8df-4e4c-4e7f-8c7f-0d9c2e4f8f5f" x="10" y="10" width="50" height="20" forecolor="#030303" fontSize="11.0" bold="true" hTextAlign="Center" vTextAlign="Middle" style="Column header">
-				<text><![CDATA[ID]]></text>
-			</element>
-			<element kind="staticText" uuid="8f7e9e6f-5c4d-4e8f-9f7e-6c5d4e8f9f7e" x="70" y="10" width="200" height="20" forecolor="#030303" fontSize="11.0" bold="true" vTextAlign="Middle" style="Column header">
-				<text><![CDATA[NOMBRE PROMOCIÓN]]></text>
-			</element>
-			<element kind="staticText" uuid="9f8e7f6e-5d4c-3e2f-1e0f-9e8f7e6f5d4c" x="280" y="10" width="130" height="20" forecolor="#030303" fontSize="11.0" bold="true" hTextAlign="Center" vTextAlign="Middle" style="Column header">
-				<text><![CDATA[FECHA]]></text>
-			</element>
-			<element kind="staticText" uuid="0f1e2f3e-4d5c-6e7f-8e9f-0e1f2e3f4d5c" x="420" y="10" width="105" height="20" forecolor="#030303" fontSize="11.0" bold="true" hTextAlign="Center" vTextAlign="Middle" style="Column header">
-				<text><![CDATA[ESTADO]]></text>
-			</element>
-			<box>
-				<topPen lineWidth="1.5" lineStyle="Solid" lineColor="#030303"/>
-				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				<bottomPen lineWidth="1.5" lineStyle="Solid" lineColor="#030303"/>
-				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-			</box>
-		</element>
-	</columnHeader>
-	<detail>
-		<band height="35" splitType="Stretch">
-			<element kind="frame" uuid="b50221b5-8254-440b-8c6f-1f0b138c9e85" mode="Opaque" x="0" y="0" width="535" height="35" backcolor="#FFFFFF" style="Row">
-				<element kind="textField" uuid="3f9e7f6e-5d4c-3e2f-1e0f-9e8f7e6f5d4c" x="10" y="7" width="50" height="20" fontSize="10.0" textAdjust="StretchHeight" bold="true" hTextAlign="Center" vTextAlign="Middle" style="Detail">
-					<expression><![CDATA[$F{id_oferta}]]></expression>
-				</element>
-				<element kind="textField" uuid="4f0e8f7e-6d5c-4e3f-2e1f-0e9f8e7f6d5c" x="70" y="7" width="200" height="20" fontSize="10.0" textAdjust="StretchHeight" vTextAlign="Middle" style="Detail">
-					<expression><![CDATA[$F{nombre}]]></expression>
-				</element>
-				<element kind="textField" uuid="6f2e0f9e-8d7c-6e5f-4e3f-2e1f0e9f8d7c" x="280" y="7" width="130" height="20" fontSize="9.0" textAdjust="StretchHeight" pattern="dd 'de' MMMM 'de' yyyy" hTextAlign="Center" vTextAlign="Middle" style="Detail">
-					<expression><![CDATA[$F{fecha_extraccion}]]></expression>
-				</element>
-				<element kind="textField" uuid="5f1e9f8e-7d6c-5e4f-3e2f-1e0f9e8f7d6c" x="440" y="7" width="85" height="20" fontSize="9.0" textAdjust="StretchHeight" bold="true" hTextAlign="Center" vTextAlign="Middle" style="Detail">
-					<expression><![CDATA[$F{estado_promocion}]]></expression>
-				</element>
-				<element kind="ellipse" uuid="7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d" mode="Opaque" x="425" y="12" width="10" height="10" backcolor="#4CAF50">
-					<printWhenExpression><![CDATA[$F{estado_promocion}.equals("VIGENTE")]]></printWhenExpression>
-					<pen lineWidth="0.0"/>
-				</element>
-				<element kind="ellipse" uuid="8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e" mode="Opaque" x="425" y="12" width="10" height="10" backcolor="#FFC107">
-					<printWhenExpression><![CDATA[$F{estado_promocion}.equals("POR VENCER")]]></printWhenExpression>
-					<pen lineWidth="0.0"/>
-				</element>
-				<element kind="ellipse" uuid="9c0d1e2f-3a4b-5c6d-7e8f-9a0b1c2d3e4f" mode="Opaque" x="425" y="12" width="10" height="10" backcolor="#F44336">
-					<printWhenExpression><![CDATA[$F{estado_promocion}.equals("EXPIRADA")]]></printWhenExpression>
-					<pen lineWidth="0.0"/>
-				</element>
-				<box style="Row">
-					<bottomPen lineWidth="0.5" lineColor="#E0E0E0"/>
-				</box>
-			</element>
-		</band>
-	</detail>
-	<columnFooter height="7" splitType="Stretch"/>
-	<pageFooter height="25" splitType="Stretch">
-		<element kind="frame" uuid="729c3539-f946-4d0e-a0a7-bda2815ea1b0" mode="Opaque" x="0" y="0" width="535" height="25" forecolor="#D0B48E" backcolor="#2C3E50">
-			<element kind="textField" uuid="4834e99c-7f6c-485a-b098-2fc0a5cfd8a5" x="490" y="3" width="40" height="20" forecolor="#FFFFFF" fontSize="10.0" evaluationTime="Report" bold="false" vTextAlign="Middle" style="Column header">
-				<expression><![CDATA[" " + $V{PAGE_NUMBER}]]></expression>
-			</element>
-			<element kind="textField" uuid="9825b46e-76f1-469a-abb8-a1cc27adb794" x="410" y="3" width="80" height="20" forecolor="#FFFFFF" fontSize="10.0" bold="false" hTextAlign="Right" vTextAlign="Middle" style="Column header">
-				<expression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></expression>
-			</element>
-			<element kind="staticText" uuid="e625ea3c-1741-4cfe-81cf-fbbdd00162c8" x="10" y="3" width="200" height="20" forecolor="#FFFFFF" fontSize="9.0" vTextAlign="Middle">
-				<text><![CDATA[© 2025 TravelReserva - Confidencial]]></text>
-			</element>
-			<element kind="textField" uuid="f1234567-89ab-cdef-0123-456789abcdef" x="240" y="3" width="100" height="20" forecolor="#FFFFFF" fontSize="8.0" pattern="dd/MM/yyyy HH:mm" hTextAlign="Center" vTextAlign="Middle">
-				<expression><![CDATA[new java.util.Date()]]></expression>
-			</element>
-		</element>
-	</pageFooter>
-	<summary height="200" splitType="Stretch">
-		<element kind="frame" uuid="8f4d8c7b-9e5f-4a3d-8c2b-1a0f9e8d7c6b" mode="Opaque" x="0" y="10" width="535" height="180" backcolor="#ECF0F1">
-			<element kind="staticText" uuid="7f3e2d1c-0b9a-8e7f-6d5c-4e3f2d1c0b9a" x="20" y="10" width="495" height="30" forecolor="#030303" fontSize="16.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
-				<text><![CDATA[RESUMEN EJECUTIVO]]></text>
-			</element>
-			<element kind="staticText" uuid="8f4e3d2c-1b0a-9e8f-7d6c-5e4f3d2c1b0a" x="40" y="55" width="220" height="25" forecolor="#333333" fontSize="12.0" bold="true" vTextAlign="Middle">
-				<text><![CDATA[Total de Promociones:]]></text>
-			</element>
-			<element kind="textField" uuid="9f5e4d3c-2b1a-0e9f-8d7c-6e5f4d3c2b1a" x="270" y="55" width="245" height="25" forecolor="#FF6F00" fontSize="14.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
-				<expression><![CDATA[$V{total_promociones}]]></expression>
-			</element>
-			<element kind="ellipse" uuid="a1b2c3d4-e5f6-7890-1234-567890abcdef" mode="Opaque" x="40" y="95" width="15" height="15" backcolor="#4CAF50">
-				<pen lineWidth="0.0"/>
-			</element>
-			<element kind="staticText" uuid="0f6e5d4c-3b2a-1e0f-9e8d-7c6e5d4c3b2a" x="65" y="90" width="195" height="25" forecolor="#333333" fontSize="12.0" bold="true" vTextAlign="Middle">
-				<text><![CDATA[Promociones Vigentes:]]></text>
-			</element>
-			<element kind="textField" uuid="1f7e6d5c-4b3a-2e1f-0e9f-8d7c6e5d4c3b" x="270" y="90" width="245" height="25" forecolor="#4CAF50" fontSize="14.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
-				<expression><![CDATA[$V{promociones_vigentes}]]></expression>
-			</element>
-			<element kind="ellipse" uuid="b2c3d4e5-f678-9012-3456-7890abcdef12" mode="Opaque" x="40" y="130" width="15" height="15" backcolor="#F44336">
-				<pen lineWidth="0.0"/>
-			</element>
-			<element kind="staticText" uuid="2f7e6d5c-4b3a-2e1f-0e9f-8d7c6e5d4c3b" x="65" y="125" width="195" height="25" forecolor="#333333" fontSize="12.0" bold="true" vTextAlign="Middle">
-				<text><![CDATA[Promociones Expiradas:]]></text>
-			</element>
-			<element kind="textField" uuid="3f8e7d6c-5b4a-3e2f-1e0f-9e8d7c6e5d4c" x="270" y="125" width="245" height="25" forecolor="#F44336" fontSize="14.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
-				<expression><![CDATA[$V{promociones_expiradas}]]></expression>
-			</element>
-			<box>
-				<pen lineWidth="2.0" lineColor="#030303"/>
-			</box>
-		</element>
-	</summary>
+        ORDER BY activa DESC, fecha_extraccion DESC]]>
+    </queryString>
+
+    <field name="id_oferta" class="java.lang.Long"/>
+    <field name="nombre" class="java.lang.String"/>
+    <field name="descripcion" class="java.lang.String"/>
+    <field name="precio" class="java.math.BigDecimal"/>
+    <field name="fecha_extraccion" class="java.sql.Timestamp"/>
+    <field name="activa" class="java.lang.Boolean"/>
+    <field name="estado_promocion" class="java.lang.String"/>
+
+    <variable name="total_promociones" class="java.lang.Integer" calculation="Count">
+        <variableExpression><![CDATA[$F{id_oferta}]]></variableExpression>
+    </variable>
+
+    <variable name="promociones_vigentes" class="java.lang.Integer" calculation="Sum">
+        <variableExpression><![CDATA[$F{estado_promocion}.equals("VIGENTE") ? 1 : 0]]></variableExpression>
+    </variable>
+
+    <variable name="promociones_expiradas" class="java.lang.Integer" calculation="Sum">
+        <variableExpression><![CDATA[$F{estado_promocion}.equals("EXPIRADA") ? 1 : 0]]></variableExpression>
+    </variable>
+
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+
+    <title>
+        <band height="132" splitType="Stretch">
+            <frame>
+                <reportElement mode="Opaque" x="0" y="0" width="535" height="95" backcolor="#2C3E50"/>
+                <staticText>
+                    <reportElement x="10" y="10" width="515" height="50" forecolor="#FFFFFF" style="Title"/>
+                    <textElement textAlignment="Center" verticalAlignment="Middle">
+                        <font fontName="Arial" size="31" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[REPORTE DE PROMOCIONES]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="10" y="60" width="515" height="30" forecolor="#FFFFFF" style="SubTitle"/>
+                    <textElement textAlignment="Center" verticalAlignment="Middle">
+                        <font fontName="Arial" size="16"/>
+                    </textElement>
+                    <text><![CDATA[Sistema de Gestión TravelReserva]]></text>
+                </staticText>
+            </frame>
+            <frame>
+                <reportElement mode="Opaque" x="0" y="100" width="535" height="32" forecolor="#000000" backcolor="#ECF0F1"/>
+                <textField>
+                    <reportElement x="370" y="6" width="155" height="20" forecolor="#030303"/>
+                    <textElement textAlignment="Right" verticalAlignment="Middle">
+                        <font fontName="Arial" size="10" isBold="true"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[new java.text.SimpleDateFormat("EEEE dd 'de' MMMM 'de' yyyy", new java.util.Locale("es", "ES")).format(new java.util.Date())]]></textFieldExpression>
+                </textField>
+                <staticText>
+                    <reportElement x="10" y="6" width="120" height="20" forecolor="#030303"/>
+                    <textElement verticalAlignment="Middle">
+                        <font fontName="Arial" size="10" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[Fecha de emisión:]]></text>
+                </staticText>
+            </frame>
+        </band>
+    </title>
+
+    <pageHeader>
+        <band height="13"/>
+    </pageHeader>
+
+    <columnHeader>
+        <band height="40" splitType="Stretch">
+            <frame>
+                <reportElement x="0" y="0" width="535" height="40" backcolor="#C9C9C9"/>
+                <box>
+                    <topPen lineWidth="1.5" lineStyle="Solid" lineColor="#030303"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.5" lineStyle="Solid" lineColor="#030303"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <staticText>
+                    <reportElement x="10" y="10" width="50" height="20" forecolor="#030303" style="Column header"/>
+                    <textElement textAlignment="Center" verticalAlignment="Middle">
+                        <font fontName="Arial" size="11" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[ID]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="70" y="10" width="200" height="20" forecolor="#030303" style="Column header"/>
+                    <textElement verticalAlignment="Middle">
+                        <font fontName="Arial" size="11" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[NOMBRE PROMOCIÓN]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="280" y="10" width="130" height="20" forecolor="#030303" style="Column header"/>
+                    <textElement textAlignment="Center" verticalAlignment="Middle">
+                        <font fontName="Arial" size="11" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[FECHA]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="420" y="10" width="105" height="20" forecolor="#030303" style="Column header"/>
+                    <textElement textAlignment="Center" verticalAlignment="Middle">
+                        <font fontName="Arial" size="11" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[ESTADO]]></text>
+                </staticText>
+            </frame>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="35" splitType="Stretch">
+            <frame>
+                <reportElement mode="Opaque" x="0" y="0" width="535" height="35" backcolor="#FFFFFF" style="Row"/>
+                <box>
+                    <bottomPen lineWidth="0.5" lineColor="#E0E0E0"/>
+                </box>
+                <textField isStretchWithOverflow="true">
+                    <reportElement x="10" y="7" width="50" height="20" style="Detail"/>
+                    <textElement textAlignment="Center" verticalAlignment="Middle">
+                        <font fontName="Arial" size="10" isBold="true"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[$F{id_oferta}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="true">
+                    <reportElement x="70" y="7" width="200" height="20" style="Detail"/>
+                    <textElement verticalAlignment="Middle">
+                        <font fontName="Arial" size="10"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="true" pattern="dd 'de' MMMM 'de' yyyy">
+                    <reportElement x="280" y="7" width="130" height="20" style="Detail"/>
+                    <textElement textAlignment="Center" verticalAlignment="Middle">
+                        <font fontName="Arial" size="9"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[$F{fecha_extraccion}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="true">
+                    <reportElement x="440" y="7" width="85" height="20" style="Detail"/>
+                    <textElement textAlignment="Center" verticalAlignment="Middle">
+                        <font fontName="Arial" size="9" isBold="true"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[$F{estado_promocion}]]></textFieldExpression>
+                </textField>
+                <ellipse>
+                    <reportElement mode="Opaque" x="425" y="12" width="10" height="10" backcolor="#4CAF50">
+                        <printWhenExpression><![CDATA[$F{estado_promocion}.equals("VIGENTE")]]></printWhenExpression>
+                    </reportElement>
+                    <graphicElement>
+                        <pen lineWidth="0.0"/>
+                    </graphicElement>
+                </ellipse>
+                <ellipse>
+                    <reportElement mode="Opaque" x="425" y="12" width="10" height="10" backcolor="#FFC107">
+                        <printWhenExpression><![CDATA[$F{estado_promocion}.equals("POR VENCER")]]></printWhenExpression>
+                    </reportElement>
+                    <graphicElement>
+                        <pen lineWidth="0.0"/>
+                    </graphicElement>
+                </ellipse>
+                <ellipse>
+                    <reportElement mode="Opaque" x="425" y="12" width="10" height="10" backcolor="#F44336">
+                        <printWhenExpression><![CDATA[$F{estado_promocion}.equals("EXPIRADA")]]></printWhenExpression>
+                    </reportElement>
+                    <graphicElement>
+                        <pen lineWidth="0.0"/>
+                    </graphicElement>
+                </ellipse>
+            </frame>
+        </band>
+    </detail>
+
+    <columnFooter>
+        <band height="7" splitType="Stretch"/>
+    </columnFooter>
+
+    <pageFooter>
+        <band height="25" splitType="Stretch">
+            <frame>
+                <reportElement mode="Opaque" x="0" y="0" width="535" height="25" forecolor="#D0B48E" backcolor="#2C3E50"/>
+                <textField evaluationTime="Report">
+                    <reportElement x="490" y="3" width="40" height="20" forecolor="#FFFFFF" style="Column header"/>
+                    <textElement verticalAlignment="Middle">
+                        <font fontName="Arial" size="10" isBold="false"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+                </textField>
+                <textField>
+                    <reportElement x="410" y="3" width="80" height="20" forecolor="#FFFFFF" style="Column header"/>
+                    <textElement textAlignment="Right" verticalAlignment="Middle">
+                        <font fontName="Arial" size="10" isBold="false"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+                </textField>
+                <staticText>
+                    <reportElement x="10" y="3" width="200" height="20" forecolor="#FFFFFF"/>
+                    <textElement verticalAlignment="Middle">
+                        <font fontName="Arial" size="9"/>
+                    </textElement>
+                    <text><![CDATA[© 2025 TravelReserva - Confidencial]]></text>
+                </staticText>
+                <textField pattern="dd/MM/yyyy HH:mm">
+                    <reportElement x="240" y="3" width="100" height="20" forecolor="#FFFFFF"/>
+                    <textElement textAlignment="Center" verticalAlignment="Middle">
+                        <font fontName="Arial" size="8"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+                </textField>
+            </frame>
+        </band>
+    </pageFooter>
+
+    <summary>
+        <band height="200" splitType="Stretch">
+            <frame>
+                <reportElement mode="Opaque" x="0" y="10" width="535" height="180" backcolor="#ECF0F1"/>
+                <box>
+                    <pen lineWidth="2.0" lineColor="#030303"/>
+                </box>
+                <staticText>
+                    <reportElement x="20" y="10" width="495" height="30" forecolor="#030303"/>
+                    <textElement textAlignment="Center" verticalAlignment="Middle">
+                        <font fontName="Arial" size="16" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[RESUMEN EJECUTIVO]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="40" y="55" width="220" height="25" forecolor="#333333"/>
+                    <textElement verticalAlignment="Middle">
+                        <font fontName="Arial" size="12" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[Total de Promociones:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="270" y="55" width="245" height="25" forecolor="#FF6F00"/>
+                    <textElement textAlignment="Right" verticalAlignment="Middle">
+                        <font fontName="Arial" size="14" isBold="true"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[$V{total_promociones}]]></textFieldExpression>
+                </textField>
+                <ellipse>
+                    <reportElement mode="Opaque" x="40" y="95" width="15" height="15" backcolor="#4CAF50"/>
+                    <graphicElement>
+                        <pen lineWidth="0.0"/>
+                    </graphicElement>
+                </ellipse>
+                <staticText>
+                    <reportElement x="65" y="90" width="195" height="25" forecolor="#333333"/>
+                    <textElement verticalAlignment="Middle">
+                        <font fontName="Arial" size="12" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[Promociones Vigentes:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="270" y="90" width="245" height="25" forecolor="#4CAF50"/>
+                    <textElement textAlignment="Right" verticalAlignment="Middle">
+                        <font fontName="Arial" size="14" isBold="true"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[$V{promociones_vigentes}]]></textFieldExpression>
+                </textField>
+                <ellipse>
+                    <reportElement mode="Opaque" x="40" y="130" width="15" height="15" backcolor="#F44336"/>
+                    <graphicElement>
+                        <pen lineWidth="0.0"/>
+                    </graphicElement>
+                </ellipse>
+                <staticText>
+                    <reportElement x="65" y="125" width="195" height="25" forecolor="#333333"/>
+                    <textElement verticalAlignment="Middle">
+                        <font fontName="Arial" size="12" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[Promociones Expiradas:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="270" y="125" width="245" height="25" forecolor="#F44336"/>
+                    <textElement textAlignment="Right" verticalAlignment="Middle">
+                        <font fontName="Arial" size="14" isBold="true"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[$V{promociones_expiradas}]]></textFieldExpression>
+                </textField>
+            </frame>
+        </band>
+    </summary>
+
 </jasperReport>
+

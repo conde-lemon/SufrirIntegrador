@@ -51,7 +51,7 @@ public class DemoApplication {
 			// 2. Listar todos los usuarios para verificar
 			List<Usuario> usuarios = usuarioDAO.findAll();
 			if (usuarios.isEmpty()) {
-				System.out.println("⚠️  No se encontraron usuarios en la base de datos.");
+				System.out.println(" No se encontraron usuarios en la base de datos.");
 			} else {
 				System.out.println("✓ Usuarios encontrados (" + usuarios.size() + "):");
 				for (Usuario u : usuarios) {
