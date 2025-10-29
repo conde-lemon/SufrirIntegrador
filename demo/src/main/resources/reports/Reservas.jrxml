@@ -1,259 +1,310 @@
-<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
-<!-- Modificado para compatibilidad con JasperReports 6.21.0 - Atributo uuid removido -->
-<jasperReport name="mis_reservas_usuario" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Travel4YOU"/>
-	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<style name="Title" fontName="Arial" fontSize="24.0" bold="true"/>
-	<style name="CardTitle" fontName="Arial" fontSize="14.0" bold="true"/>
-	<style name="DetailLabel" fontName="Arial" fontSize="9.0" bold="true"/>
-	<style name="DetailValue" fontName="Arial" fontSize="9.0"/>
-	<parameter name="ID_USUARIO" class="java.lang.Long">
-		<defaultValueExpression><![CDATA[1L]]></defaultValueExpression>
-	</parameter>
-	<parameter name="ESTADO_FILTRO" forPrompting="false" class="java.lang.String">
-		<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
-	</parameter>
-	<query language="sql"><![CDATA[SELECT 
-    r.id_reserva,
-    'TFU-' || TO_CHAR(r.fecha_reserva, 'YYYY') || '-' || LPAD(r.id_reserva::text, 4, '0') as codigo_reserva,
-    r.fecha_reserva,
-    r.fecha_inicio,
-    r.fecha_fin,
-    r.estado,
-    r.total,
-    r.moneda,
-    r.observaciones,
-    u.nombres,
-    u.apellidos,
-    u.email,
-    -- Obtener el primer servicio como destino principal
-    (SELECT s.nombre 
-     FROM public.detalle_reserva dr 
-     INNER JOIN public.servicio s ON dr.id_servicio = s.id_servicio 
-     WHERE dr.id_reserva = r.id_reserva 
-     ORDER BY dr.id_detalle_reserva 
-     LIMIT 1) as destino_principal,
-    -- Contar servicios
-    (SELECT COUNT(*) 
-     FROM public.detalle_reserva dr 
-     WHERE dr.id_reserva = r.id_reserva) as total_servicios,
-    -- Estado de pago
-    p.estado_pago,
-    p.monto as monto_pagado,
-    -- Calcular días de viaje
-    CASE 
-        WHEN r.fecha_inicio IS NOT NULL AND r.fecha_fin IS NOT NULL 
-        THEN DATE_PART('day', r.fecha_fin - r.fecha_inicio)
-        ELSE 0 
-    END as dias_viaje
-FROM public.reserva r
-INNER JOIN public.usuarios u ON r.id_usuario = u.id_usuario
-LEFT JOIN public.pago p ON r.id_reserva = p.id_reserva
-WHERE r.id_usuario = $P{ID_USUARIO}
-    AND r.estado LIKE $P{ESTADO_FILTRO}
-ORDER BY r.fecha_reserva DESC]]></query>
-	<field name="id_reserva" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="id_reserva"/>
-		<property name="com.jaspersoft.studio.field.label" value="id_reserva"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="reserva"/>
-	</field>
-	<field name="codigo_reserva" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="codigo_reserva"/>
-		<property name="com.jaspersoft.studio.field.label" value="codigo_reserva"/>
-	</field>
-	<field name="fecha_reserva" class="java.sql.Timestamp">
-		<property name="com.jaspersoft.studio.field.name" value="fecha_reserva"/>
-		<property name="com.jaspersoft.studio.field.label" value="fecha_reserva"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="reserva"/>
-	</field>
-	<field name="fecha_inicio" class="java.sql.Timestamp">
-		<property name="com.jaspersoft.studio.field.name" value="fecha_inicio"/>
-		<property name="com.jaspersoft.studio.field.label" value="fecha_inicio"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="reserva"/>
-	</field>
-	<field name="fecha_fin" class="java.sql.Timestamp">
-		<property name="com.jaspersoft.studio.field.name" value="fecha_fin"/>
-		<property name="com.jaspersoft.studio.field.label" value="fecha_fin"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="reserva"/>
-	</field>
-	<field name="estado" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="estado"/>
-		<property name="com.jaspersoft.studio.field.label" value="estado"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="reserva"/>
-	</field>
-	<field name="total" class="java.math.BigDecimal">
-		<property name="com.jaspersoft.studio.field.name" value="total"/>
-		<property name="com.jaspersoft.studio.field.label" value="total"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="reserva"/>
-	</field>
-	<field name="moneda" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="moneda"/>
-		<property name="com.jaspersoft.studio.field.label" value="moneda"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="reserva"/>
-	</field>
-	<field name="observaciones" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="observaciones"/>
-		<property name="com.jaspersoft.studio.field.label" value="observaciones"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="reserva"/>
-	</field>
-	<field name="nombres" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="nombres"/>
-		<property name="com.jaspersoft.studio.field.label" value="nombres"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="usuarios"/>
-	</field>
-	<field name="apellidos" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="apellidos"/>
-		<property name="com.jaspersoft.studio.field.label" value="apellidos"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="usuarios"/>
-	</field>
-	<field name="email" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="email"/>
-		<property name="com.jaspersoft.studio.field.label" value="email"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="usuarios"/>
-	</field>
-	<field name="destino_principal" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="destino_principal"/>
-		<property name="com.jaspersoft.studio.field.label" value="destino_principal"/>
-	</field>
-	<field name="total_servicios" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.name" value="total_servicios"/>
-		<property name="com.jaspersoft.studio.field.label" value="total_servicios"/>
-	</field>
-	<field name="estado_pago" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="estado_pago"/>
-		<property name="com.jaspersoft.studio.field.label" value="estado_pago"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pago"/>
-	</field>
-	<field name="monto_pagado" class="java.math.BigDecimal">
-		<property name="com.jaspersoft.studio.field.name" value="monto_pagado"/>
-		<property name="com.jaspersoft.studio.field.label" value="monto_pagado"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pago"/>
-	</field>
-	<field name="dias_viaje" class="java.lang.Double">
-		<property name="com.jaspersoft.studio.field.name" value="dias_viaje"/>
-		<property name="com.jaspersoft.studio.field.label" value="dias_viaje"/>
-	</field>
-	<variable name="contador_reservas" calculation="Count" class="java.lang.Integer">
-		<expression><![CDATA[$F{id_reserva}]]></expression>
-	</variable>
-	<title height="140" splitType="Stretch">
-		<element kind="rectangle" uuid="e1442918-2eb5-4ec0-aa84-01996ad35052" mode="Opaque" x="0" y="0" width="555" height="80" backcolor="#2C3E50"/>
-		<element kind="staticText" uuid="06921c98-0973-4c33-ae79-35f0f3e2b478" x="20" y="20" width="300" height="40" forecolor="#FFFFFF" fontSize="28.0" bold="true" vTextAlign="Middle">
-			<text><![CDATA[Travel For U]]></text>
-		</element>
-		<element kind="rectangle" uuid="04a3ffd3-4d93-4a70-bd4c-9a37f0219143" x="340" y="15" width="2" height="50" backcolor="#E74C3C"/>
-		<element kind="staticText" uuid="f8c84951-4fa6-421d-905f-1c8b006edb99" x="355" y="25" width="180" height="30" forecolor="#ECF0F1" fontSize="16.0" vTextAlign="Middle">
-			<text><![CDATA[Mis Reservas]]></text>
-		</element>
-		<element kind="rectangle" uuid="d77ffe8e-74d7-41eb-b189-eb0d6c9d9f70" x="0" y="90" width="555" height="45" backcolor="#ECF0F1"/>
-		<element kind="staticText" uuid="a21677d5-1b07-435b-9ede-5c08aa315ab9" x="20" y="98" width="60" height="15" forecolor="#000000" fontSize="9.0" bold="true" vTextAlign="Middle">
-			<text><![CDATA[Cliente:]]></text>
-		</element>
-		<element kind="textField" uuid="f532c2e3-a8bc-4465-a521-9fd49830e9e5" x="80" y="98" width="250" height="15" fontSize="9.0" vTextAlign="Middle">
-			<expression><![CDATA[$F{nombres} + " " + $F{apellidos}]]></expression>
-		</element>
-		<element kind="staticText" uuid="00b5d489-cedb-4efc-b40a-da9fcdce2ae7" x="20" y="115" width="60" height="15" fontSize="9.0" bold="true" vTextAlign="Middle">
-			<text><![CDATA[Email:]]></text>
-		</element>
-		<element kind="textField" uuid="4af8a91f-9213-4619-aaf2-295bd9eeb7da" x="80" y="115" width="250" height="15" fontSize="9.0" vTextAlign="Middle">
-			<expression><![CDATA[$F{email}]]></expression>
-		</element>
-		<element kind="textField" uuid="929b231c-79fa-4ac7-bf65-9121414de5cb" x="380" y="105" width="160" height="15" fontSize="9.0" pattern="dd/MM/yyyy HH:mm" hTextAlign="Right" vTextAlign="Middle">
-			<expression><![CDATA["Generado: " + new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date())]]></expression>
-		</element>
-	</title>
-	<pageHeader height="35">
-		<element kind="staticText" uuid="6a06c652-c1c3-47f2-8d64-07f0548338b5" x="10" y="10" width="535" height="20" fontSize="12.0" bold="true" vTextAlign="Middle">
-			<text><![CDATA[Gestiona y revisa todas tus reservas de viaje]]></text>
-		</element>
-		<element kind="line" uuid="f9f5428d-0c64-40a8-acb6-6234f48cecef" x="0" y="32" width="555" height="1" forecolor="#E74C3C">
-			<pen lineWidth="2.0"/>
-		</element>
-	</pageHeader>
-	<detail>
-		<band height="180" splitType="Stretch">
-			<element kind="rectangle" uuid="261e7c32-eaef-43da-a819-f27cb5e0d1de" x="10" y="10" width="535" height="165" backcolor="#FFFFFF">
-				<pen lineWidth="2.0" lineColor="#BDC3C7"/>
-			</element>
-			<element kind="rectangle" uuid="bed28892-9beb-4c05-9ad8-883d90171b91" mode="Opaque" x="10" y="10" width="535" height="35" backcolor="#34495E"/>
-			<element kind="staticText" uuid="b96b1bf8-30a7-4b4b-93e7-074b8320784b" x="20" y="15" width="50" height="25" forecolor="#ECF0F1" fontSize="9.0" bold="true" vTextAlign="Middle">
-				<text><![CDATA[Código:]]></text>
-			</element>
-			<element kind="textField" uuid="6c219983-65a8-4c55-80d3-f2f7fef1bc10" x="70" y="15" width="150" height="25" forecolor="#E74C3C" fontSize="10.0" bold="true" vTextAlign="Middle">
-				<expression><![CDATA[$F{codigo_reserva}]]></expression>
-			</element>
-			<element kind="textField" uuid="87c2294f-490e-4c7a-bfd7-ef2b313d6902" x="250" y="15" width="280" height="25" forecolor="#FFFFFF" fontSize="12.0" bold="true" vTextAlign="Middle">
-				<expression><![CDATA[$F{destino_principal} != null ? $F{destino_principal} : "Paquete Turístico"]]></expression>
-			</element>
-			<element kind="rectangle" uuid="49d1582a-24d5-4948-ab0f-52acfb0b5da2" x="20" y="55" width="515" height="80" backcolor="#F8F9FA">
-				<pen lineWidth="0.5" lineColor="#E0E0E0"/>
-			</element>
-			<element kind="staticText" uuid="117be26f-79d8-4bdb-935c-ae5e54db87b7" x="30" y="62" width="100" height="12" forecolor="#7F8C8D" fontSize="8.0" bold="true">
-				<text><![CDATA[FECHA DE RESERVA]]></text>
-			</element>
-			<element kind="textField" uuid="1ea7b1cd-9dd8-4d5f-be70-6df654573974" x="30" y="75" width="100" height="15" fontSize="9.0" pattern="dd MMM yyyy" bold="true">
-				<expression><![CDATA[new java.text.SimpleDateFormat("dd MMM yyyy").format($F{fecha_reserva})]]></expression>
-			</element>
-			<element kind="staticText" uuid="cc39e15d-1ca3-4087-80cf-6c41a21c3a0d" x="30" y="95" width="100" height="12" forecolor="#7F8C8D" fontSize="8.0" bold="true">
-				<text><![CDATA[SERVICIOS INCLUIDOS]]></text>
-			</element>
-			<element kind="textField" uuid="e2267de3-e25f-43f0-ae3f-eb6872dab300" x="30" y="108" width="100" height="15" fontSize="9.0" bold="true">
-				<expression><![CDATA[$F{total_servicios} + " servicios"]]></expression>
-			</element>
-			<element kind="staticText" uuid="26b61454-00fb-46b1-95fa-d648f1077514" x="160" y="62" width="120" height="12" forecolor="#7F8C8D" fontSize="8.0" bold="true">
-				<text><![CDATA[FECHA DE SALIDA]]></text>
-			</element>
-			<element kind="textField" uuid="919fc49b-4d1e-4b78-b8d4-93f6a7aad14d" x="160" y="75" width="120" height="15" fontSize="9.0" pattern="dd MMM yyyy" bold="true">
-				<expression><![CDATA[$F{fecha_inicio} != null ? new java.text.SimpleDateFormat("dd MMM yyyy").format($F{fecha_inicio}) : "Por definir"]]></expression>
-			</element>
-			<element kind="staticText" uuid="68d77cb2-2655-490d-a649-50f8f005ec2f" x="160" y="95" width="120" height="12" forecolor="#7F8C8D" fontSize="8.0" bold="true">
-				<text><![CDATA[DURACIÓN]]></text>
-			</element>
-			<element kind="textField" uuid="e3cccb35-e9af-49b0-8edb-dbcc504245de" x="160" y="108" width="120" height="15" fontSize="9.0" bold="true">
-				<expression><![CDATA[$F{dias_viaje} > 0 ? $F{dias_viaje}.intValue() + " días" : "N/A"]]></expression>
-			</element>
-			<element kind="rectangle" uuid="c3adaf34-f74f-49f1-9dc9-6ef4b64e8a8c" x="425" y="62" width="100" height="68" backcolor="#E74C3C">
-				<pen lineWidth="0.0"/>
-			</element>
-			<element kind="staticText" uuid="e68552a9-fb59-4554-8723-743285e4cf80" x="430" y="68" width="90" height="15" forecolor="#FFFFFF" fontSize="8.0" bold="true" hTextAlign="Center">
-				<text><![CDATA[PRECIO TOTAL]]></text>
-			</element>
-			<element kind="textField" uuid="4e4e173c-78d2-4ebc-95fc-e7c5c0eb2aad" x="430" y="88" width="90" height="35" forecolor="#FFFFFF" fontSize="18.0" pattern="#,##0.00" bold="true" hTextAlign="Center" vTextAlign="Middle">
-				<expression><![CDATA["S/ " + $F{total}]]></expression>
-			</element>
-			<element kind="rectangle" uuid="fc584b0f-70f8-41fc-af8c-1a686eec7e64" mode="Opaque" x="10" y="145" width="535" height="30" backcolor="#F8F9FA"/>
-			<element kind="textField" uuid="9a4c2dd0-42bc-4ccf-8a88-1cda51e9209f" x="270" y="152" width="260" height="16" fontSize="7.0" italic="true" hTextAlign="Right" vTextAlign="Middle">
-				<expression><![CDATA[$F{observaciones} != null ? "Obs: " + $F{observaciones} : ""]]></expression>
-			</element>
-		</band>
-	</detail>
-	<pageFooter height="40">
-		<element kind="line" uuid="2401f8d3-5000-46e6-9fe8-3e4008d0594c" x="0" y="5" width="555" height="1" forecolor="#BDC3C7"/>
-		<element kind="staticText" uuid="84e5496c-16dc-4b67-88bf-3f940bb4cec5" x="10" y="15" width="200" height="20" fontSize="9.0" vTextAlign="Middle">
-			<text><![CDATA[Travel For U - Tus viajes, tu aventura]]></text>
-		</element>
-		<element kind="textField" uuid="153794ea-4f30-487a-b8c1-8cf66de1c136" x="240" y="15" width="80" height="20" fontSize="9.0" hTextAlign="Right" vTextAlign="Middle">
-			<expression><![CDATA["Página " + $V{PAGE_NUMBER}]]></expression>
-		</element>
-		<element kind="textField" uuid="d7cda49c-a44e-4471-a126-279007e37615" x="320" y="15" width="40" height="20" fontSize="9.0" evaluationTime="Report" vTextAlign="Middle">
-			<expression><![CDATA[" de " + $V{PAGE_NUMBER}]]></expression>
-		</element>
-	</pageFooter>
-	<summary height="80">
-		<element kind="rectangle" uuid="87b60f2f-f25c-4928-970f-22cc68d21a0c" x="0" y="10" width="555" height="60" backcolor="#ECF0F1">
-			<pen lineWidth="2.0" lineColor="#2C3E50"/>
-		</element>
-		<element kind="staticText" uuid="df2eb018-5a52-4327-999c-04339ddacf61" x="20" y="25" width="200" height="25" fontSize="14.0" bold="true" vTextAlign="Middle">
-			<text><![CDATA[TOTAL DE RESERVAS:]]></text>
-		</element>
-		<element kind="textField" uuid="ca4292ae-1e08-4607-8bab-e4d033301534" x="230" y="25" width="100" height="25" fontSize="16.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
-			<expression><![CDATA[$V{contador_reservas}]]></expression>
-			<box>
-				<pen lineWidth="2.0" lineColor="#E74C3C"/>
-			</box>
-		</element>
-		<element kind="staticText" uuid="d859720c-21c7-4f75-9544-173b934a57f7" x="360" y="30" width="180" height="15" fontSize="9.0" italic="true" hTextAlign="Right">
-			<text><![CDATA[¿Necesitas ayuda? Contacta con nosotros]]></text>
-		</element>
-	</summary>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with JasperReports Library version 6.21.0 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+              http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="Reservas"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="555"
+              leftMargin="20"
+              rightMargin="20"
+              topMargin="20"
+              bottomMargin="20"
+              whenNoDataType="AllSectionsNoDetail">
+
+    <parameter name="ID_USUARIO" class="java.lang.Long">
+        <defaultValueExpression><![CDATA[1L]]></defaultValueExpression>
+    </parameter>
+
+    <parameter name="ESTADO_FILTRO" class="java.lang.String">
+        <defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
+    </parameter>
+
+    <queryString language="sql">
+        <![CDATA[SELECT
+            r.id_reserva,
+            'TFU-' || EXTRACT(YEAR FROM COALESCE(r.fecha_reserva, r.created_at, CURRENT_TIMESTAMP))::text || '-' || LPAD(r.id_reserva::text, 4, '0') as codigo_reserva,
+            COALESCE(r.fecha_reserva, r.created_at, CURRENT_TIMESTAMP) as fecha_reserva,
+            r.fecha_inicio,
+            r.fecha_fin,
+            COALESCE(r.estado, 'pendiente') as estado,
+            COALESCE(r.total, 0) as total,
+            COALESCE(r.moneda, 'PEN') as moneda,
+            COALESCE(r.observaciones, 'Sin observaciones') as observaciones,
+            COALESCE(u.nombres, 'Usuario') as nombres,
+            COALESCE(u.apellidos, '') as apellidos,
+            COALESCE(u.email, '') as email
+        FROM reserva r
+        INNER JOIN usuarios u ON r.id_usuario = u.id_usuario
+        WHERE r.id_usuario = $P{ID_USUARIO}
+        ORDER BY COALESCE(r.fecha_reserva, r.created_at) DESC]]>
+    </queryString>
+
+    <field name="id_reserva" class="java.lang.Integer"/>
+    <field name="codigo_reserva" class="java.lang.String"/>
+    <field name="fecha_reserva" class="java.sql.Timestamp"/>
+    <field name="fecha_inicio" class="java.sql.Timestamp"/>
+    <field name="fecha_fin" class="java.sql.Timestamp"/>
+    <field name="estado" class="java.lang.String"/>
+    <field name="total" class="java.math.BigDecimal"/>
+    <field name="moneda" class="java.lang.String"/>
+    <field name="observaciones" class="java.lang.String"/>
+    <field name="nombres" class="java.lang.String"/>
+    <field name="apellidos" class="java.lang.String"/>
+    <field name="email" class="java.lang.String"/>
+
+    <variable name="total_general" class="java.math.BigDecimal" calculation="Sum">
+        <variableExpression><![CDATA[$F{total}]]></variableExpression>
+    </variable>
+
+    <title>
+        <band height="100" splitType="Stretch">
+            <rectangle>
+                <reportElement x="0" y="0" width="555" height="80" backcolor="#2C3E50"/>
+                <graphicElement>
+                    <pen lineWidth="0.0"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="20" y="15" width="400" height="50" forecolor="#FFFFFF"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Arial" size="32" isBold="true"/>
+                </textElement>
+                <text><![CDATA[MIS RESERVAS]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="420" y="25" width="120" height="30" forecolor="#ECF0F1"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="Arial" size="14" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Travel For You]]></text>
+            </staticText>
+        </band>
+    </title>
+
+    <pageHeader>
+        <band height="50" splitType="Stretch">
+            <rectangle>
+                <reportElement x="0" y="0" width="555" height="40" backcolor="#ECF0F1"/>
+            </rectangle>
+            <textField>
+                <reportElement x="20" y="10" width="350" height="20"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Arial" size="11" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Cliente: " + $F{nombres} + " " + $F{apellidos}]]></textFieldExpression>
+            </textField>
+            <textField pattern="dd/MM/yyyy HH:mm">
+                <reportElement x="380" y="10" width="160" height="20"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="Arial" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Fecha: " + new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date())]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+
+    <columnHeader>
+        <band height="30">
+            <staticText>
+                <reportElement x="0" y="5" width="555" height="20" forecolor="#2C3E50"/>
+                <textElement>
+                    <font fontName="Arial" size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Detalle de Reservas]]></text>
+            </staticText>
+            <line>
+                <reportElement x="0" y="28" width="555" height="1" forecolor="#E74C3C"/>
+                <graphicElement>
+                    <pen lineWidth="2.0"/>
+                </graphicElement>
+            </line>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="120" splitType="Stretch">
+            <!-- Tarjeta de reserva -->
+            <rectangle>
+                <reportElement x="0" y="5" width="555" height="110" backcolor="#FFFFFF"/>
+                <graphicElement>
+                    <pen lineWidth="1.5" lineColor="#BDC3C7"/>
+                </graphicElement>
+            </rectangle>
+
+            <!-- Encabezado de tarjeta -->
+            <rectangle>
+                <reportElement mode="Opaque" x="0" y="5" width="555" height="30" backcolor="#34495E"/>
+            </rectangle>
+
+            <staticText>
+                <reportElement x="10" y="10" width="60" height="20" forecolor="#FFFFFF"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Arial" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[CÓDIGO:]]></text>
+            </staticText>
+
+            <textField>
+                <reportElement x="70" y="10" width="200" height="20" forecolor="#E74C3C"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Arial" size="11" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{codigo_reserva}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="300" y="10" width="245" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="Arial" size="12" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["ESTADO: " + $F{estado}.toUpperCase()]]></textFieldExpression>
+            </textField>
+
+            <!-- Contenido -->
+            <staticText>
+                <reportElement x="15" y="45" width="120" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="9" isBold="true" isItalic="false"/>
+                </textElement>
+                <text><![CDATA[Fecha de Reserva:]]></text>
+            </staticText>
+
+            <textField pattern="dd/MM/yyyy HH:mm">
+                <reportElement x="135" y="45" width="150" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{fecha_reserva}]]></textFieldExpression>
+            </textField>
+
+            <staticText>
+                <reportElement x="15" y="63" width="120" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Viaje:]]></text>
+            </staticText>
+
+            <textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+                <reportElement x="135" y="63" width="70" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{fecha_inicio}]]></textFieldExpression>
+            </textField>
+
+            <staticText>
+                <reportElement x="210" y="63" width="20" height="15"/>
+                <textElement textAlignment="Center">
+                    <font fontName="Arial" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[al]]></text>
+            </staticText>
+
+            <textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+                <reportElement x="235" y="63" width="70" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{fecha_fin}]]></textFieldExpression>
+            </textField>
+
+            <staticText>
+                <reportElement x="320" y="50" width="50" height="20" forecolor="#7F8C8D"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="Arial" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[TOTAL:]]></text>
+            </staticText>
+
+            <textField pattern="#,##0.00">
+                <reportElement x="375" y="50" width="160" height="20" forecolor="#27AE60"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="Arial" size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{moneda} + " " + $F{total}]]></textFieldExpression>
+            </textField>
+
+            <staticText>
+                <reportElement x="15" y="83" width="120" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Observaciones:]]></text>
+            </staticText>
+
+            <textField isStretchWithOverflow="true" isBlankWhenNull="true">
+                <reportElement x="135" y="83" width="400" height="25"/>
+                <textElement>
+                    <font fontName="Arial" size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{observaciones}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+    <pageFooter>
+        <band height="30">
+            <textField>
+                <reportElement x="400" y="10" width="150" height="15"/>
+                <textElement textAlignment="Right">
+                    <font fontName="Arial" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="10" y="10" width="300" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="9"/>
+                </textElement>
+                <text><![CDATA[Travel For You - Sistema de Reservas © 2025]]></text>
+            </staticText>
+        </band>
+    </pageFooter>
+
+    <summary>
+        <band height="60">
+            <rectangle>
+                <reportElement x="0" y="10" width="555" height="40" backcolor="#ECF0F1"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="300" y="20" width="100" height="20"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="Arial" size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[TOTAL GENERAL:]]></text>
+            </staticText>
+            <textField pattern="#,##0.00">
+                <reportElement x="410" y="20" width="130" height="20" forecolor="#27AE60"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="Arial" size="12" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["PEN " + $V{total_general}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+
+    <noData>
+        <band height="200">
+            <staticText>
+                <reportElement x="0" y="80" width="555" height="40" forecolor="#E74C3C"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Arial" size="18" isBold="true"/>
+                </textElement>
+                <text><![CDATA[NO HAY RESERVAS PARA MOSTRAR]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="50" y="130" width="455" height="30"/>
+                <textElement textAlignment="Center">
+                    <font fontName="Arial" size="12"/>
+                </textElement>
+                <text><![CDATA[El usuario no tiene reservas registradas en el sistema.]]></text>
+            </staticText>
+        </band>
+    </noData>
+
 </jasperReport>
+

@@ -132,6 +132,61 @@
             gap: 0.5rem;
         }
 
+        /* Botones de acción */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #229954;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
         /* Form Containers */
         .form-container {
             background: white;
@@ -339,6 +394,9 @@
                     <button class="toggle-filters" id="toggle-filters">Filtros Avanzados</button>
 
                     <div class="action-buttons">
+                        <button class="btn btn-small btn-success" id="generate-report">
+                            <i class="bi bi-file-earmark-pdf"></i> Generar Reporte
+                        </button>
                         <button class="btn btn-small btn-danger btn-delete" id="toggle-delete">
                             Eliminar
                         </button>
@@ -472,13 +530,16 @@
 
                 <div class="toolbar">
                     <button class="btn btn-primary">Nueva Promocion</button>
-                    <input type="text" class="search-input" id="search-users" placeholder="Buscar promocion...">
+                    <input type="text" class="search-input" id="search-promociones" placeholder="Buscar promocion...">
                     <select class="select-filter">
                         <option>Todas las promociones</option>
                         <option>Activas</option>
                         <option>Programadas</option>
                         <option>Vencidas</option>
                     </select>
+                    <button class="btn btn-small btn-success" id="generate-report-promociones">
+                        <i class="bi bi-file-earmark-pdf"></i> Generar Reporte
+                    </button>
                 </div>
 
                 <div class="table-container">
@@ -579,6 +640,96 @@
     <script>
 
         document.addEventListener('DOMContentLoaded', function() {
+            // Generar Reporte de Usuarios
+            const generateReportBtn = document.getElementById('generate-report');
+            if (generateReportBtn) {
+                generateReportBtn.addEventListener('click', async function() {
+                    try {
+                        // Mostrar mensaje de espera
+                        this.disabled = true;
+                        this.innerHTML = '<i class="bi bi-hourglass-split"></i> Generando...';
+
+                        // Llamar al endpoint de reportes
+                        const response = await fetch('http://localhost:8081/api/reportes/usuarios?formato=pdf', {
+                            method: 'GET',
+                        });
+
+                        if (!response.ok) {
+                            throw new Error('Error al generar el reporte');
+                        }
+
+                        // Descargar el PDF
+                        const blob = await response.blob();
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'Reporte_Usuarios_' + new Date().toISOString().slice(0,10) + '.pdf';
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        document.body.removeChild(a);
+
+                        // Restaurar botón
+                        this.disabled = false;
+                        this.innerHTML = '<i class="bi bi-file-earmark-pdf"></i> Generar Reporte';
+
+                        alert('Reporte generado exitosamente');
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Error al generar el reporte: ' + error.message);
+
+                        // Restaurar botón
+                        this.disabled = false;
+                        this.innerHTML = '<i class="bi bi-file-earmark-pdf"></i> Generar Reporte';
+                    }
+                });
+            }
+
+            // Generar Reporte de Promociones
+            const generateReportPromocionesBtn = document.getElementById('generate-report-promociones');
+            if (generateReportPromocionesBtn) {
+                generateReportPromocionesBtn.addEventListener('click', async function() {
+                    try {
+                        // Mostrar mensaje de espera
+                        this.disabled = true;
+                        this.innerHTML = '<i class="bi bi-hourglass-split"></i> Generando...';
+
+                        // Llamar al endpoint de reportes de promociones
+                        const response = await fetch('http://localhost:8081/api/reportes/promociones?formato=pdf', {
+                            method: 'GET',
+                        });
+
+                        if (!response.ok) {
+                            throw new Error('Error al generar el reporte de promociones');
+                        }
+
+                        // Descargar el PDF
+                        const blob = await response.blob();
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'Reporte_Promociones_' + new Date().toISOString().slice(0,10) + '.pdf';
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        document.body.removeChild(a);
+
+                        // Restaurar botón
+                        this.disabled = false;
+                        this.innerHTML = '<i class="bi bi-file-earmark-pdf"></i> Generar Reporte';
+
+                        alert('Reporte de promociones generado exitosamente');
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Error al generar el reporte: ' + error.message);
+
+                        // Restaurar botón
+                        this.disabled = false;
+                        this.innerHTML = '<i class="bi bi-file-earmark-pdf"></i> Generar Reporte';
+                    }
+                });
+            }
+
             // ... (código anterior para mostrar/ocultar formularios) ...
 
             // Eliminar usuario - URL CORREGIDA
