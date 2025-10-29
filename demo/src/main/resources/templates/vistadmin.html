@@ -2,10 +2,10 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/css/vistadmin-style.css" />
-    <link rel="stylesheet" href="../static/css/Power BI.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/vistadmin-style.css">
+    <link rel="stylesheet" href="../static/css/Power BI.css">
     <title>Panel de Administración</title>
 </head>
 
@@ -26,25 +26,16 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Dashboard Section -->
-            <section id="dashboard-section" style="display: none">
-                <h2 class="section-title">Dashboard</h2>
+            <!-- Dashboard Section CREAR POWER BI -->
 
-                <!-- Dashboard de Power BI Integrado -->
-                <div class="powerbi-container">
-                    <iframe title="Dashboard reporte" width="1000" height="1000"
-                        src="https://app.powerbi.com/view?r=eyJrIjoiZDQ1NmQ1NzYtM2IyYi00ZjdlLWFjZDEtMmViMGVjNWVjYjJkIiwidCI6ImM0YTY2YzM0LTJiYjctNDUxZi04YmUxLWIyYzI2YTQzMDE1OCIsImMiOjR9"
-                        frameborder="0" allowfullscreen="true"></iframe>
-                </div>
-            </section>
+
 
             <!-- Usuarios Section -->
-            <section id="usuarios-section" style="display: none">
+            <section id="usuarios-section" style="display:none;">
                 <h2 class="section-title">Gestión de Usuarios</h2>
 
                 <div class="toolbar">
-                    <input type="text" class="search-input" id="search-users" placeholder="Buscar usuarios...">
-                    <button class="toggle-filters" id="toggle-filters">Filtros Avanzados</button>
+                    <input type="text" class="search-input" id="search-users" placeholder="Buscar usuarios Id">
                 </div>
 
                 <!-- Advanced Filters -->
@@ -52,11 +43,11 @@
                     <div class="filter-row">
                         <div class="filter-group">
                             <label class="form-label">Fecha de Registro Desde</label>
-                            <input type="date" class="form-input" id="filter-date-from" />
+                            <input type="date" class="form-input" id="filter-date-from">
                         </div>
                         <div class="filter-group">
                             <label class="form-label">Fecha de Registro Hasta</label>
-                            <input type="date" class="form-input" id="filter-date-to" />
+                            <input type="date" class="form-input" id="filter-date-to">
                         </div>
                     </div>
                     <div class="filter-row">
@@ -78,9 +69,7 @@
                     </div>
                     <div class="filter-actions">
                         <button class="btn" id="clear-filters">Limpiar Filtros</button>
-                        <button class="btn btn-primary" id="apply-filters">
-                            Aplicar Filtros
-                        </button>
+                        <button class="btn btn-primary" id="apply-filters">Aplicar Filtros</button>
                     </div>
                 </div>
 
@@ -109,9 +98,7 @@
                                 <td>
                                     <div class="action-buttons">
                                         <button class="btn btn-small btn-edit">Editar</button>
-                                        <button class="btn btn-small btn-danger btn-delete">
-                                            Eliminar
-                                        </button>
+                                        <button class="btn btn-small btn-danger btn-delete">Eliminar</button>
                                     </div>
                                 </td>
                             </tr>
@@ -121,18 +108,12 @@
             </section>
 
             <!-- Promociones Section -->
-            <section id="promociones-section" style="display: none">
+            <section id="promociones-section" style="display:none;">
                 <h2 class="section-title">Gestión de Promociones</h2>
 
                 <div class="toolbar">
                     <button class="btn btn-primary">Nueva Promocion</button>
-                    <input type="text" class="search-input" id="search-users" placeholder="Buscar promocion...">
-                    <select class="select-filter">
-                        <option>Todas las promociones</option>
-                        <option>Activas</option>
-                        <option>Programadas</option>
-                        <option>Vencidas</option>
-                    </select>
+                    <input type="text" class="search-input" id="search-users" placeholder="Buscar usuarios Id">
                 </div>
 
                 <div class="table-container">
@@ -154,14 +135,14 @@
             </section>
 
             <!-- Estadisticas Section -->
-            <section id="estadisticas-section" style="display: none">
+            <section id="estadisticas-section" style="display:none;">
                 <h2 class="section-title">Estadísticas del Sistema - Power BI</h2>
 
                 <!-- Dashboard de Power BI Integrado -->
                 <div class="powerbi-container">
-                    <iframe title="Prueba" width="1000" height="1000"
+                    <iframe title="Prueba" width="1024" height="1060"
                         src="https://app.powerbi.com/view?r=eyJrIjoiYTIzNzFiMjItZmMzMi00M2FhLWFiMDktN2UzMTJhMTNmNDM0IiwidCI6ImM0YTY2YzM0LTJiYjctNDUxZi04YmUxLWIyYzI2YTQzMDE1OCIsImMiOjR9"
-                        frameborder="0" allowfullscreen="true"></iframe>
+                        frameborder="0" allowFullScreen="true"></iframe>
                 </div>
             </section>
         </main>
@@ -175,14 +156,14 @@
                 <button class="close-modal">&times;</button>
             </div>
             <form id="edit-user-form">
-                <input type="hidden" id="edit-user-id" />
+                <input type="hidden" id="edit-user-id">
                 <div class="form-group">
                     <label class="form-label" for="edit-user-name">Nombre</label>
-                    <input type="text" class="form-input" id="edit-user-name" required />
+                    <input type="text" class="form-input" id="edit-user-name" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="edit-user-email">Email</label>
-                    <input type="email" class="form-input" id="edit-user-email" required />
+                    <input type="email" class="form-input" id="edit-user-email" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="edit-user-status">Estado</label>
@@ -201,9 +182,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn close-modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">
-                        Guardar Cambios
-                    </button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                 </div>
             </form>
         </div>
@@ -217,10 +196,7 @@
                 <button class="close-modal">&times;</button>
             </div>
             <div class="confirmation-text">
-                <p>
-                    ¿Está seguro de que desea eliminar al usuario
-                    <strong id="delete-user-name"></strong>?
-                </p>
+                <p>¿Está seguro de que desea eliminar al usuario <strong id="delete-user-name"></strong>?</p>
                 <p>Esta acción no se puede deshacer.</p>
             </div>
             <div class="modal-footer">
@@ -232,50 +208,47 @@
 
     <script>
         // Navegación entre secciones
-        document.querySelectorAll(".sidebar-item").forEach((item) => {
-            item.addEventListener("click", function (e) {
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', function (e) {
                 e.preventDefault();
 
                 // Actualizar sidebar activo
-                document
-                    .querySelectorAll(".sidebar-item")
-                    .forEach((i) => i.classList.remove("active"));
-                this.classList.add("active");
+                document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
 
                 // Ocultar todas las secciones
-                document.querySelectorAll("section").forEach((section) => {
-                    section.style.display = "none";
+                document.querySelectorAll('section').forEach(section => {
+                    section.style.display = 'none';
                 });
 
                 // Mostrar sección correspondiente
-                const target = this.getAttribute("href").substring(1);
-                document.getElementById(`${target}-section`).style.display = "block";
+                const target = this.getAttribute('href').substring(1);
+                document.getElementById(`${target}-section`).style.display = 'block';
             });
         });
 
         // Funcionalidad de filtros avanzados
-        const toggleFiltersBtn = document.getElementById("toggle-filters");
-        const advancedFilters = document.getElementById("advanced-filters");
+        const toggleFiltersBtn = document.getElementById('toggle-filters');
+        const advancedFilters = document.getElementById('advanced-filters');
 
-        toggleFiltersBtn.addEventListener("click", function () {
-            advancedFilters.classList.toggle("active");
-            this.textContent = advancedFilters.classList.contains("active")
-                ? "Ocultar Filtros"
-                : "Filtros Avanzados";
+        toggleFiltersBtn.addEventListener('click', function () {
+            advancedFilters.classList.toggle('active');
+            this.textContent = advancedFilters.classList.contains('active') ?
+                'Ocultar Filtros' : 'Filtros Avanzados';
         });
 
         // Aplicar filtros
-        const applyFiltersBtn = document.getElementById("apply-filters");
-        const clearFiltersBtn = document.getElementById("clear-filters");
-        const searchInput = document.getElementById("search-users");
-        const filterStatus = document.getElementById("filter-status");
-        const filterRole = document.getElementById("filter-role");
-        const filterDateFrom = document.getElementById("filter-date-from");
-        const filterDateTo = document.getElementById("filter-date-to");
-        const filterSort = document.getElementById("filter-sort");
-        const filterOrder = document.getElementById("filter-order");
-        const usersTable = document.getElementById("users-table");
-        const userRows = usersTable.querySelectorAll("tbody tr");
+        const applyFiltersBtn = document.getElementById('apply-filters');
+        const clearFiltersBtn = document.getElementById('clear-filters');
+        const searchInput = document.getElementById('search-users');
+        const filterStatus = document.getElementById('filter-status');
+        const filterRole = document.getElementById('filter-role');
+        const filterDateFrom = document.getElementById('filter-date-from');
+        const filterDateTo = document.getElementById('filter-date-to');
+        const filterSort = document.getElementById('filter-sort');
+        const filterOrder = document.getElementById('filter-order');
+        const usersTable = document.getElementById('users-table');
+        const userRows = usersTable.querySelectorAll('tbody tr');
 
         function applyFilters() {
             const searchTerm = searchInput.value.toLowerCase();
@@ -288,7 +261,7 @@
 
             let visibleRows = [];
 
-            userRows.forEach((row) => {
+            userRows.forEach(row => {
                 const name = row.dataset.name.toLowerCase();
                 const email = row.dataset.email.toLowerCase();
                 const status = row.dataset.status;
@@ -299,11 +272,7 @@
                 let showRow = true;
 
                 // Filtro de búsqueda
-                if (
-                    searchTerm &&
-                    !name.includes(searchTerm) &&
-                    !email.includes(searchTerm)
-                ) {
+                if (searchTerm && !name.includes(searchTerm) && !email.includes(searchTerm)) {
                     showRow = false;
                 }
 
@@ -326,7 +295,7 @@
                 }
 
                 // Mostrar u ocultar fila
-                row.style.display = showRow ? "" : "none";
+                row.style.display = showRow ? '' : 'none';
 
                 if (showRow) {
                     visibleRows.push(row);
@@ -338,15 +307,15 @@
                 let aValue, bValue;
 
                 switch (sortBy) {
-                    case "name":
+                    case 'name':
                         aValue = a.dataset.name;
                         bValue = b.dataset.name;
                         break;
-                    case "date":
+                    case 'date':
                         aValue = a.dataset.date;
                         bValue = b.dataset.date;
                         break;
-                    case "id":
+                    case 'id':
                         aValue = a.dataset.id;
                         bValue = b.dataset.id;
                         break;
@@ -355,7 +324,7 @@
                         bValue = b.dataset.name;
                 }
 
-                if (sortOrder === "asc") {
+                if (sortOrder === 'asc') {
                     return aValue.localeCompare(bValue);
                 } else {
                     return bValue.localeCompare(aValue);
@@ -363,38 +332,39 @@
             });
 
             // Reorganizar filas en la tabla
-            const tbody = usersTable.querySelector("tbody");
-            tbody.innerHTML = "";
-            visibleRows.forEach((row) => tbody.appendChild(row));
+            const tbody = usersTable.querySelector('tbody');
+            tbody.innerHTML = '';
+            visibleRows.forEach(row => tbody.appendChild(row));
         }
 
         // Event listeners para filtros
-        applyFiltersBtn.addEventListener("click", applyFilters);
-        clearFiltersBtn.addEventListener("click", function () {
-            searchInput.value = "";
-            filterStatus.value = "";
-            filterRole.value = "";
-            filterDateFrom.value = "";
-            filterDateTo.value = "";
-            filterSort.value = "name";
-            filterOrder.value = "asc";
+        applyFiltersBtn.addEventListener('click', applyFilters);
+        clearFiltersBtn.addEventListener('click', function () {
+            searchInput.value = '';
+            filterStatus.value = '';
+            filterRole.value = '';
+            filterDateFrom.value = '';
+            filterDateTo.value = '';
+            filterSort.value = 'name';
+            filterOrder.value = 'asc';
             applyFilters();
         });
 
         // Aplicar filtros al cambiar cualquier filtro básico
-        searchInput.addEventListener("input", applyFilters);
-        filterStatus.addEventListener("change", applyFilters);
-        filterRole.addEventListener("change", applyFilters);
+        searchInput.addEventListener('input', applyFilters);
+        filterStatus.addEventListener('change', applyFilters);
+        filterRole.addEventListener('change', applyFilters);
+
 
         // Guardar cambios del usuario
-        editUserForm.addEventListener("submit", function (e) {
+        editUserForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
-            const userId = document.getElementById("edit-user-id").value;
-            const name = document.getElementById("edit-user-name").value;
-            const email = document.getElementById("edit-user-email").value;
-            const status = document.getElementById("edit-user-status").value;
-            const role = document.getElementById("edit-user-role").value;
+            const userId = document.getElementById('edit-user-id').value;
+            const name = document.getElementById('edit-user-name').value;
+            const email = document.getElementById('edit-user-email').value;
+            const status = document.getElementById('edit-user-status').value;
+            const role = document.getElementById('edit-user-role').value;
 
             // Actualizar la fila en la tabla
             const row = document.querySelector(`tr[data-id="${userId}"]`);
@@ -411,24 +381,24 @@
             }
 
             // Cerrar modal
-            editUserModal.classList.remove("active");
+            editUserModal.classList.remove('active');
 
             // Mostrar mensaje de éxito (en una implementación real, aquí se haría una petición al servidor)
-            alert("Usuario actualizado correctamente");
+            alert('Usuario actualizado correctamente');
         });
 
         // Cerrar modales
-        document.querySelectorAll(".close-modal").forEach((btn) => {
-            btn.addEventListener("click", function () {
-                this.closest(".modal").classList.remove("active");
+        document.querySelectorAll('.close-modal').forEach(btn => {
+            btn.addEventListener('click', function () {
+                this.closest('.modal').classList.remove('active');
             });
         });
 
         // Cerrar modal al hacer clic fuera del contenido
-        document.querySelectorAll(".modal").forEach((modal) => {
-            modal.addEventListener("click", function (e) {
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function (e) {
                 if (e.target === this) {
-                    this.classList.remove("active");
+                    this.classList.remove('active');
                 }
             });
         });
