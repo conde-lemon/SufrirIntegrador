@@ -38,7 +38,7 @@ public class JasperReportService {
 
             // Obtener conexión de la base de datos
             connection = dataSource.getConnection();
-            System.out.println("✓ Conexión a BD obtenida");
+            System.out.println(" Conexión a BD obtenida");
 
             JasperReport jasperReport = null;
 
@@ -47,40 +47,28 @@ public class JasperReportService {
             ClassPathResource jasperResource = new ClassPathResource(jasperPath);
 
             if (jasperResource.exists()) {
-                System.out.println("⚡ Usando archivo precompilado: " + jasperPath);
+                System.out.println(" Usando archivo precompilado: " + jasperPath);
                 InputStream jasperStream = jasperResource.getInputStream();
                 jasperReport = (JasperReport) JRLoader.loadObject(jasperStream);
-                System.out.println("✓ Reporte .jasper cargado");
+                System.out.println(" Reporte .jasper cargado");
             } else {
                 // Si no existe .jasper, compilar desde .jrxml
                 System.out.println(" Compilando desde .jrxml");
 
-                // Prioridad 1: ReservasTest (más robusto, con manejo de sin datos)
-                String jrxmlPath = "reports/ReservasTest.jrxml";
+                // Usar el archivo .jrxml según el nombre proporcionado
+                String jrxmlPath = "reports/" + reportFileName + ".jrxml";
                 ClassPathResource jrxmlResource = new ClassPathResource(jrxmlPath);
 
                 if (!jrxmlResource.exists()) {
-                    // Prioridad 2: Intentar con el backup simple
-                    jrxmlPath = "reports/" + reportFileName + "_Backup.jrxml";
-                    jrxmlResource = new ClassPathResource(jrxmlPath);
+                    throw new Exception("Archivo de reporte no encontrado: " + jrxmlPath);
                 }
 
-                if (!jrxmlResource.exists()) {
-                    // Prioridad 3: Si no existe el backup, usar el original
-                    jrxmlPath = "reports/" + reportFileName + ".jrxml";
-                    jrxmlResource = new ClassPathResource(jrxmlPath);
-                }
-
-                if (!jrxmlResource.exists()) {
-                    throw new Exception("Archivo de reporte no encontrado: " + reportFileName);
-                }
-
-                System.out.println("✓ Archivo encontrado: " + jrxmlPath);
+                System.out.println(" Archivo encontrado: " + jrxmlPath);
                 InputStream reportStream = jrxmlResource.getInputStream();
 
                 // Compilar el reporte
                 jasperReport = JasperCompileManager.compileReport(reportStream);
-                System.out.println("✓ Reporte compilado exitosamente desde .jrxml");
+                System.out.println(" Reporte compilado exitosamente desde .jrxml");
             }
 
             // Llenar el reporte con la conexión y parámetros
@@ -125,7 +113,7 @@ public class JasperReportService {
             // Cerrar la conexión
             if (connection != null && !connection.isClosed()) {
                 connection.close();
-                System.out.println("✓ Conexión a BD cerrada");
+                System.out.println(" Conexión a BD cerrada");
             }
         }
     }
@@ -137,40 +125,10 @@ public class JasperReportService {
         switch (format.toLowerCase()) {
             case "pdf":
                 return JasperExportManager.exportReportToPdf(jasperPrint);
-
-            case "xlsx":
-            case "excel":
-                return exportToExcel(jasperPrint);
-
             case "html":
                 return JasperExportManager.exportReportToHtmlFile(String.valueOf(jasperPrint)).getBytes();
-
             default:
                 throw new IllegalArgumentException("Formato no soportado: " + format);
         }
-    }
-
-    /**
-     * Exporta a Excel
-     */
-    private byte[] exportToExcel(JasperPrint jasperPrint) throws JRException {
-        net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter exporter =
-                new net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter();
-
-        java.io.ByteArrayOutputStream outputStream = new java.io.ByteArrayOutputStream();
-
-        exporter.setExporterInput(new net.sf.jasperreports.export.SimpleExporterInput(jasperPrint));
-        exporter.setExporterOutput(new net.sf.jasperreports.export.SimpleOutputStreamExporterOutput(outputStream));
-
-        net.sf.jasperreports.export.SimpleXlsxReportConfiguration configuration =
-                new net.sf.jasperreports.export.SimpleXlsxReportConfiguration();
-        configuration.setOnePagePerSheet(false);
-        configuration.setDetectCellType(true);
-        configuration.setCollapseRowSpan(false);
-
-        exporter.setConfiguration(configuration);
-        exporter.exportReport();
-
-        return outputStream.toByteArray();
     }
 }

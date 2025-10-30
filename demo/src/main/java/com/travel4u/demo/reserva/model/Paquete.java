@@ -34,7 +34,4 @@ public class Paquete {
 
     @Column(name = "fecha_paquete")
     private LocalDateTime fechaPaquete;
-
-    // NUEVO: Campo para borrado lógico.
-    private boolean activo = true;
 }
