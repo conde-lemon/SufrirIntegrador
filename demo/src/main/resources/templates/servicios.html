@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios Disponibles - Travel For U</title>
+    <link rel="stylesheet" th:href="@{/css/header_style.css}">
+    <link rel="stylesheet" th:href="@{/css/index1_style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: main-header}"></div>
+
+<div class="container">
+    <div class="page-header">
+        <h1 class="page-title">Servicios Disponibles</h1>
+        <p class="page-subtitle">Selecciona el servicio que deseas reservar</p>
+    </div>
+
+    <div class="packages-grid" th:if="${servicios != null and !servicios.empty}">
+        <article class="package-card" th:each="servicio : ${servicios}">
+            <div class="package-content">
+                <h3 class="package-title" th:text="${servicio.nombre}">Nombre del Servicio</h3>
+                <p class="package-provider" th:text="${servicio.proveedor != null ? servicio.proveedor.nombre : 'Sin proveedor'}">Proveedor</p>
+                <p class="package-description" th:text="${servicio.descripcion}">Descripción del servicio.</p>
+                <div class="package-route" th:if="${servicio.origen != null and servicio.destino != null}">
+                    <strong>Ruta:</strong> <span th:text="${servicio.origen} + ' → ' + ${servicio.destino}"></span>
+                </div>
+                <div class="package-tags" th:if="${servicio.tags != null and !servicio.tags.isEmpty()}">
+                    <span th:each="tag : ${servicio.tags.split(',')}" class="package-tag" th:text="${tag}">etiqueta</span>
+                </div>
+                <div class="package-footer">
+                    <span class="package-price" th:text="'S/ ' + ${#numbers.formatDecimal(servicio.precioBase, 1, 'COMMA', 2, 'POINT')}">$0.00</span>
+                    <a th:href="@{/reservar/servicio/{id}(id=${servicio.idServicio})}" class="reserve-btn">Reservar</a>
+                </div>
+            </div>
+        </article>
+    </div>
+
+    <div th:if="${servicios == null or servicios.empty}" class="alert alert-info">
+        No hay servicios disponibles en este momento.
+    </div>
+</div>
+
+</body>
+</html>
