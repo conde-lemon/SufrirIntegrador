@@ -1,16 +1,16 @@
 package com.travel4u.demo.servicio.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="servicio")
@@ -47,6 +47,7 @@ public class Servicio {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_proveedor")
+    @ToString.Exclude // <-- ¡MUY IMPORTANTE para romper el ciclo!
     private Proveedor proveedor;
 
     private boolean activo = true;

@@ -7,6 +7,7 @@
     <title>Travel For U - Inicio</title>
     <link rel="stylesheet" th:href="@{/css/header_style.css}">
     <link rel="stylesheet" th:href="@{/css/index1_style.css}">
+    <link rel="stylesheet" th:href="@{/css/reservas_style.css}">
 </head>
 
 <body>
@@ -14,19 +15,19 @@
 
 <div class="container">
 
-    <!-- NAVEGACIÓN SIMPLIFICADA: Los enlaces ahora son placeholders -->
+    <!-- NAVEGACIÓN DE SERVICIOS -->
     <nav class="category-nav">
-        <a href="#" class="category-item">Vuelos</a>
-        <a href="#" class="category-item">Cruceros</a>
-        <a href="#" class="category-item">Bus</a>
-        <a href="#" class="category-item">Hospedaje</a>
+        <a href="#" class="category-item active" data-tipo="VUELO">Vuelos</a>
+        <a href="#" class="category-item" data-tipo="CRUCERO">Cruceros</a>
+        <a href="#" class="category-item" data-tipo="BUS">Bus</a>
     </nav>
 
     <!-- SECCIÓN DE BÚSQUEDA MEJORADA: Envía datos directamente al controlador -->
     <section class="search-section">
-        <h2 class="search-title">Busca tu próximo vuelo</h2>
-        <!-- El formulario ahora apunta al endpoint del VueloController -->
-        <form class="search-form" id="flight-search-form" th:action="@{/vuelos/buscar}" method="GET">
+        <h2 class="search-title" id="search-title">Busca tu próximo vuelo</h2>
+        <!-- El formulario ahora apunta al endpoint genérico de servicios -->
+        <form class="search-form" id="service-search-form" th:action="@{/servicios/buscar}" method="GET">
+            <input type="hidden" name="tipo" id="service-type" value="VUELO">
             <div class="form-group">
                 <label class="form-label" for="select-from">Desde:</label>
                 <!-- Se añade el atributo 'name' para que Spring lo reconozca -->
@@ -58,7 +59,7 @@
             </div>
             <div class="form-group-full">
                 <!-- El botón ahora es de tipo 'submit' para enviar el formulario -->
-                <button type="submit" id="search-flight-btn" class="search-flight-btn">Buscar Vuelos</button>
+                <button type="submit" id="search-service-btn" class="search-flight-btn">Buscar Vuelos</button>
             </div>
         </form>
     </section>
@@ -67,25 +68,44 @@
 
     <hr style="margin: 40px 0;">
 
-    <!-- La sección de reservas recientes se mantiene sin cambios -->
+    <!-- Sección de reservas recientes con formato de reserva-card -->
     <section class="reservations-section">
         <h2 class="section-title">Reservas Recientes</h2>
-        <div class="packages-grid" th:if="${!reservas.isEmpty()}">
-            <article class="package-card" th:each="reserva : ${reservas}">
-                <div class="package-content">
-                    <h3 class="package-title" th:text="'Reserva #' + ${reserva.idReserva}">Reserva #123</h3>
-                    <p class="package-description">
-                        <strong>Cliente:</strong> <span th:text="${reserva.usuario.nombres} + ' ' + ${reserva.usuario.apellidos}"></span><br>
-                        <strong>Fecha:</strong> <span th:text="${#temporals.format(reserva.createdAt, 'dd/MM/yyyy HH:mm')}"></span><br>
-                        <strong>Estado:</strong> <span th:text="${reserva.estado}" class="package-tag">CONFIRMADA</span>
-                    </p>
-                    <div class="package-tags">
-                        <span class="package-price" th:text="'S/ ' + ${#numbers.formatDecimal(reserva.total, 1, 2)}">$100.00</span>
+        <div class="reservations-grid" th:if="${reservas != null and !reservas.empty}">
+            <div class="reservation-card" th:each="reserva : ${reservas}">
+                <div class="reservation-header">
+                    <div class="reservation-code" th:text="'Código: TFU-' + ${reserva.idReserva}">Código</div>
+                    <div class="reservation-title" th:text="'Reserva de Viaje'">Reserva de Viaje</div>
+                </div>
+                <div class="reservation-body">
+                    <div class="reservation-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Cliente</span>
+                            <span class="detail-value" th:text="${reserva.usuario.nombres} + ' ' + ${reserva.usuario.apellidos}">Cliente</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Fecha de reserva</span>
+                            <span class="detail-value" th:text="${#temporals.format(reserva.createdAt, 'dd MMM yyyy')}">Fecha</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Estado</span>
+                            <span class="reservation-status"
+                                  th:text="${reserva.estado}"
+                                  th:classappend="${#strings.equalsIgnoreCase(reserva.estado, 'Confirmada')} ? 'status-confirmed' : 'status-pending'">
+                                  Estado
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </article>
+                <div class="reservation-footer">
+                    <div class="reservation-price" th:text="'Total: ' + ${reserva.moneda} + ' ' + ${#numbers.formatDecimal(reserva.total, 1, 'COMMA', 2, 'POINT')}">Total</div>
+                    <div class="action-buttons">
+                        <a th:href="@{/reservas/{id}(id=${reserva.idReserva})}" class="btn btn-primary">Más Detalles</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div th:if="${reservas.isEmpty()}" class="alert alert-info">
+        <div th:if="${reservas == null or reservas.empty}" class="alert alert-info">
             No se encontraron reservas en la base de datos.
         </div>
     </section>

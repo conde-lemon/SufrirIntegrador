@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pasarela de Pago - Travel For U</title>
+    <link rel="stylesheet" th:href="@{/css/header_style.css}">
+    <link rel="stylesheet" th:href="@{/css/pago_style.css}">
+</head>
+
+<body>
+<div th:replace="~{fragments/header :: main-header}"></div>
+
+<div class="container">
+    <div class="page-header">
+        <h1 class="page-title">Finalizar Reserva</h1>
+        <p class="page-subtitle">Completa tu información de pago para confirmar la reserva</p>
+    </div>
+
+    <form th:action="@{/reservar/crear}" method="post" th:object="${reserva}">
+        <input type="hidden" name="idServicio" th:value="${param.idServicio}" />
+        <input type="hidden" name="asientoSeleccionado" th:value="${param.asientoSeleccionado}" />
+        <input type="hidden" name="equipajeIds" th:value="${param.equipajeIds}" />
+
+        <div class="payment-layout">
+            <!-- Formulario de pago -->
+            <div class="payment-section">
+                <div class="payment-card">
+                    <h3 class="card-title">Información de Pago</h3>
+                    
+                    <div class="payment-methods">
+                        <label class="payment-method">
+                            <input type="radio" name="metodoPago" value="tarjeta" checked>
+                            <span class="method-icon">💳</span>
+                            <span>Tarjeta de Crédito/Débito</span>
+                        </label>
+                        <label class="payment-method">
+                            <input type="radio" name="metodoPago" value="paypal">
+                            <span class="method-icon">🅿️</span>
+                            <span>PayPal</span>
+                        </label>
+                        <label class="payment-method">
+                            <input type="radio" name="metodoPago" value="yape">
+                            <span class="method-icon">📱</span>
+                            <span>Yape</span>
+                        </label>
+                    </div>
+
+                    <div class="card-form" id="card-form">
+                        <div class="form-group">
+                            <label class="form-label">Número de Tarjeta</label>
+                            <input type="text" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19" id="card-number">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Fecha de Vencimiento</label>
+                                <input type="text" class="form-input" placeholder="MM/AA" maxlength="5" id="expiry-date">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">CVV</label>
+                                <input type="text" class="form-input" placeholder="123" maxlength="4" id="cvv">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Nombre del Titular</label>
+                            <input type="text" class="form-input" placeholder="Juan Pérez" id="card-holder">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="payment-card">
+                    <h3 class="card-title">Información de Facturación</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Nombre Completo</label>
+                        <input type="text" class="form-input" th:field="*{observaciones}" placeholder="Nombre para la reserva" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" placeholder="correo@ejemplo.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Teléfono</label>
+                        <input type="tel" class="form-input" placeholder="+51 999 999 999" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumen de la reserva -->
+            <div class="summary-section">
+                <div class="summary-card">
+                    <h3 class="card-title">Resumen de Reserva</h3>
+                    
+                    <div class="flight-summary" th:if="${servicio != null}">
+                        <div class="flight-route">
+                            <span th:text="${servicio.origen}">Lima</span>
+                            <span class="arrow">→</span>
+                            <span th:text="${servicio.destino}">Madrid</span>
+                        </div>
+                        <p class="flight-name" th:text="${servicio.nombre}">Vuelo a Madrid</p>
+                    </div>
+
+                    <div class="summary-details">
+                        <div class="detail-item">
+                            <span>Asiento:</span>
+                            <span th:text="${param.asientoSeleccionado}">12A</span>
+                        </div>
+                        <div class="detail-item">
+                            <span>Pasajeros:</span>
+                            <span>1 Adulto</span>
+                        </div>
+                        <div class="detail-item">
+                            <span>Precio base:</span>
+                            <span th:text="'S/ ' + ${#numbers.formatDecimal(servicio.precioBase, 1, 'COMMA', 2, 'POINT')}">S/ 850.00</span>
+                        </div>
+                        <div class="detail-item">
+                            <span>Equipaje adicional:</span>
+                            <span>S/ 0.00</span>
+                        </div>
+                        <div class="detail-item">
+                            <span>Tasas e impuestos:</span>
+                            <span>S/ 45.00</span>
+                        </div>
+                    </div>
+
+                    <div class="total-section">
+                        <div class="total-item">
+                            <span>Total a Pagar:</span>
+                            <span class="total-amount" th:text="'S/ ' + ${#numbers.formatDecimal(servicio.precioBase + 45, 1, 'COMMA', 2, 'POINT')}">S/ 895.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="security-info">
+                    <div class="security-item">
+                        <span class="security-icon">🔒</span>
+                        <span>Pago 100% seguro</span>
+                    </div>
+                    <div class="security-item">
+                        <span class="security-icon">✅</span>
+                        <span>Confirmación inmediata</span>
+                    </div>
+                    <div class="security-item">
+                        <span class="security-icon">📧</span>
+                        <span>Boleto por email</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="pay-button">
+                    <span class="button-icon">💳</span>
+                    Confirmar y Pagar
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script th:src="@{/js/pago.js}"></script>
+</body>
+</html>

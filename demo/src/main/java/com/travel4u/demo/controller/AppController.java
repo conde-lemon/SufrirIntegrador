@@ -36,8 +36,29 @@ public class AppController {
      */
     @GetMapping("/")
     public String viewHomePage(Model model) {
-        List<Reserva> listaReservas = reservaDAO.findAll();
-        model.addAttribute("reservas", listaReservas);
+        System.out.println("[DEBUG] Iniciando carga de página de inicio...");
+        
+        try {
+            List<Reserva> listaReservas = reservaDAO.findAll();
+            System.out.println("[DEBUG] Reservas encontradas: " + listaReservas.size());
+            
+            for (int i = 0; i < listaReservas.size() && i < 3; i++) {
+                Reserva r = listaReservas.get(i);
+                System.out.println("[DEBUG] Reserva " + (i+1) + ": ID=" + r.getIdReserva() + 
+                                 ", Estado=" + r.getEstado() + 
+                                 ", Total=" + r.getTotal() + 
+                                 ", Usuario=" + (r.getUsuario() != null ? r.getUsuario().getEmail() : "null"));
+            }
+            
+            model.addAttribute("reservas", listaReservas);
+            System.out.println("[DEBUG] Modelo configurado correctamente");
+            
+        } catch (Exception e) {
+            System.err.println("[ERROR] Error al cargar reservas: " + e.getMessage());
+            e.printStackTrace();
+            model.addAttribute("reservas", java.util.Collections.emptyList());
+        }
+        
         return "index";
     }
 
@@ -105,22 +126,8 @@ public class AppController {
     // La lógica para "/vuelos/buscar" ahora está centralizada en VueloController.java
 
 
-    // --- Métodos para el resto de páginas de navegación ---
-
-    @GetMapping("/vuelos")
-    public String showVuelosPage() {
-        return "vuelos";
-    }
-
-    @GetMapping("/cruceros")
-    public String showCrucerosPage() {
-        return "cruceros";
-    }
-
-    @GetMapping("/bus")
-    public String showBusPage() {
-        return "bus";
-    }
+    // --- Métodos para páginas estáticas ---
+    // NOTA: Los endpoints /vuelos, /cruceros, /bus ahora están en ServicioController
 
     @GetMapping("/hospedaje")
     public String showHospedajePage() {
@@ -133,17 +140,21 @@ public class AppController {
         return "ofertas"; // Asume que tienes una plantilla ofertas.html
     }
 
-    @GetMapping("/reservas")
-    public String showReservasPage() {
-        // Lógica para mostrar las reservas del usuario
-        return "reservas"; // Asume que tienes una plantilla reservas.html
-    }
-
     @GetMapping("/terminos-y-condiciones")
     public String showTerminosPage() {
         return "terminos_y_condiciones"; // Asume que tienes un terminos_y_condiciones.html
     }
 
+
+    @GetMapping("/pago")
+    public String showPagoPage(Model model, Principal principal) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        
+        model.addAttribute("reserva", new Reserva());
+        return "pago";
+    }
 
     @GetMapping("/confirmacion-reserva")
     public String showConfirmacionReservaPage(

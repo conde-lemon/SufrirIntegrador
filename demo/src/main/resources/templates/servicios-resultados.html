@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultados de Vuelos</title>
+    <title th:text="${titulo} + ' - Travel For U'">Servicios - Travel For U</title>
     <link rel="stylesheet" th:href="@{/css/header_style.css}">
     <link rel="stylesheet" th:href="@{/css/index1_style.css}">
 </head>
@@ -11,13 +11,11 @@
 <div th:replace="~{fragments/header :: main-header}"></div>
 
 <div class="container">
-
-    <!-- ================================================== -->
-    <!-- NUEVO: Buscador integrado en la página de resultados -->
-    <!-- ================================================== -->
+    <!-- Buscador integrado -->
     <section class="search-section">
-        <h2 class="search-title">Busca otro vuelo</h2>
-        <form class="search-form" th:action="@{/vuelos/buscar}" method="GET">
+        <h2 class="search-title" th:text="'Busca ' + ${titulo}">Busca Servicios</h2>
+        <form class="search-form" th:action="@{/servicios/buscar}" method="GET">
+            <input type="hidden" name="tipo" th:value="${tipoServicio}">
             <div class="form-group">
                 <label class="form-label" for="select-from">Desde:</label>
                 <select class="form-select" id="select-from" name="origen" required>
@@ -46,7 +44,7 @@
                 </select>
             </div>
             <div class="form-group-full">
-                <button type="submit" class="search-flight-btn">Buscar Vuelos</button>
+                <button type="submit" class="search-flight-btn" th:text="'Buscar ' + ${titulo}">Buscar</button>
             </div>
         </form>
     </section>
@@ -54,50 +52,48 @@
     <hr style="margin: 40px 0;">
 
     <div class="results-header">
-        <h2 class="section-title">Resultados para:
-            <span th:text="${origen}">Origen</span> → <span th:text="${destino}">Destino</span>
-        </h2>
+        <h2 class="section-title" th:text="${titulo}">Servicios</h2>
+        <p th:if="${origen != null and destino != null}" th:text="'Resultados para: ' + ${origen} + ' → ' + ${destino}"></p>
     </div>
 
-    <!-- ================================================== -->
-    <!-- SECCIÓN DE RESULTADOS O SUGERENCIAS -->
-    <!-- ================================================== -->
-
-    <!-- Caso 1: Se encontraron vuelos -->
-    <div class="packages-grid" th:if="${!vuelos.isEmpty()}">
-        <!-- Iteramos sobre cada vuelo encontrado -->
-        <article class="package-card" th:each="vuelo : ${vuelos}">
+    <!-- Caso 1: Se encontraron servicios -->
+    <div class="packages-grid" th:if="${servicios != null and !servicios.isEmpty()}">
+        <article class="package-card" th:each="servicio : ${servicios}">
             <div class="package-content">
-                <h3 class="package-title" th:text="${vuelo.nombre}">Nombre del Vuelo</h3>
-                <p class="package-provider" th:text="${vuelo.proveedor.nombre}">Aerolínea</p>
-                <p class="package-description" th:text="${vuelo.descripcion}">Descripción del vuelo.</p>
-                <div class="package-tags" th:if="${vuelo.tags != null and !vuelo.tags.isEmpty()}">
-                    <span th:each="tag : ${vuelo.tags.split(',')}" class="package-tag" th:text="${tag}">etiqueta</span>
+                <h3 class="package-title" th:text="${servicio.nombre}">Nombre del Servicio</h3>
+                <p class="package-provider" th:text="${servicio.proveedor != null ? servicio.proveedor.nombre : 'Sin proveedor'}">Proveedor</p>
+                <p class="package-description" th:text="${servicio.descripcion}">Descripción del servicio.</p>
+                <div class="package-route" th:if="${servicio.origen != null and servicio.destino != null}">
+                    <strong>Ruta:</strong> <span th:text="${servicio.origen} + ' → ' + ${servicio.destino}"></span>
+                </div>
+                <div class="package-tags" th:if="${servicio.tags != null and !servicio.tags.isEmpty()}">
+                    <span th:each="tag : ${servicio.tags.split(',')}" class="package-tag" th:text="${tag}">etiqueta</span>
                 </div>
                 <div class="package-footer">
-                    <span class="package-price" th:text="'S/ ' + ${#numbers.formatDecimal(vuelo.precioBase, 1, 'COMMA', 2, 'POINT')}">$0.00</span>
-                    <a th:href="@{/reservar/servicio/{id}(id=${vuelo.idServicio})}" class="reserve-btn">Reservar</a>
+                    <span class="package-price" th:text="'S/ ' + ${#numbers.formatDecimal(servicio.precioBase, 1, 'COMMA', 2, 'POINT')}">$0.00</span>
+                    <a th:href="@{/reservar/servicio/{id}(id=${servicio.idServicio})}" class="reserve-btn">Reservar</a>
                 </div>
             </div>
         </article>
     </div>
 
-    <!-- Caso 2: No se encontraron vuelos, mostrar sugerencias -->
-    <div th:if="${vuelos.isEmpty()}">
+    <!-- Caso 2: No se encontraron servicios, mostrar sugerencias -->
+    <div th:if="${servicios == null or servicios.isEmpty()}">
         <div class="alert-info">
-            <p>Lo sentimos, no se encontraron vuelos para la ruta seleccionada.</p>
+            <p th:text="'Lo sentimos, no se encontraron ' + ${titulo?.toLowerCase()} + ' para la búsqueda realizada.'">No se encontraron servicios.</p>
         </div>
 
-        <!-- Mostramos la sección de sugerencias si existe -->
         <div class="suggestions-section" th:if="${sugerencias != null and !sugerencias.isEmpty()}">
             <h3 class="section-title" style="margin-top: 40px; text-align: left;">Quizás te interese...</h3>
             <div class="packages-grid">
-                <!-- Iteramos sobre las sugerencias usando la misma tarjeta -->
                 <article class="package-card" th:each="sugerencia : ${sugerencias}">
                     <div class="package-content">
-                        <h3 class="package-title" th:text="${sugerencia.nombre}">Nombre del Vuelo</h3>
-                        <p class="package-provider" th:text="${sugerencia.proveedor.nombre}">Aerolínea</p>
-                        <p class="package-description" th:text="${sugerencia.descripcion}">Descripción del vuelo.</p>
+                        <h3 class="package-title" th:text="${sugerencia.nombre}">Nombre del Servicio</h3>
+                        <p class="package-provider" th:text="${sugerencia.proveedor != null ? sugerencia.proveedor.nombre : 'Sin proveedor'}">Proveedor</p>
+                        <p class="package-description" th:text="${sugerencia.descripcion}">Descripción del servicio.</p>
+                        <div class="package-route" th:if="${sugerencia.origen != null and sugerencia.destino != null}">
+                            <strong>Ruta:</strong> <span th:text="${sugerencia.origen} + ' → ' + ${sugerencia.destino}"></span>
+                        </div>
                         <div class="package-tags" th:if="${sugerencia.tags != null and !sugerencia.tags.isEmpty()}">
                             <span th:each="tag : ${sugerencia.tags.split(',')}" class="package-tag" th:text="${tag}">etiqueta</span>
                         </div>
@@ -110,7 +106,6 @@
             </div>
         </div>
     </div>
-
 </div>
 </body>
 </html>

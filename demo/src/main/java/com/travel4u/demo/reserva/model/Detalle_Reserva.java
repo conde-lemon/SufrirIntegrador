@@ -2,16 +2,16 @@ package com.travel4u.demo.reserva.model;
 
 import com.travel4u.demo.servicio.model.Servicio;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="detalle_reserva")
@@ -34,11 +34,13 @@ public class Detalle_Reserva {
     // CORRECCIÓN: La relación es ManyToOne, no OneToOne
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_reserva", nullable = false)
+    @ToString.Exclude
     private Reserva reserva;
 
     // NUEVO: Relación con Servicio que faltaba
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_servicio", nullable = false)
+    @ToString.Exclude
     private Servicio servicio;
 
     // NUEVO: Campo de auditoría

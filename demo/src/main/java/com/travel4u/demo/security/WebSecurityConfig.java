@@ -26,6 +26,7 @@ public class WebSecurityConfig {
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
+        // NoOpPasswordEncoder trata las contraseñas como texto plano.
         return NoOpPasswordEncoder.getInstance();
     }
 
@@ -34,6 +35,9 @@ public class WebSecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // En WebSecurityConfig.java, dentro del método securityFilterChain
+
+
         http
                 .authorizeHttpRequests(auth -> auth
                         // Rutas públicas que NO requieren autenticación
@@ -44,9 +48,13 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/reportes/**").authenticated()
                         .requestMatchers("/api/ofertas/**").hasRole("ADMIN")
                         .requestMatchers("/api/paquetes/**").hasRole("ADMIN")
-                        // Todas las demás rutas (incluida "/") requieren autenticación
+              
+                        // NUEVO: Permitir acceso a la API de reservas si está autenticado
+                        .requestMatchers("/api/reservas/**").authenticated()
+                        // Todas las demás rutas requieren autenticación
                         .anyRequest().authenticated()
                 )
+
                 .formLogin(form -> form
                         .loginPage("/login")
                         .successHandler(successHandler)
@@ -59,6 +67,8 @@ public class WebSecurityConfig {
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/api/reportes/**", "/api/ofertas/**", "/api/paquetes/**")
                 );
+                // Deshabilitar CSRF para simplificar, pero considera activarlo para producción
+                .csrf(csrf -> csrf.disable());
 
         return http.build();
     }

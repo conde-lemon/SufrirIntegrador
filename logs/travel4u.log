@@ -26,6 +26,34 @@
 2025-10-30 00:11:12.482 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
 2025-10-30 00:11:12.490 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Started DemoApplication in 8.232 seconds (process running for 9.267)
 2025-10-30 00:11:12.671 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-10-30 00:01:41.414 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Starting DemoApplication using Java 21.0.7 with PID 21128 (C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)\demo\build\classes\java\main started by LENOVO in C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1))
+2025-10-30 00:01:41.420 [restartedMain] DEBUG com.travel4u.demo.DemoApplication - Running with Spring Boot v3.5.6, Spring v6.2.11
+2025-10-30 00:01:41.421 [restartedMain] INFO  com.travel4u.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+2025-10-30 00:01:41.473 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-10-30 00:01:41.487 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-10-30 00:01:42.286 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-30 00:01:42.361 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 66 ms. Found 9 JPA repository interfaces.
+2025-10-30 00:01:43.227 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2025-10-30 00:01:43.243 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
+2025-10-30 00:01:43.246 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-10-30 00:01:43.247 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-10-30 00:01:43.302 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-10-30 00:01:43.302 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1814 ms
+2025-10-30 00:01:44.050 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-30 00:01:44.086 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-10-30 00:01:44.358 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6a82546
+2025-10-30 00:01:44.359 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-10-30 00:01:44.446 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2003, org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@2b44e19a) replaced previous registration(org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@3c63cff0)
+2025-10-30 00:01:44.446 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(6, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@3641c0e4) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@3327d225)
+2025-10-30 00:01:47.180 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-30 00:01:47.660 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-30 00:01:47.690 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-10-30 00:01:47.912 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-10-30 00:01:48.426 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-10-30 00:01:48.442 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8081"]
+2025-10-30 00:01:48.469 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2025-10-30 00:01:48.484 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Started DemoApplication in 7.592 seconds (process running for 8.066)
+2025-10-30 00:01:48.619 [restartedMain] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -58,6 +86,7 @@
     from
         reserva r1_0
 2025-10-30 00:11:30.890 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+2025-10-30 00:01:48.656 [restartedMain] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -73,6 +102,7 @@
     where
         u1_0.email=?
 2025-10-30 00:11:30.898 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+2025-10-30 00:01:48.659 [restartedMain] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -88,6 +118,38 @@
     where
         u1_0.email=?
 2025-10-30 00:11:30.920 [http-nio-8081-exec-9] DEBUG org.hibernate.SQL - 
+2025-10-30 00:01:48.962 [restartedMain] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        servicio s1_0
+2025-10-30 00:01:48.967 [restartedMain] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.id_servicio,
+        s1_0.activo,
+        s1_0.created_at,
+        s1_0.descripcion,
+        s1_0.destino,
+        s1_0.disponibilidad,
+        s1_0.nombre,
+        s1_0.origen,
+        s1_0.precio_base,
+        s1_0.id_proveedor,
+        s1_0.tags,
+        s1_0.tipo_servicio 
+    from
+        servicio s1_0 
+    where
+        s1_0.nombre=?
+2025-10-30 00:01:48.977 [restartedMain] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        reserva r1_0
+2025-10-30 00:01:52.412 [http-nio-8081-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-10-30 00:01:52.414 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-10-30 00:01:52.417 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2025-10-30 00:01:58.095 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -107,6 +169,47 @@
 2025-10-30 00:11:35.795 [http-nio-8081-exec-10] WARN  n.s.j.engine.xml.JRTextFieldFactory - The 'isStretchWithOverflow' attribute is deprecated. Use the 'textAdjust' attribute instead.
 2025-10-30 00:11:35.796 [http-nio-8081-exec-10] WARN  n.s.j.engine.xml.JRTextFieldFactory - The 'isStretchWithOverflow' attribute is deprecated. Use the 'textAdjust' attribute instead.
 2025-10-30 00:12:28.367 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
+2025-10-30 00:01:58.138 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.id_reserva,
+        r1_0.created_at,
+        r1_0.estado,
+        r1_0.fecha_fin,
+        r1_0.fecha_inicio,
+        r1_0.moneda,
+        r1_0.observaciones,
+        r1_0.total,
+        r1_0.updated_at,
+        r1_0.id_usuario 
+    from
+        reserva r1_0
+2025-10-30 00:01:58.151 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal 
+    from
+        detalle_reserva dr1_0 
+    where
+        dr1_0.id_reserva=?
+2025-10-30 00:01:58.162 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal 
+    from
+        detalle_reserva dr1_0 
+    where
+        dr1_0.id_reserva=?
+2025-10-30 00:01:58.176 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -122,6 +225,34 @@
     where
         u1_0.email=?
 2025-10-30 00:12:28.377 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
+        u1_0.id_usuario=?
+2025-10-30 00:02:00.271 [http-nio-8081-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.id_reserva,
+        r1_0.created_at,
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal,
+        r1_0.estado,
+        r1_0.fecha_fin,
+        r1_0.fecha_inicio,
+        r1_0.moneda,
+        r1_0.observaciones,
+        r1_0.total,
+        r1_0.updated_at,
+        r1_0.id_usuario 
+    from
+        reserva r1_0 
+    left join
+        detalle_reserva dr1_0 
+            on r1_0.id_reserva=dr1_0.id_reserva 
+    where
+        r1_0.id_reserva=?
+2025-10-30 00:02:00.278 [http-nio-8081-exec-3] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -137,6 +268,39 @@
     where
         u1_0.email=?
 2025-10-30 00:12:28.399 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+        u1_0.id_usuario=?
+2025-10-30 00:02:00.295 [http-nio-8081-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        re1_0.id_reserva_equipaje,
+        re1_0.cantidad,
+        re1_0.created_at,
+        re1_0.id_equipaje,
+        re1_0.precio_unitario,
+        re1_0.id_reserva,
+        re1_0.subtotal 
+    from
+        reserva_equipaje re1_0 
+    where
+        re1_0.id_reserva=?
+2025-10-30 00:02:00.342 [http-nio-8081-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.id_servicio,
+        s1_0.activo,
+        s1_0.created_at,
+        s1_0.descripcion,
+        s1_0.destino,
+        s1_0.disponibilidad,
+        s1_0.nombre,
+        s1_0.origen,
+        s1_0.precio_base,
+        s1_0.id_proveedor,
+        s1_0.tags,
+        s1_0.tipo_servicio 
+    from
+        servicio s1_0 
+    where
+        s1_0.id_servicio=?
+2025-10-30 00:02:02.638 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
     select
         r1_0.id_reserva,
         r1_0.created_at,
@@ -188,6 +352,33 @@
     where
         u1_0.email=?
 2025-10-30 00:13:43.985 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+2025-10-30 00:02:02.644 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal 
+    from
+        detalle_reserva dr1_0 
+    where
+        dr1_0.id_reserva=?
+2025-10-30 00:02:02.647 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal 
+    from
+        detalle_reserva dr1_0 
+    where
+        dr1_0.id_reserva=?
+2025-10-30 00:02:02.650 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -203,6 +394,44 @@
     where
         u1_0.email=?
 2025-10-30 00:13:43.995 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
+        u1_0.id_usuario=?
+2025-10-30 00:02:02.677 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.id_servicio,
+        s1_0.activo,
+        s1_0.created_at,
+        s1_0.descripcion,
+        s1_0.destino,
+        s1_0.disponibilidad,
+        s1_0.nombre,
+        s1_0.origen,
+        s1_0.precio_base,
+        s1_0.id_proveedor,
+        s1_0.tags,
+        s1_0.tipo_servicio 
+    from
+        servicio s1_0 
+    where
+        s1_0.id_servicio=?
+2025-10-30 00:02:02.692 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.id_servicio,
+        s1_0.activo,
+        s1_0.created_at,
+        s1_0.descripcion,
+        s1_0.destino,
+        s1_0.disponibilidad,
+        s1_0.nombre,
+        s1_0.origen,
+        s1_0.precio_base,
+        s1_0.id_proveedor,
+        s1_0.tags,
+        s1_0.tipo_servicio 
+    from
+        servicio s1_0 
+    where
+        s1_0.id_servicio=?
+2025-10-30 00:02:06.917 [http-nio-8081-exec-4] DEBUG org.hibernate.SQL - 
     select
         r1_0.id_reserva,
         r1_0.created_at,
@@ -247,6 +476,33 @@
     where
         u1_0.email=?
 2025-10-30 00:13:51.393 [http-nio-8081-exec-9] DEBUG org.hibernate.SQL - 
+2025-10-30 00:02:06.923 [http-nio-8081-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal 
+    from
+        detalle_reserva dr1_0 
+    where
+        dr1_0.id_reserva=?
+2025-10-30 00:02:06.927 [http-nio-8081-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal 
+    from
+        detalle_reserva dr1_0 
+    where
+        dr1_0.id_reserva=?
+2025-10-30 00:02:06.931 [http-nio-8081-exec-4] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -298,6 +554,73 @@
 2025-10-30 00:19:41.688 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
 2025-10-30 00:19:41.699 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Started DemoApplication in 8.797 seconds (process running for 9.742)
 2025-10-30 00:19:41.866 [restartedMain] DEBUG org.hibernate.SQL - 
+        u1_0.id_usuario=?
+2025-10-30 00:02:09.739 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.id_servicio,
+        s1_0.activo,
+        s1_0.created_at,
+        s1_0.descripcion,
+        s1_0.destino,
+        s1_0.disponibilidad,
+        s1_0.nombre,
+        s1_0.origen,
+        s1_0.precio_base,
+        s1_0.id_proveedor,
+        s1_0.tags,
+        s1_0.tipo_servicio 
+    from
+        servicio s1_0 
+    where
+        s1_0.tipo_servicio=? 
+        and s1_0.origen=? 
+        and s1_0.destino=? 
+        and s1_0.activo
+2025-10-30 00:02:09.770 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id_proveedor,
+        p1_0.activo,
+        p1_0.contacto,
+        p1_0.email,
+        p1_0.nombre,
+        p1_0.telefono,
+        p1_0.tipo_proveedor 
+    from
+        proveedor p1_0 
+    where
+        p1_0.id_proveedor=?
+2025-10-30 00:02:13.149 [http-nio-8081-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.id_servicio,
+        s1_0.activo,
+        s1_0.created_at,
+        s1_0.descripcion,
+        s1_0.destino,
+        s1_0.disponibilidad,
+        s1_0.nombre,
+        s1_0.origen,
+        s1_0.precio_base,
+        s1_0.id_proveedor,
+        s1_0.tags,
+        s1_0.tipo_servicio 
+    from
+        servicio s1_0 
+    where
+        s1_0.id_servicio=?
+2025-10-30 00:02:13.157 [http-nio-8081-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        e1_0.id_equipaje,
+        e1_0.activo,
+        e1_0.descripcion,
+        e1_0.dimension_alto,
+        e1_0.dimension_ancho,
+        e1_0.dimension_largo,
+        e1_0.peso_max,
+        e1_0.precio,
+        e1_0.tipo 
+    from
+        equipaje e1_0
+2025-10-30 00:02:24.664 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -316,6 +639,68 @@
 2025-10-30 00:19:46.889 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 2025-10-30 00:19:46.893 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
 2025-10-30 00:19:47.075 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+2025-10-30 00:02:24.672 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.id_servicio,
+        s1_0.activo,
+        s1_0.created_at,
+        s1_0.descripcion,
+        s1_0.destino,
+        s1_0.disponibilidad,
+        s1_0.nombre,
+        s1_0.origen,
+        s1_0.precio_base,
+        s1_0.id_proveedor,
+        s1_0.tags,
+        s1_0.tipo_servicio 
+    from
+        servicio s1_0 
+    where
+        s1_0.id_servicio=?
+2025-10-30 00:02:24.725 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        reserva
+        (created_at, estado, fecha_fin, fecha_inicio, moneda, observaciones, total, updated_at, id_usuario) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-10-30 00:02:24.801 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        e1_0.id_equipaje,
+        e1_0.activo,
+        e1_0.descripcion,
+        e1_0.dimension_alto,
+        e1_0.dimension_ancho,
+        e1_0.dimension_largo,
+        e1_0.peso_max,
+        e1_0.precio,
+        e1_0.tipo 
+    from
+        equipaje e1_0 
+    where
+        e1_0.id_equipaje=?
+2025-10-30 00:02:24.808 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        reserva_equipaje
+        (cantidad, created_at, id_equipaje, precio_unitario, id_reserva, subtotal) 
+    values
+        (?, ?, ?, ?, ?, ?)
+2025-10-30 00:02:24.833 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    update
+        reserva 
+    set
+        estado=?,
+        fecha_fin=?,
+        fecha_inicio=?,
+        moneda=?,
+        observaciones=?,
+        total=?,
+        updated_at=?,
+        id_usuario=? 
+    where
+        id_reserva=?
+2025-10-30 00:02:24.865 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
     select
         r1_0.id_reserva,
         r1_0.created_at,
@@ -330,6 +715,46 @@
     from
         reserva r1_0
 2025-10-30 00:19:58.217 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
+2025-10-30 00:02:24.870 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal 
+    from
+        detalle_reserva dr1_0 
+    where
+        dr1_0.id_reserva=?
+2025-10-30 00:02:24.872 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal 
+    from
+        detalle_reserva dr1_0 
+    where
+        dr1_0.id_reserva=?
+2025-10-30 00:02:24.875 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal 
+    from
+        detalle_reserva dr1_0 
+    where
+        dr1_0.id_reserva=?
+2025-10-30 00:02:24.878 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -345,6 +770,8 @@
     where
         u1_0.email=?
 2025-10-30 00:19:58.224 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
+        u1_0.id_usuario=?
+2025-10-30 00:02:24.880 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -636,6 +1063,97 @@ Caused by: org.postgresql.util.PSQLException: ERROR: column "activo" of relation
 2025-10-30 00:30:41.626 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
 2025-10-30 00:30:41.631 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Started DemoApplication in 3.008 seconds (process running for 669.674)
 2025-10-30 00:30:41.677 [restartedMain] DEBUG org.hibernate.SQL - 
+        u1_0.id_usuario=?
+2025-10-30 00:02:24.896 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.id_servicio,
+        s1_0.activo,
+        s1_0.created_at,
+        s1_0.descripcion,
+        s1_0.destino,
+        s1_0.disponibilidad,
+        s1_0.nombre,
+        s1_0.origen,
+        s1_0.precio_base,
+        s1_0.id_proveedor,
+        s1_0.tags,
+        s1_0.tipo_servicio 
+    from
+        servicio s1_0 
+    where
+        s1_0.id_servicio=?
+2025-10-30 00:02:24.905 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.id_servicio,
+        s1_0.activo,
+        s1_0.created_at,
+        s1_0.descripcion,
+        s1_0.destino,
+        s1_0.disponibilidad,
+        s1_0.nombre,
+        s1_0.origen,
+        s1_0.precio_base,
+        s1_0.id_proveedor,
+        s1_0.tags,
+        s1_0.tipo_servicio 
+    from
+        servicio s1_0 
+    where
+        s1_0.id_servicio=?
+2025-10-30 00:04:42.586 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.id_reserva,
+        r1_0.created_at,
+        r1_0.estado,
+        r1_0.fecha_fin,
+        r1_0.fecha_inicio,
+        r1_0.moneda,
+        r1_0.observaciones,
+        r1_0.total,
+        r1_0.updated_at,
+        r1_0.id_usuario 
+    from
+        reserva r1_0
+2025-10-30 00:04:42.594 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal 
+    from
+        detalle_reserva dr1_0 
+    where
+        dr1_0.id_reserva=?
+2025-10-30 00:04:42.597 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal 
+    from
+        detalle_reserva dr1_0 
+    where
+        dr1_0.id_reserva=?
+2025-10-30 00:04:42.599 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal 
+    from
+        detalle_reserva dr1_0 
+    where
+        dr1_0.id_reserva=?
+2025-10-30 00:04:42.603 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -747,6 +1265,8 @@ Caused by: org.postgresql.util.PSQLException: ERROR: column "activo" of relation
 2025-10-30 00:31:16.626 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
 2025-10-30 00:31:16.628 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Started DemoApplication in 2.21 seconds (process running for 704.671)
 2025-10-30 00:31:16.662 [restartedMain] DEBUG org.hibernate.SQL - 
+        u1_0.id_usuario=?
+2025-10-30 00:04:42.604 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -856,6 +1376,34 @@ Caused by: org.postgresql.util.PSQLException: ERROR: column "activo" of relation
 2025-10-30 00:33:35.801 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
 2025-10-30 00:33:35.805 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Started DemoApplication in 3.576 seconds (process running for 843.848)
 2025-10-30 00:33:35.862 [restartedMain] DEBUG org.hibernate.SQL - 
+        u1_0.id_usuario=?
+2025-10-30 00:05:03.218 [http-nio-8081-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.id_reserva,
+        r1_0.created_at,
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal,
+        r1_0.estado,
+        r1_0.fecha_fin,
+        r1_0.fecha_inicio,
+        r1_0.moneda,
+        r1_0.observaciones,
+        r1_0.total,
+        r1_0.updated_at,
+        r1_0.id_usuario 
+    from
+        reserva r1_0 
+    left join
+        detalle_reserva dr1_0 
+            on r1_0.id_reserva=dr1_0.id_reserva 
+    where
+        r1_0.id_reserva=?
+2025-10-30 00:05:03.222 [http-nio-8081-exec-9] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -875,6 +1423,66 @@ Caused by: org.postgresql.util.PSQLException: ERROR: column "activo" of relation
 2025-10-30 00:33:53.138 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 2025-10-30 00:33:53.139 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
 2025-10-30 00:33:53.151 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+        u1_0.id_usuario=?
+2025-10-30 00:05:03.232 [http-nio-8081-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        re1_0.id_reserva_equipaje,
+        re1_0.cantidad,
+        re1_0.created_at,
+        re1_0.id_equipaje,
+        re1_0.precio_unitario,
+        re1_0.id_reserva,
+        re1_0.subtotal 
+    from
+        reserva_equipaje re1_0 
+    where
+        re1_0.id_reserva=?
+2025-10-30 00:05:03.248 [http-nio-8081-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.id_servicio,
+        s1_0.activo,
+        s1_0.created_at,
+        s1_0.descripcion,
+        s1_0.destino,
+        s1_0.disponibilidad,
+        s1_0.nombre,
+        s1_0.origen,
+        s1_0.precio_base,
+        s1_0.id_proveedor,
+        s1_0.tags,
+        s1_0.tipo_servicio 
+    from
+        servicio s1_0 
+    where
+        s1_0.id_servicio=?
+2025-10-30 00:14:28.085 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Starting DemoApplication using Java 21.0.7 with PID 23144 (C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)\demo\build\classes\java\main started by LENOVO in C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1))
+2025-10-30 00:14:28.087 [restartedMain] DEBUG com.travel4u.demo.DemoApplication - Running with Spring Boot v3.5.6, Spring v6.2.11
+2025-10-30 00:14:28.088 [restartedMain] INFO  com.travel4u.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+2025-10-30 00:14:28.138 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-10-30 00:14:28.138 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-10-30 00:14:28.926 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-30 00:14:29.002 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 69 ms. Found 9 JPA repository interfaces.
+2025-10-30 00:14:29.807 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2025-10-30 00:14:29.831 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
+2025-10-30 00:14:29.835 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-10-30 00:14:29.836 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-10-30 00:14:29.898 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-10-30 00:14:29.898 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1760 ms
+2025-10-30 00:14:30.694 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-30 00:14:30.732 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-10-30 00:14:30.968 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5f4b8cb2
+2025-10-30 00:14:30.970 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-10-30 00:14:31.062 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2003, org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@f107ad0) replaced previous registration(org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@296841c)
+2025-10-30 00:14:31.062 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(6, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@327588d2) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@4118e9e8)
+2025-10-30 00:14:33.762 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-30 00:14:34.322 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-30 00:14:34.354 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-10-30 00:14:34.550 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-10-30 00:14:35.034 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-10-30 00:14:35.049 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8081"]
+2025-10-30 00:14:35.071 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2025-10-30 00:14:35.082 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Started DemoApplication in 7.533 seconds (process running for 7.974)
+2025-10-30 00:14:35.267 [restartedMain] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -901,6 +1509,7 @@ Caused by: org.postgresql.util.PSQLException: ERROR: column "activo" of relation
 2025-10-30 00:35:56.584 [http-nio-8081-exec-6] WARN  n.s.j.engine.xml.JRTextFieldFactory - The 'isStretchWithOverflow' attribute is deprecated. Use the 'textAdjust' attribute instead.
 2025-10-30 00:35:56.585 [http-nio-8081-exec-6] WARN  n.s.j.engine.xml.JRTextFieldFactory - The 'isStretchWithOverflow' attribute is deprecated. Use the 'textAdjust' attribute instead.
 2025-10-30 00:38:07.464 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+2025-10-30 00:14:35.312 [restartedMain] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -916,6 +1525,7 @@ Caused by: org.postgresql.util.PSQLException: ERROR: column "activo" of relation
     where
         u1_0.email=?
 2025-10-30 00:38:12.223 [http-nio-8081-exec-4] DEBUG org.hibernate.SQL - 
+2025-10-30 00:14:35.315 [restartedMain] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -931,6 +1541,38 @@ Caused by: org.postgresql.util.PSQLException: ERROR: column "activo" of relation
     where
         u1_0.email=?
 2025-10-30 00:38:12.231 [http-nio-8081-exec-4] DEBUG org.hibernate.SQL - 
+2025-10-30 00:14:35.632 [restartedMain] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        servicio s1_0
+2025-10-30 00:14:35.637 [restartedMain] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.id_servicio,
+        s1_0.activo,
+        s1_0.created_at,
+        s1_0.descripcion,
+        s1_0.destino,
+        s1_0.disponibilidad,
+        s1_0.nombre,
+        s1_0.origen,
+        s1_0.precio_base,
+        s1_0.id_proveedor,
+        s1_0.tags,
+        s1_0.tipo_servicio 
+    from
+        servicio s1_0 
+    where
+        s1_0.nombre=?
+2025-10-30 00:14:35.645 [restartedMain] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        reserva r1_0
+2025-10-30 00:31:02.348 [http-nio-8081-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-10-30 00:31:02.351 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-10-30 00:31:02.354 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-10-30 00:31:09.048 [http-nio-8081-exec-5] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -946,6 +1588,7 @@ Caused by: org.postgresql.util.PSQLException: ERROR: column "activo" of relation
     where
         u1_0.email=?
 2025-10-30 00:38:12.252 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
+2025-10-30 00:31:09.112 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
     select
         r1_0.id_reserva,
         r1_0.created_at,
@@ -1155,6 +1798,61 @@ Caused by: org.postgresql.util.PSQLException: ERROR: column "activo" of relation
 2025-10-30 01:10:32.035 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
 2025-10-30 01:10:32.040 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Started DemoApplication in 4.111 seconds (process running for 3060.083)
 2025-10-30 01:10:32.086 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-10-30 00:31:09.128 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal 
+    from
+        detalle_reserva dr1_0 
+    where
+        dr1_0.id_reserva=?
+2025-10-30 00:31:09.137 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal 
+    from
+        detalle_reserva dr1_0 
+    where
+        dr1_0.id_reserva=?
+2025-10-30 00:31:09.142 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal 
+    from
+        detalle_reserva dr1_0 
+    where
+        dr1_0.id_reserva=?
+2025-10-30 00:31:09.157 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id_usuario,
+        u1_0.activo,
+        u1_0.apellidos,
+        u1_0.email,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono 
+    from
+        usuarios u1_0 
+    where
+        u1_0.id_usuario=?
+2025-10-30 00:31:09.176 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -1225,6 +1923,110 @@ org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+        u1_0.id_usuario=?
+2025-10-30 00:32:02.384 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Starting DemoApplication using Java 21.0.7 with PID 12652 (C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)\demo\build\classes\java\main started by LENOVO in C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1))
+2025-10-30 00:32:02.386 [restartedMain] DEBUG com.travel4u.demo.DemoApplication - Running with Spring Boot v3.5.6, Spring v6.2.11
+2025-10-30 00:32:02.387 [restartedMain] INFO  com.travel4u.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+2025-10-30 00:32:02.447 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-10-30 00:32:02.447 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-10-30 00:32:02.704 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.travel4u.demo.DemoApplication]
+2025-10-30 00:32:02.769 [restartedMain] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.travel4u.demo.DemoApplication]
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:194)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:418)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:290)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:349)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:118)
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:791)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:609)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
+	at com.travel4u.demo.DemoApplication.main(DemoApplication.java:26)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.springframework.context.annotation.ConflictingBeanDefinitionException: Annotation-specified bean name 'servicioController' for bean class [com.travel4u.demo.servicio.controller.ServicioController] conflicts with existing, non-compatible bean definition of same name and class [com.travel4u.demo.controller.ServicioController]
+	at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.checkCandidate(ClassPathBeanDefinitionScanner.java:361)
+	at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.doScan(ClassPathBeanDefinitionScanner.java:288)
+	at org.springframework.context.annotation.ComponentScanAnnotationParser.parse(ComponentScanAnnotationParser.java:128)
+	at org.springframework.context.annotation.ConfigurationClassParser.doProcessConfigurationClass(ConfigurationClassParser.java:346)
+	at org.springframework.context.annotation.ConfigurationClassParser.processConfigurationClass(ConfigurationClassParser.java:281)
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:204)
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:172)
+	... 16 common frames omitted
+2025-10-30 00:33:35.730 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Starting DemoApplication using Java 21.0.7 with PID 25952 (C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)\demo\build\classes\java\main started by LENOVO in C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1))
+2025-10-30 00:33:35.732 [restartedMain] DEBUG com.travel4u.demo.DemoApplication - Running with Spring Boot v3.5.6, Spring v6.2.11
+2025-10-30 00:33:35.732 [restartedMain] INFO  com.travel4u.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+2025-10-30 00:33:35.838 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-10-30 00:33:35.838 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-10-30 00:33:36.244 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.travel4u.demo.DemoApplication]
+2025-10-30 00:33:36.439 [restartedMain] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.travel4u.demo.DemoApplication]
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:194)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:418)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:290)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:349)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:118)
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:791)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:609)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
+	at com.travel4u.demo.DemoApplication.main(DemoApplication.java:26)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.springframework.context.annotation.ConflictingBeanDefinitionException: Annotation-specified bean name 'servicioController' for bean class [com.travel4u.demo.servicio.controller.ServicioController] conflicts with existing, non-compatible bean definition of same name and class [com.travel4u.demo.controller.ServicioController]
+	at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.checkCandidate(ClassPathBeanDefinitionScanner.java:361)
+	at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.doScan(ClassPathBeanDefinitionScanner.java:288)
+	at org.springframework.context.annotation.ComponentScanAnnotationParser.parse(ComponentScanAnnotationParser.java:128)
+	at org.springframework.context.annotation.ConfigurationClassParser.doProcessConfigurationClass(ConfigurationClassParser.java:346)
+	at org.springframework.context.annotation.ConfigurationClassParser.processConfigurationClass(ConfigurationClassParser.java:281)
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:204)
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:172)
+	... 16 common frames omitted
+2025-10-30 00:36:14.899 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Starting DemoApplication using Java 21.0.7 with PID 27004 (C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)\demo\build\classes\java\main started by LENOVO in C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1))
+2025-10-30 00:36:14.901 [restartedMain] DEBUG com.travel4u.demo.DemoApplication - Running with Spring Boot v3.5.6, Spring v6.2.11
+2025-10-30 00:36:14.902 [restartedMain] INFO  com.travel4u.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+2025-10-30 00:36:14.950 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-10-30 00:36:14.951 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-10-30 00:36:15.778 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-30 00:36:15.855 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 67 ms. Found 9 JPA repository interfaces.
+2025-10-30 00:36:16.588 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2025-10-30 00:36:16.606 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
+2025-10-30 00:36:16.609 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-10-30 00:36:16.611 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-10-30 00:36:16.672 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-10-30 00:36:16.673 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1721 ms
+2025-10-30 00:36:17.356 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-30 00:36:17.389 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-10-30 00:36:17.646 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3caae68d
+2025-10-30 00:36:17.647 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-10-30 00:36:17.746 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2003, org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@76b5c311) replaced previous registration(org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@1348b94c)
+2025-10-30 00:36:17.746 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(6, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@64c3693) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@3bfae050)
+2025-10-30 00:36:20.509 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-30 00:36:21.155 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-30 00:36:21.199 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-10-30 00:36:21.284 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration': Injection of autowired dependencies failed
+2025-10-30 00:36:21.285 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-10-30 00:36:21.289 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-10-30 00:36:21.293 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-10-30 00:36:21.299 [restartedMain] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2025-10-30 00:36:21.321 [restartedMain] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-10-30 00:36:21.347 [restartedMain] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration': Injection of autowired dependencies failed
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:515)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1459)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:606)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
 	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
 	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
@@ -1238,7 +2040,7 @@ org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
-	at com.travel4u.demo.DemoApplication.main(DemoApplication.java:18)
+	at com.travel4u.demo.DemoApplication.main(DemoApplication.java:26)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
@@ -1334,6 +2136,23 @@ org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+Caused by: java.lang.RuntimeException: Could not postProcess org.springframework.security.config.annotation.web.builders.WebSecurity@eaff746 of type class org.springframework.security.config.annotation.web.builders.WebSecurity
+	at org.springframework.security.config.annotation.configuration.AutowireBeanFactoryObjectPostProcessor.postProcess(AutowireBeanFactoryObjectPostProcessor.java:71)
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration.setFilterChainProxySecurityConfigurer(WebSecurityConfiguration.java:159)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredMethodElement.inject(AutowiredAnnotationBeanPostProcessor.java:854)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:146)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:509)
+	... 22 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'mvcHandlerMappingIntrospectorRequestTransformer': Cannot resolve reference to bean 'mvcHandlerMappingIntrospector' while setting constructor argument
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:377)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveConstructorArguments(ConstructorResolver.java:691)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:206)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1395)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
 	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
 	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
@@ -1443,12 +2262,117 @@ org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:227)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveNamedBean(DefaultListableBeanFactory.java:1613)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveNamedBean(DefaultListableBeanFactory.java:1571)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveBean(DefaultListableBeanFactory.java:564)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory$1.getIfUnique(DefaultListableBeanFactory.java:490)
+	at org.springframework.security.config.annotation.web.builders.WebSecurity.setApplicationContext(WebSecurity.java:433)
+	at org.springframework.context.support.ApplicationContextAwareProcessor.invokeAwareInterfaces(ApplicationContextAwareProcessor.java:110)
+	at org.springframework.context.support.ApplicationContextAwareProcessor.postProcessBeforeInitialization(ApplicationContextAwareProcessor.java:85)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInitialization(AbstractAutowireCapableBeanFactory.java:429)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1818)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:419)
+	at org.springframework.security.config.annotation.configuration.AutowireBeanFactoryObjectPostProcessor.initializeBeanIfNeeded(AutowireBeanFactoryObjectPostProcessor.java:98)
+	at org.springframework.security.config.annotation.configuration.AutowireBeanFactoryObjectPostProcessor.postProcess(AutowireBeanFactoryObjectPostProcessor.java:67)
+	... 28 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'mvcHandlerMappingIntrospector' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Ambiguous mapping. Cannot map 'servicioController' method 
+com.travel4u.demo.servicio.controller.ServicioController#mostrarCruceros(Model)
+to {GET [/cruceros]}: There is already 'appController' bean method
+com.travel4u.demo.controller.AppController#showCrucerosPage() mapped.
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365)
+	... 51 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Ambiguous mapping. Cannot map 'servicioController' method 
+com.travel4u.demo.servicio.controller.ServicioController#mostrarCruceros(Model)
+to {GET [/cruceros]}: There is already 'appController' bean method
+com.travel4u.demo.controller.AppController#showCrucerosPage() mapped.
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBeansOfType(DefaultListableBeanFactory.java:748)
+	at org.springframework.context.support.AbstractApplicationContext.getBeansOfType(AbstractApplicationContext.java:1426)
+	at org.springframework.beans.factory.BeanFactoryUtils.beansOfTypeIncludingAncestors(BeanFactoryUtils.java:372)
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.initHandlerMappings(HandlerMappingIntrospector.java:159)
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.afterPropertiesSet(HandlerMappingIntrospector.java:146)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
+	... 58 common frames omitted
+Caused by: java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'servicioController' method 
+com.travel4u.demo.servicio.controller.ServicioController#mostrarCruceros(Model)
+to {GET [/cruceros]}: There is already 'appController' bean method
+com.travel4u.demo.controller.AppController#showCrucerosPage() mapped.
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry.validateMethodMapping(AbstractHandlerMethodMapping.java:676)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry.register(AbstractHandlerMethodMapping.java:637)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:331)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.registerHandlerMethod(RequestMappingHandlerMapping.java:507)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.registerHandlerMethod(RequestMappingHandlerMapping.java:84)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.lambda$detectHandlerMethods$2(AbstractHandlerMethodMapping.java:298)
+	at java.base/java.util.LinkedHashMap.forEach(LinkedHashMap.java:986)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.detectHandlerMethods(AbstractHandlerMethodMapping.java:296)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.processCandidateBean(AbstractHandlerMethodMapping.java:265)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.initHandlerMethods(AbstractHandlerMethodMapping.java:224)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.afterPropertiesSet(AbstractHandlerMethodMapping.java:212)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.afterPropertiesSet(RequestMappingHandlerMapping.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
+	... 71 common frames omitted
+2025-10-30 00:38:26.452 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Starting DemoApplication using Java 21.0.7 with PID 9984 (C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)\demo\build\classes\java\main started by LENOVO in C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1))
+2025-10-30 00:38:26.453 [restartedMain] DEBUG com.travel4u.demo.DemoApplication - Running with Spring Boot v3.5.6, Spring v6.2.11
+2025-10-30 00:38:26.454 [restartedMain] INFO  com.travel4u.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+2025-10-30 00:38:26.503 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-10-30 00:38:26.504 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-10-30 00:38:27.345 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-30 00:38:27.423 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 69 ms. Found 9 JPA repository interfaces.
+2025-10-30 00:38:28.190 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2025-10-30 00:38:28.217 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
+2025-10-30 00:38:28.219 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-10-30 00:38:28.220 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-10-30 00:38:28.273 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-10-30 00:38:28.274 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1769 ms
+2025-10-30 00:38:28.881 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-30 00:38:28.921 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-10-30 00:38:29.179 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1b0b296f
+2025-10-30 00:38:29.181 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-10-30 00:38:29.285 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2003, org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@7177b5fd) replaced previous registration(org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@27a3f046)
+2025-10-30 00:38:29.285 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(6, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@44196443) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@288de4f0)
+2025-10-30 00:38:31.861 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-30 00:38:32.392 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-30 00:38:32.427 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-10-30 00:38:32.497 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration': Injection of autowired dependencies failed
+2025-10-30 00:38:32.499 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-10-30 00:38:32.502 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-10-30 00:38:32.505 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-10-30 00:38:32.512 [restartedMain] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2025-10-30 00:38:32.529 [restartedMain] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-10-30 00:38:32.546 [restartedMain] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration': Injection of autowired dependencies failed
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:515)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1459)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:606)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
 	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
 	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
 	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
 	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207)
 	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.instantiateSingleton(DefaultListableBeanFactory.java:1221)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingleton(DefaultListableBeanFactory.java:1187)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:1123)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:987)
 	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627)
 	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
 	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
@@ -1554,6 +2478,27 @@ org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at com.travel4u.demo.DemoApplication.main(DemoApplication.java:26)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: java.lang.RuntimeException: Could not postProcess org.springframework.security.config.annotation.web.builders.WebSecurity@6529b9f5 of type class org.springframework.security.config.annotation.web.builders.WebSecurity
+	at org.springframework.security.config.annotation.configuration.AutowireBeanFactoryObjectPostProcessor.postProcess(AutowireBeanFactoryObjectPostProcessor.java:71)
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration.setFilterChainProxySecurityConfigurer(WebSecurityConfiguration.java:159)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredMethodElement.inject(AutowiredAnnotationBeanPostProcessor.java:854)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:146)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:509)
+	... 22 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'mvcHandlerMappingIntrospectorRequestTransformer': Cannot resolve reference to bean 'mvcHandlerMappingIntrospector' while setting constructor argument
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:377)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveConstructorArguments(ConstructorResolver.java:691)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:206)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1395)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
 	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
 	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
@@ -1711,6 +2656,104 @@ Caused by: org.postgresql.util.PSQLException: ERROR: column "activo" of relation
 
 Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
 2025-10-30 01:15:40.758 [restartedMain] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:227)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveNamedBean(DefaultListableBeanFactory.java:1613)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveNamedBean(DefaultListableBeanFactory.java:1571)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveBean(DefaultListableBeanFactory.java:564)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory$1.getIfUnique(DefaultListableBeanFactory.java:490)
+	at org.springframework.security.config.annotation.web.builders.WebSecurity.setApplicationContext(WebSecurity.java:433)
+	at org.springframework.context.support.ApplicationContextAwareProcessor.invokeAwareInterfaces(ApplicationContextAwareProcessor.java:110)
+	at org.springframework.context.support.ApplicationContextAwareProcessor.postProcessBeforeInitialization(ApplicationContextAwareProcessor.java:85)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInitialization(AbstractAutowireCapableBeanFactory.java:429)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1818)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:419)
+	at org.springframework.security.config.annotation.configuration.AutowireBeanFactoryObjectPostProcessor.initializeBeanIfNeeded(AutowireBeanFactoryObjectPostProcessor.java:98)
+	at org.springframework.security.config.annotation.configuration.AutowireBeanFactoryObjectPostProcessor.postProcess(AutowireBeanFactoryObjectPostProcessor.java:67)
+	... 28 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'mvcHandlerMappingIntrospector' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Ambiguous mapping. Cannot map 'servicioController' method 
+com.travel4u.demo.servicio.controller.ServicioController#mostrarCruceros(Model)
+to {GET [/cruceros]}: There is already 'appController' bean method
+com.travel4u.demo.controller.AppController#showCrucerosPage() mapped.
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365)
+	... 51 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Ambiguous mapping. Cannot map 'servicioController' method 
+com.travel4u.demo.servicio.controller.ServicioController#mostrarCruceros(Model)
+to {GET [/cruceros]}: There is already 'appController' bean method
+com.travel4u.demo.controller.AppController#showCrucerosPage() mapped.
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBeansOfType(DefaultListableBeanFactory.java:748)
+	at org.springframework.context.support.AbstractApplicationContext.getBeansOfType(AbstractApplicationContext.java:1426)
+	at org.springframework.beans.factory.BeanFactoryUtils.beansOfTypeIncludingAncestors(BeanFactoryUtils.java:372)
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.initHandlerMappings(HandlerMappingIntrospector.java:159)
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.afterPropertiesSet(HandlerMappingIntrospector.java:146)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
+	... 58 common frames omitted
+Caused by: java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'servicioController' method 
+com.travel4u.demo.servicio.controller.ServicioController#mostrarCruceros(Model)
+to {GET [/cruceros]}: There is already 'appController' bean method
+com.travel4u.demo.controller.AppController#showCrucerosPage() mapped.
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry.validateMethodMapping(AbstractHandlerMethodMapping.java:676)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping$MappingRegistry.register(AbstractHandlerMethodMapping.java:637)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.registerHandlerMethod(AbstractHandlerMethodMapping.java:331)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.registerHandlerMethod(RequestMappingHandlerMapping.java:507)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.registerHandlerMethod(RequestMappingHandlerMapping.java:84)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.lambda$detectHandlerMethods$2(AbstractHandlerMethodMapping.java:298)
+	at java.base/java.util.LinkedHashMap.forEach(LinkedHashMap.java:986)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.detectHandlerMethods(AbstractHandlerMethodMapping.java:296)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.processCandidateBean(AbstractHandlerMethodMapping.java:265)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.initHandlerMethods(AbstractHandlerMethodMapping.java:224)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.afterPropertiesSet(AbstractHandlerMethodMapping.java:212)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.afterPropertiesSet(RequestMappingHandlerMapping.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
+	... 71 common frames omitted
+2025-10-30 00:55:53.672 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Starting DemoApplication using Java 21.0.7 with PID 1680 (C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)\demo\build\classes\java\main started by LENOVO in C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1))
+2025-10-30 00:55:53.677 [restartedMain] DEBUG com.travel4u.demo.DemoApplication - Running with Spring Boot v3.5.6, Spring v6.2.11
+2025-10-30 00:55:53.678 [restartedMain] INFO  com.travel4u.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+2025-10-30 00:55:53.737 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-10-30 00:55:53.737 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-10-30 00:55:54.708 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-30 00:55:54.834 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 116 ms. Found 9 JPA repository interfaces.
+2025-10-30 00:55:57.173 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2025-10-30 00:55:57.206 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
+2025-10-30 00:55:57.213 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-10-30 00:55:57.214 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-10-30 00:55:57.275 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-10-30 00:55:57.276 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3538 ms
+2025-10-30 00:55:58.247 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-30 00:55:58.287 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-10-30 00:55:58.647 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1fd23e63
+2025-10-30 00:55:58.653 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-10-30 00:55:58.787 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2003, org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@327588d2) replaced previous registration(org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@4118e9e8)
+2025-10-30 00:55:58.787 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(6, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@46d17bae) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@71e5a336)
+2025-10-30 00:56:01.673 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-30 00:56:02.221 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-30 00:56:02.265 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-10-30 00:56:02.505 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-10-30 00:56:03.013 [restartedMain] WARN  o.s.b.d.a.OptionalLiveReloadServer - Unable to start LiveReload server
+2025-10-30 00:56:03.027 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8081"]
+2025-10-30 00:56:03.046 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-10-30 00:56:03.049 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-10-30 00:56:03.053 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-10-30 00:56:03.055 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-10-30 00:56:03.077 [restartedMain] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-10-30 00:56:03.116 [restartedMain] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
 
 ***************************
 APPLICATION FAILED TO START
@@ -1751,6 +2794,86 @@ Consider defining a bean of type 'org.springframework.security.crypto.password.P
 2025-10-30 01:15:45.537 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
 2025-10-30 01:15:45.540 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Started DemoApplication in 3.263 seconds (process running for 167.497)
 2025-10-30 01:15:45.580 [restartedMain] DEBUG org.hibernate.SQL - 
+Web server failed to start. Port 8081 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8081 or configure this application to listen on another port.
+
+2025-10-30 01:13:01.649 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Starting DemoApplication using Java 21.0.7 with PID 7976 (C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)\demo\build\classes\java\main started by LENOVO in C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1))
+2025-10-30 01:13:01.662 [restartedMain] DEBUG com.travel4u.demo.DemoApplication - Running with Spring Boot v3.5.6, Spring v6.2.11
+2025-10-30 01:13:01.663 [restartedMain] INFO  com.travel4u.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+2025-10-30 01:13:01.729 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-10-30 01:13:01.729 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-10-30 01:13:02.660 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-30 01:13:02.775 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 109 ms. Found 9 JPA repository interfaces.
+2025-10-30 01:13:03.654 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2025-10-30 01:13:03.677 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
+2025-10-30 01:13:03.683 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-10-30 01:13:03.683 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-10-30 01:13:03.749 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-10-30 01:13:03.749 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2019 ms
+2025-10-30 01:13:04.581 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-30 01:13:04.623 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-10-30 01:13:04.921 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@cd73f8b
+2025-10-30 01:13:04.923 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-10-30 01:13:05.027 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2003, org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@3f04bbdd) replaced previous registration(org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@7b28b9d7)
+2025-10-30 01:13:05.027 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(6, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@3630867a) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@6dd0bfc7)
+2025-10-30 01:13:08.432 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-30 01:13:09.424 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-30 01:13:09.631 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-10-30 01:13:10.156 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-10-30 01:13:11.355 [restartedMain] WARN  o.s.b.d.a.OptionalLiveReloadServer - Unable to start LiveReload server
+2025-10-30 01:13:11.391 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8081"]
+2025-10-30 01:13:11.409 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-10-30 01:13:11.416 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-10-30 01:13:11.423 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-10-30 01:13:11.432 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-10-30 01:13:11.475 [restartedMain] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-10-30 01:13:11.532 [restartedMain] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8081 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8081 or configure this application to listen on another port.
+
+2025-10-30 01:19:03.375 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Starting DemoApplication using Java 21.0.7 with PID 19808 (C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)\demo\build\classes\java\main started by LENOVO in C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1))
+2025-10-30 01:19:03.376 [restartedMain] DEBUG com.travel4u.demo.DemoApplication - Running with Spring Boot v3.5.6, Spring v6.2.11
+2025-10-30 01:19:03.377 [restartedMain] INFO  com.travel4u.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+2025-10-30 01:19:03.436 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-10-30 01:19:03.437 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-10-30 01:19:04.377 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-30 01:19:04.476 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 92 ms. Found 9 JPA repository interfaces.
+2025-10-30 01:19:05.368 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2025-10-30 01:19:05.385 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
+2025-10-30 01:19:05.387 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-10-30 01:19:05.387 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-10-30 01:19:05.443 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-10-30 01:19:05.443 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2005 ms
+2025-10-30 01:19:06.140 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-30 01:19:06.175 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-10-30 01:19:06.450 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@37392e0a
+2025-10-30 01:19:06.452 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-10-30 01:19:06.539 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2003, org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@6e1d8550) replaced previous registration(org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@1c2030dc)
+2025-10-30 01:19:06.539 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(6, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@407a633) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@137c6ddb)
+2025-10-30 01:19:09.384 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-30 01:19:09.959 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-30 01:19:09.998 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-10-30 01:19:10.273 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-10-30 01:19:10.797 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-10-30 01:19:10.817 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8081"]
+2025-10-30 01:19:10.854 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2025-10-30 01:19:10.863 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Started DemoApplication in 8.077 seconds (process running for 8.593)
+2025-10-30 01:19:11.053 [restartedMain] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -1814,6 +2937,7 @@ Consider defining a bean of type 'org.springframework.security.crypto.password.P
 2025-10-30 01:21:49.774 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
 2025-10-30 01:21:49.779 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Started DemoApplication in 5.863 seconds (process running for 531.735)
 2025-10-30 01:21:49.846 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-10-30 01:19:11.092 [restartedMain] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -1863,6 +2987,7 @@ Consider defining a bean of type 'org.springframework.security.crypto.password.P
 2025-10-30 01:22:14.571 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
 2025-10-30 01:22:14.574 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Started DemoApplication in 3.264 seconds (process running for 556.53)
 2025-10-30 01:22:14.620 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-10-30 01:19:11.095 [restartedMain] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -1921,6 +3046,38 @@ Consider defining a bean of type 'org.springframework.security.crypto.password.P
 2025-10-30 01:23:30.786 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
 2025-10-30 01:23:30.803 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Started DemoApplication in 17.821 seconds (process running for 19.663)
 2025-10-30 01:23:31.146 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-10-30 01:19:11.438 [restartedMain] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        servicio s1_0
+2025-10-30 01:19:11.443 [restartedMain] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.id_servicio,
+        s1_0.activo,
+        s1_0.created_at,
+        s1_0.descripcion,
+        s1_0.destino,
+        s1_0.disponibilidad,
+        s1_0.nombre,
+        s1_0.origen,
+        s1_0.precio_base,
+        s1_0.id_proveedor,
+        s1_0.tags,
+        s1_0.tipo_servicio 
+    from
+        servicio s1_0 
+    where
+        s1_0.nombre=?
+2025-10-30 01:19:11.452 [restartedMain] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        reserva r1_0
+2025-10-30 01:22:16.663 [http-nio-8081-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-10-30 01:22:16.664 [http-nio-8081-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-10-30 01:22:16.669 [http-nio-8081-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 4 ms
+2025-10-30 01:22:23.003 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -1939,6 +3096,7 @@ Consider defining a bean of type 'org.springframework.security.crypto.password.P
 2025-10-30 01:24:07.740 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 2025-10-30 01:24:07.742 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
 2025-10-30 01:24:07.813 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+2025-10-30 01:22:23.049 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
     select
         r1_0.id_reserva,
         r1_0.created_at,
@@ -1968,6 +3126,46 @@ Consider defining a bean of type 'org.springframework.security.crypto.password.P
     where
         u1_0.email=?
 2025-10-30 01:24:14.806 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
+2025-10-30 01:22:23.064 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal 
+    from
+        detalle_reserva dr1_0 
+    where
+        dr1_0.id_reserva=?
+2025-10-30 01:22:23.071 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal 
+    from
+        detalle_reserva dr1_0 
+    where
+        dr1_0.id_reserva=?
+2025-10-30 01:22:23.076 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        dr1_0.id_reserva,
+        dr1_0.id_detalle_reserva,
+        dr1_0.cantidad,
+        dr1_0.created_at,
+        dr1_0.precio_unitario,
+        dr1_0.id_servicio,
+        dr1_0.subtotal 
+    from
+        detalle_reserva dr1_0 
+    where
+        dr1_0.id_reserva=?
+2025-10-30 01:22:23.087 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -1983,6 +3181,8 @@ Consider defining a bean of type 'org.springframework.security.crypto.password.P
     where
         u1_0.email=?
 2025-10-30 01:24:14.826 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+        u1_0.id_usuario=?
+2025-10-30 01:22:23.100 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -2013,3 +3213,4 @@ Consider defining a bean of type 'org.springframework.security.crypto.password.P
 2025-10-30 01:28:21.131 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2025-10-30 01:28:21.137 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2025-10-30 01:28:21.145 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+        u1_0.id_usuario=?
