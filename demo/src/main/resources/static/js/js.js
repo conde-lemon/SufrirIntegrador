@@ -1,9 +1,5 @@
-// Reemplaza el contenido de: /static/js/js.js
-
-// Espera a que todo el contenido del DOM esté cargado
 document.addEventListener('DOMContentLoaded', () => {
-
-    // --- Lógica para el menú de navegación (hamburguesa) ---
+    // Menú hamburguesa
     const btnNavbar = document.getElementById("btn-navbar");
     if (btnNavbar) {
         btnNavbar.addEventListener("click", () => {
@@ -14,23 +10,50 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Lógica para la búsqueda de vuelos en index.html ---
+    // Elementos del formulario de búsqueda
     const selectFrom = document.getElementById('select-from');
     const selectTo = document.getElementById('select-to');
-    const searchBtn = document.getElementById('search-flight-btn');
+    const searchBtn = document.getElementById('search-service-btn');
+    const serviceTypeInput = document.getElementById('service-type');
+    const searchTitle = document.getElementById('search-title');
+    const categoryItems = document.querySelectorAll('.category-item');
 
-    // Si los elementos del formulario de vuelo no existen en la página actual, no continues.
     if (!selectFrom || !selectTo || !searchBtn) {
         return;
     }
 
-    // Función para verificar si se debe mostrar el botón
+    // Configuración de tipos de servicio
+    const serviceConfig = {
+        'VUELO': { title: 'Busca tu próximo vuelo', button: 'Buscar Vuelos' },
+        'CRUCERO': { title: 'Busca tu próximo crucero', button: 'Buscar Cruceros' },
+        'BUS': { title: 'Busca tu próximo bus', button: 'Buscar Buses' }
+    };
+
+    // Cambiar tipo de servicio
+    categoryItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Actualizar clases activas
+            categoryItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            
+            // Obtener tipo de servicio
+            const tipo = item.dataset.tipo;
+            const config = serviceConfig[tipo];
+            
+            // Actualizar formulario
+            serviceTypeInput.value = tipo;
+            searchTitle.textContent = config.title;
+            searchBtn.textContent = config.button;
+        });
+    });
+
+    // Validación del formulario
     const checkSelectors = () => {
         const fromValue = selectFrom.value;
         const toValue = selectTo.value;
 
-        // Muestra el botón solo si ambos selectores tienen un valor
-        // y los valores de origen y destino son diferentes.
         if (fromValue && toValue && fromValue !== toValue) {
             searchBtn.classList.remove('hidden');
         } else {
@@ -38,18 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Añade listeners a ambos selectores para que se verifique cada vez que cambian
     selectFrom.addEventListener('change', checkSelectors);
     selectTo.addEventListener('change', checkSelectors);
-
-    // Añade el listener para el clic en el botón de búsqueda
-    searchBtn.addEventListener('click', () => {
-        const origin = selectFrom.value;
-        const destination = selectTo.value;
-
-        // Construye la URL y redirige a la nueva página
-        // El controlador en Spring Boot se encargará de esta ruta
-        window.location.href = `/vuelos/buscar?origen=${origin}&destino=${destination}`;
-    });
-
 });

@@ -13,11 +13,9 @@ public interface IServicioDAO extends JpaRepository<Servicio, Long> {
 
     List<Servicio> findByTipoServicioAndOrigenAndDestinoAndActivoTrue(String tipoServicio, String origen, String destino);
 
-    // --- MÉTODO NUEVO PARA SUGERENCIAS ---
-    // Busca los 5 primeros vuelos activos para usar como sugerencia.
+    List<Servicio> findByTipoServicioAndActivoTrue(String tipoServicio);
+
     List<Servicio> findTop5ByTipoServicioAndActivoTrue(String tipoServicio);
 
-    // --- CORRECCIÓN ---
-    // Se cambia ScopedValue por Optional<Servicio>, que es el estándar de Spring.
     Optional<Servicio> findByNombre(String nombre);
 }

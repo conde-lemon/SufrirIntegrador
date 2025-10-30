@@ -20,7 +20,10 @@ public class VueloService {
     }
 
     public List<Servicio> obtenerSugerenciasDeVuelos() {
-        // Retorna los 5 vuelos activos más recientes o populares
         return servicioDAO.findTop5ByTipoServicioAndActivoTrue("VUELO");
+    }
+
+    public List<Servicio> obtenerTodosLosVuelos() {
+        return servicioDAO.findByTipoServicioAndActivoTrue("VUELO");
     }
 }

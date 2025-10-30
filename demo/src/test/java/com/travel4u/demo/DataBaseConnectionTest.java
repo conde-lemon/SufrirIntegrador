@@ -71,7 +71,7 @@ class DatabaseConnectionTest {
         assertEquals("Test User", foundUser.getNombres() + " " + foundUser.getApellidos());
 
         // Recuperar las reservas para ese usuario
-        List<Reserva> foundReservas = reservaDAOc.findByUsuario(foundUser);
+        List<Reserva> foundReservas = reservaDAO.findByUsuarioOrderByCreatedAtDesc(foundUser);
 
         // Verificar que se encontró la reserva
         assertNotNull(foundReservas, "La lista de reservas no debería ser nula.");

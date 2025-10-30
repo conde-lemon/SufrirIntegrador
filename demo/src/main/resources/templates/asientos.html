@@ -13,63 +13,105 @@
 <div th:replace="~{fragments/header :: main-header}"></div>
 
 <div class="container">
-    <!-- El formulario ahora enviará todos los datos de la reserva -->
-    <form th:action="@{/reservar/crear}" method="post" th:object="${reserva}">
-        <div class="main-layout">
-            <!-- El mapa de asientos es visual, no necesita cambios -->
-            <aside class="seat-map-sidebar">
-                <!-- ... tu mapa de asientos aquí ... -->
-                <h4>Mapa de Asientos (Visual)</h4>
-                <div class="seat-row">
-                    <div class="seat">A1</div>
-                    <div class="seat occupied">A2</div>
-                </div>
-            </aside>
+    <form th:action="@{/pago}" method="post" th:object="${reserva}">
+        <input type="hidden" name="idServicio" th:value="${servicio != null ? servicio.idServicio : ''}" />
+        
+        <div class="page-header">
+            <h1 class="page-title">Selección de Asientos</h1>
+            <p class="page-subtitle">Elige tu asiento preferido para el vuelo</p>
+        </div>
 
-            <main class="main-content">
-                <!-- Sección de Datos del Pasajero -->
-                <section class="personal-data-section">
-                    <h2 class="section-title">Datos del Pasajero Principal</h2>
-                    <div class="form-grid">
-                        <div class="form-group form-row-full">
-                            <label class="form-label">Nombre del Pasajero (para observaciones)</label>
-                            <input type="text" class="form-input" placeholder="Ej: Juan Pérez" th:field="*{observaciones}" required>
+        <div class="main-layout">
+            <!-- Mapa de asientos a la izquierda -->
+            <div class="seat-section">
+                <div class="seat-map-container">
+                    <h3 class="section-title">Mapa de Asientos</h3>
+                    <div class="seat-legend">
+                        <div class="legend-item"><span class="seat available"></span> Disponible</div>
+                        <div class="legend-item"><span class="seat occupied"></span> Ocupado</div>
+                        <div class="legend-item"><span class="seat selected"></span> Seleccionado</div>
+                    </div>
+                    
+                    <div class="aircraft">
+                        <div class="aircraft-header">✈️ Frente del Avión</div>
+                        <div class="seat-rows">
+                            <div class="seat-row" th:each="row : ${#numbers.sequence(1, 25)}">
+                                <span class="row-number" th:text="${row}">1</span>
+                                <div class="seats">
+                                    <button type="button" class="seat available" th:each="col : ${'A,B,C'.split(',')}" 
+                                            th:data-seat="${row + col}" th:text="${row + col}">1A</button>
+                                    <div class="aisle"></div>
+                                    <button type="button" class="seat available" th:each="col : ${'D,E,F'.split(',')}" 
+                                            th:data-seat="${row + col}" th:text="${row + col}">1D</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </section>
+                    <input type="hidden" name="asientoSeleccionado" id="asientoSeleccionado" required>
+                </div>
+            </div>
 
-                <!-- NUEVA SECCIÓN: Selección de Equipaje -->
-                <section class="baggage-section">
-                    <h2 class="section-title">Añadir Equipaje</h2>
+            <!-- Formulario de detalles a la derecha -->
+            <div class="form-section">
+                <!-- Información del Vuelo -->
+                <div class="info-card" th:if="${servicio != null}">
+                    <h3 class="card-title">Vuelo Seleccionado</h3>
+                    <div class="flight-route">
+                        <span class="origin" th:text="${servicio.origen}">Lima</span>
+                        <span class="arrow">→</span>
+                        <span class="destination" th:text="${servicio.destino}">Madrid</span>
+                    </div>
+                    <div class="flight-details">
+                        <p><strong>Servicio:</strong> <span th:text="${servicio.nombre}">Vuelo a Madrid</span></p>
+                        <p><strong>Precio base:</strong> <span th:text="'S/ ' + ${#numbers.formatDecimal(servicio.precioBase, 1, 'COMMA', 2, 'POINT')}">S/ 850.00</span></p>
+                    </div>
+                </div>
+
+                <!-- Datos del Pasajero -->
+                <div class="info-card">
+                    <h3 class="card-title">Datos del Pasajero</h3>
+                    <div class="form-group">
+                        <label class="form-label">Nombre del Pasajero</label>
+                        <input type="text" class="form-input" placeholder="Ej: Juan Pérez" th:field="*{observaciones}" required>
+                    </div>
+                </div>
+
+                <!-- Selección de Equipaje -->
+                <div class="info-card">
+                    <h3 class="card-title">Equipaje Adicional</h3>
                     <div class="baggage-options" th:if="${!tiposDeEquipaje.isEmpty()}">
-                        <!-- Iteramos sobre los tipos de equipaje que pasamos desde el controlador -->
                         <div class="baggage-option" th:each="equipaje : ${tiposDeEquipaje}">
                             <input type="checkbox" name="equipajeIds" th:value="${equipaje.idEquipaje}" th:id="'equipaje-' + ${equipaje.idEquipaje}">
-                            <label th:for="'equipaje-' + ${equipaje.idEquipaje}">
+                            <label th:for="'equipaje-' + ${equipaje.idEquipaje}" class="baggage-label">
                                 <span class="baggage-type" th:text="${equipaje.tipo}">Equipaje de mano</span>
                                 <span class="baggage-price" th:text="'+ S/ ' + ${#numbers.formatDecimal(equipaje.precio, 1, 'COMMA', 2, 'POINT')}">+ S/ 50.00</span>
                             </label>
                         </div>
                     </div>
-                    <div th:if="${tiposDeEquipaje.isEmpty()}">
-                        <p>No hay opciones de equipaje disponibles en este momento.</p>
-                    </div>
-                </section>
-
-                <!-- Detalles del Vuelo y Confirmación -->
-                <section class="reservation-details">
-                    <h2 class="section-title">Detalles del Vuelo</h2>
-                    <div class="details-grid">
-                        <!-- ... (detalles del vuelo no cambian) ... -->
-                    </div>
-                </section>
-
-                <div class="button-container">
-                    <button type="submit" class="continue-button">Confirmar y Pagar</button>
                 </div>
-            </main>
+
+                <!-- Resumen -->
+                <div class="info-card summary-card">
+                    <h3 class="card-title">Resumen de Reserva</h3>
+                    <div class="summary-item">
+                        <span>Asiento seleccionado:</span>
+                        <span id="selected-seat-display">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Precio base:</span>
+                        <span th:text="'S/ ' + ${#numbers.formatDecimal(servicio.precioBase, 1, 'COMMA', 2, 'POINT')}">S/ 850.00</span>
+                    </div>
+                    <div class="summary-total">
+                        <span>Total:</span>
+                        <span id="total-price" th:text="'S/ ' + ${#numbers.formatDecimal(servicio.precioBase, 1, 'COMMA', 2, 'POINT')}">S/ 850.00</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="continue-button">Continuar al Pago</button>
+            </div>
         </div>
     </form>
 </div>
+<script th:src="@{/js/asientos.js}"></script>
 </body>
 </html>

@@ -21,7 +21,7 @@
     </div>
 
     <!-- Caso 1: El usuario tiene reservas -->
-    <div th:if="${!reservas.isEmpty()}">
+    <div th:if="${reservas != null and !reservas.empty}">
         <!-- Tarjetas de reservas dinámicas -->
         <div class="reservations-grid">
             <!-- Iteramos sobre la lista de reservas pasadas por el controlador -->
@@ -73,7 +73,7 @@
     </div>
 
     <!-- Caso 2: El usuario no tiene reservas -->
-    <div class="alert alert-info" th:if="${reservas.isEmpty()}" style="text-align: center; padding: 40px; margin-top: 30px;">
+    <div class="alert alert-info" th:if="${reservas == null or reservas.empty}" style="text-align: center; padding: 40px; margin-top: 30px;">
         <h2>Aún no tienes reservas</h2>
         <p style="margin-top: 10px;">¡Es hora de planear tu próxima aventura! Explora nuestros destinos y encuentra tu viaje ideal.</p>
         <a th:href="@{/}" class="btn btn-primary" style="margin-top: 20px;">Buscar Vuelos</a>

@@ -76,7 +76,7 @@
                 </div>
                 <div class="package-footer">
                     <span class="package-price" th:text="'S/ ' + ${#numbers.formatDecimal(vuelo.precioBase, 1, 'COMMA', 2, 'POINT')}">$0.00</span>
-                    <a href="#" class="reserve-btn">Reservar</a>
+                    <a th:href="@{/reservar/servicio/{id}(id=${vuelo.idServicio})}" class="reserve-btn">Reservar</a>
                 </div>
             </div>
         </article>
@@ -103,7 +103,7 @@
                         </div>
                         <div class="package-footer">
                             <span class="package-price" th:text="'S/ ' + ${#numbers.formatDecimal(sugerencia.precioBase, 1, 'COMMA', 2, 'POINT')}">$0.00</span>
-                            <a href="#" class="reserve-btn">Reservar</a>
+                            <a th:href="@{/reservar/servicio/{id}(id=${sugerencia.idServicio})}" class="reserve-btn">Reservar</a>
                         </div>
                     </div>
                 </article>
