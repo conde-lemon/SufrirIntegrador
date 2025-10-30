@@ -1,45 +1,38 @@
--- Este script se ejecuta al iniciar la aplicación para poblar la base de datos.
--- Se insertan datos solo si las tablas están vacías para evitar duplicados.
+-- =================================================================
+-- DATOS DE EJEMPLO PARA USUARIOS Y RESERVAS
+-- =================================================================
 
--- Insertar Proveedores si no existen
-INSERT INTO proveedor (id_proveedor, nombre, tipo_proveedor, contacto, email, telefono, activo)
-SELECT 1, 'Latam Airlines', 'AEROLINEA', 'contacto@latam.com', 'contacto@latam.com', '123456789', true
-    WHERE NOT EXISTS (SELECT 1 FROM proveedor WHERE id_proveedor = 1);
+-- Insertar un usuario de tipo CLIENTE si no existe
+INSERT INTO usuarios (id_usuario, nombres, apellidos, email, password, rol, activo, fecha_registro)
+SELECT 100, 'Carlos', 'Cliente', 'cliente@travel4u.com', '1234', 'CLIENTE', true, '2025-10-01 10:00:00' -- CAMBIO: Contraseña en texto plano
+    WHERE NOT EXISTS (SELECT 1 FROM usuarios WHERE email = 'cliente@travel4u.com');
 
-INSERT INTO proveedor (id_proveedor, nombre, tipo_proveedor, contacto, email, telefono, activo)
-SELECT 2, 'Iberia', 'AEROLINEA', 'contacto@iberia.com', 'contacto@iberia.com', '987654321', true
-    WHERE NOT EXISTS (SELECT 1 FROM proveedor WHERE id_proveedor = 2);
+-- (El resto de tu archivo data.sql permanece igual)
 
-INSERT INTO proveedor (id_proveedor, nombre, tipo_proveedor, contacto, email, telefono, activo)
-SELECT 3, 'Avianca', 'AEROLINEA', 'contacto@avianca.com', 'contacto@avianca.com', '555555555', true
-    WHERE NOT EXISTS (SELECT 1 FROM proveedor WHERE id_proveedor = 3);
+-- Insertar una Reserva 1 (Vuelo a Madrid) para el cliente
+INSERT INTO reserva (id_reserva, estado, total, fecha_inicio, fecha_fin, moneda, id_usuario, created_at, observaciones)
+SELECT 10, 'Confirmada', 1250.50, '2025-11-15 08:00:00', '2025-11-15 22:00:00', 'PEN', 100, '2025-10-02 11:00:00', 'Vuelo directo a Madrid con escala en Bogotá.'
+    WHERE NOT EXISTS (SELECT 1 FROM reserva WHERE id_reserva = 10);
+
+-- Detalle para la Reserva 1
+INSERT INTO detalle_reserva (id_detalle_reserva, cantidad, precio_unitario, subtotal, id_reserva, id_servicio)
+SELECT 10, 1, 1250.50, 1250.50, 10, (SELECT id_servicio FROM servicio WHERE nombre = 'Vuelo a Madrid')
+    WHERE NOT EXISTS (SELECT 1 FROM detalle_reserva WHERE id_detalle_reserva = 10);
+
+-- Pago para la Reserva 1
+INSERT INTO pago (id_pago, monto, metodo_pago, estado_pago, fecha_pago, id_reserva)
+SELECT 10, 1250.50, 'TARJETA_CREDITO', 'COMPLETADO', '2025-10-02 11:05:00', 10
+    WHERE NOT EXISTS (SELECT 1 FROM pago WHERE id_pago = 10);
 
 
--- Insertar Servicios (Vuelos) si no existen
-INSERT INTO servicio (tipo_servicio, nombre, origen, destino, tags, precio_base, disponibilidad, descripcion, id_proveedor, activo)
-SELECT 'VUELO', 'Vuelo Económico a Cusco', 'Peru', 'Peru', 'top ventas,aventura', 150.00, 20, 'Descubre la magia de Cusco.', 1, true
-    WHERE NOT EXISTS (SELECT 1 FROM servicio WHERE nombre = 'Vuelo Económico a Cusco');
+-- Insertar una Reserva 2 (Vuelo a Cusco) para el mismo cliente
+INSERT INTO reserva (id_reserva, estado, total, fecha_inicio, fecha_fin, moneda, id_usuario, created_at, observaciones)
+SELECT 11, 'Pendiente', 300.00, '2025-12-01 06:00:00', '2025-12-01 07:30:00', 'PEN', 100, '2025-10-10 15:00:00', 'Vuelo matutino a Cusco para 2 personas.'
+    WHERE NOT EXISTS (SELECT 1 FROM reserva WHERE id_reserva = 11);
 
-INSERT INTO servicio (tipo_servicio, nombre, origen, destino, tags, precio_base, disponibilidad, descripcion, id_proveedor, activo)
-SELECT 'VUELO', 'Vuelo a Madrid', 'Peru', 'Espana', 'vacaciones,familiar,top ventas', 1250.50, 15, 'Explora la capital de España.', 2, true
-    WHERE NOT EXISTS (SELECT 1 FROM servicio WHERE nombre = 'Vuelo a Madrid');
+-- Detalle para la Reserva 2
+INSERT INTO detalle_reserva (id_detalle_reserva, cantidad, precio_unitario, subtotal, id_reserva, id_servicio)
+SELECT 11, 2, 150.00, 300.00, 11, (SELECT id_servicio FROM servicio WHERE nombre = 'Vuelo Económico a Cusco')
+    WHERE NOT EXISTS (SELECT 1 FROM detalle_reserva WHERE id_detalle_reserva = 11);
 
-INSERT INTO servicio (tipo_servicio, nombre, origen, destino, tags, precio_base, disponibilidad, descripcion, id_proveedor, activo)
-SELECT 'VUELO', 'Escapada a Buenos Aires', 'Peru', 'Argentina', 'invierno,gastronomia', 450.00, 10, 'Disfruta del tango y la buena comida.', 1, true
-    WHERE NOT EXISTS (SELECT 1 FROM servicio WHERE nombre = 'Escapada a Buenos Aires');
-
-INSERT INTO servicio (tipo_servicio, nombre, origen, destino, tags, precio_base, disponibilidad, descripcion, id_proveedor, activo)
-SELECT 'VUELO', 'Vuelo Directo a Cancún', 'Mexico', 'Mexico', 'playa,verano,familiar', 380.00, 25, 'Relájate en las playas del Caribe.', 1, true
-    WHERE NOT EXISTS (SELECT 1 FROM servicio WHERE nombre = 'Vuelo Directo a Cancún');
-
-INSERT INTO servicio (tipo_servicio, nombre, origen, destino, tags, precio_base, disponibilidad, descripcion, id_proveedor, activo)
-SELECT 'VUELO', 'Conexión a París', 'Colombia', 'Francia', 'romantico,vacaciones', 1100.00, 8, 'La ciudad del amor te espera.', 2, true
-    WHERE NOT EXISTS (SELECT 1 FROM servicio WHERE nombre = 'Conexión a París');
-
-INSERT INTO servicio (tipo_servicio, nombre, origen, destino, tags, precio_base, disponibilidad, descripcion, id_proveedor, activo)
-SELECT 'VUELO', 'Vuelo a Lima', 'Brasil', 'Peru', 'negocios,puente aereo', 350.00, 18, 'Conexión directa entre Sao Paulo y Lima.', 3, true
-    WHERE NOT EXISTS (SELECT 1 FROM servicio WHERE nombre = 'Vuelo a Lima');
-
-INSERT INTO servicio (tipo_servicio, nombre, origen, destino, tags, precio_base, disponibilidad, descripcion, id_proveedor, activo)
-SELECT 'VUELO', 'Vuelo a Bogotá', 'Mexico', 'Colombia', 'negocios,cultural', 420.00, 12, 'Descubre la capital colombiana.', 3, true
-    WHERE NOT EXISTS (SELECT 1 FROM servicio WHERE nombre = 'Vuelo a Bogotá');
+-- No insertamos pago para la Reserva 2 para simular un estado 'Pendiente'.

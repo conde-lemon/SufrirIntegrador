@@ -2,16 +2,17 @@
 package com.travel4u.demo.reserva.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal; // CAMBIO: Usar BigDecimal para dinero
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(of = "idPago")
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="pago")

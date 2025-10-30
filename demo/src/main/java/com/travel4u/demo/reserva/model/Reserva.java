@@ -7,13 +7,19 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(of = "idReserva")
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="reserva")
@@ -56,6 +62,12 @@ public class Reserva {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    // En la clase Reserva.java
+
+    @OneToMany(mappedBy = "reserva", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Detalle_Reserva> detalleReservas;
+
 
     // El campo 'fecha_reserva' del SQL es manejado por 'createdAt'
 }

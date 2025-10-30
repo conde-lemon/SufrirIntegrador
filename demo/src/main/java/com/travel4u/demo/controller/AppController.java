@@ -133,12 +133,6 @@ public class AppController {
         return "ofertas"; // Asume que tienes una plantilla ofertas.html
     }
 
-    @GetMapping("/reservas")
-    public String showReservasPage() {
-        // Lógica para mostrar las reservas del usuario
-        return "reservas"; // Asume que tienes una plantilla reservas.html
-    }
-
     @GetMapping("/terminos-y-condiciones")
     public String showTerminosPage() {
         return "terminos_y_condiciones"; // Asume que tienes un terminos_y_condiciones.html

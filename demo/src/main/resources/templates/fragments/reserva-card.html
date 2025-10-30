@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!--/* Fragmento de la tarjeta de reserva */-->
+<div class="reservation-card" th:fragment="card(reserva)">
+    <div class="reservation-header">
+        <div class="reservation-code" th:text="'Código: TFU-' + ${reserva.idReserva}">Código</div>
+        <div class="reservation-title" th:text="${!reserva.detalleReservas.isEmpty() ? reserva.detalleReservas.iterator().next().servicio.nombre : 'Reserva de Paquete'}">
+            Título de la Reserva
+        </div>
+    </div>
+    <div class="reservation-body" th:if="${!reserva.detalleReservas.isEmpty()}" th:with="primerDetalle=${reserva.detalleReservas.iterator().next()}">
+        <div class="reservation-details">
+            <div class="detail-item">
+                <span class="detail-label">Origen</span>
+                <span class="detail-value" th:text="${primerDetalle.servicio.origen}"></span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Destino</span>
+                <span class="detail-value" th:text="${primerDetalle.servicio.destino}"></span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Fecha de salida</span>
+                <span class="detail-value" th:text="${#temporals.format(reserva.fechaInicio, 'dd MMM yyyy')}"></span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Pasajeros</span>
+                <span class="detail-value" th:text="${primerDetalle.cantidad} + ' Pasajero(s)'"></span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Estado</span>
+                <span class="reservation-status"
+                      th:text="${reserva.estado}"
+                      th:classappend="${#strings.equalsIgnoreCase(reserva.estado, 'Confirmada')} ? 'status-confirmed' : 'status-pending'">
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="reservation-footer">
+        <div class="reservation-price" th:text="'Total: ' + ${reserva.moneda} + ' ' + ${#numbers.formatDecimal(reserva.total, 1, 'COMMA', 2, 'POINT')}"></div>
+        <div class="action-buttons">
+            <a th:href="@{/reservas/{id}(id=${reserva.idReserva})}" class="btn btn-primary">Ver Detalles</a>
+            <a href="#" class="btn btn-outline">Descargar</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

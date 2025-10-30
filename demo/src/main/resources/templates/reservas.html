@@ -1,115 +1,85 @@
-<!-- C:/Users/LENOVO/Documents/utp/ciclo7/integrador/demo (1)/demo/src/main/resources/templates/index.html -->
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel For U - Inicio</title>
+    <title>Travel For U - Mis Reservas</title>
     <link rel="stylesheet" th:href="@{/css/header_style.css}">
     <link rel="stylesheet" th:href="@{/css/index1_style.css}">
+    <link rel="stylesheet" th:href="@{/css/reservas_style.css}">
 </head>
 
-
 <body>
-    <!-- cabeza principal -->
-    <header class="main-header">
-        <div class="header-content">
-            <div class="logo">Travel For U</div>
-            <nav>
-                <ul class="main-nav">
-                    <li><a href="./index.html">Inicio</a></li>
-                    <li><a href="./paquetes_y_promociones.html">Ofertas</a></li>
-                    <li><a href="./reservas.html" class="active">Reservas</a></li>
-                    <li><a href="#">Perfil</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<!-- Incluimos el fragmento del header para no repetir código -->
+<div th:replace="~{fragments/header :: main-header}"></div>
 
-    <div class="container">
-        <!-- Encabezado de página -->
-        <div class="page-header">
-            <h1 class="page-title">Mis Reservas</h1>
-            <p class="page-subtitle">Gestiona y revisa todas tus reservas de viaje</p>
-        </div>
+<div class="container">
+    <div class="page-header">
+        <h1 class="page-title">Mis Reservas</h1>
+        <p class="page-subtitle" th:if="${!reservas.isEmpty()}">Gestiona y revisa todas tus reservas de viaje.</p>
+    </div>
 
-        <!-- Filtros -->
-        <div class="filters-section">
-            <span class="filter-label">Filtrar por:</span>
-            <select class="filter-select">
-                <option>Todas las fechas</option>
-                <option>Próximos 7 días</option>
-                <option>Próximos 30 días</option>
-                <option>Este mes</option>
-            </select>
-            <select class="filter-select">
-                <option>Todos los estados</option>
-                <option>Confirmadas</option>
-                <option>Pendientes</option>
-                <option>Canceladas</option>
-            </select>
-            <select class="filter-select">
-                <option>Ordenar por fecha</option>
-                <option>Ordenar por precio</option>
-                <option>Ordenar por destino</option>
-            </select>
-        </div>
-
-        <!-- Tarjetas de reservas -->
+    <!-- Caso 1: El usuario tiene reservas -->
+    <div th:if="${!reservas.isEmpty()}">
+        <!-- Tarjetas de reservas dinámicas -->
         <div class="reservations-grid">
-            <!-- Reserva 1 -->
-            <div class="reservation-card">
+            <!-- Iteramos sobre la lista de reservas pasadas por el controlador -->
+            <div class="reservation-card" th:each="reserva : ${reservas}">
                 <div class="reservation-header">
-                    <div class="reservation-code">Código: TFU-2025-8472</div>
-                    <div class="reservation-title">Vuelo a Buenos Aires</div>
+                    <div class="reservation-code" th:text="'Código: TFU-' + ${reserva.idReserva}">Código</div>
+                    <div class="reservation-title" th:text="${!reserva.detalleReservas.isEmpty() ? reserva.detalleReservas.iterator().next().servicio.nombre : 'Reserva de Paquete'}">
+                        Título de la Reserva
+                    </div>
                 </div>
-                <div class="reservation-body">
+                <div class="reservation-body" th:if="${!reserva.detalleReservas.isEmpty()}" th:with="primerDetalle=${reserva.detalleReservas.iterator().next()}">
                     <div class="reservation-details">
                         <div class="detail-item">
                             <span class="detail-label">Origen</span>
-                            <span class="detail-value">Lima, Peru</span>
+                            <span class="detail-value" th:text="${primerDetalle.servicio.origen}">Lima, Peru</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">Destino</span>
-                            <span class="detail-value">Buenos Aires, Argentina</span>
+                            <span class="detail-value" th:text="${primerDetalle.servicio.destino}">Buenos Aires, Argentina</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">Fecha de salida</span>
-                            <span class="detail-value">15 Oct 2025</span>
+                            <span class="detail-value" th:text="${#temporals.format(reserva.fechaInicio, 'dd MMM yyyy')}">15 Oct 2025</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">Pasajeros</span>
-                            <span class="detail-value">2 Adultos</span>
+                            <span class="detail-value" th:text="${primerDetalle.cantidad} + ' Pasajero(s)'">2 Adultos</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">Estado</span>
-                            <span class="reservation-status status-confirmed">Confirmada</span>
+                            <span class="reservation-status"
+                                  th:text="${reserva.estado}"
+                                  th:classappend="${#strings.equalsIgnoreCase(reserva.estado, 'Confirmada')} ? 'status-confirmed' : (${#strings.equalsIgnoreCase(reserva.estado, 'Cancelada')} ? 'status-cancelled' : 'status-pending')">
+                                  Confirmada
+                            </span>
                         </div>
                     </div>
                 </div>
                 <div class="reservation-footer">
-                    <div class="reservation-price"></div>
+                    <div class="reservation-price" th:text="'Total: ' + ${reserva.moneda} + ' ' + ${#numbers.formatDecimal(reserva.total, 1, 'COMMA', 2, 'POINT')}"></div>
                     <div class="action-buttons">
-                        <a href="#" class="btn btn-primary">Ver Detalles</a>
-                        <a href="/confirmacion-reserva" class="btn btn-outline">Descargar</a>
+                        <!-- BOTÓN CORREGIDO: Lleva a la página de detalle de la reserva -->
+                        <a th:href="@{/reservas/{id}(id=${reserva.idReserva})}" class="btn btn-primary">Ver Detalles</a>
+                        <a href="#" class="btn btn-outline">Descargar</a>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Paginación -->
-        <div class="pagination">
-            <div class="pagination-nav">
-                <a href="#" class="pagination-btn">Anterior</a>
-                <a href="#" class="pagination-btn active">1</a>
-                <a href="#" class="pagination-btn">2</a>
-                <a href="#" class="pagination-btn">3</a>
-                <a href="#" class="pagination-btn">Siguiente</a>
-            </div>
-        </div>
     </div>
-    <script th:src="@{/js/js.js}"></script>
-</body>
 
+    <!-- Caso 2: El usuario no tiene reservas -->
+    <div class="alert alert-info" th:if="${reservas.isEmpty()}" style="text-align: center; padding: 40px; margin-top: 30px;">
+        <h2>Aún no tienes reservas</h2>
+        <p style="margin-top: 10px;">¡Es hora de planear tu próxima aventura! Explora nuestros destinos y encuentra tu viaje ideal.</p>
+        <a th:href="@{/}" class="btn btn-primary" style="margin-top: 20px;">Buscar Vuelos</a>
+    </div>
+</div>
+
+<script th:src="@{/js/js.js}"></script>
+</body>
 </html>

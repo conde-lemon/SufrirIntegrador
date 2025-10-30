@@ -8,58 +8,89 @@ import com.travel4u.demo.reserva.repository.IReservaDAO;
 import com.travel4u.demo.reserva.repository.IReservaEquipajeDAO;
 import com.travel4u.demo.usuario.model.Usuario;
 import com.travel4u.demo.usuario.repository.IUsuarioDAO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus; // Importar HttpStatus
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.server.ResponseStatusException; // Importar ResponseStatusException
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
-import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
 public class ReservaController {
 
-    @Autowired
-    private IReservaDAO reservaDAO;
+    // --- MEJORA: Inyección de dependencias por constructor ---
+    // Es una práctica recomendada sobre @Autowired en campos.
+    // Hace que las dependencias sean explícitas y la clase más fácil de probar.
+    private final IReservaDAO reservaDAO;
+    private final IUsuarioDAO usuarioDAO;
+    private final IEquipajeDAO equipajeDAO;
+    private final IReservaEquipajeDAO reservaEquipajeDAO;
 
-    @Autowired
-    private IUsuarioDAO usuarioDAO;
-
-    @Autowired
-    private IEquipajeDAO equipajeDAO;
-
-    @Autowired
-    private IReservaEquipajeDAO reservaEquipajeDAO;
+    public ReservaController(IReservaDAO reservaDAO, IUsuarioDAO usuarioDAO, IEquipajeDAO equipajeDAO, IReservaEquipajeDAO reservaEquipajeDAO) {
+        this.reservaDAO = reservaDAO;
+        this.usuarioDAO = usuarioDAO;
+        this.equipajeDAO = equipajeDAO;
+        this.reservaEquipajeDAO = reservaEquipajeDAO;
+    }
 
     /**
      * Muestra la página "Mis Reservas" con la lista de reservas del usuario autenticado.
-     * URL CAMBIADA para evitar conflicto con AppController.
+     * URL estandarizada a /reservas para que coincida con la plantilla.
      */
-    @GetMapping("/mis-reservas") // <-- CAMBIO DE URL
-    public String showMisReservasPage(Model model, Principal principal) {
-        if (principal == null) {
+    @GetMapping("/reservas")
+    public String showMisReservasPage(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
             return "redirect:/login";
         }
 
-        Usuario usuario = usuarioDAO.findByEmail(principal.getName())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuario autenticado no encontrado o sesión inválida."));
+        Usuario usuario = usuarioDAO.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuario no encontrado."));
 
-        List<Reserva> misReservas = reservaDAO.findByUsuario(usuario);
+        // CORRECCIÓN: Usamos el método que ordena por fecha para una mejor experiencia de usuario.
+        List<Reserva> misReservas = reservaDAO.findByUsuarioOrderByCreatedAtDesc(usuario);
 
         model.addAttribute("reservas", misReservas);
-        return "reservas"; // Asume que la plantilla se llama 'reservas.html'
+        return "reservas";
+    }
+
+    /**
+     * Muestra la página de detalles de una reserva específica.
+     * URL estandarizada a /reservas/{id}
+     */
+    @GetMapping("/reservas/{id}")
+    public String showReservaDetallePage(@PathVariable("id") Integer id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return "redirect:/login";
+        }
+
+        // CORRECCIÓN: El ID de la reserva es Integer, no Long.
+        Reserva reserva = reservaDAO.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada con ID: " + id));
+
+        // VERIFICACIÓN DE SEGURIDAD: El usuario solo puede ver sus propias reservas.
+        if (!reserva.getUsuario().getEmail().equals(userDetails.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado. No tienes permiso para ver esta reserva.");
+        }
+
+        // Cargamos los datos adicionales que la vista de detalle necesita.
+        List<Reserva_Equipaje> equipajesDeLaReserva = reservaEquipajeDAO.findByReserva(reserva);
+
+        model.addAttribute("reserva", reserva);
+        model.addAttribute("equipajes", equipajesDeLaReserva);
+
+        return "reserva-detalle";
     }
 
     /**
      * Muestra la página de selección de asientos para iniciar una nueva reserva.
+     * (Mantenido de tu versión original)
      */
     @GetMapping("/reservar/vuelo/{idVuelo}")
     public String showAsientosPage(@PathVariable("idVuelo") Long idVuelo, Model model) {
@@ -79,27 +110,28 @@ public class ReservaController {
 
     /**
      * Procesa el formulario completo para crear la reserva y su equipaje asociado.
+     * (Mantenido de tu versión original)
      */
     @PostMapping("/reservar/crear")
     public String crearReserva(
-            Reserva reserva, // Considerar usar un DTO para la entrada del formulario
+            Reserva reserva,
             @RequestParam(name = "equipajeIds", required = false) List<Integer> equipajeIds,
-            Principal principal,
+            @AuthenticationPrincipal UserDetails userDetails,
             RedirectAttributes attributes) {
 
-        if (principal == null) {
+        if (userDetails == null) {
             return "redirect:/login";
         }
 
-        Usuario usuario = usuarioDAO.findByEmail(principal.getName())
+        Usuario usuario = usuarioDAO.findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuario no encontrado para crear la reserva."));
 
         // SUGERENCIA: El precio base del vuelo debería obtenerse de un servicio de vuelos, no hardcodeado.
         BigDecimal totalReserva = new BigDecimal("350.00"); // Precio base del vuelo (ejemplo)
         reserva.setUsuario(usuario);
-        reserva.setEstado("Pendiente"); // Considerar usar un enum para estados
-        reserva.setFechaInicio(LocalDateTime.of(2025, 10, 15, 9, 30)); // Debería venir del formulario o vuelo
-        reserva.setMoneda("PEN"); // Considerar usar un enum o constante
+        reserva.setEstado("Pendiente");
+        reserva.setFechaInicio(LocalDateTime.of(2025, 10, 15, 9, 30));
+        reserva.setMoneda("PEN");
 
         reserva.setTotal(totalReserva);
         Reserva reservaGuardada = reservaDAO.save(reserva);
@@ -112,7 +144,7 @@ public class ReservaController {
                 Reserva_Equipaje reservaEquipaje = new Reserva_Equipaje();
                 reservaEquipaje.setReserva(reservaGuardada);
                 reservaEquipaje.setEquipaje(equipaje);
-                reservaEquipaje.setCantidad(1); // SUGERENCIA: Si la UI permite, esto debería ser variable
+                reservaEquipaje.setCantidad(1);
                 reservaEquipaje.setPrecioUnitario(equipaje.getPrecio());
                 reservaEquipaje.setSubtotal(equipaje.getPrecio());
 
@@ -126,31 +158,29 @@ public class ReservaController {
         reservaDAO.save(reservaGuardada);
 
         attributes.addFlashAttribute("success", "¡Tu reserva ha sido creada con éxito!");
-        return "redirect:/mis-reservas"; // Redirigir a la nueva URL
+        return "redirect:/reservas"; // Redirigir a la URL estandarizada
     }
+    // En ReservaController.java, añade este método junto a los otros
 
     /**
-     * Muestra la página de detalles de una reserva específica.
-     * Incluye una validación de seguridad para asegurar que el usuario solo vea sus propias reservas.
+     * NUEVO: Endpoint de API para obtener los detalles de una reserva como JSON.
+     * Esto será consumido por JavaScript para llenar el popup.
      */
-    @GetMapping("/mis-reservas/{id}") // <-- URL ACTUALIZADA
-    public String showReservaDetallePage(@PathVariable("id") Long id, Model model, Principal principal) { // <-- ID a Long
-        if (principal == null) {
-            return "redirect:/login";
+    @GetMapping("/api/reservas/{id}")
+    @ResponseBody // <-- ¡Muy importante! Indica que la respuesta es JSON, no una vista.
+    public Reserva getReservaDetalleJson(@PathVariable("id") Integer id, @AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No autenticado");
         }
 
         Reserva reserva = reservaDAO.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada con ID: " + id));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada"));
 
-        if (!reserva.getUsuario().getEmail().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado. No tienes permiso para ver esta reserva.");
+        // Verificación de seguridad
+        if (!reserva.getUsuario().getEmail().equals(userDetails.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
         }
 
-        List<Reserva_Equipaje> equipajesDeLaReserva = reservaEquipajeDAO.findByReserva(reserva);
-
-        model.addAttribute("reserva", reserva);
-        model.addAttribute("equipajes", equipajesDeLaReserva);
-
-        return "reserva-detalle";
+        return reserva;
     }
 }

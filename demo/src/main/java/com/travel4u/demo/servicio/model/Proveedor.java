@@ -2,15 +2,18 @@
 package com.travel4u.demo.servicio.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*; // <-- Importa las nuevas anotaciones
 
 @Entity
-@Data
+@Table(name = "proveedor")
+// --- REEMPLAZA @Data POR ESTO ---
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(of = "idProveedor")
+// ---------------------------------
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "proveedor")
 public class Proveedor {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -27,6 +30,5 @@ public class Proveedor {
     private String email;
     private String telefono;
 
-    // NUEVO: Campo para borrado lógico.
     private boolean activo = true;
 }
