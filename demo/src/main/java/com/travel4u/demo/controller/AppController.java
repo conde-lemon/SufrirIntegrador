@@ -84,24 +84,34 @@ public class AppController {
      */
     @PostMapping("/registrar")
     public String processRegistration(Usuario usuario, RedirectAttributes redirectAttributes) {
-        // Verificar si el email ya existe
-        if (usuarioDAO.findByEmail(usuario.getEmail()).isPresent()) {
-            redirectAttributes.addFlashAttribute("error", "El correo electrónico ya está registrado.");
+        try {
+            // Verificar si el email ya existe
+            if (usuarioDAO.findByEmail(usuario.getEmail()).isPresent()) {
+                redirectAttributes.addFlashAttribute("error", "El correo electrónico ya está registrado.");
+                return "redirect:/registrar";
+            }
+
+            // MEJORA DE SEGURIDAD: Encriptar la contraseña antes de guardarla
+            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+
+            // Establecer valores por defecto
+            usuario.setRol("USUARIO");
+            usuario.setActivo(true);
+            usuario.setFechaRegistro(LocalDateTime.now());
+            
+            // Asegurar que el ID sea null para que Hibernate genere uno nuevo
+            usuario.setIdUsuario(null);
+
+            usuarioDAO.save(usuario);
+
+            redirectAttributes.addFlashAttribute("success", "¡Registro exitoso! Ahora puedes iniciar sesión.");
+            return "redirect:/login";
+            
+        } catch (Exception e) {
+            System.err.println("[ERROR] Error al registrar usuario: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Error al registrar el usuario. Por favor, inténtalo de nuevo.");
             return "redirect:/registrar";
         }
-
-        // MEJORA DE SEGURIDAD: Encriptar la contraseña antes de guardarla
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-
-        // Establecer valores por defecto
-        usuario.setRol("USUARIO");
-        usuario.setActivo(true);
-        usuario.setFechaRegistro(LocalDateTime.now());
-
-        usuarioDAO.save(usuario);
-
-        redirectAttributes.addFlashAttribute("success", "¡Registro exitoso! Ahora puedes iniciar sesión.");
-        return "redirect:/login";
     }
 
     /**
@@ -146,15 +156,7 @@ public class AppController {
     }
 
 
-    @GetMapping("/pago")
-    public String showPagoPage(Model model, Principal principal) {
-        if (principal == null) {
-            return "redirect:/login";
-        }
-        
-        model.addAttribute("reserva", new Reserva());
-        return "pago";
-    }
+
 
     @GetMapping("/confirmacion-reserva")
     public String showConfirmacionReservaPage(

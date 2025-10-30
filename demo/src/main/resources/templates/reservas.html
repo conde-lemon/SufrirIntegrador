@@ -65,7 +65,7 @@
                     <div class="action-buttons">
                         <!-- BOTÓN CORREGIDO: Lleva a la página de detalle de la reserva -->
                         <a th:href="@{/reservas/{id}(id=${reserva.idReserva})}" class="btn btn-primary">Ver Detalles</a>
-                        <a href="#" class="btn btn-outline">Descargar</a>
+                        <a th:href="@{/boleta/reserva/{id}(id=${reserva.idReserva})}" class="btn btn-outline" target="_blank">Descargar Boleta</a>
                     </div>
                 </div>
             </div>

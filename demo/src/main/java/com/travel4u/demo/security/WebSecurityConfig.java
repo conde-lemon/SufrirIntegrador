@@ -64,10 +64,6 @@ public class WebSecurityConfig {
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
                 )
-                .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/api/reportes/**", "/api/ofertas/**", "/api/paquetes/**")
-                );
-                // Deshabilitar CSRF para simplificar, pero considera activarlo para producción
                 .csrf(csrf -> csrf.disable());
 
         return http.build();

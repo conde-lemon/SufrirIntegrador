@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago - Travel For U</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        .btn { padding: 15px 30px; background: #7b1fa2; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        .btn:hover { background: #5a1475; }
+        .summary { background: #f8f9fa; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Finalizar Reserva</h1>
+            <p>Completa los datos para confirmar tu reserva</p>
+        </div>
+
+        <!-- Resumen -->
+        <div class="summary" th:if="${servicio != null}">
+            <h3>Resumen del Servicio</h3>
+            <p><strong>Servicio:</strong> <span th:text="${servicio.nombre}">Vuelo</span></p>
+            <p><strong>Ruta:</strong> <span th:text="${servicio.origen} + ' → ' + ${servicio.destino}">Lima → Madrid</span></p>
+            <p><strong>Precio:</strong> S/ <span th:text="${servicio.precioBase}">850.00</span></p>
+            <p><strong>Total:</strong> S/ <span th:text="${servicio.precioBase + 45}">895.00</span> (incluye tasas)</p>
+        </div>
+
+        <!-- Formulario Simple -->
+        <form th:action="@{/reservar/crear}" method="get">
+            <input type="hidden" name="idServicio" th:value="${param.idServicio}" />
+            <input type="hidden" name="asientoSeleccionado" th:value="${param.asientoSeleccionado}" />
+            
+            <div class="form-group">
+                <label class="form-label">Nombre del Pasajero</label>
+                <input type="text" name="nombrePasajero" class="form-input" placeholder="Nombre completo" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Método de Pago</label>
+                <select name="metodoPago" class="form-input" required>
+                    <option value="tarjeta">Tarjeta de Crédito</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="yape">Yape</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Número de Tarjeta (simulado)</label>
+                <input type="text" name="numeroTarjeta" class="form-input" placeholder="1234 5678 9012 3456">
+            </div>
+            
+            <button type="submit" class="btn">Confirmar y Pagar</button>
+        </form>
+    </div>
+</body>
+</html>

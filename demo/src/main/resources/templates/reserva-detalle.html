@@ -107,7 +107,8 @@
         </div>
     </div>
 
-    <div style="text-align: center; margin-top: 30px;">
+    <div style="text-align: center; margin-top: 30px; display: flex; gap: 15px; justify-content: center;">
+        <a th:href="@{/boleta/reserva/{id}(id=${reserva.idReserva})}" class="btn btn-primary" target="_blank">Descargar Boleta PDF</a>
         <a th:href="@{/reservas}" class="btn btn-outline">Volver a Mis Reservas</a>
     </div>
 

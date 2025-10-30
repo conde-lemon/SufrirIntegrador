@@ -18,7 +18,7 @@
         <p class="page-subtitle">Completa tu información de pago para confirmar la reserva</p>
     </div>
 
-    <form th:action="@{/reservar/crear}" method="post" th:object="${reserva}">
+    <form th:action="@{/reservar/crear}" method="get" th:object="${reserva}">
         <input type="hidden" name="idServicio" th:value="${param.idServicio}" />
         <input type="hidden" name="asientoSeleccionado" th:value="${param.asientoSeleccionado}" />
         <input type="hidden" name="equipajeIds" th:value="${param.equipajeIds}" />

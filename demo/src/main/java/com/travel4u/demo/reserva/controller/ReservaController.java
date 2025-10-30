@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Controller
+@RequestMapping
 public class ReservaController {
 
     // --- MEJORA: Inyección de dependencias por constructor ---
@@ -139,101 +140,7 @@ public class ReservaController {
         return "redirect:/reservar/servicio/" + idVuelo;
     }
 
-    /**
-     * Procesa el formulario completo para crear la reserva y su equipaje asociado.
-     * (Mantenido de tu versión original)
-     */
-    @PostMapping("/reservar/crear")
-    public String crearReserva(
-            Reserva reserva,
-            @RequestParam(name = "idServicio", required = false) Long idServicio,
-            @RequestParam(name = "asientoSeleccionado", required = false) String asientoSeleccionado,
-            @RequestParam(name = "equipajeIds", required = false) List<Integer> equipajeIds,
-            @AuthenticationPrincipal UserDetails userDetails,
-            RedirectAttributes attributes) {
 
-        System.out.println("[DEBUG] Creando reserva - Servicio ID: " + idServicio + ", Asiento: " + asientoSeleccionado);
-
-        if (userDetails == null) {
-            return "redirect:/login";
-        }
-
-        try {
-            Usuario usuario = usuarioDAO.findByEmail(userDetails.getUsername())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuario no encontrado."));
-
-            // Obtener el servicio seleccionado
-            com.travel4u.demo.servicio.model.Servicio servicio = null;
-            BigDecimal totalReserva = new BigDecimal("0.00");
-            
-            if (idServicio != null) {
-                servicio = servicioDAO.findById(idServicio)
-                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Servicio no encontrado."));
-                totalReserva = servicio.getPrecioBase();
-                System.out.println("[DEBUG] Servicio encontrado: " + servicio.getNombre() + ", Precio: " + totalReserva);
-            }
-
-            // Configurar la reserva
-            reserva.setUsuario(usuario);
-            reserva.setEstado("Pendiente");
-            reserva.setFechaInicio(LocalDateTime.now().plusDays(30)); // Fecha ejemplo
-            reserva.setMoneda("PEN");
-            reserva.setTotal(totalReserva);
-            
-            // Agregar asiento a observaciones
-            if (asientoSeleccionado != null) {
-                String observacionesActuales = reserva.getObservaciones() != null ? reserva.getObservaciones() : "";
-                reserva.setObservaciones(observacionesActuales + " - Asiento: " + asientoSeleccionado);
-            }
-
-            Reserva reservaGuardada = reservaDAO.save(reserva);
-            System.out.println("[DEBUG] Reserva guardada con ID: " + reservaGuardada.getIdReserva());
-
-            // Crear detalle de reserva para el servicio
-            if (servicio != null) {
-                com.travel4u.demo.reserva.model.Detalle_Reserva detalle = new com.travel4u.demo.reserva.model.Detalle_Reserva();
-                detalle.setReserva(reservaGuardada);
-                detalle.setServicio(servicio);
-                detalle.setCantidad(1);
-                detalle.setPrecioUnitario(servicio.getPrecioBase());
-                detalle.setSubtotal(servicio.getPrecioBase());
-                
-                // Guardar detalle (necesitarás crear el DAO)
-                System.out.println("[DEBUG] Detalle de reserva creado para servicio: " + servicio.getNombre());
-            }
-
-            // Procesar equipaje adicional
-            if (equipajeIds != null && !equipajeIds.isEmpty()) {
-                for (Integer equipajeId : equipajeIds) {
-                    Equipaje equipaje = equipajeDAO.findById(equipajeId)
-                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de equipaje no válido."));
-
-                    Reserva_Equipaje reservaEquipaje = new Reserva_Equipaje();
-                    reservaEquipaje.setReserva(reservaGuardada);
-                    reservaEquipaje.setEquipaje(equipaje);
-                    reservaEquipaje.setCantidad(1);
-                    reservaEquipaje.setPrecioUnitario(equipaje.getPrecio());
-                    reservaEquipaje.setSubtotal(equipaje.getPrecio());
-
-                    reservaEquipajeDAO.save(reservaEquipaje);
-                    totalReserva = totalReserva.add(equipaje.getPrecio());
-                }
-            }
-
-            // Actualizar total final
-            reservaGuardada.setTotal(totalReserva);
-            reservaDAO.save(reservaGuardada);
-
-            attributes.addFlashAttribute("success", "¡Tu reserva ha sido creada con éxito!");
-            return "redirect:/reservas";
-            
-        } catch (Exception e) {
-            System.err.println("[ERROR] Error al crear reserva: " + e.getMessage());
-            e.printStackTrace();
-            attributes.addFlashAttribute("error", "Error al crear la reserva: " + e.getMessage());
-            return "redirect:/reservas";
-        }
-    }
     // En ReservaController.java, añade este método junto a los otros
 
     /**
@@ -257,4 +164,6 @@ public class ReservaController {
 
         return reserva;
     }
+
+
 }
