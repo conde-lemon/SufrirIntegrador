@@ -2,21 +2,18 @@
 package com.travel4u.demo.reserva.model;
 
 import jakarta.persistence.*;
-import lombok.*; // <-- Importa las nuevas anotaciones
-import java.math.BigDecimal;
+import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import java.math.BigDecimal; // CAMBIO: Usar BigDecimal para dinero
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Table(name="paquete")
-// --- REEMPLAZA @Data POR ESTO ---
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode(of = "idPaquete")
-// ---------------------------------
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="paquete")
 public class Paquete {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -30,14 +27,11 @@ public class Paquete {
     private String descripcion;
 
     @Column(name = "precio_total", precision = 10, scale = 2, nullable = false)
-    private BigDecimal precioTotal;
+    private BigDecimal precioTotal; // CAMBIO: a BigDecimal
 
     @OneToMany(mappedBy = "paquete")
-    @ToString.Exclude // <-- ¡MUY IMPORTANTE para romper el ciclo!
     private Set<Paquete_Reserva> paqueteReservas;
 
     @Column(name = "fecha_paquete")
     private LocalDateTime fechaPaquete;
-
-    private boolean activo = true;
 }

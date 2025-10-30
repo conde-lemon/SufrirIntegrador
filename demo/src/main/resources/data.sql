@@ -48,5 +48,3 @@ SELECT 'VUELO', 'Vuelo a Lima', 'Brasil', 'Peru', 'negocios,puente aereo', 350.0
 INSERT INTO servicio (tipo_servicio, nombre, origen, destino, tags, precio_base, disponibilidad, descripcion, id_proveedor, activo)
 SELECT 'VUELO', 'Vuelo a Bogotá', 'Mexico', 'Colombia', 'negocios,cultural', 420.00, 12, 'Descubre la capital colombiana.', 3, true
     WHERE NOT EXISTS (SELECT 1 FROM servicio WHERE nombre = 'Vuelo a Bogotá');
--- Script vacío para evitar errores de inserción
--- Solo se usarán los datos existentes en la base de datos
