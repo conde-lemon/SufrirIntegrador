@@ -1,0 +1,10 @@
+{
+  "ruta": "Santiago a Lima",
+  "precio": 621.22,
+  "moneda": "USD",
+  "aerolinea": "LA",
+  "origen": "SCL",
+  "destino": "LIM",
+  "fecha_consulta": "2025-10-30T03:09:18.296139300",
+  "tipo": "simulado"
+}

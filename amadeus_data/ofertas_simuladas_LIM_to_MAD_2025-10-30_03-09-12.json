@@ -1,0 +1,10 @@
+{
+  "ruta": "Lima a Madrid",
+  "precio": 895.89,
+  "moneda": "USD",
+  "aerolinea": "UA",
+  "origen": "LIM",
+  "destino": "MAD",
+  "fecha_consulta": "2025-10-30T03:09:13.221206200",
+  "tipo": "simulado"
+}

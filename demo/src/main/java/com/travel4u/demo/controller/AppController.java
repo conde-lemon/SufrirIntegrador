@@ -5,6 +5,8 @@ import com.travel4u.demo.reserva.model.Reserva;
 import com.travel4u.demo.reserva.repository.IReservaDAO;
 import com.travel4u.demo.usuario.model.Usuario;
 import com.travel4u.demo.usuario.repository.IUsuarioDAO;
+import com.travel4u.demo.ofertas.model.Oferta;
+import com.travel4u.demo.ofertas.repository.IOfertasDAO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,11 +26,13 @@ public class AppController {
     private final IReservaDAO reservaDAO;
     private final IUsuarioDAO usuarioDAO;
     private final PasswordEncoder passwordEncoder;
+    private final IOfertasDAO ofertasDAO;
 
-    public AppController(IReservaDAO reservaDAO, IUsuarioDAO usuarioDAO, PasswordEncoder passwordEncoder) {
+    public AppController(IReservaDAO reservaDAO, IUsuarioDAO usuarioDAO, PasswordEncoder passwordEncoder, IOfertasDAO ofertasDAO) {
         this.reservaDAO = reservaDAO;
         this.usuarioDAO = usuarioDAO;
         this.passwordEncoder = passwordEncoder;
+        this.ofertasDAO = ofertasDAO;
     }
 
     /**
@@ -51,12 +55,19 @@ public class AppController {
             }
             
             model.addAttribute("reservas", listaReservas);
+            
+            // Cargar ofertas de Amadeus para mostrar en el index
+            List<Oferta> ofertas = ofertasDAO.findAll();
+            model.addAttribute("ofertas", ofertas);
+            System.out.println("[DEBUG] Ofertas cargadas: " + ofertas.size());
+            
             System.out.println("[DEBUG] Modelo configurado correctamente");
             
         } catch (Exception e) {
             System.err.println("[ERROR] Error al cargar reservas: " + e.getMessage());
             e.printStackTrace();
             model.addAttribute("reservas", java.util.Collections.emptyList());
+            model.addAttribute("ofertas", java.util.Collections.emptyList());
         }
         
         return "index";
@@ -153,6 +164,11 @@ public class AppController {
     @GetMapping("/terminos-y-condiciones")
     public String showTerminosPage() {
         return "terminos_y_condiciones"; // Asume que tienes un terminos_y_condiciones.html
+    }
+
+    @GetMapping("/amadeus-extractor")
+    public String showAmadeusExtractorPage() {
+        return "amadeus-extractor";
     }
 
 

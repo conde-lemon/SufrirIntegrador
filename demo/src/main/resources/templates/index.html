@@ -8,6 +8,26 @@
     <link rel="stylesheet" th:href="@{/css/header_style.css}">
     <link rel="stylesheet" th:href="@{/css/index1_style.css}">
     <link rel="stylesheet" th:href="@{/css/reservas_style.css}">
+    <style>
+        .reserve-btn {
+            background: #7b1fa2;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .reserve-btn:hover {
+            background: #5a1475;
+        }
+        .package-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+    </style>
 </head>
 
 <body>
@@ -65,6 +85,28 @@
     </section>
 
     <!-- ELIMINADO: El iframe ya no es necesario. Los resultados se mostrarán en una nueva página. -->
+
+    <hr style="margin: 40px 0;">
+
+    <!-- Sección de ofertas de Amadeus -->
+    <section class="offers-section" th:if="${ofertas != null and !ofertas.empty}">
+        <h2 class="section-title">Ofertas Especiales de Vuelos</h2>
+        <div class="packages-grid">
+            <article class="package-card" th:each="oferta : ${ofertas}">
+                <div class="package-content">
+                    <h3 class="package-title" th:text="${oferta.nombre}">Oferta de Vuelo</h3>
+                    <p class="package-description" th:text="${oferta.descripcion}">Descripción de la oferta</p>
+                    <div class="package-tags" th:if="${oferta.etiquetas != null}">
+                        <span th:each="tag : ${oferta.etiquetas.split(',')}" class="package-tag" th:text="${tag}">tag</span>
+                    </div>
+                    <div class="package-footer">
+                        <span class="package-price" th:text="'Desde S/ ' + ${#numbers.formatDecimal(oferta.precio, 1, 'COMMA', 2, 'POINT')}">Precio</span>
+                        <a th:href="@{/vuelos}" class="reserve-btn">Ver Ofertas</a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
 
     <hr style="margin: 40px 0;">
 
