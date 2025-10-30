@@ -29,6 +29,15 @@ public class Oferta {
     @Column(precision = 10, scale = 2, nullable = false)
     private BigDecimal precio; // CAMBIO: de int a BigDecimal
 
+    @Column(precision = 5, scale = 2)
+    private BigDecimal descuento; // Descuento en porcentaje (ej: 15.50 = 15.5%)
+
+    @Column(name = "fecha_inicio")
+    private LocalDateTime fechaInicio;
+
+    @Column(name = "fecha_fin")
+    private LocalDateTime fechaFin;
+
     private String etiquetas;
     private String url;
     private String fuente;
