@@ -1,6 +1,6 @@
 package com.travel4u.demo.factory;
 
-import com.travel4u.demo.ofertas.repository.IOfertasDAO;
+import com.travel4u.demo.oferta.repository.IOfertaDAO;
 import com.travel4u.demo.reserva.repository.IReservaDAO;
 import com.travel4u.demo.servicio.repository.IServicioDAO;
 import com.travel4u.demo.usuario.repository.IUsuarioDAO;
@@ -13,5 +13,5 @@ public interface DAOFactory {
     IUsuarioDAO getUsuarioDAO();
     IReservaDAO getReservaDAO();
     IServicioDAO getServicioDAO();
-    IOfertasDAO getOfertasDAO();
+    IOfertaDAO getOfertaDAO();
 }

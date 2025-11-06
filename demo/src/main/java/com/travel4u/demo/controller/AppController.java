@@ -5,8 +5,8 @@ import com.travel4u.demo.reserva.model.Reserva;
 import com.travel4u.demo.reserva.repository.IReservaDAO;
 import com.travel4u.demo.usuario.model.Usuario;
 import com.travel4u.demo.usuario.repository.IUsuarioDAO;
-import com.travel4u.demo.ofertas.model.Oferta;
-import com.travel4u.demo.ofertas.repository.IOfertasDAO;
+import com.travel4u.demo.oferta.model.Oferta;
+import com.travel4u.demo.oferta.repository.IOfertaDAO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,13 +26,13 @@ public class AppController {
     private final IReservaDAO reservaDAO;
     private final IUsuarioDAO usuarioDAO;
     private final PasswordEncoder passwordEncoder;
-    private final IOfertasDAO ofertasDAO;
+    private final IOfertaDAO ofertaDAO;
 
-    public AppController(IReservaDAO reservaDAO, IUsuarioDAO usuarioDAO, PasswordEncoder passwordEncoder, IOfertasDAO ofertasDAO) {
+    public AppController(IReservaDAO reservaDAO, IUsuarioDAO usuarioDAO, PasswordEncoder passwordEncoder, IOfertaDAO ofertaDAO) {
         this.reservaDAO = reservaDAO;
         this.usuarioDAO = usuarioDAO;
         this.passwordEncoder = passwordEncoder;
-        this.ofertasDAO = ofertasDAO;
+        this.ofertaDAO = ofertaDAO;
     }
 
     /**
@@ -57,7 +57,7 @@ public class AppController {
             model.addAttribute("reservas", listaReservas);
             
             // Cargar ofertas de Amadeus para mostrar en el index
-            List<Oferta> ofertas = ofertasDAO.findAll();
+            List<Oferta> ofertas = ofertaDAO.findAll();
             model.addAttribute("ofertas", ofertas);
             System.out.println("[DEBUG] Ofertas cargadas: " + ofertas.size());
             

@@ -25,8 +25,8 @@
     <queryString language="sql">
         <![CDATA[SELECT
             r.id_reserva,
-            'TFU-' || EXTRACT(YEAR FROM COALESCE(r.fecha_reserva, r.created_at, CURRENT_TIMESTAMP))::text || '-' || LPAD(r.id_reserva::text, 4, '0') as codigo_reserva,
-            COALESCE(r.fecha_reserva, r.created_at, CURRENT_TIMESTAMP) as fecha_reserva,
+            'TFU-' || EXTRACT(YEAR FROM COALESCE(r.created_at, CURRENT_TIMESTAMP)) || '-' || LPAD(CAST(r.id_reserva AS VARCHAR), 4, '0') as codigo_reserva,
+            COALESCE(r.created_at, CURRENT_TIMESTAMP) as fecha_reserva,
             r.fecha_inicio,
             r.fecha_fin,
             COALESCE(r.estado, 'pendiente') as estado,
@@ -39,7 +39,7 @@
         FROM reserva r
         INNER JOIN usuarios u ON r.id_usuario = u.id_usuario
         WHERE r.id_usuario = $P{ID_USUARIO}
-        ORDER BY COALESCE(r.fecha_reserva, r.created_at) DESC]]>
+        ORDER BY COALESCE(r.created_at, CURRENT_TIMESTAMP) DESC]]>
     </queryString>
 
     <field name="id_reserva" class="java.lang.Integer"/>

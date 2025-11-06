@@ -2,70 +2,57 @@ package com.travel4u.demo.controller;
 
 import com.travel4u.demo.reserva.model.Reserva;
 import com.travel4u.demo.reserva.repository.IReservaDAO;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import org.springframework.core.io.ClassPathResource;
+import com.travel4u.demo.servicio.JasperReportService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.io.InputStream;
-import java.util.*;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
-@RequestMapping("/boleta")
 public class BoletaController {
 
-    private final IReservaDAO reservaDAO;
+    @Autowired
+    private IReservaDAO reservaDAO;
 
-    public BoletaController(IReservaDAO reservaDAO) {
-        this.reservaDAO = reservaDAO;
-    }
+    @Autowired
+    private JasperReportService jasperReportService;
 
-    @GetMapping("/reserva/{id}")
+    @GetMapping("/boleta/reserva/{id}")
     public ResponseEntity<byte[]> generarBoleta(@PathVariable Integer id) {
         try {
-            // Obtener la reserva
             Reserva reserva = reservaDAO.findById(id)
                     .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
 
-            // Cargar el template de JasperReports
-            InputStream reportStream = new ClassPathResource("reports/boleta-reserva.jrxml").getInputStream();
-            JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+            Map<String, Object> parametros = new HashMap<>();
+            parametros.put("codigoReserva", "TFU-" + reserva.getIdReserva());
+            parametros.put("fechaEmision", new Date());
+            parametros.put("clienteNombre", reserva.getUsuario().getNombres() + " " + reserva.getUsuario().getApellidos());
+            parametros.put("clienteEmail", reserva.getUsuario().getEmail());
+            parametros.put("total", reserva.getTotal() != null ? reserva.getTotal() : BigDecimal.ZERO);
+            parametros.put("moneda", reserva.getMoneda() != null ? reserva.getMoneda() : "PEN");
+            parametros.put("estado", reserva.getEstado() != null ? reserva.getEstado() : "Pendiente");
+            parametros.put("observaciones", reserva.getObservaciones() != null ? reserva.getObservaciones() : "Sin observaciones");
 
-            // Preparar los datos
-            Map<String, Object> parameters = new HashMap<>();
-            parameters.put("codigoReserva", "TFU-" + reserva.getIdReserva());
-            parameters.put("fechaEmision", new Date());
-            parameters.put("clienteNombre", reserva.getUsuario().getNombres() + " " + reserva.getUsuario().getApellidos());
-            parameters.put("clienteEmail", reserva.getUsuario().getEmail());
-            parameters.put("total", reserva.getTotal());
-            parameters.put("moneda", reserva.getMoneda());
-            parameters.put("estado", reserva.getEstado());
-            parameters.put("observaciones", reserva.getObservaciones());
+            byte[] reporte = jasperReportService.generateReport("boleta-reserva", parametros, "pdf");
 
-            // Crear datasource vacío (solo usamos parámetros)
-            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(Collections.emptyList());
-
-            // Generar el PDF
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-            byte[] pdfBytes = JasperExportManager.exportReportToPdf(jasperPrint);
-
-            // Configurar headers para descarga
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("attachment", "Boleta_TFU-" + id + ".pdf");
+            headers.setContentDispositionFormData("attachment", "Boleta_" + reserva.getIdReserva() + ".pdf");
 
-            return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(reporte);
 
         } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

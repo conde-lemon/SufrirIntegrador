@@ -5,8 +5,8 @@ import com.amadeus.Params;
 import com.amadeus.exceptions.ResponseException;
 import com.amadeus.resources.FlightOfferSearch;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.travel4u.demo.ofertas.model.Oferta;
-import com.travel4u.demo.ofertas.repository.IOfertasDAO;
+import com.travel4u.demo.oferta.model.Oferta;
+import com.travel4u.demo.oferta.repository.IOfertaDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -26,9 +26,9 @@ public class AmadeusDataExtractorService {
     private static final Logger logger = LoggerFactory.getLogger(AmadeusDataExtractorService.class);
     private final Amadeus amadeus;
     private final ObjectMapper objectMapper;
-    private final IOfertasDAO ofertasDAO;
+    private final IOfertaDAO ofertasDAO;
 
-    public AmadeusDataExtractorService(Amadeus amadeus, IOfertasDAO ofertasDAO) {
+    public AmadeusDataExtractorService(Amadeus amadeus, IOfertaDAO ofertasDAO) {
         this.amadeus = amadeus;
         this.objectMapper = new ObjectMapper();
         this.ofertasDAO = ofertasDAO;

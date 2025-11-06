@@ -1,6 +1,6 @@
 package com.travel4u.demo.scraper.service;
 
-import com.travel4u.demo.scraper.model.Oferta;
+import com.travel4u.demo.scraper.model.OfertaScraping;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,8 +28,8 @@ public class ScrapingService {
      *
      * @return Una lista de objetos Oferta con los datos extraídos.
      */
-    public List<Oferta> scrapeOfertasPrincipales() {
-        List<Oferta> ofertas = new ArrayList<>();
+    public List<OfertaScraping> scrapeOfertasPrincipales() {
+        List<OfertaScraping> ofertas = new ArrayList<>();
         try {
             // 1. Conexión a la página web.
             // Usamos un User-Agent para simular que somos un navegador y evitar bloqueos.
@@ -75,8 +75,8 @@ public class ScrapingService {
                     continue;
                 }
 
-                // 4. Creación del objeto Oferta y adición a la lista.
-                ofertas.add(new Oferta(
+                // 4. Creación del objeto OfertaScraping y adición a la lista.
+                ofertas.add(new OfertaScraping(
                         titulo,
                         descripcion,
                         precio,
@@ -107,14 +107,14 @@ public class ScrapingService {
      * Devuelve una lista de ofertas de ejemplo en caso de que el scraping falle.
      * @return Lista de ofertas de respaldo.
      */
-    private List<Oferta> getFallbackOfertas() {
-        List<Oferta> fallback = new ArrayList<>();
-        fallback.add(new Oferta(
+    private List<OfertaScraping> getFallbackOfertas() {
+        List<OfertaScraping> fallback = new ArrayList<>();
+        fallback.add(new OfertaScraping(
                 "Vuelo a Cusco Mágico",
                 "Descubre la capital del Imperio Inca. Vuelo directo desde Lima.",
                 "S/ 250.00", "Vuelo", "/img/oferta-cusco.jpg", "/vuelos", "Top Ventas", "tag-top"
         ));
-        fallback.add(new Oferta(
+        fallback.add(new OfertaScraping(
                 "Crucero por el Caribe",
                 "7 días de sol, playa y diversión en las islas más paradisíacas.",
                 "S/ 3,500.00", "Crucero", "/img/oferta-caribe.jpg", "/cruceros", "Familiar", "tag-familiar"

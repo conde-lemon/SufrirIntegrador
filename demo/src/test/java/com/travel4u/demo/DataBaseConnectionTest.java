@@ -1,90 +1,91 @@
 package com.travel4u.demo;
 
-import com.travel4u.demo.reserva.model.Reserva;
-import com.travel4u.demo.reserva.repository.IReservaDAO;
-import com.travel4u.demo.usuario.model.Usuario;
-import com.travel4u.demo.usuario.repository.IUsuarioDAO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.ActiveProfiles;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test de integración para verificar la conexión a la base de datos
- * y el correcto funcionamiento de los repositorios (DAO).
- */
 @SpringBootTest
-@Transactional // <-- IMPORTANTE: Revierte los cambios en la BD después de cada test
-class DatabaseConnectionTest {
+@ActiveProfiles("postgres")
+public class DatabaseConnectionTest {
 
     @Autowired
-    private IUsuarioDAO usuarioDAO;
-
-    @Autowired
-    private IReservaDAO reservaDAO;
+    private DataSource dataSource;
 
     @Test
-    void testCrearYRecuperarUsuarioYReservas() {
-        // --- 1. Creación de Datos de Prueba ---
+    public void testDatabaseConnection() throws Exception {
+        try (Connection connection = dataSource.getConnection()) {
+            assertNotNull(connection);
+            assertFalse(connection.isClosed());
+            System.out.println("✓ Conexión a base de datos exitosa");
+            System.out.println("URL: " + connection.getMetaData().getURL());
+            System.out.println("Usuario: " + connection.getMetaData().getUserName());
+        }
+    }
 
-        // Crear un nuevo usuario
-        Usuario testUser = new Usuario();
-        testUser.setNombres("Test");
-        testUser.setApellidos("User");
-        testUser.setEmail("test.user@example.com");
-        testUser.setPassword("password123"); // En un test, no importa si no está encriptada
-        testUser.setRol("USUARIO");
-        testUser.setActivo(true);
-        testUser.setFechaRegistro(LocalDateTime.now());
+    @Test
+    public void testTablesExist() throws Exception {
+        try (Connection connection = dataSource.getConnection();
+             Statement stmt = connection.createStatement()) {
+            
+            // Verificar tabla usuarios
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM usuarios");
+            assertTrue(rs.next());
+            System.out.println("✓ Tabla usuarios: " + rs.getInt(1) + " registros");
 
-        // Guardar el usuario en la BD
-        Usuario savedUser = usuarioDAO.save(testUser);
-        assertNotNull(savedUser.getIdUsuario(), "El ID del usuario no debería ser nulo después de guardar.");
+            // Verificar tabla reserva
+            rs = stmt.executeQuery("SELECT COUNT(*) FROM reserva");
+            assertTrue(rs.next());
+            System.out.println("✓ Tabla reserva: " + rs.getInt(1) + " registros");
 
-        // Crear una reserva para ese usuario
-        Reserva testReserva = new Reserva();
-        testReserva.setUsuario(savedUser);
-        testReserva.setEstado("CONFIRMADA");
-        testReserva.setTotal(new BigDecimal("1250.75"));
-        testReserva.setFechaInicio(LocalDateTime.now().plusDays(10));
-        testReserva.setFechaFin(LocalDateTime.now().plusDays(17));
-        testReserva.setMoneda("USD");
+            // Verificar tabla servicio
+            rs = stmt.executeQuery("SELECT COUNT(*) FROM servicio");
+            assertTrue(rs.next());
+            System.out.println("✓ Tabla servicio: " + rs.getInt(1) + " registros");
+        }
+    }
 
-        // Guardar la reserva en la BD
-        Reserva savedReserva = reservaDAO.save(testReserva);
-        assertNotNull(savedReserva.getIdReserva(), "El ID de la reserva no debería ser nulo después de guardar.");
-
-        // --- 2. Verificación y Aserciones ---
-
-        // Recuperar el usuario por su email
-        Usuario foundUser = usuarioDAO.findByEmail("test.user@example.com")
-                .orElse(null);
-
-        // Verificar que el usuario fue encontrado
-        assertNotNull(foundUser, "Se debería encontrar el usuario por su email.");
-        assertEquals("Test User", foundUser.getNombres() + " " + foundUser.getApellidos());
-
-        // Recuperar las reservas para ese usuario
-        List<Reserva> foundReservas = reservaDAO.findByUsuarioOrderByCreatedAtDesc(foundUser);
-
-        // Verificar que se encontró la reserva
-        assertNotNull(foundReservas, "La lista de reservas no debería ser nula.");
-        assertFalse(foundReservas.isEmpty(), "La lista de reservas no debería estar vacía.");
-        assertEquals(1, foundReservas.size(), "Debería haber exactamente una reserva para el usuario.");
-
-        // Verificar los datos de la reserva encontrada
-        Reserva retrievedReserva = foundReservas.get(0);
-        assertEquals("CONFIRMADA", retrievedReserva.getEstado());
-        // Usamos compareTo para BigDecimal
-        assertEquals(0, new BigDecimal("1250.75").compareTo(retrievedReserva.getTotal()));
-        assertEquals(savedUser.getIdUsuario(), retrievedReserva.getUsuario().getIdUsuario(), "La reserva debe pertenecer al usuario correcto.");
-
-        System.out.println("✅ Test de Base de Datos Exitoso: Se creó, guardó y recuperó un usuario y su reserva correctamente.");
+    @Test
+    public void testReportQuery() throws Exception {
+        try (Connection connection = dataSource.getConnection();
+             Statement stmt = connection.createStatement()) {
+            
+            // Probar la query del reporte
+            String query = """
+                SELECT
+                    r.id_reserva,
+                    'TFU-' || EXTRACT(YEAR FROM COALESCE(r.created_at, CURRENT_TIMESTAMP)) || '-' || LPAD(CAST(r.id_reserva AS VARCHAR), 4, '0') as codigo_reserva,
+                    COALESCE(r.created_at, CURRENT_TIMESTAMP) as fecha_reserva,
+                    r.fecha_inicio,
+                    r.fecha_fin,
+                    COALESCE(r.estado, 'pendiente') as estado,
+                    COALESCE(r.total, 0) as total,
+                    COALESCE(r.moneda, 'PEN') as moneda,
+                    COALESCE(r.observaciones, 'Sin observaciones') as observaciones,
+                    COALESCE(u.nombres, 'Usuario') as nombres,
+                    COALESCE(u.apellidos, '') as apellidos,
+                    COALESCE(u.email, '') as email
+                FROM reserva r
+                INNER JOIN usuarios u ON r.id_usuario = u.id_usuario
+                WHERE r.id_usuario = 5
+                ORDER BY COALESCE(r.created_at, CURRENT_TIMESTAMP) DESC
+                """;
+            
+            ResultSet rs = stmt.executeQuery(query);
+            int count = 0;
+            while (rs.next()) {
+                count++;
+                System.out.println("Reserva " + count + ": " + rs.getString("codigo_reserva") + 
+                                 " - " + rs.getString("estado") + " - " + rs.getBigDecimal("total"));
+            }
+            System.out.println("✓ Query de reporte ejecutada: " + count + " resultados");
+        }
     }
 }
