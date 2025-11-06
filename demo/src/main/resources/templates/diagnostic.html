@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel4U - Diagnóstico de Sistema</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .info { background-color: #d1ecf1; border-color: #bee5eb; color: #0c5460; }
+        button { background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background-color: #0056b3; }
+        .result { margin-top: 10px; padding: 10px; border-radius: 4px; font-family: monospace; white-space: pre-wrap; }
+        input[type="number"] { padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 100px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Travel4U - Diagnóstico de Sistema</h1>
+        <p>Esta página permite verificar el estado de la base de datos y la generación de reportes.</p>
+
+        <div class="test-section">
+            <h3>1. Test de Conexión a Base de Datos</h3>
+            <button onclick="testDatabase()">Probar Conexión</button>
+            <div id="db-result" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>2. Test de Datos de Reservas</h3>
+            <label>ID de Usuario: <input type="number" id="userId" value="5" min="1"></label>
+            <button onclick="testReservasData()">Ver Reservas</button>
+            <div id="reservas-result" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>3. Test de Generación de Reportes</h3>
+            <button onclick="testReport()">Generar Reporte PDF</button>
+            <div id="report-result" class="result"></div>
+        </div>
+
+        <div class="test-section info">
+            <h3>📋 Instrucciones</h3>
+            <ul>
+                <li><strong>Test 1:</strong> Verifica que la aplicación pueda conectarse a PostgreSQL</li>
+                <li><strong>Test 2:</strong> Muestra las reservas de un usuario específico</li>
+                <li><strong>Test 3:</strong> Intenta generar un reporte PDF usando JasperReports</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        async function testDatabase() {
+            const resultDiv = document.getElementById('db-result');
+            resultDiv.textContent = 'Probando conexión...';
+            resultDiv.className = 'result info';
+
+            try {
+                const response = await fetch('/api/diagnostic/database');
+                const data = await response.json();
+
+                if (data.status === 'SUCCESS') {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `✅ CONEXIÓN EXITOSA
+URL: ${data.url}
+Usuario: ${data.user}
+Driver: ${data.driver}
+
+Registros por tabla:
+${Object.entries(data.tableCounts).map(([table, count]) => 
+    `- ${table}: ${count >= 0 ? count + ' registros' : 'ERROR'}`
+).join('\n')}`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ ERROR DE CONEXIÓN: ${data.error}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ ERROR: ${error.message}`;
+            }
+        }
+
+        async function testReservasData() {
+            const userId = document.getElementById('userId').value;
+            const resultDiv = document.getElementById('reservas-result');
+            resultDiv.textContent = 'Consultando reservas...';
+            resultDiv.className = 'result info';
+
+            try {
+                const response = await fetch(`/api/diagnostic/reservas-data?userId=${userId}`);
+                const data = await response.json();
+
+                if (data.status === 'SUCCESS') {
+                    resultDiv.className = 'result success';
+                    if (data.total > 0) {
+                        resultDiv.textContent = `✅ RESERVAS ENCONTRADAS (${data.total}):
+
+${data.reservas.map((r, i) => 
+    `${i+1}. ID: ${r.id} | Estado: ${r.estado} | Total: ${r.total} | Email: ${r.email}`
+).join('\n')}`;
+                    } else {
+                        resultDiv.textContent = `⚠️ NO HAY RESERVAS para el usuario ${userId}`;
+                    }
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ ERROR: ${data.error}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ ERROR: ${error.message}`;
+            }
+        }
+
+        async function testReport() {
+            const userId = document.getElementById('userId').value;
+            const resultDiv = document.getElementById('report-result');
+            resultDiv.textContent = 'Generando reporte...';
+            resultDiv.className = 'result info';
+
+            try {
+                const response = await fetch(`/api/diagnostic/report-test?userId=${userId}`);
+                const data = await response.json();
+
+                if (data.status === 'SUCCESS') {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `✅ REPORTE GENERADO EXITOSAMENTE
+Tamaño: ${data.reportSize} bytes
+${data.message}
+
+Para descargar el reporte real, usa:
+/api/reportes/reservas?idUsuario=${userId}&formato=pdf`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ ERROR GENERANDO REPORTE: ${data.error}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ ERROR: ${error.message}`;
+            }
+        }
+
+        // Auto-ejecutar test de BD al cargar la página
+        window.onload = function() {
+            testDatabase();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "ruta": "Bogotá a Lima",
+  "precio": 865.04,
+  "moneda": "USD",
+  "aerolinea": "UA",
+  "origen": "BOG",
+  "destino": "LIM",
+  "fecha_consulta": "2025-10-30T08:53:25.594406900",
+  "tipo": "simulado"
+}

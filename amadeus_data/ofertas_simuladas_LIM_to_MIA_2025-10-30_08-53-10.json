@@ -1,0 +1,10 @@
+{
+  "ruta": "Lima a Miami",
+  "precio": 738.80,
+  "moneda": "USD",
+  "aerolinea": "AA",
+  "origen": "LIM",
+  "destino": "MIA",
+  "fecha_consulta": "2025-10-30T08:53:14.067673300",
+  "tipo": "simulado"
+}

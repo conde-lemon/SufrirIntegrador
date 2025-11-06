@@ -1,0 +1,10 @@
+{
+  "ruta": "Lima a Cusco",
+  "precio": 934.55,
+  "moneda": "USD",
+  "aerolinea": "AA",
+  "origen": "LIM",
+  "destino": "CUZ",
+  "fecha_consulta": "2025-10-30T08:53:24.373133100",
+  "tipo": "simulado"
+}
