@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Confirmación de pago exitoso para tu reserva en Travel4U">
+    <title>Pago Confirmado - Travel4U</title>
+    <link rel="stylesheet" th:href="@{/css/confirmacion-pago.css}">
+    <script th:src="@{/js/confirmacion-pago.js}" defer></script>
+</head>
+<body>
+    <div class="confirmacion-container">
+        <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" role="img" aria-label="Pago exitoso">
+            <circle class="success-circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="success-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+
+        <h1>¡Pago Confirmado!</h1>
+        <p class="subtitle">Tu reserva ha sido procesada exitosamente</p>
+
+        <div class="monto-total" th:if="${reserva != null}">
+            <div class="label">Monto Pagado</div>
+            <div class="valor" th:text="'S/ ' + ${#numbers.formatDecimal(reserva.total, 1, 'COMMA', 2, 'POINT')}">S/ 895.00</div>
+        </div>
+        
+        <div class="error-fallback" th:if="${reserva == null}">
+            <h2>Error al cargar información de pago</h2>
+            <p>No se pudo obtener la información de la reserva.</p>
+        </div>
+
+        <div class="referencia" th:if="${referenciaPago}">
+            <div class="referencia-label">Número de Referencia</div>
+            <div class="referencia-codigo" th:text="${referenciaPago}" title="Click para copiar">PP-XXXX-XXXX-XXXX</div>
+            <small style="color: #666; font-size: 12px; margin-top: 5px; display: block;">Click para copiar al portapapeles</small>
+        </div>
+
+        <div class="detalle-pago">
+            <div class="detalle-item">
+                <span class="detalle-label">Reserva ID</span>
+                <span class="detalle-valor" th:text="'TFU-' + ${reserva?.idReserva ?: 'N/A'}">TFU-001</span>
+            </div>
+            <div class="detalle-item">
+                <span class="detalle-label">Estado</span>
+                <span class="detalle-valor status-confirmed" th:text="${reserva?.estado ?: 'Desconocido'}">Confirmada</span>
+            </div>
+            <div class="detalle-item">
+                <span class="detalle-label">Método de Pago</span>
+                <span class="detalle-valor" th:text="${metodoPago ?: 'PayPal'}">PayPal</span>
+            </div>
+            <div class="detalle-item">
+                <span class="detalle-label">Fecha de Pago</span>
+                <span class="detalle-valor" th:text="${#temporals.format(#temporals.createNow(), 'dd/MM/yyyy HH:mm')}">01/01/2024 10:30</span>
+            </div>
+            <div class="detalle-item" th:if="${reserva?.fechaInicio != null}">
+                <span class="detalle-label">Fecha de Viaje</span>
+                <span class="detalle-valor" th:text="${#temporals.format(reserva.fechaInicio, 'dd/MM/yyyy')}">15/02/2024</span>
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <a th:href="@{/reservas/{id}(id=${reserva.idReserva})}" class="btn btn-primary">
+                📄 Ver Detalles
+            </a>
+            <a th:href="@{/boleta/reserva/{id}(id=${reserva.idReserva})}" class="btn btn-secondary" target="_blank">
+                📋 Descargar Boleta
+            </a>
+            <a th:href="@{/reservas}" class="btn btn-secondary">
+                📋 Mis Reservas
+            </a>
+            <a th:href="@{/}" class="btn btn-secondary">
+                🏠 Inicio
+            </a>
+        </div>
+
+        <div class="info-adicional">
+            <p>
+                <span class="email-icon">📧</span>
+                Se ha enviado un correo de confirmación a tu email
+            </p>
+            <p style="margin-top: 10px;">
+                Guarda el número de referencia para futuras consultas
+            </p>
+        </div>
+    </div>
+</body>
+</html>
