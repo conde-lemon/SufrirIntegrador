@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <!-- CSS removido temporalmente por problemas de MIME type -->
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -463,7 +463,7 @@
     <!-- Main Content -->
     <main class="main-content">
         <!-- Dashboard Section -->
-        <section id="dashboard-section" style="display: none">
+        <section id="dashboard-section">
             <h2 class="section-title">Dashboard</h2>
 
             <!-- Dashboard de Power BI Integrado -->
@@ -604,16 +604,8 @@
                         <th>Acciones</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr data-id="001" data-name="Juan Perez" data-email="juan.perez@email.com"
-                        data-date="2025-01-15" data-status="Activo" data-role="Usuario">
-                        <td>001</td>
-                        <td>Juan Perez</td>
-                        <td>juan.perez@email.com</td>
-                        <td>2025-01-15</td>
-                        <td>Activo</td>
-                        <td>Usuario</td>
-                    </tr>
+                    <tbody id="usuarios-tbody">
+                        <!-- Los usuarios se cargarán dinámicamente -->
                     </tbody>
                 </table>
             </div>
@@ -643,14 +635,17 @@
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
-                        <th>Descuento</th>
-                        <th>Fecha Inicio</th>
-                        <th>Fecha Fin</th>
+                        <th>Origen</th>
+                        <th>Destino</th>
+                        <th>Precio</th>
+                        <th>Tipo</th>
                         <th>Estado</th>
-                        <th>Uso</th>
                         <th>Acciones</th>
                     </tr>
                     </thead>
+                    <tbody id="servicios-tbody">
+                        <!-- Los servicios se cargarán dinámicamente -->
+                    </tbody>
                 </table>
             </div>
         </section>
@@ -789,18 +784,16 @@
 </div>
 
 <script>
-
     document.addEventListener('DOMContentLoaded', function() {
+        // --- Report Generation ---
         // Generar Reporte de Usuarios
         const generateReportBtn = document.getElementById('generate-report');
         if (generateReportBtn) {
             generateReportBtn.addEventListener('click', async function() {
                 try {
-                    // Mostrar mensaje de espera
                     this.disabled = true;
                     this.innerHTML = '<i class="bi bi-hourglass-split"></i> Generando...';
 
-                    // Llamar al endpoint de reportes
                     const response = await fetch('http://localhost:8081/api/reportes/usuarios?formato=pdf', {
                         method: 'GET',
                     });
@@ -809,7 +802,6 @@
                         throw new Error('Error al generar el reporte');
                     }
 
-                    // Descargar el PDF
                     const blob = await response.blob();
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
@@ -820,16 +812,14 @@
                     window.URL.revokeObjectURL(url);
                     document.body.removeChild(a);
 
-                    // Restaurar botón
                     this.disabled = false;
                     this.innerHTML = '<i class="bi bi-file-earmark-pdf"></i> Generar Reporte';
 
-                    alert('Reporte generado exitosamente');
+                    alert('✓ Reporte generado exitosamente');
                 } catch (error) {
                     console.error('Error:', error);
-                    alert('Error al generar el reporte: ' + error.message);
+                    alert('✗ Error al generar el reporte: ' + error.message);
 
-                    // Restaurar botón
                     this.disabled = false;
                     this.innerHTML = '<i class="bi bi-file-earmark-pdf"></i> Generar Reporte';
                 }
@@ -841,11 +831,9 @@
         if (generateReportPromocionesBtn) {
             generateReportPromocionesBtn.addEventListener('click', async function() {
                 try {
-                    // Mostrar mensaje de espera
                     this.disabled = true;
                     this.innerHTML = '<i class="bi bi-hourglass-split"></i> Generando...';
 
-                    // Llamar al endpoint de reportes de promociones
                     const response = await fetch('http://localhost:8081/api/reportes/promociones?formato=pdf', {
                         method: 'GET',
                     });
@@ -854,7 +842,6 @@
                         throw new Error('Error al generar el reporte de promociones');
                     }
 
-                    // Descargar el PDF
                     const blob = await response.blob();
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
@@ -865,27 +852,24 @@
                     window.URL.revokeObjectURL(url);
                     document.body.removeChild(a);
 
-                    // Restaurar botón
                     this.disabled = false;
                     this.innerHTML = '<i class="bi bi-file-earmark-pdf"></i> Generar Reporte';
 
-                    alert('Reporte de promociones generado exitosamente');
+                    alert('✓ Reporte de promociones generado exitosamente');
                 } catch (error) {
                     console.error('Error:', error);
-                    alert('Error al generar el reporte: ' + error.message);
+                    alert('✗ Error al generar el reporte: ' + error.message);
 
-                    // Restaurar botón
                     this.disabled = false;
                     this.innerHTML = '<i class="bi bi-file-earmark-pdf"></i> Generar Reporte';
                 }
             });
         }
 
-        // === GESTIÓN DE PROMOCIONES ===
-
-        // Abrir modal de nueva promoción
+        // --- Gestión de Promociones ---
         const newPromocionBtn = document.getElementById('new-promocion-btn');
         const newPromocionModal = document.getElementById('new-promocion-modal');
+        const newPromocionForm = document.getElementById('new-promocion-form');
 
         if (newPromocionBtn && newPromocionModal) {
             newPromocionBtn.addEventListener('click', function() {
@@ -893,13 +877,10 @@
             });
         }
 
-        // Manejar envío del formulario de nueva promoción
-        const newPromocionForm = document.getElementById('new-promocion-form');
         if (newPromocionForm) {
             newPromocionForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
 
-                // Obtener valores del formulario
                 const nombre = document.getElementById('promo-nombre').value.trim();
                 const descripcion = document.getElementById('promo-descripcion').value.trim();
                 const precio = parseFloat(document.getElementById('promo-precio').value);
@@ -909,39 +890,13 @@
                 const etiquetas = document.getElementById('promo-etiquetas').value.trim();
                 const url = document.getElementById('promo-url').value.trim();
 
-                // Validaciones
-                if (!nombre) {
-                    alert('El nombre de la promoción es requerido');
-                    return;
-                }
+                if (!nombre) { alert('El nombre de la promoción es requerido'); return; }
+                if (isNaN(precio) || precio <= 0) { alert('El precio debe ser mayor a 0'); return; }
+                if (isNaN(descuento) || descuento < 0 || descuento > 100) { alert('El descuento debe estar entre 0 y 100'); return; }
+                if (!fechaInicio) { alert('La fecha de inicio es requerida'); return; }
+                if (!fechaFin) { alert('La fecha de fin es requerida'); return; }
+                if (new Date(fechaFin) <= new Date(fechaInicio)) { alert('La fecha de fin debe ser posterior a la fecha de inicio'); return; }
 
-                if (!precio || precio <= 0) {
-                    alert('El precio debe ser mayor a 0');
-                    return;
-                }
-
-                if (!descuento || descuento < 0 || descuento > 100) {
-                    alert('El descuento debe estar entre 0 y 100');
-                    return;
-                }
-
-                if (!fechaInicio) {
-                    alert('La fecha de inicio es requerida');
-                    return;
-                }
-
-                if (!fechaFin) {
-                    alert('La fecha de fin es requerida');
-                    return;
-                }
-
-                // Validar que fecha fin sea posterior a fecha inicio
-                if (new Date(fechaFin) <= new Date(fechaInicio)) {
-                    alert('La fecha de fin debe ser posterior a la fecha de inicio');
-                    return;
-                }
-
-                // Preparar datos para enviar (formato ISO para fechas)
                 const promocionData = {
                     nombre: nombre,
                     descripcion: descripcion || null,
@@ -955,7 +910,6 @@
                 };
 
                 try {
-                    // Deshabilitar botón de submit
                     const submitBtn = this.querySelector('button[type="submit"]');
                     const originalText = submitBtn.innerHTML;
                     submitBtn.disabled = true;
@@ -963,12 +917,9 @@
 
                     console.log('Enviando datos de promoción:', promocionData);
 
-                    // Enviar petición al backend
                     const response = await fetch('http://localhost:8081/api/ofertas', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(promocionData)
                     });
 
@@ -979,19 +930,16 @@
                         alert('✓ Promoción creada exitosamente!\n\n' +
                               'Nombre: ' + result.data.nombre + '\n' +
                               'Descuento: ' + descuento + '%\n' +
-                              'Precio final: $' + precioFinal.toFixed(2));
+                              'Precio final: S/' + precioFinal.toFixed(2));
                         console.log('Promoción creada:', result.data);
 
-                        // Cerrar modal
                         newPromocionModal.classList.remove('active');
-
-                        // Limpiar formulario
                         newPromocionForm.reset();
+                        cargarServicios(); // Reload services to show the new promotion
                     } else {
                         throw new Error(result.message || 'Error al crear la promoción');
                     }
 
-                    // Restaurar botón
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalText;
 
@@ -999,7 +947,6 @@
                     console.error('Error:', error);
                     alert('✗ Error al crear la promoción: ' + error.message);
 
-                    // Restaurar botón
                     const submitBtn = this.querySelector('button[type="submit"]');
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = '<i class="bi bi-save"></i> Guardar Promoción';
@@ -1007,209 +954,344 @@
             });
         }
 
-        // ... (código anterior para mostrar/ocultar formularios) ...
+        // --- Data Loading Functions ---
+        // Cargar usuarios al iniciar
+        cargarUsuarios();
 
-        // Eliminar usuario - URL CORREGIDA
-        deleteForm.querySelector('.btn-danger').addEventListener('click', async () => {
-            const userId = document.getElementById('delete-id').value;
-
-            if (!userId) {
-                alert('Por favor ingresa un ID de usuario');
-                return;
-            }
-
-            if (!confirm('¿Estás seguro de que deseas desactivar este usuario?')) {
-                return;
-            }
-
+        // Función para cargar usuarios
+        async function cargarUsuarios() {
             try {
-                const response = await fetch(`http://localhost:8081/vistadmin/${userId}`, { // ← URL CORREGIDA
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
+                console.log('Cargando usuarios...');
+                const tbody = document.getElementById('usuarios-tbody');
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Cargando usuarios...</td></tr>';
+                
+                // Usar endpoint existente
+                const response = await fetch('/usuarios');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const usuarios = await response.json();
+
+                tbody.innerHTML = '';
+
+                if (usuarios.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No hay usuarios registrados</td></tr>';
+                    return;
+                }
+
+                usuarios.forEach(usuario => {
+                    const row = document.createElement('tr');
+                    const fechaRegistro = usuario.fechaRegistro ? new Date(usuario.fechaRegistro).toLocaleDateString() : 'N/A';
+                    row.innerHTML = `
+                        <td>${usuario.idUsuario || 'N/A'}</td>
+                        <td>${(usuario.nombres || '') + ' ' + (usuario.apellidos || '')}</td>
+                        <td>${usuario.email || 'N/A'}</td>
+                        <td>${fechaRegistro}</td>
+                        <td>${usuario.activo ? 'Activo' : 'Inactivo'}</td>
+                        <td>${usuario.rol || 'USER'}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-small btn-primary" onclick="editarUsuario(${usuario.idUsuario})">Editar</button>
+                                <button class="btn btn-small btn-danger" onclick="eliminarUsuario(${usuario.idUsuario}, '${(usuario.nombres || '') + ' ' + (usuario.apellidos || '')}')">Eliminar</button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error cargando usuarios:', error);
+                const tbody = document.getElementById('usuarios-tbody');
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: red;">Error al cargar usuarios: ${error.message}</td></tr>`;
+            }
+        }
+
+        // Función para cargar servicios
+        async function cargarServicios() {
+            try {
+                console.log('Cargando servicios...');
+                const tbody = document.getElementById('servicios-tbody');
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">Cargando servicios...</td></tr>';
+                
+                // Usar endpoint existente
+                const response = await fetch('/servicios');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const servicios = await response.json();
+
+                tbody.innerHTML = '';
+
+                if (servicios.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">No hay servicios registrados</td></tr>';
+                    return;
+                }
+
+                servicios.forEach(servicio => {
+                    const row = document.createElement('tr');
+                    const precio = servicio.precioBase ? parseFloat(servicio.precioBase).toFixed(2) : '0.00';
+                    row.innerHTML = `
+                        <td>${servicio.idServicio || 'N/A'}</td>
+                        <td>${servicio.nombre || 'Sin nombre'}</td>
+                        <td>${servicio.origen || 'N/A'}</td>
+                        <td>${servicio.destino || 'N/A'}</td>
+                        <td>S/ ${precio}</td>
+                        <td>${servicio.tipoServicio || 'N/A'}</td>
+                        <td>${servicio.activo ? 'Activo' : 'Inactivo'}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-small btn-primary" onclick="editarServicio(${servicio.idServicio})">Editar</button>
+                                <button class="btn btn-small btn-danger" onclick="eliminarServicio(${servicio.idServicio})">Eliminar</button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error cargando servicios:', error);
+                const tbody = document.getElementById('servicios-tbody');
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: red;">Error al cargar servicios: ${error.message}</td></tr>`;
+            }
+        }
+
+        // --- User Management Modals and Forms ---
+        const editUserModal = document.getElementById('edit-user-modal');
+        const editUserForm = document.getElementById('edit-user-form');
+        const deleteUserModal = document.getElementById('delete-user-modal');
+        const confirmDeleteBtn = document.getElementById('confirm-delete');
+        let userIdToDelete = null; // Variable to store the ID of the user to be deleted
+
+        // Global functions for table actions (made global for onclick attributes)
+        window.editarUsuario = async function(id) {
+            try {
+                const response = await fetch(`/vistadmin/${id}/datos`);
+                const result = await response.json();
+
+                if (result.success) {
+                    const user = result.usuario;
+                    document.getElementById('edit-user-id').value = user.id;
+                    document.getElementById('edit-user-name').value = user.nombres;
+                    document.getElementById('edit-user-email').value = user.email;
+                    // Assuming 'Activo'/'Inactivo' for status, and 'Usuario'/'Administrador' for role
+                    document.getElementById('edit-user-status').value = user.activo ? 'Activo' : 'Inactivo';
+                    document.getElementById('edit-user-role').value = user.rol === 'ADMIN' ? 'Administrador' : 'Usuario';
+                    editUserModal.classList.add('active');
+                } else {
+                    alert('Error al obtener datos del usuario: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                alert('Error al obtener datos del usuario: ' + error.message);
+            }
+        };
+
+        window.eliminarUsuario = function(id, name) {
+            userIdToDelete = id;
+            document.getElementById('delete-user-name').textContent = name;
+            deleteUserModal.classList.add('active');
+        };
+
+        window.editarServicio = function(id) {
+            alert('Función de editar servicio ' + id + ' - Por implementar');
+        };
+
+        window.eliminarServicio = function(id) {
+            if (confirm('¿Está seguro de que desea eliminar el servicio ' + id + '?')) {
+                alert('Función de eliminar servicio - Por implementar');
+            }
+        };
+
+        // Handle edit user form submission
+        if (editUserForm) {
+            editUserForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const userId = document.getElementById('edit-user-id').value;
+                const nombres = document.getElementById('edit-user-name').value;
+                const email = document.getElementById('edit-user-email').value;
+                const activo = document.getElementById('edit-user-status').value === 'Activo';
+                const rol = document.getElementById('edit-user-role').value === 'Administrador' ? 'ADMIN' : 'USER'; // Assuming 'ADMIN' or 'USER' for backend
+
+                // Fetch current user data to get apellidos and telefono, as they are not in the modal
+                // This is a simplification. A more robust solution would fetch all data or pass it.
+                try {
+                    const userResponse = await fetch(`/vistadmin/${userId}/datos`);
+                    const userData = await userResponse.json();
+                    if (!userData.success) throw new Error(userData.message);
+                    const currentApellidos = userData.usuario.apellidos;
+                    const currentTelefono = userData.usuario.telefono;
+
+                    const formData = new URLSearchParams();
+                    formData.append('nombres', nombres);
+                    formData.append('apellidos', currentApellidos); // Use current apellidos
+                    formData.append('email', email);
+                    formData.append('telefono', currentTelefono); // Use current telefono
+                    formData.append('rol', rol);
+                    formData.append('activo', activo);
+
+                    const response = await fetch(`/vistadmin/${userId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: formData.toString()
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        alert('✓ Usuario actualizado correctamente');
+                        editUserModal.classList.remove('active');
+                        cargarUsuarios(); // Reload users table
+                    } else {
+                        alert('✗ Error al actualizar usuario: ' + result.message);
                     }
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    alert('Usuario desactivado correctamente');
-                    deleteForm.style.display = 'none';
-                    document.getElementById('delete-id').value = '';
-                    window.location.reload();
-                } else {
-                    alert('Error: ' + result.message);
+                } catch (error) {
+                    console.error('Error updating user:', error);
+                    alert('✗ Error al actualizar usuario: ' + error.message);
                 }
-            } catch (error) {
-                alert('Error al eliminar usuario: ' + error.message);
-            }
-        });
-
-        // Cargar datos del usuario para actualizar - URL CORREGIDA
-        document.getElementById('toggle-update').addEventListener('click', async () => {
-            const userId = prompt('Ingresa el ID del usuario a actualizar:');
-            if (!userId) return;
-
-            try {
-                const response = await fetch(`http://localhost:8081/vistadmin/${userId}/datos`); // ← URL CORREGIDA
-                const result = await response.json();
-
-                if (result.success) {
-                    const usuario = result.usuario;
-                    document.getElementById('update-id').value = usuario.id;
-                    document.getElementById('update-nombres').value = usuario.nombres || '';
-                    document.getElementById('update-apellidos').value = usuario.apellidos || '';
-                    document.getElementById('update-email').value = usuario.email || '';
-                    document.getElementById('update-telefono').value = usuario.telefono || '';
-                    document.getElementById('update-rol').value = usuario.rol || 'USER';
-                    document.getElementById('update-activo').checked = usuario.activo;
-
-                    updateForm.style.display = 'block';
-                    deleteForm.style.display = 'none';
-                } else {
-                    alert('Error: ' + result.message);
-                }
-            } catch (error) {
-                alert('Error al cargar datos del usuario: ' + error.message);
-            }
-        });
-
-        // Actualizar usuario - URL CORREGIDA
-        updateForm.querySelector('.btn-primary').addEventListener('click', async () => {
-            const userId = document.getElementById('update-id').value;
-            const nombres = document.getElementById('update-nombres').value;
-            const apellidos = document.getElementById('update-apellidos').value;
-            const email = document.getElementById('update-email').value;
-            const telefono = document.getElementById('update-telefono').value;
-            const rol = document.getElementById('update-rol').value;
-            const activo = document.getElementById('update-activo').checked;
-
-            if (!userId) {
-                alert('ID de usuario no válido');
-                return;
-            }
-
-            try {
-                const params = new URLSearchParams({
-                    nombres: nombres || '',
-                    apellidos: apellidos || '',
-                    email: email || '',
-                    telefono: telefono || '',
-                    rol: rol || '',
-                    activo: activo
-                });
-
-                const response = await fetch(`http://localhost:8081/vistadmin/${userId}?${params}`, { // ← URL CORREGIDA
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    alert('Usuario actualizado correctamente');
-                    updateForm.style.display = 'none';
-                    window.location.reload();
-                } else {
-                    alert('Error: ' + result.message);
-                }
-            } catch (error) {
-                alert('Error al actualizar usuario: ' + error.message);
-            }
-        });
-
-        // Búsqueda - URL CORREGIDA
-        searchInput.addEventListener('input', function() {
-            const searchTerm = this.value;
-            if (searchTerm.length >= 3 || searchTerm.length === 0) {
-                window.location.href = `http://localhost:8081/vistadmin?search=${encodeURIComponent(searchTerm)}`; // ← URL CORREGIDA
-            }
-        });
-    });
-
-    // Navegación entre secciones
-    document.querySelectorAll(".sidebar-item").forEach((item) => {
-        item.addEventListener("click", function (e) {
-            e.preventDefault();
-
-            // Actualizar sidebar activo
-            document
-                .querySelectorAll(".sidebar-item")
-                .forEach((i) => i.classList.remove("active"));
-            this.classList.add("active");
-
-            // Ocultar todas las secciones
-            document.querySelectorAll("section").forEach((section) => {
-                section.style.display = "none";
             });
+        }
 
-            // Mostrar sección correspondiente
-            const target = this.getAttribute("href").substring(1);
-            document.getElementById(`${target}-section`).style.display = "block";
+        // Handle confirm delete button click
+        if (confirmDeleteBtn) {
+            confirmDeleteBtn.addEventListener('click', async function() {
+                if (userIdToDelete) {
+                    try {
+                        const response = await fetch(`/vistadmin/${userIdToDelete}`, {
+                            method: 'DELETE'
+                        });
+                        const result = await response.json();
+
+                        if (result.success) {
+                            alert('✓ Usuario desactivado correctamente');
+                            deleteUserModal.classList.remove('active');
+                            cargarUsuarios(); // Reload users table
+                        } else {
+                            alert('✗ Error al desactivar usuario: ' + result.message);
+                        }
+                    } catch (error) {
+                        console.error('Error deactivating user:', error);
+                        alert('✗ Error al desactivar usuario: ' + error.message);
+                    }
+                }
+            });
+        }
+
+        // --- Navigation between sections (MOVED INSIDE DOMContentLoaded) ---
+        document.querySelectorAll(".sidebar-item").forEach((item) => {
+            item.addEventListener("click", function (e) {
+                e.preventDefault();
+
+                document.querySelectorAll(".sidebar-item").forEach((i) => i.classList.remove("active"));
+                this.classList.add("active");
+
+                document.querySelectorAll("section").forEach((section) => {
+                    section.style.display = "none";
+                });
+
+                const target = this.getAttribute("href").substring(1);
+                const targetSection = document.getElementById(`${target}-section`);
+                if (targetSection) {
+                    targetSection.style.display = "block";
+                }
+
+                // Special handling for promotions section to load services
+                if (target === 'promociones') {
+                    cargarServicios();
+                }
+            });
         });
-    });
 
-    // Funcionalidad de filtros avanzados
-    const toggleFiltersBtn = document.getElementById("toggle-filters");
-    const advancedFilters = document.getElementById("advanced-filters");
-    const deleteBtn = document.getElementById("toggle-delete");
-    const updateBtn = document.getElementById("toggle-update");
-    const deleteForm = document.getElementById("delete-form");
-    const updateForm = document.getElementById("update-form");
-    const cancelDelete = document.getElementById("cancel-delete");
-    const cancelUpdate = document.getElementById("cancel-update");
+        // --- Advanced Filters and Form Toggles ---
+        const toggleFiltersBtn = document.getElementById("toggle-filters");
+        const advancedFilters = document.getElementById("advanced-filters");
+        const deleteBtn = document.getElementById("toggle-delete");
+        const updateBtn = document.getElementById("toggle-update");
+        const deleteForm = document.getElementById("delete-form");
+        const updateForm = document.getElementById("update-form");
+        const cancelDelete = document.getElementById("cancel-delete");
+        const cancelUpdate = document.getElementById("cancel-update");
 
-    function closeAll() {
-        advancedFilters.classList.remove("active");
-        deleteForm.classList.remove("active");
-        updateForm.classList.remove("active");
-        toggleFiltersBtn.textContent = "Filtros Avanzados";
-    }
+        function closeAllForms() {
+            if (advancedFilters) advancedFilters.classList.remove("active");
+            if (deleteForm) deleteForm.classList.remove("active");
+            if (updateForm) updateForm.classList.remove("active");
+            if (toggleFiltersBtn) toggleFiltersBtn.textContent = "Filtros Avanzados";
+        }
 
-    toggleFiltersBtn.addEventListener("click", function () {
-        const isActive = advancedFilters.classList.toggle("active");
-        deleteForm.classList.remove("active");
-        updateForm.classList.remove("active");
-        this.textContent = isActive ? "Ocultar Filtros" : "Filtros Avanzados";
-    });
+        if (toggleFiltersBtn) {
+            toggleFiltersBtn.addEventListener("click", function () {
+                const isActive = advancedFilters.classList.toggle("active");
+                if (deleteForm) deleteForm.classList.remove("active");
+                if (updateForm) updateForm.classList.remove("active");
+                this.textContent = isActive ? "Ocultar Filtros" : "Filtros Avanzados";
+            });
+        }
 
-    deleteBtn.addEventListener("click", function () {
-        const isActive = deleteForm.classList.toggle("active");
-        advancedFilters.classList.remove("active");
-        updateForm.classList.remove("active");
-        toggleFiltersBtn.textContent = "Filtros Avanzados";
-        if (!isActive) closeAll();
-    });
+        if (deleteBtn) {
+            deleteBtn.addEventListener("click", function () {
+                const isActive = deleteForm.classList.toggle("active");
+                if (advancedFilters) advancedFilters.classList.remove("active");
+                if (updateForm) updateForm.classList.remove("active");
+                if (toggleFiltersBtn) toggleFiltersBtn.textContent = "Filtros Avanzados";
+                if (!isActive) closeAllForms();
+            });
+        }
 
-    updateBtn.addEventListener("click", function () {
-        const isActive = updateForm.classList.toggle("active");
-        advancedFilters.classList.remove("active");
-        deleteForm.classList.remove("active");
-        toggleFiltersBtn.textContent = "Filtros Avanzados";
-        if (!isActive) closeAll();
-    });
+        if (updateBtn) {
+            updateBtn.addEventListener("click", function () {
+                const isActive = updateForm.classList.toggle("active");
+                if (advancedFilters) advancedFilters.classList.remove("active");
+                if (deleteForm) deleteForm.classList.remove("active");
+                if (toggleFiltersBtn) toggleFiltersBtn.textContent = "Filtros Avanzados";
+                if (!isActive) closeAllForms();
+            });
+        }
 
-    cancelDelete.addEventListener("click", closeAll);
-    cancelUpdate.addEventListener("click", closeAll);
+        if (cancelDelete) cancelDelete.addEventListener("click", closeAllForms);
+        if (cancelUpdate) cancelUpdate.addEventListener("click", closeAllForms);
 
-    // Cerrar modales
-    document.querySelectorAll(".close-modal").forEach((btn) => {
-        btn.addEventListener("click", function () {
-            this.closest(".modal").classList.remove("active");
+        // --- Modal Closing Logic ---
+        document.querySelectorAll(".close-modal").forEach((btn) => {
+            btn.addEventListener("click", function () {
+                this.closest(".modal").classList.remove("active");
+            });
         });
-    });
 
-    // Cerrar modal al hacer clic fuera del contenido
-    document.querySelectorAll(".modal").forEach((modal) => {
-        modal.addEventListener("click", function (e) {
-            if (e.target === this) {
-                this.classList.remove("active");
-            }
+        document.querySelectorAll(".modal").forEach((modal) => {
+            modal.addEventListener("click", function (e) {
+                if (e.target === this) {
+                    this.classList.remove("active");
+                }
+            });
         });
-    });
+
+        // --- Basic Client-Side User Search (for search-users input) ---
+        const searchUsersInput = document.getElementById('search-users');
+        if (searchUsersInput) {
+            searchUsersInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const userRows = document.querySelectorAll('#usuarios-tbody tr');
+
+                userRows.forEach(row => {
+                    const userName = row.children[1].textContent.toLowerCase(); // Name column
+                    const userEmail = row.children[2].textContent.toLowerCase(); // Email column
+                    const userId = row.children[0].textContent.toLowerCase(); // ID column
+
+                    if (userName.includes(searchTerm) || userEmail.includes(searchTerm) || userId.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        }
+    }); // End of DOMContentLoaded
 </script>
+
 </body>
 
 </html>

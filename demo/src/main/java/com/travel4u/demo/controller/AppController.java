@@ -36,15 +36,31 @@ public class AppController {
     }
 
     /**
-     * Muestra la página de inicio y le pasa la lista de todas las reservas.
+     * Muestra la página de inicio con reservas del usuario autenticado (si está logueado).
      */
     @GetMapping("/")
-    public String viewHomePage(Model model) {
+    public String viewHomePage(Model model, Principal principal) {
         System.out.println("[DEBUG] Iniciando carga de página de inicio...");
         
         try {
-            List<Reserva> listaReservas = reservaDAO.findAll();
-            System.out.println("[DEBUG] Reservas encontradas: " + listaReservas.size());
+            List<Reserva> listaReservas;
+            
+            if (principal != null) {
+                // Usuario autenticado: mostrar sus reservas
+                String email = principal.getName();
+                Usuario usuario = usuarioDAO.findByEmail(email).orElse(null);
+                
+                if (usuario != null) {
+                    listaReservas = reservaDAO.findByUsuarioOrderByCreatedAtDesc(usuario);
+                    System.out.println("[DEBUG] Reservas del usuario " + email + ": " + listaReservas.size());
+                } else {
+                    listaReservas = java.util.Collections.emptyList();
+                }
+            } else {
+                // Usuario no autenticado: mostrar reservas de ejemplo (últimas 3)
+                listaReservas = reservaDAO.findAll().stream().limit(3).toList();
+                System.out.println("[DEBUG] Reservas de ejemplo: " + listaReservas.size());
+            }
             
             for (int i = 0; i < listaReservas.size() && i < 3; i++) {
                 Reserva r = listaReservas.get(i);

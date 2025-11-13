@@ -13,7 +13,7 @@ import java.sql.Statement;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@ActiveProfiles("postgres")
+@ActiveProfiles("h2")
 public class DatabaseConnectionTest {
 
     @Autowired

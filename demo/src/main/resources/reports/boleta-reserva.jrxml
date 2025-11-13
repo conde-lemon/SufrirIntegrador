@@ -20,6 +20,9 @@
     <parameter name="moneda" class="java.lang.String"/>
     <parameter name="estado" class="java.lang.String"/>
     <parameter name="observaciones" class="java.lang.String"/>
+    
+    <!-- Query vacía para usar solo parámetros -->
+    <queryString><![CDATA[SELECT 1 as dummy]]></queryString>
 
     <title>
         <band height="150">
@@ -172,7 +175,7 @@
                 <text><![CDATA[Detalles:]]></text>
             </staticText>
             
-            <textField isStretchWithOverflow="true">
+            <textField textAdjust="StretchHeight">
                 <reportElement x="90" y="200" width="400" height="30"/>
                 <textElement>
                     <font fontName="Arial" size="10"/>

@@ -100,14 +100,16 @@
         /*<![CDATA[*/
         // Variables de Thymeleaf
         const idUsuario = /*[[${idUsuario}]]*/ 1;
+        const idReserva = /*[[${idReserva}]]*/ 1;
         const codigoReserva = /*[[${codigoReserva}]]*/ 'TFU-2025-0000';
 
         console.log('=== Configuración del Reporte ===');
         console.log('ID Usuario:', idUsuario);
+        console.log('ID Reserva:', idReserva);
         console.log('Código Reserva:', codigoReserva);
 
         // URL base de la API
-        const API_URL = `/api/reportes/reservas?idUsuario=${idUsuario}&formato=pdf`;
+        const API_URL = `/boleta/reserva/${idReserva}`;
         console.log('URL API:', API_URL);
 
         function mostrarMensaje(mensaje, tipo = 'error') {

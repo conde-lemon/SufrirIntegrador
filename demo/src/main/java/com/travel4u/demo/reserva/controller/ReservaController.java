@@ -49,28 +49,35 @@ public class ReservaController {
      */
     @GetMapping("/reservas")
     public String showMisReservasPage(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        System.out.println("[DEBUG] Iniciando carga de TODAS las reservas (modo prueba)...");
+        if (userDetails == null) {
+            return "redirect:/login";
+        }
+        
+        System.out.println("[DEBUG] Cargando reservas para usuario: " + userDetails.getUsername());
         
         try {
-            // TEMPORAL: Mostrar todas las reservas sin filtrar por usuario
-            List<Reserva> todasLasReservas = reservaDAO.findAll();
-            System.out.println("[DEBUG] Total de reservas encontradas: " + todasLasReservas.size());
+            // Buscar usuario autenticado
+            Usuario usuario = usuarioDAO.findByEmail(userDetails.getUsername())
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
             
-            for (int i = 0; i < todasLasReservas.size() && i < 5; i++) {
-                Reserva r = todasLasReservas.get(i);
+            // Obtener solo las reservas del usuario autenticado
+            List<Reserva> reservasDelUsuario = reservaDAO.findByUsuarioOrderByCreatedAtDesc(usuario);
+            System.out.println("[DEBUG] Reservas encontradas para " + usuario.getEmail() + ": " + reservasDelUsuario.size());
+            
+            for (int i = 0; i < reservasDelUsuario.size() && i < 5; i++) {
+                Reserva r = reservasDelUsuario.get(i);
                 System.out.println("[DEBUG] Reserva " + (i+1) + ": ID=" + r.getIdReserva() + 
                                  ", Estado=" + r.getEstado() + 
-                                 ", Total=" + r.getTotal() + 
-                                 ", Usuario=" + (r.getUsuario() != null ? r.getUsuario().getEmail() : "null"));
+                                 ", Total=" + r.getTotal());
             }
 
-            model.addAttribute("reservas", todasLasReservas);
-            System.out.println("[DEBUG] Modelo con todas las reservas configurado correctamente");
+            model.addAttribute("reservas", reservasDelUsuario);
+            System.out.println("[DEBUG] Modelo configurado con reservas del usuario");
             
         } catch (Exception e) {
-            System.err.println("[ERROR] Error al cargar todas las reservas: " + e.getMessage());
+            System.err.println("[ERROR] Error al cargar reservas del usuario: " + e.getMessage());
             e.printStackTrace();
-            model.addAttribute("reservas", java.util.Collections.emptyList());
+            model.addAttribute("reservas", Collections.emptyList());
         }
         
         return "reservas";
@@ -82,15 +89,24 @@ public class ReservaController {
      */
     @GetMapping("/reservas/{id}")
     public String showReservaDetallePage(@PathVariable("id") Integer id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        System.out.println("[DEBUG] Cargando detalle de reserva ID: " + id);
+        if (userDetails == null) {
+            return "redirect:/login";
+        }
+        
+        System.out.println("[DEBUG] Cargando detalle de reserva ID: " + id + " para usuario: " + userDetails.getUsername());
         
         try {
-            // TEMPORAL: Sin validación de usuario para pruebas
+            // Buscar la reserva
             Reserva reserva = reservaDAO.findById(id)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada con ID: " + id));
 
+            // Verificar que la reserva pertenece al usuario autenticado
+            if (!reserva.getUsuario().getEmail().equals(userDetails.getUsername())) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permisos para ver esta reserva");
+            }
+
             System.out.println("[DEBUG] Reserva encontrada: ID=" + reserva.getIdReserva() + 
-                             ", Usuario=" + (reserva.getUsuario() != null ? reserva.getUsuario().getEmail() : "null"));
+                             ", Usuario=" + reserva.getUsuario().getEmail());
 
             // Cargamos los datos adicionales que la vista de detalle necesita.
             List<Reserva_Equipaje> equipajesDeLaReserva = reservaEquipajeDAO.findByReserva(reserva);

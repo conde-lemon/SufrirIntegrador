@@ -4,6 +4,9 @@ import com.travel4u.demo.reserva.model.Pago;
 import com.travel4u.demo.reserva.model.Reserva;
 import com.travel4u.demo.reserva.repository.IPagoDAO;
 import com.travel4u.demo.reserva.repository.IReservaDAO;
+import com.travel4u.demo.reserva.service.PagoService;
+import com.travel4u.demo.service.EmailService;
+import com.travel4u.demo.service.NotificationService;
 import com.travel4u.demo.servicio.model.Servicio;
 import com.travel4u.demo.servicio.repository.IServicioDAO;
 import com.travel4u.demo.usuario.model.Usuario;
@@ -24,12 +27,18 @@ public class PagoController {
     private final IReservaDAO reservaDAO;
     private final IUsuarioDAO usuarioDAO;
     private final IServicioDAO servicioDAO;
+    private final PagoService pagoService;
+    private final EmailService emailService;
+    private final NotificationService notificationService;
 
-    public PagoController(IPagoDAO pagoDAO, IReservaDAO reservaDAO, IUsuarioDAO usuarioDAO, IServicioDAO servicioDAO) {
+    public PagoController(IPagoDAO pagoDAO, IReservaDAO reservaDAO, IUsuarioDAO usuarioDAO, IServicioDAO servicioDAO, PagoService pagoService, EmailService emailService, NotificationService notificationService) {
         this.pagoDAO = pagoDAO;
         this.reservaDAO = reservaDAO;
         this.usuarioDAO = usuarioDAO;
         this.servicioDAO = servicioDAO;
+        this.pagoService = pagoService;
+        this.emailService = emailService;
+        this.notificationService = notificationService;
     }
 
     @GetMapping("/pago")
@@ -109,22 +118,7 @@ public class PagoController {
             Reserva reservaGuardada = reservaDAO.save(reserva);
             System.out.println("[DEBUG] Reserva creada con ID: " + reservaGuardada.getIdReserva());
 
-            // Crear pago automático
-            try {
-                Pago pago = new Pago();
-                pago.setReserva(reservaGuardada);
-                pago.setMonto(total);
-                pago.setMetodoPago("Procesado automáticamente");
-                pago.setEstadoPago("Completado");
-                pago.setFechaPago(LocalDateTime.now());
-                pago.setReferenciaPago("AUTO-" + System.currentTimeMillis());
-                pagoDAO.save(pago);
-                System.out.println("[DEBUG] Pago automático creado");
-            } catch (Exception e) {
-                System.err.println("[WARN] Error al crear pago automático: " + e.getMessage());
-            }
-
-            return "redirect:/confirmacion-reserva?idReserva=" + reservaGuardada.getIdReserva();
+            return "redirect:/pago/paypal?idReserva=" + reservaGuardada.getIdReserva();
             
         } catch (Exception e) {
             System.err.println("[ERROR] Error al crear reserva: " + e.getMessage());
@@ -193,6 +187,115 @@ public class PagoController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error al procesar el pago: " + e.getMessage());
             return "redirect:/pago";
+        }
+    }
+
+    @GetMapping("/pago/paypal")
+    public String mostrarPasarelaPayPal(
+            @RequestParam Integer idReserva,
+            Model model,
+            Principal principal) {
+        
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        Reserva reserva = reservaDAO.findById(idReserva)
+                .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+
+        Usuario usuario = usuarioDAO.findByEmail(principal.getName())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (!reserva.getUsuario().getIdUsuario().equals(usuario.getIdUsuario())) {
+            return "redirect:/reservas";
+        }
+
+        model.addAttribute("reserva", reserva);
+        model.addAttribute("emailUsuario", usuario.getEmail());
+        return "pasarela-paypal";
+    }
+
+    @PostMapping("/pago/paypal/procesar")
+    public String procesarPagoPayPal(
+            @RequestParam Integer idReserva,
+            @RequestParam String emailPayPal,
+            @RequestParam String passwordPayPal,
+            Principal principal,
+            RedirectAttributes redirectAttributes) {
+
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        try {
+            Reserva reserva = reservaDAO.findById(idReserva)
+                    .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+
+            Usuario usuario = usuarioDAO.findByEmail(principal.getName())
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+            if (!reserva.getUsuario().getIdUsuario().equals(usuario.getIdUsuario())) {
+                throw new RuntimeException("Acceso denegado");
+            }
+
+            Pago pago = pagoService.procesarPagoPayPal(reserva, emailPayPal);
+
+            // Enviar email de confirmación
+            emailService.enviarConfirmacionPago(reserva, pago);
+            emailService.enviarBoletaElectronica(reserva);
+            
+            // Programar notificaciones
+            notificationService.enviarNotificacionReserva(reserva, "CONFIRMACION");
+            notificationService.programarRecordatorioViaje(reserva);
+
+            redirectAttributes.addFlashAttribute("pagoExitoso", true);
+            redirectAttributes.addFlashAttribute("referenciaPago", pago.getReferenciaPago());
+            redirectAttributes.addFlashAttribute("montoPagado", pago.getMonto());
+            
+            return "redirect:/pago/confirmacion?idReserva=" + idReserva;
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al procesar el pago: " + e.getMessage());
+            return "redirect:/pago/paypal?idReserva=" + idReserva;
+        }
+    }
+
+    @GetMapping("/pago/confirmacion")
+    public String mostrarConfirmacionPago(
+            @RequestParam Integer idReserva,
+            Model model,
+            Principal principal) {
+
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        try {
+            Reserva reserva = reservaDAO.findById(idReserva)
+                    .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+
+            Usuario usuario = usuarioDAO.findByEmail(principal.getName())
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+            // Verificar que la reserva pertenece al usuario
+            if (!reserva.getUsuario().getIdUsuario().equals(usuario.getIdUsuario())) {
+                return "redirect:/reservas";
+            }
+
+            // Buscar el pago asociado a la reserva
+            Pago pago = pagoDAO.findByReserva(reserva).orElse(null);
+            
+            model.addAttribute("reserva", reserva);
+            if (pago != null) {
+                model.addAttribute("referenciaPago", pago.getReferenciaPago());
+                model.addAttribute("metodoPago", pago.getMetodoPago());
+            }
+            
+            return "confirmacion-pago";
+            
+        } catch (Exception e) {
+            System.err.println("[ERROR] Error al mostrar confirmación: " + e.getMessage());
+            return "redirect:/reservas";
         }
     }
 }

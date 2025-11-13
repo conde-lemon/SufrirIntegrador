@@ -1,31 +1,253 @@
-2025-10-30 00:45:09.536 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Starting DemoApplication using Java 21.0.7 with PID 21120 (C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)\demo\build\classes\java\main started by LENOVO in C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)\demo)
-2025-10-30 00:45:09.549 [restartedMain] DEBUG com.travel4u.demo.DemoApplication - Running with Spring Boot v3.5.6, Spring v6.2.11
-2025-10-30 00:45:09.552 [restartedMain] INFO  com.travel4u.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
-2025-10-30 00:45:09.666 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2025-10-30 00:45:09.680 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2025-10-30 00:45:11.381 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-10-30 00:45:11.577 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 173 ms. Found 9 JPA repository interfaces.
-2025-10-30 00:45:13.176 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
-2025-10-30 00:45:13.213 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
-2025-10-30 00:45:13.217 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-10-30 00:45:13.218 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.46]
-2025-10-30 00:45:13.376 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-10-30 00:45:13.376 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3695 ms
-2025-10-30 00:45:15.007 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-10-30 00:45:15.083 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-10-30 00:45:15.710 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5950e3c8
-2025-10-30 00:45:15.714 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-10-30 00:45:15.881 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2003, org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@67ec0710) replaced previous registration(org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@3b7df6df)
-2025-10-30 00:45:15.882 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(6, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@79ac5e45) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@6a8f5681)
-2025-10-30 00:45:20.604 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-10-30 00:45:21.831 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-10-30 00:45:21.898 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
-2025-10-30 00:45:22.357 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
-2025-10-30 00:45:23.444 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2025-10-30 00:45:23.490 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8081"]
-2025-10-30 00:45:23.537 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
-2025-10-30 00:45:23.562 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Started DemoApplication in 15.496 seconds (process running for 16.752)
-2025-10-30 00:45:24.028 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-11-06 09:55:41.731 [Test worker] INFO  c.t.demo.JasperReportServiceTest - Starting JasperReportServiceTest using Java 21.0.7 with PID 25252 (started by LENOVO in C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)\demo)
+2025-11-06 09:55:41.737 [Test worker] DEBUG c.t.demo.JasperReportServiceTest - Running with Spring Boot v3.5.6, Spring v6.2.11
+2025-11-06 09:55:41.739 [Test worker] INFO  c.t.demo.JasperReportServiceTest - The following 1 profile is active: "h2"
+2025-11-06 09:55:42.467 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-06 09:55:42.550 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 73 ms. Found 10 JPA repository interfaces.
+2025-11-06 09:55:43.551 [Test worker] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-06 09:55:43.585 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-11-06 09:55:43.764 [Test worker] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2025-11-06 09:55:43.766 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-11-06 09:55:43.786 [Test worker] WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-06 09:55:44.776 [Test worker] DEBUG org.hibernate.SQL - 
+    create table detalle_reserva (
+        id_detalle_reserva integer generated by default as identity,
+        cantidad integer not null,
+        created_at timestamp(6),
+        precio_unitario numeric(10,2) not null,
+        subtotal numeric(10,2) not null,
+        id_reserva integer not null,
+        id_servicio bigint not null,
+        primary key (id_detalle_reserva)
+    )
+2025-11-06 09:55:44.787 [Test worker] DEBUG org.hibernate.SQL - 
+    create table equipaje (
+        id_equipaje integer generated by default as identity,
+        activo boolean not null,
+        descripcion TEXT,
+        dimension_alto numeric(8,2) not null,
+        dimension_ancho numeric(8,2) not null,
+        dimension_largo numeric(8,2) not null,
+        peso_max numeric(8,2) not null,
+        precio numeric(10,2) not null,
+        tipo varchar(255) not null,
+        primary key (id_equipaje)
+    )
+2025-11-06 09:55:44.791 [Test worker] DEBUG org.hibernate.SQL - 
+    create table historial (
+        id_historial integer generated by default as identity,
+        fecha timestamp(6),
+        termino_busqueda varchar(255),
+        id_usuario bigint,
+        primary key (id_historial)
+    )
+2025-11-06 09:55:44.793 [Test worker] DEBUG org.hibernate.SQL - 
+    create table oferta (
+        id_oferta bigint generated by default as identity,
+        activa boolean,
+        descripcion varchar(255),
+        descuento numeric(38,2),
+        etiquetas varchar(255),
+        fecha_creacion timestamp(6),
+        fecha_extraccion timestamp(6),
+        fecha_fin timestamp(6),
+        fecha_inicio timestamp(6),
+        fuente varchar(255),
+        nombre varchar(255) not null,
+        precio numeric(38,2) not null,
+        url varchar(255),
+        primary key (id_oferta)
+    )
+2025-11-06 09:55:44.799 [Test worker] DEBUG org.hibernate.SQL - 
+    create table pago (
+        id_pago integer generated by default as identity,
+        created_at timestamp(6),
+        estado_pago varchar(255) not null,
+        fecha_pago timestamp(6),
+        metodo_pago varchar(255) not null,
+        monto numeric(12,2) not null,
+        referencia_pago varchar(255),
+        updated_at timestamp(6),
+        id_reserva integer not null,
+        primary key (id_pago)
+    )
+2025-11-06 09:55:44.803 [Test worker] DEBUG org.hibernate.SQL - 
+    create table paquete (
+        id_paquete integer generated by default as identity,
+        descripcion TEXT,
+        fecha_paquete timestamp(6),
+        nombre varchar(255) not null,
+        precio_total numeric(10,2) not null,
+        primary key (id_paquete)
+    )
+2025-11-06 09:55:44.805 [Test worker] DEBUG org.hibernate.SQL - 
+    create table paquete_reserva (
+        id_paquete_reserva integer generated by default as identity,
+        cantidad integer not null,
+        created_at timestamp(6),
+        precio_unitario numeric(10,2) not null,
+        subtotal numeric(10,2) not null,
+        id_paquete integer not null,
+        id_reserva integer not null,
+        primary key (id_paquete_reserva)
+    )
+2025-11-06 09:55:44.808 [Test worker] DEBUG org.hibernate.SQL - 
+    create table proveedor (
+        id_proveedor integer generated by default as identity,
+        activo boolean not null,
+        contacto varchar(255),
+        email varchar(255),
+        nombre varchar(255) not null,
+        telefono varchar(255),
+        tipo_proveedor varchar(255) not null,
+        primary key (id_proveedor)
+    )
+2025-11-06 09:55:44.813 [Test worker] DEBUG org.hibernate.SQL - 
+    create table reserva (
+        id_reserva integer generated by default as identity,
+        created_at timestamp(6),
+        estado varchar(255) not null,
+        fecha_fin timestamp(6),
+        fecha_inicio timestamp(6),
+        moneda varchar(255),
+        observaciones TEXT,
+        total numeric(12,2) not null,
+        updated_at timestamp(6),
+        id_usuario bigint not null,
+        primary key (id_reserva)
+    )
+2025-11-06 09:55:44.817 [Test worker] DEBUG org.hibernate.SQL - 
+    create table reserva_equipaje (
+        id_reserva_equipaje integer generated by default as identity,
+        cantidad integer not null,
+        created_at timestamp(6),
+        precio_unitario numeric(10,2) not null,
+        subtotal numeric(10,2) not null,
+        id_equipaje integer not null,
+        id_reserva integer not null,
+        primary key (id_reserva_equipaje)
+    )
+2025-11-06 09:55:44.821 [Test worker] DEBUG org.hibernate.SQL - 
+    create table servicio (
+        id_servicio bigint generated by default as identity,
+        activo boolean not null,
+        created_at timestamp(6),
+        descripcion TEXT,
+        destino varchar(255),
+        disponibilidad integer not null,
+        nombre varchar(255) not null,
+        origen varchar(255),
+        precio_base numeric(10,2) not null,
+        tags varchar(255),
+        tipo_servicio varchar(255) not null,
+        id_proveedor integer,
+        primary key (id_servicio)
+    )
+2025-11-06 09:55:44.824 [Test worker] DEBUG org.hibernate.SQL - 
+    create table servicio_proveedor (
+        id_servicio_proveedor integer generated by default as identity,
+        created_at timestamp(6),
+        id_proveedor integer not null,
+        id_servicio bigint not null,
+        primary key (id_servicio_proveedor)
+    )
+2025-11-06 09:55:44.827 [Test worker] DEBUG org.hibernate.SQL - 
+    create table usuarios (
+        id_usuario bigint generated by default as identity,
+        activo boolean not null,
+        apellidos varchar(255),
+        email varchar(255) not null,
+        fecha_registro timestamp(6),
+        nombres varchar(255),
+        password varchar(255) not null,
+        rol varchar(255) not null,
+        telefono varchar(255),
+        primary key (id_usuario)
+    )
+2025-11-06 09:55:44.832 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists historial 
+       drop constraint if exists UK5j8hug6mrtyvigc5d1chfiw7d
+2025-11-06 09:55:44.834 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists historial 
+       add constraint UK5j8hug6mrtyvigc5d1chfiw7d unique (id_usuario)
+2025-11-06 09:55:44.838 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists pago 
+       drop constraint if exists UK10mfc62ndk37e2fw14tmy3dld
+2025-11-06 09:55:44.839 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists pago 
+       add constraint UK10mfc62ndk37e2fw14tmy3dld unique (id_reserva)
+2025-11-06 09:55:44.840 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists usuarios 
+       drop constraint if exists UKkfsp0s1tflm1cwlj8idhqsad0
+2025-11-06 09:55:44.842 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists usuarios 
+       add constraint UKkfsp0s1tflm1cwlj8idhqsad0 unique (email)
+2025-11-06 09:55:44.843 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists detalle_reserva 
+       add constraint FKj1lhl92oacmjdyvrkateyvcw1 
+       foreign key (id_reserva) 
+       references reserva
+2025-11-06 09:55:44.850 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists detalle_reserva 
+       add constraint FKdwdjkltsu86o8j31w5h2bppqw 
+       foreign key (id_servicio) 
+       references servicio
+2025-11-06 09:55:44.852 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists historial 
+       add constraint FKek6x4bxyi1ipmpa5teiejpngg 
+       foreign key (id_usuario) 
+       references usuarios
+2025-11-06 09:55:44.853 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists pago 
+       add constraint FKcf877idupj5b48wjatfaws6sg 
+       foreign key (id_reserva) 
+       references reserva
+2025-11-06 09:55:44.856 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists paquete_reserva 
+       add constraint FKlqr40r9xc74kyq630n1n6b5f 
+       foreign key (id_paquete) 
+       references paquete
+2025-11-06 09:55:44.858 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists paquete_reserva 
+       add constraint FKebw19vylvsjhlj36t8yqis3d2 
+       foreign key (id_reserva) 
+       references reserva
+2025-11-06 09:55:44.861 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists reserva 
+       add constraint FKj8cxeodpmehovje6152y4ywqm 
+       foreign key (id_usuario) 
+       references usuarios
+2025-11-06 09:55:44.862 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists reserva_equipaje 
+       add constraint FKj4lwal6wnv2rd3wtty1nef2te 
+       foreign key (id_equipaje) 
+       references equipaje
+2025-11-06 09:55:44.864 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists reserva_equipaje 
+       add constraint FKc5vte8990g713bdr65lu9tntx 
+       foreign key (id_reserva) 
+       references reserva
+2025-11-06 09:55:44.866 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists servicio 
+       add constraint FKjs76o250eufkn3ta34e8ahw2e 
+       foreign key (id_proveedor) 
+       references proveedor
+2025-11-06 09:55:44.868 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists servicio_proveedor 
+       add constraint FKb3ymubrc6050tqpb7hmhoicfo 
+       foreign key (id_proveedor) 
+       references proveedor
+2025-11-06 09:55:44.869 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists servicio_proveedor 
+       add constraint FKmu5qtgtfxtg0fep05ocq3fw2l 
+       foreign key (id_servicio) 
+       references servicio
+2025-11-06 09:55:44.874 [Test worker] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-06 09:55:45.579 [Test worker] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-06 09:55:45.615 [Test worker] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-11-06 09:55:45.865 [Test worker] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-11-06 09:55:46.328 [Test worker] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2025-11-06 09:55:46.400 [Test worker] INFO  c.t.demo.JasperReportServiceTest - Started JasperReportServiceTest in 5.026 seconds (process running for 6.17)
+2025-11-06 09:55:47.102 [Test worker] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -40,7 +262,7 @@
         usuarios u1_0 
     where
         u1_0.email=?
-2025-10-30 00:45:24.148 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-11-06 09:55:47.179 [Test worker] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -55,7 +277,260 @@
         usuarios u1_0 
     where
         u1_0.email=?
-2025-10-30 00:45:24.154 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-11-06 09:55:47.633 [Test worker] WARN  n.s.j.engine.xml.JRTextFieldFactory - The 'isStretchWithOverflow' attribute is deprecated. Use the 'textAdjust' attribute instead.
+2025-11-06 09:55:48.840 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-06 09:55:48.843 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-11-06 09:55:48.847 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-11-06 09:56:23.495 [Test worker] INFO  c.travel4u.demo.ReservaServiceTest - Starting ReservaServiceTest using Java 21.0.7 with PID 14764 (started by LENOVO in C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)\demo)
+2025-11-06 09:56:23.496 [Test worker] DEBUG c.travel4u.demo.ReservaServiceTest - Running with Spring Boot v3.5.6, Spring v6.2.11
+2025-11-06 09:56:23.496 [Test worker] INFO  c.travel4u.demo.ReservaServiceTest - The following 1 profile is active: "h2"
+2025-11-06 09:56:24.195 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-06 09:56:24.284 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 79 ms. Found 10 JPA repository interfaces.
+2025-11-06 09:56:25.273 [Test worker] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-06 09:56:25.304 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-11-06 09:56:25.474 [Test worker] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2025-11-06 09:56:25.476 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-11-06 09:56:25.503 [Test worker] WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-06 09:56:26.475 [Test worker] DEBUG org.hibernate.SQL - 
+    create table detalle_reserva (
+        id_detalle_reserva integer generated by default as identity,
+        cantidad integer not null,
+        created_at timestamp(6),
+        precio_unitario numeric(10,2) not null,
+        subtotal numeric(10,2) not null,
+        id_reserva integer not null,
+        id_servicio bigint not null,
+        primary key (id_detalle_reserva)
+    )
+2025-11-06 09:56:26.485 [Test worker] DEBUG org.hibernate.SQL - 
+    create table equipaje (
+        id_equipaje integer generated by default as identity,
+        activo boolean not null,
+        descripcion TEXT,
+        dimension_alto numeric(8,2) not null,
+        dimension_ancho numeric(8,2) not null,
+        dimension_largo numeric(8,2) not null,
+        peso_max numeric(8,2) not null,
+        precio numeric(10,2) not null,
+        tipo varchar(255) not null,
+        primary key (id_equipaje)
+    )
+2025-11-06 09:56:26.491 [Test worker] DEBUG org.hibernate.SQL - 
+    create table historial (
+        id_historial integer generated by default as identity,
+        fecha timestamp(6),
+        termino_busqueda varchar(255),
+        id_usuario bigint,
+        primary key (id_historial)
+    )
+2025-11-06 09:56:26.495 [Test worker] DEBUG org.hibernate.SQL - 
+    create table oferta (
+        id_oferta bigint generated by default as identity,
+        activa boolean,
+        descripcion varchar(255),
+        descuento numeric(38,2),
+        etiquetas varchar(255),
+        fecha_creacion timestamp(6),
+        fecha_extraccion timestamp(6),
+        fecha_fin timestamp(6),
+        fecha_inicio timestamp(6),
+        fuente varchar(255),
+        nombre varchar(255) not null,
+        precio numeric(38,2) not null,
+        url varchar(255),
+        primary key (id_oferta)
+    )
+2025-11-06 09:56:26.499 [Test worker] DEBUG org.hibernate.SQL - 
+    create table pago (
+        id_pago integer generated by default as identity,
+        created_at timestamp(6),
+        estado_pago varchar(255) not null,
+        fecha_pago timestamp(6),
+        metodo_pago varchar(255) not null,
+        monto numeric(12,2) not null,
+        referencia_pago varchar(255),
+        updated_at timestamp(6),
+        id_reserva integer not null,
+        primary key (id_pago)
+    )
+2025-11-06 09:56:26.503 [Test worker] DEBUG org.hibernate.SQL - 
+    create table paquete (
+        id_paquete integer generated by default as identity,
+        descripcion TEXT,
+        fecha_paquete timestamp(6),
+        nombre varchar(255) not null,
+        precio_total numeric(10,2) not null,
+        primary key (id_paquete)
+    )
+2025-11-06 09:56:26.506 [Test worker] DEBUG org.hibernate.SQL - 
+    create table paquete_reserva (
+        id_paquete_reserva integer generated by default as identity,
+        cantidad integer not null,
+        created_at timestamp(6),
+        precio_unitario numeric(10,2) not null,
+        subtotal numeric(10,2) not null,
+        id_paquete integer not null,
+        id_reserva integer not null,
+        primary key (id_paquete_reserva)
+    )
+2025-11-06 09:56:26.509 [Test worker] DEBUG org.hibernate.SQL - 
+    create table proveedor (
+        id_proveedor integer generated by default as identity,
+        activo boolean not null,
+        contacto varchar(255),
+        email varchar(255),
+        nombre varchar(255) not null,
+        telefono varchar(255),
+        tipo_proveedor varchar(255) not null,
+        primary key (id_proveedor)
+    )
+2025-11-06 09:56:26.512 [Test worker] DEBUG org.hibernate.SQL - 
+    create table reserva (
+        id_reserva integer generated by default as identity,
+        created_at timestamp(6),
+        estado varchar(255) not null,
+        fecha_fin timestamp(6),
+        fecha_inicio timestamp(6),
+        moneda varchar(255),
+        observaciones TEXT,
+        total numeric(12,2) not null,
+        updated_at timestamp(6),
+        id_usuario bigint not null,
+        primary key (id_reserva)
+    )
+2025-11-06 09:56:26.515 [Test worker] DEBUG org.hibernate.SQL - 
+    create table reserva_equipaje (
+        id_reserva_equipaje integer generated by default as identity,
+        cantidad integer not null,
+        created_at timestamp(6),
+        precio_unitario numeric(10,2) not null,
+        subtotal numeric(10,2) not null,
+        id_equipaje integer not null,
+        id_reserva integer not null,
+        primary key (id_reserva_equipaje)
+    )
+2025-11-06 09:56:26.518 [Test worker] DEBUG org.hibernate.SQL - 
+    create table servicio (
+        id_servicio bigint generated by default as identity,
+        activo boolean not null,
+        created_at timestamp(6),
+        descripcion TEXT,
+        destino varchar(255),
+        disponibilidad integer not null,
+        nombre varchar(255) not null,
+        origen varchar(255),
+        precio_base numeric(10,2) not null,
+        tags varchar(255),
+        tipo_servicio varchar(255) not null,
+        id_proveedor integer,
+        primary key (id_servicio)
+    )
+2025-11-06 09:56:26.520 [Test worker] DEBUG org.hibernate.SQL - 
+    create table servicio_proveedor (
+        id_servicio_proveedor integer generated by default as identity,
+        created_at timestamp(6),
+        id_proveedor integer not null,
+        id_servicio bigint not null,
+        primary key (id_servicio_proveedor)
+    )
+2025-11-06 09:56:26.524 [Test worker] DEBUG org.hibernate.SQL - 
+    create table usuarios (
+        id_usuario bigint generated by default as identity,
+        activo boolean not null,
+        apellidos varchar(255),
+        email varchar(255) not null,
+        fecha_registro timestamp(6),
+        nombres varchar(255),
+        password varchar(255) not null,
+        rol varchar(255) not null,
+        telefono varchar(255),
+        primary key (id_usuario)
+    )
+2025-11-06 09:56:26.527 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists historial 
+       drop constraint if exists UK5j8hug6mrtyvigc5d1chfiw7d
+2025-11-06 09:56:26.528 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists historial 
+       add constraint UK5j8hug6mrtyvigc5d1chfiw7d unique (id_usuario)
+2025-11-06 09:56:26.531 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists pago 
+       drop constraint if exists UK10mfc62ndk37e2fw14tmy3dld
+2025-11-06 09:56:26.532 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists pago 
+       add constraint UK10mfc62ndk37e2fw14tmy3dld unique (id_reserva)
+2025-11-06 09:56:26.533 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists usuarios 
+       drop constraint if exists UKkfsp0s1tflm1cwlj8idhqsad0
+2025-11-06 09:56:26.533 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists usuarios 
+       add constraint UKkfsp0s1tflm1cwlj8idhqsad0 unique (email)
+2025-11-06 09:56:26.534 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists detalle_reserva 
+       add constraint FKj1lhl92oacmjdyvrkateyvcw1 
+       foreign key (id_reserva) 
+       references reserva
+2025-11-06 09:56:26.541 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists detalle_reserva 
+       add constraint FKdwdjkltsu86o8j31w5h2bppqw 
+       foreign key (id_servicio) 
+       references servicio
+2025-11-06 09:56:26.542 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists historial 
+       add constraint FKek6x4bxyi1ipmpa5teiejpngg 
+       foreign key (id_usuario) 
+       references usuarios
+2025-11-06 09:56:26.544 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists pago 
+       add constraint FKcf877idupj5b48wjatfaws6sg 
+       foreign key (id_reserva) 
+       references reserva
+2025-11-06 09:56:26.547 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists paquete_reserva 
+       add constraint FKlqr40r9xc74kyq630n1n6b5f 
+       foreign key (id_paquete) 
+       references paquete
+2025-11-06 09:56:26.549 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists paquete_reserva 
+       add constraint FKebw19vylvsjhlj36t8yqis3d2 
+       foreign key (id_reserva) 
+       references reserva
+2025-11-06 09:56:26.551 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists reserva 
+       add constraint FKj8cxeodpmehovje6152y4ywqm 
+       foreign key (id_usuario) 
+       references usuarios
+2025-11-06 09:56:26.553 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists reserva_equipaje 
+       add constraint FKj4lwal6wnv2rd3wtty1nef2te 
+       foreign key (id_equipaje) 
+       references equipaje
+2025-11-06 09:56:26.556 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists reserva_equipaje 
+       add constraint FKc5vte8990g713bdr65lu9tntx 
+       foreign key (id_reserva) 
+       references reserva
+2025-11-06 09:56:26.558 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists servicio 
+       add constraint FKjs76o250eufkn3ta34e8ahw2e 
+       foreign key (id_proveedor) 
+       references proveedor
+2025-11-06 09:56:26.561 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists servicio_proveedor 
+       add constraint FKb3ymubrc6050tqpb7hmhoicfo 
+       foreign key (id_proveedor) 
+       references proveedor
+2025-11-06 09:56:26.565 [Test worker] DEBUG org.hibernate.SQL - 
+    alter table if exists servicio_proveedor 
+       add constraint FKmu5qtgtfxtg0fep05ocq3fw2l 
+       foreign key (id_servicio) 
+       references servicio
+2025-11-06 09:56:26.570 [Test worker] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-06 09:56:27.307 [Test worker] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-06 09:56:27.344 [Test worker] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-11-06 09:56:27.584 [Test worker] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-11-06 09:56:28.111 [Test worker] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2025-11-06 09:56:28.190 [Test worker] INFO  c.travel4u.demo.ReservaServiceTest - Started ReservaServiceTest in 5.04 seconds (process running for 6.078)
+2025-11-06 09:56:28.636 [Test worker] DEBUG org.hibernate.SQL - 
     select
         u1_0.id_usuario,
         u1_0.activo,
@@ -70,12 +545,38 @@
         usuarios u1_0 
     where
         u1_0.email=?
-2025-10-30 00:45:24.982 [restartedMain] DEBUG org.hibernate.SQL - 
+2025-11-06 09:56:28.683 [Test worker] DEBUG org.hibernate.SQL - 
     select
-        count(*) 
+        r1_0.id_reserva,
+        r1_0.created_at,
+        r1_0.estado,
+        r1_0.fecha_fin,
+        r1_0.fecha_inicio,
+        r1_0.moneda,
+        r1_0.observaciones,
+        r1_0.total,
+        r1_0.updated_at,
+        r1_0.id_usuario 
     from
-        servicio s1_0
-2025-10-30 00:45:24.995 [restartedMain] DEBUG org.hibernate.SQL - 
+        reserva r1_0 
+    where
+        r1_0.id_usuario=?
+2025-11-06 09:56:28.706 [Test worker] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id_usuario,
+        u1_0.activo,
+        u1_0.apellidos,
+        u1_0.email,
+        u1_0.fecha_registro,
+        u1_0.nombres,
+        u1_0.password,
+        u1_0.rol,
+        u1_0.telefono 
+    from
+        usuarios u1_0 
+    where
+        u1_0.email=?
+2025-11-06 09:56:28.712 [Test worker] DEBUG org.hibernate.SQL - 
     select
         s1_0.id_servicio,
         s1_0.activo,
@@ -92,31 +593,16 @@
     from
         servicio s1_0 
     where
-        s1_0.nombre=?
-2025-10-30 00:45:25.021 [restartedMain] DEBUG org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        reserva r1_0
-2025-10-30 00:56:08.532 [http-nio-8081-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-10-30 00:56:08.534 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-10-30 00:56:08.539 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 4 ms
-2025-10-30 00:56:08.621 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
-    select
-        u1_0.id_usuario,
-        u1_0.activo,
-        u1_0.apellidos,
-        u1_0.email,
-        u1_0.fecha_registro,
-        u1_0.nombres,
-        u1_0.password,
-        u1_0.rol,
-        u1_0.telefono 
-    from
-        usuarios u1_0 
-    where
-        u1_0.email=?
-2025-10-30 00:56:08.789 [http-nio-8081-exec-2] DEBUG org.hibernate.SQL - 
+        s1_0.tipo_servicio=? 
+        and s1_0.activo
+2025-11-06 09:56:28.742 [Test worker] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        reserva
+        (created_at, estado, fecha_fin, fecha_inicio, moneda, observaciones, total, updated_at, id_usuario, id_reserva) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, default)
+2025-11-06 09:56:28.775 [Test worker] DEBUG org.hibernate.SQL - 
     select
         r1_0.id_reserva,
         r1_0.created_at,
@@ -130,419 +616,6 @@
         r1_0.id_usuario 
     from
         reserva r1_0
-2025-10-30 00:56:08.805 [http-nio-8081-exec-2] DEBUG org.hibernate.SQL - 
-    select
-        dr1_0.id_reserva,
-        dr1_0.id_detalle_reserva,
-        dr1_0.cantidad,
-        dr1_0.created_at,
-        dr1_0.precio_unitario,
-        dr1_0.id_servicio,
-        dr1_0.subtotal 
-    from
-        detalle_reserva dr1_0 
-    where
-        dr1_0.id_reserva=?
-2025-10-30 00:56:08.814 [http-nio-8081-exec-2] DEBUG org.hibernate.SQL - 
-    select
-        dr1_0.id_reserva,
-        dr1_0.id_detalle_reserva,
-        dr1_0.cantidad,
-        dr1_0.created_at,
-        dr1_0.precio_unitario,
-        dr1_0.id_servicio,
-        dr1_0.subtotal 
-    from
-        detalle_reserva dr1_0 
-    where
-        dr1_0.id_reserva=?
-2025-10-30 00:56:08.822 [http-nio-8081-exec-2] DEBUG org.hibernate.SQL - 
-    select
-        dr1_0.id_reserva,
-        dr1_0.id_detalle_reserva,
-        dr1_0.cantidad,
-        dr1_0.created_at,
-        dr1_0.precio_unitario,
-        dr1_0.id_servicio,
-        dr1_0.subtotal 
-    from
-        detalle_reserva dr1_0 
-    where
-        dr1_0.id_reserva=?
-2025-10-30 00:56:08.835 [http-nio-8081-exec-2] DEBUG org.hibernate.SQL - 
-    select
-        u1_0.id_usuario,
-        u1_0.activo,
-        u1_0.apellidos,
-        u1_0.email,
-        u1_0.fecha_registro,
-        u1_0.nombres,
-        u1_0.password,
-        u1_0.rol,
-        u1_0.telefono 
-    from
-        usuarios u1_0 
-    where
-        u1_0.id_usuario=?
-2025-10-30 00:56:08.851 [http-nio-8081-exec-2] DEBUG org.hibernate.SQL - 
-    select
-        u1_0.id_usuario,
-        u1_0.activo,
-        u1_0.apellidos,
-        u1_0.email,
-        u1_0.fecha_registro,
-        u1_0.nombres,
-        u1_0.password,
-        u1_0.rol,
-        u1_0.telefono 
-    from
-        usuarios u1_0 
-    where
-        u1_0.id_usuario=?
-2025-10-30 01:09:54.666 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
-    select
-        r1_0.id_reserva,
-        r1_0.created_at,
-        r1_0.estado,
-        r1_0.fecha_fin,
-        r1_0.fecha_inicio,
-        r1_0.moneda,
-        r1_0.observaciones,
-        r1_0.total,
-        r1_0.updated_at,
-        r1_0.id_usuario 
-    from
-        reserva r1_0
-2025-10-30 01:09:54.674 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
-    select
-        dr1_0.id_reserva,
-        dr1_0.id_detalle_reserva,
-        dr1_0.cantidad,
-        dr1_0.created_at,
-        dr1_0.precio_unitario,
-        dr1_0.id_servicio,
-        dr1_0.subtotal 
-    from
-        detalle_reserva dr1_0 
-    where
-        dr1_0.id_reserva=?
-2025-10-30 01:09:54.676 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
-    select
-        dr1_0.id_reserva,
-        dr1_0.id_detalle_reserva,
-        dr1_0.cantidad,
-        dr1_0.created_at,
-        dr1_0.precio_unitario,
-        dr1_0.id_servicio,
-        dr1_0.subtotal 
-    from
-        detalle_reserva dr1_0 
-    where
-        dr1_0.id_reserva=?
-2025-10-30 01:09:54.679 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
-    select
-        dr1_0.id_reserva,
-        dr1_0.id_detalle_reserva,
-        dr1_0.cantidad,
-        dr1_0.created_at,
-        dr1_0.precio_unitario,
-        dr1_0.id_servicio,
-        dr1_0.subtotal 
-    from
-        detalle_reserva dr1_0 
-    where
-        dr1_0.id_reserva=?
-2025-10-30 01:09:54.683 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
-    select
-        u1_0.id_usuario,
-        u1_0.activo,
-        u1_0.apellidos,
-        u1_0.email,
-        u1_0.fecha_registro,
-        u1_0.nombres,
-        u1_0.password,
-        u1_0.rol,
-        u1_0.telefono 
-    from
-        usuarios u1_0 
-    where
-        u1_0.id_usuario=?
-2025-10-30 01:09:54.686 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
-    select
-        u1_0.id_usuario,
-        u1_0.activo,
-        u1_0.apellidos,
-        u1_0.email,
-        u1_0.fecha_registro,
-        u1_0.nombres,
-        u1_0.password,
-        u1_0.rol,
-        u1_0.telefono 
-    from
-        usuarios u1_0 
-    where
-        u1_0.id_usuario=?
-2025-10-30 01:10:16.942 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
-    select
-        s1_0.id_servicio,
-        s1_0.activo,
-        s1_0.created_at,
-        s1_0.descripcion,
-        s1_0.destino,
-        s1_0.disponibilidad,
-        s1_0.nombre,
-        s1_0.origen,
-        s1_0.precio_base,
-        s1_0.id_proveedor,
-        s1_0.tags,
-        s1_0.tipo_servicio 
-    from
-        servicio s1_0 
-    where
-        s1_0.tipo_servicio=? 
-        and s1_0.activo
-2025-10-30 01:10:16.981 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
-    select
-        p1_0.id_proveedor,
-        p1_0.activo,
-        p1_0.contacto,
-        p1_0.email,
-        p1_0.nombre,
-        p1_0.telefono,
-        p1_0.tipo_proveedor 
-    from
-        proveedor p1_0 
-    where
-        p1_0.id_proveedor=?
-2025-10-30 01:10:17.019 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
-    select
-        p1_0.id_proveedor,
-        p1_0.activo,
-        p1_0.contacto,
-        p1_0.email,
-        p1_0.nombre,
-        p1_0.telefono,
-        p1_0.tipo_proveedor 
-    from
-        proveedor p1_0 
-    where
-        p1_0.id_proveedor=?
-2025-10-30 01:10:17.024 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
-    select
-        p1_0.id_proveedor,
-        p1_0.activo,
-        p1_0.contacto,
-        p1_0.email,
-        p1_0.nombre,
-        p1_0.telefono,
-        p1_0.tipo_proveedor 
-    from
-        proveedor p1_0 
-    where
-        p1_0.id_proveedor=?
-2025-10-30 01:10:18.156 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
-    select
-        s1_0.id_servicio,
-        s1_0.activo,
-        s1_0.created_at,
-        s1_0.descripcion,
-        s1_0.destino,
-        s1_0.disponibilidad,
-        s1_0.nombre,
-        s1_0.origen,
-        s1_0.precio_base,
-        s1_0.id_proveedor,
-        s1_0.tags,
-        s1_0.tipo_servicio 
-    from
-        servicio s1_0 
-    where
-        s1_0.tipo_servicio=? 
-        and s1_0.activo
-2025-10-30 01:10:19.584 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
-    select
-        s1_0.id_servicio,
-        s1_0.activo,
-        s1_0.created_at,
-        s1_0.descripcion,
-        s1_0.destino,
-        s1_0.disponibilidad,
-        s1_0.nombre,
-        s1_0.origen,
-        s1_0.precio_base,
-        s1_0.id_proveedor,
-        s1_0.tags,
-        s1_0.tipo_servicio 
-    from
-        servicio s1_0 
-    where
-        s1_0.tipo_servicio=? 
-        and s1_0.activo
-2025-10-30 01:10:20.256 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
-    select
-        s1_0.id_servicio,
-        s1_0.activo,
-        s1_0.created_at,
-        s1_0.descripcion,
-        s1_0.destino,
-        s1_0.disponibilidad,
-        s1_0.nombre,
-        s1_0.origen,
-        s1_0.precio_base,
-        s1_0.id_proveedor,
-        s1_0.tags,
-        s1_0.tipo_servicio 
-    from
-        servicio s1_0 
-    where
-        s1_0.tipo_servicio=? 
-        and s1_0.activo
-2025-10-30 01:10:20.692 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
-    select
-        s1_0.id_servicio,
-        s1_0.activo,
-        s1_0.created_at,
-        s1_0.descripcion,
-        s1_0.destino,
-        s1_0.disponibilidad,
-        s1_0.nombre,
-        s1_0.origen,
-        s1_0.precio_base,
-        s1_0.id_proveedor,
-        s1_0.tags,
-        s1_0.tipo_servicio 
-    from
-        servicio s1_0 
-    where
-        s1_0.tipo_servicio=? 
-        and s1_0.activo
-2025-10-30 01:10:20.710 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
-    select
-        p1_0.id_proveedor,
-        p1_0.activo,
-        p1_0.contacto,
-        p1_0.email,
-        p1_0.nombre,
-        p1_0.telefono,
-        p1_0.tipo_proveedor 
-    from
-        proveedor p1_0 
-    where
-        p1_0.id_proveedor=?
-2025-10-30 01:10:20.720 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
-    select
-        p1_0.id_proveedor,
-        p1_0.activo,
-        p1_0.contacto,
-        p1_0.email,
-        p1_0.nombre,
-        p1_0.telefono,
-        p1_0.tipo_proveedor 
-    from
-        proveedor p1_0 
-    where
-        p1_0.id_proveedor=?
-2025-10-30 01:10:20.723 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
-    select
-        p1_0.id_proveedor,
-        p1_0.activo,
-        p1_0.contacto,
-        p1_0.email,
-        p1_0.nombre,
-        p1_0.telefono,
-        p1_0.tipo_proveedor 
-    from
-        proveedor p1_0 
-    where
-        p1_0.id_proveedor=?
-2025-10-30 01:10:22.998 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
-    select
-        s1_0.id_servicio,
-        s1_0.activo,
-        s1_0.created_at,
-        s1_0.descripcion,
-        s1_0.destino,
-        s1_0.disponibilidad,
-        s1_0.nombre,
-        s1_0.origen,
-        s1_0.precio_base,
-        s1_0.id_proveedor,
-        s1_0.tags,
-        s1_0.tipo_servicio 
-    from
-        servicio s1_0 
-    where
-        s1_0.tipo_servicio=? 
-        and s1_0.activo
-2025-10-30 01:10:23.025 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
-    select
-        p1_0.id_proveedor,
-        p1_0.activo,
-        p1_0.contacto,
-        p1_0.email,
-        p1_0.nombre,
-        p1_0.telefono,
-        p1_0.tipo_proveedor 
-    from
-        proveedor p1_0 
-    where
-        p1_0.id_proveedor=?
-2025-10-30 01:10:23.037 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
-    select
-        p1_0.id_proveedor,
-        p1_0.activo,
-        p1_0.contacto,
-        p1_0.email,
-        p1_0.nombre,
-        p1_0.telefono,
-        p1_0.tipo_proveedor 
-    from
-        proveedor p1_0 
-    where
-        p1_0.id_proveedor=?
-2025-10-30 01:10:23.042 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
-    select
-        p1_0.id_proveedor,
-        p1_0.activo,
-        p1_0.contacto,
-        p1_0.email,
-        p1_0.nombre,
-        p1_0.telefono,
-        p1_0.tipo_proveedor 
-    from
-        proveedor p1_0 
-    where
-        p1_0.id_proveedor=?
-2025-10-30 01:12:00.190 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
-    select
-        s1_0.id_servicio,
-        s1_0.activo,
-        s1_0.created_at,
-        s1_0.descripcion,
-        s1_0.destino,
-        s1_0.disponibilidad,
-        s1_0.nombre,
-        s1_0.origen,
-        s1_0.precio_base,
-        s1_0.id_proveedor,
-        s1_0.tags,
-        s1_0.tipo_servicio 
-    from
-        servicio s1_0 
-    where
-        s1_0.id_servicio=?
-2025-10-30 01:12:00.207 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
-    select
-        e1_0.id_equipaje,
-        e1_0.activo,
-        e1_0.descripcion,
-        e1_0.dimension_alto,
-        e1_0.dimension_ancho,
-        e1_0.dimension_largo,
-        e1_0.peso_max,
-        e1_0.precio,
-        e1_0.tipo 
-    from
-        equipaje e1_0
-2025-10-30 01:12:20.982 [http-nio-8081-exec-3] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' is not supported]
-2025-10-30 01:14:26.044 [http-nio-8081-exec-10] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' is not supported]
+2025-11-06 09:56:28.800 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-06 09:56:28.802 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-11-06 09:56:28.805 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

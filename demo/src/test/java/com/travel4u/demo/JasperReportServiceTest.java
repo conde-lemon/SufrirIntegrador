@@ -14,11 +14,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@ActiveProfiles("postgres")
+@ActiveProfiles("h2")
 public class JasperReportServiceTest {
 
     @Autowired
@@ -33,8 +34,9 @@ public class JasperReportServiceTest {
     @Test
     public void testReportGeneration() throws Exception {
         // Buscar usuario con reservas
-        Usuario usuario = usuarioDAO.findByEmail("admin@travel4u.com");
-        assertNotNull(usuario, "Usuario admin debe existir");
+        Optional<Usuario> usuarioOpt = usuarioDAO.findByEmail("admin@travel4u.com");
+        assertTrue(usuarioOpt.isPresent(), "Usuario admin debe existir");
+        Usuario usuario = usuarioOpt.get();
 
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("ID_USUARIO", usuario.getIdUsuario());
@@ -71,10 +73,11 @@ public class JasperReportServiceTest {
                 ORDER BY COALESCE(r.created_at, CURRENT_TIMESTAMP) DESC
                 """;
 
-            Usuario usuario = usuarioDAO.findByEmail("admin@travel4u.com");
+            Optional<Usuario> usuarioOpt = usuarioDAO.findByEmail("admin@travel4u.com");
+            assertTrue(usuarioOpt.isPresent(), "Usuario admin debe existir");
             
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
-                stmt.setLong(1, usuario.getIdUsuario());
+                stmt.setLong(1, usuarioOpt.get().getIdUsuario());
                 
                 try (ResultSet rs = stmt.executeQuery()) {
                     int count = 0;

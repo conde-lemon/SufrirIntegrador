@@ -5,21 +5,116 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle de Reserva - Travel For U</title>
     <link rel="stylesheet" th:href="@{/css/header_style.css}">
-    <link rel="stylesheet" th:href="@{/css/index1_style.css}">
-    <link rel="stylesheet" th:href="@{/css/reservas_style.css}">
     <style>
-        /* Estilos adicionales para la página de detalle */
-        .detail-card { background-color: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; overflow: hidden; }
-        .detail-header { padding: 20px; border-bottom: 1px solid #eee; background-color: #fafafa; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .page-header { margin-bottom: 20px; }
+        .page-title { color: #333; font-size: 1.8em; margin-bottom: 5px; }
+        .page-subtitle { color: #666; font-size: 1em; margin: 0; }
+        
+        .detail-card { 
+            background: white;
+            border: 1px solid #ddd; 
+            border-radius: 8px;
+            margin-bottom: 20px; 
+            overflow: hidden;
+        }
+        
+        .detail-header { 
+            padding: 15px 20px; 
+            background: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+        }
+        .detail-header h3 { margin: 0; font-size: 1.1em; color: #333; }
+        
         .detail-body { padding: 20px; }
-        .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
-        .detail-item .detail-label { font-weight: 600; color: #555; display: block; margin-bottom: 4px; font-size: 0.9em; text-transform: uppercase; }
-        .detail-item .detail-value { color: #333; font-size: 1.1em; }
-        .cost-breakdown { list-style: none; padding: 0; }
-        .cost-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
-        .cost-item:last-child { border-bottom: none; }
-        .cost-item span { color: #444; }
-        .total-row { font-weight: bold; font-size: 1.2em; border-top: 2px solid #333; margin-top: 10px; padding-top: 15px; }
+        .detail-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 15px; 
+        }
+        
+        .detail-item { 
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .detail-item:last-child { border-bottom: none; }
+        
+        .detail-label { 
+            font-weight: 600; 
+            color: #555; 
+            display: block; 
+            margin-bottom: 5px; 
+            font-size: 0.9em; 
+        }
+        .detail-value { 
+            color: #333; 
+            font-size: 1em; 
+        }
+        
+        .status-confirmed { color: #28a745; font-weight: 600; }
+        .status-cancelled { color: #dc3545; font-weight: 600; }
+        .status-pending { color: #ffc107; font-weight: 600; }
+        
+        .cost-table { 
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .cost-table th, .cost-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .cost-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #555;
+        }
+        .cost-table .total-row {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .action-buttons {
+            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9em;
+            border: 1px solid #ddd;
+            display: inline-block;
+        }
+        .btn-primary {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background: #0056b3;
+            border-color: #0056b3;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background: #545b62;
+            border-color: #545b62;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .detail-grid { grid-template-columns: 1fr; }
+            .action-buttons { flex-direction: column; }
+            .btn { width: 100%; margin-bottom: 10px; }
+        }
     </style>
 </head>
 <body>
@@ -28,88 +123,85 @@
 
 <div class="container" th:if="${reserva != null}" th:object="${reserva}">
     <div class="page-header">
-        <h1 class="page-title">Detalle de la Reserva</h1>
+        <h1 class="page-title">Detalle de Reserva</h1>
         <p class="page-subtitle" th:text="'Código: TFU-' + *{idReserva}">Código: TFU-123</p>
     </div>
 
-    <!-- Card de Resumen General -->
+    <!-- Información General -->
     <div class="detail-card">
-        <div class="detail-header"><h3 class="reservation-title">Resumen del Viaje</h3></div>
+        <div class="detail-header"><h3>Información General</h3></div>
         <div class="detail-body">
             <div class="detail-grid">
-                <!-- Iteramos sobre los detalles para mostrar la información del servicio -->
-                <div th:if="${!reserva.detalleReservas.isEmpty()}" th:with="primerDetalle=*{detalleReservas.iterator().next()}">
-                    <div class="detail-item">
-                        <span class="detail-label">Servicio Principal</span>
-                        <span class="detail-value" th:text="${primerDetalle.servicio.nombre}">Vuelo a Madrid</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Ruta</span>
-                        <span class="detail-value" th:text="${primerDetalle.servicio.origen} + ' → ' + ${primerDetalle.servicio.destino}"></span>
-                    </div>
+                <div class="detail-item">
+                    <span class="detail-label">Cliente</span>
+                    <span class="detail-value" th:text="*{usuario.nombres} + ' ' + *{usuario.apellidos}">Cliente</span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-label">Fecha de Viaje</span>
-                    <span class="detail-value" th:text="${#temporals.format(reserva.fechaInicio, 'dd MMMM yyyy, HH:mm')}"></span>
+                    <span class="detail-label">Email</span>
+                    <span class="detail-value" th:text="*{usuario.email}">email@test.com</span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">Estado</span>
-                    <span class="reservation-status" th:text="*{estado}" th:classappend="*{estado == 'Confirmada' ? 'status-confirmed' : (estado == 'Cancelada' ? 'status-cancelled' : 'status-pending')}"></span>
+                    <span class="detail-value" th:text="*{estado}" th:classappend="*{estado == 'Confirmada' ? 'status-confirmed' : (estado == 'Cancelada' ? 'status-cancelled' : 'status-pending')}">Estado</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Fecha de Reserva</span>
+                    <span class="detail-value" th:text="${#temporals.format(reserva.createdAt, 'dd/MM/yyyy HH:mm')}">Fecha</span>
+                </div>
+                <div class="detail-item" th:if="*{fechaInicio != null}">
+                    <span class="detail-label">Fecha de Viaje</span>
+                    <span class="detail-value" th:text="${#temporals.format(reserva.fechaInicio, 'dd/MM/yyyy HH:mm')}">Fecha Viaje</span>
                 </div>
                 <div class="detail-item" th:if="*{observaciones != null and !observaciones.isEmpty()}">
                     <span class="detail-label">Observaciones</span>
-                    <span class="detail-value" th:text="*{observaciones}"></span>
+                    <span class="detail-value" th:text="*{observaciones}">Observaciones</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Card de Detalles del Pasajero -->
+    <!-- Desglose de Costos -->
     <div class="detail-card">
-        <div class="detail-header"><h3 class="reservation-title">Información del Pasajero</h3></div>
+        <div class="detail-header"><h3>Desglose de Costos</h3></div>
         <div class="detail-body">
-            <div class="detail-grid">
-                <div class="detail-item">
-                    <span class="detail-label">Nombre Completo</span>
-                    <span class="detail-value" th:text="*{usuario.nombres} + ' ' + *{usuario.apellidos}"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">Email de Contacto</span>
-                    <span class="detail-value" th:text="*{usuario.email}"></span>
-                </div>
-            </div>
+            <table class="cost-table">
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unit.</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="detalle : *{detalleReservas}">
+                        <td th:text="${detalle.servicio != null ? detalle.servicio.nombre : 'Servicio ID: ' + detalle.servicio.idServicio}">Servicio</td>
+                        <td th:text="${detalle.cantidad}">1</td>
+                        <td th:text="(*{moneda} ?: 'PEN') + ' ' + ${#numbers.formatDecimal(detalle.precioUnitario ?: 0, 1, 'COMMA', 2, 'POINT')}">PEN 0.00</td>
+                        <td th:text="(*{moneda} ?: 'PEN') + ' ' + ${#numbers.formatDecimal(detalle.subtotal ?: 0, 1, 'COMMA', 2, 'POINT')}">PEN 0.00</td>
+                    </tr>
+                    <tr th:each="item : ${equipajes}" th:if="${equipajes != null}">
+                        <td th:text="${item.equipaje.tipo} + ' (Equipaje)'">Equipaje</td>
+                        <td th:text="${item.cantidad}">1</td>
+                        <td th:text="(*{moneda} ?: 'PEN') + ' ' + ${#numbers.formatDecimal(item.precioUnitario ?: 0, 1, 'COMMA', 2, 'POINT')}">PEN 0.00</td>
+                        <td th:text="(*{moneda} ?: 'PEN') + ' ' + ${#numbers.formatDecimal(item.subtotal ?: 0, 1, 'COMMA', 2, 'POINT')}">PEN 0.00</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="3"><strong>Total</strong></td>
+                        <td><strong th:text="(*{moneda} ?: 'PEN') + ' ' + ${#numbers.formatDecimal(total ?: 0, 1, 'COMMA', 2, 'POINT')}">PEN 0.00</strong></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <!-- Card de Desglose de Costos -->
-    <div class="detail-card">
-        <div class="detail-header"><h3 class="reservation-title">Desglose de Costos</h3></div>
-        <div class="detail-body">
-            <ul class="cost-breakdown">
-                <!-- Costo base de los servicios -->
-                <li class="cost-item" th:each="detalle : *{detalleReservas}">
-                    <span th:text="${detalle.servicio.nombre} + ' (x' + ${detalle.cantidad} + ')'"></span>
-                    <strong th:text="*{moneda} + ' ' + ${#numbers.formatDecimal(detalle.subtotal, 1, 'COMMA', 2, 'POINT')}"></strong>
-                </li>
-
-                <!-- Costo de equipaje (si existe) -->
-                <li class="cost-item" th:each="item : ${equipajes}">
-                    <span th:text="${item.equipaje.tipo} + ' (x' + ${item.cantidad} + ')'"></span>
-                    <strong th:text="*{moneda} + ' ' + ${#numbers.formatDecimal(item.subtotal, 1, 'COMMA', 2, 'POINT')}"></strong>
-                </li>
-
-                <!-- Fila del Total -->
-                <li class="cost-item total-row">
-                    <span>Total de la Reserva</span>
-                    <strong th:text="*{moneda} + ' ' + ${#numbers.formatDecimal(total, 1, 'COMMA', 2, 'POINT')}"></strong>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    <div style="text-align: center; margin-top: 30px; display: flex; gap: 15px; justify-content: center;">
-        <a th:href="@{/boleta/reserva/{id}(id=${reserva.idReserva})}" class="btn btn-primary" target="_blank">Descargar Boleta PDF</a>
-        <a th:href="@{/reservas}" class="btn btn-outline">Volver a Mis Reservas</a>
+    <div class="action-buttons">
+        <a th:href="@{/boleta/reserva/{id}/preview(id=${reserva.idReserva})}" class="btn btn-primary">
+            Ver Boleta
+        </a>
+        <a th:href="@{/reservas}" class="btn btn-secondary">
+            Volver a Reservas
+        </a>
     </div>
 
 </div>

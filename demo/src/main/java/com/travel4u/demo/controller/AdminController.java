@@ -2,13 +2,19 @@ package com.travel4u.demo.controller;
 
 import com.travel4u.demo.usuario.model.Usuario;
 import com.travel4u.demo.usuario.repository.IUsuarioDAO;
+import com.travel4u.demo.servicio.model.Servicio;
+import com.travel4u.demo.servicio.repository.IServicioDAO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.List;
 
 /**
  * Controlador para las funciones administrativas.
@@ -19,9 +25,11 @@ import java.security.Principal;
 public class AdminController {
 
     private final IUsuarioDAO usuarioDAO;
+    private final IServicioDAO servicioDAO;
 
-    public AdminController(IUsuarioDAO usuarioDAO) {
+    public AdminController(IUsuarioDAO usuarioDAO, IServicioDAO servicioDAO) {
         this.usuarioDAO = usuarioDAO;
+        this.servicioDAO = servicioDAO;
     }
 
     /**
@@ -52,6 +60,28 @@ public class AdminController {
         model.addAttribute("adminName", usuario.getNombres() + " " + usuario.getApellidos());
 
         return "ADMIN/admin";
+    }
+
+    /**
+     * API endpoint para obtener todos los usuarios
+     */
+    @GetMapping("/api/usuarios")
+    @PreAuthorize("hasRole('ADMIN')")
+    @ResponseBody
+    public ResponseEntity<List<Usuario>> obtenerTodosLosUsuarios() {
+        List<Usuario> usuarios = usuarioDAO.findAll();
+        return ResponseEntity.ok(usuarios);
+    }
+
+    /**
+     * API endpoint para obtener todos los servicios (para mostrar como promociones)
+     */
+    @GetMapping("/api/servicios")
+    @PreAuthorize("hasRole('ADMIN')")
+    @ResponseBody
+    public ResponseEntity<List<Servicio>> obtenerTodosLosServicios() {
+        List<Servicio> servicios = servicioDAO.findAll();
+        return ResponseEntity.ok(servicios);
     }
 }
 

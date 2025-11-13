@@ -13,7 +13,7 @@
 <div th:replace="~{fragments/header :: main-header}"></div>
 
 <div class="container">
-    <form th:action="@{/reservar/crear}" method="get" th:object="${reserva}">
+    <form id="reservaForm" th:action="@{/reservar/crear}" method="get" th:object="${reserva}">
         <input type="hidden" name="idServicio" th:value="${servicio != null ? servicio.idServicio : ''}" />
         
         <div class="page-header">

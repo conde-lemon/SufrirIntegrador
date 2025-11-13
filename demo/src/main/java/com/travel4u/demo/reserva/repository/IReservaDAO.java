@@ -16,4 +16,6 @@ public interface IReservaDAO extends JpaRepository<Reserva, Integer> {
     List<Reserva> findByUsuarioEmailOrderByCreatedAtDesc(String email, Pageable pageable);
 
     List<Reserva> findByUsuarioOrderByCreatedAtDesc(Usuario usuario);
+
+    List<Reserva> findByUsuario(Usuario usuario);
 }
