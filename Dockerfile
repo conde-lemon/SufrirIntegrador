@@ -1,10 +1,8 @@
 # Dockerfile optimizado para Render
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jdk-alpine
 
 # Instalar dependencias necesarias
-RUN apt-get update && apt-get install -y \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache curl
 
 # Crear directorio de trabajo
 WORKDIR /app
