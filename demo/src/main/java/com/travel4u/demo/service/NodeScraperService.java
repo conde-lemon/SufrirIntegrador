@@ -21,9 +21,10 @@ public class NodeScraperService {
     @Value("${scraper.node.enabled:false}")
     private boolean scraperEnabled;
 
-    @EventListener(ApplicationReadyEvent.class)
+    // @EventListener(ApplicationReadyEvent.class) - DESHABILITADO
     public void executeNodeScraperOnStartup() {
-        executeNodeScraper();
+        // Método deshabilitado para evitar ejecución automática
+        logger.info("Scraper Node.js automático completamente deshabilitado");
     }
     
     public void executeNodeScraper() {

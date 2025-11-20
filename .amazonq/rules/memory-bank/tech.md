@@ -1,116 +1,146 @@
 # Travel4U - Technology Stack
 
-## Programming Languages
-- **Java 21**: Primary backend language
-- **HTML5**: Template markup with Thymeleaf
-- **CSS3**: Styling with custom stylesheets
-- **JavaScript (ES6+)**: Client-side interactivity
-- **SQL**: Database queries and migrations
+## Core Technologies
 
-## Backend Framework
-- **Spring Boot 3.5.6**: Core application framework
-- **Spring Web**: RESTful web services and MVC
-- **Spring Data JPA**: Database abstraction with Hibernate
-- **Spring Security**: Authentication and authorization
-- **Thymeleaf**: Server-side template engine
-- **Thymeleaf Spring Security**: Security integration for templates
+### Programming Language
+- **Java 21** - Latest LTS version with modern language features
+- **Language Level**: Java 21 toolchain configuration
 
-## Database
-- **PostgreSQL**: Primary production database
-  - Host: localhost:8180
-  - Database: sufrirIntegrador
-  - User: postgres
-- **H2 Database**: In-memory database for development/testing
-- **Hibernate**: ORM implementation
-- **Flyway/Liquibase**: Database migrations (via db/migration/)
+### Framework Stack
+- **Spring Boot 3.5.6** - Main application framework
+- **Spring Web** - MVC web framework and REST API support
+- **Spring Data JPA** - Data persistence with Hibernate ORM
+- **Spring Security** - Authentication and authorization
+- **Thymeleaf** - Server-side template engine for web pages
 
-## Build System
-- **Gradle 8.14.3**: Build automation
-- **Gradle Wrapper**: Included for consistent builds
-- Build file: `build.gradle`
+## Database Technologies
 
-## Key Dependencies
+### Production Database
+- **PostgreSQL** - Primary production database
+  - Host: `localhost:8180`
+  - Database: `sufrirIntegrador`
+  - User: `postgres`
+  - Hibernate Dialect: `PostgreSQLDialect`
 
-### Core Spring Boot
-```gradle
-spring-boot-starter-data-jpa
-spring-boot-starter-web
-spring-boot-starter-thymeleaf
-spring-boot-starter-security
-spring-boot-devtools (dev only)
-```
+### Development Database
+- **H2 Database** - In-memory database for development and testing
+- **JPA/Hibernate** - ORM with automatic DDL generation
 
-### External APIs & Libraries
-```gradle
-com.amadeus:amadeus-java:8.1.0          # Flight search API
-org.jsoup:jsoup:1.17.2                  # Web scraping
-```
+### Database Configuration
+- **DDL Auto**: `update` mode for schema management
+- **SQL Initialization**: Enabled with continue-on-error
+- **Connection Pooling**: Default HikariCP
 
-### Reporting
-```gradle
-net.sf.jasperreports:jasperreports:6.21.0
-net.sf.jasperreports:jasperreports-fonts:6.21.0
-```
+## External Integrations
 
-### Utilities
-```gradle
-org.projectlombok:lombok                # Boilerplate reduction
-org.thymeleaf.extras:thymeleaf-extras-springsecurity6
-```
-
-### Testing
-```gradle
-spring-boot-starter-test
-spring-security-test
-junit-platform-launcher
-```
-
-## Development Tools
-- **Lombok**: Reduces boilerplate code (@Data, @Getter, @Setter, etc.)
-- **Spring Boot DevTools**: Hot reload during development
-- **Logback**: Logging framework (configured in logback-spring.xml)
-
-## External Services
-
-### Amadeus API
-- **Purpose**: Flight search and booking data
-- **Environment**: Test/Sandbox
-- **Configuration**: API key and secret in application.properties
-- **Usage**: Flight offer extraction and data enrichment
+### APIs and Services
+- **Amadeus API 8.1.0** - Flight search and booking integration
+  - Environment: Test mode
+  - API Key and Secret configured
+- **PayPal Integration** - Payment processing gateway
 
 ### Web Scraping
-- **Target**: Skyscanner website
-- **Library**: Jsoup
-- **Purpose**: Extract real-time flight offers
-- **Storage**: JSON files in amadeus_data/ directory
+- **Jsoup 1.17.2** - HTML parsing and web scraping
+- **Node.js Integration** - External scraping scripts
+- **Skyscanner Scraping** - Flight offer extraction
 
-## Database Schema
+## Frontend Technologies
 
-### Main Tables
-- `usuarios`: User accounts
-- `proveedor`: Service providers
-- `servicio`: Travel services (flights, cruises, buses)
-- `reserva`: Booking records
-- `detalle_reserva`: Reservation line items
-- `pago`: Payment transactions
-- `oferta`: Promotional offers
-- `equipaje`: Baggage options
-- `paquete`: Travel packages
-- `reserva_equipaje`: Reservation-baggage junction
-- `historial`: User search history
+### Template Engine
+- **Thymeleaf** - Server-side rendering with Spring integration
+- **Thymeleaf Spring Security** - Security integration for templates
+
+### Static Resources
+- **CSS** - Custom stylesheets
+- **JavaScript** - Client-side functionality
+- **Bootstrap** - UI framework (implied from templates)
+
+## Development Tools
+
+### Build System
+- **Gradle 8.14.3** - Build automation and dependency management
+- **Gradle Wrapper** - Version-locked build tool
+
+### Development Support
+- **Spring Boot DevTools** - Hot reloading and development utilities
+- **Lombok** - Code generation for boilerplate reduction
+
+### Code Quality
+- **Annotation Processing** - Compile-time code generation
+- **Spring Boot Actuator** - Application monitoring (implied)
+
+## Reporting and Documentation
+
+### Report Generation
+- **JasperReports 6.21.0** - PDF report generation
+- **JasperReports Fonts 6.21.0** - Font support for reports
+
+### Documentation
+- **Markdown** - Documentation format
+- **JavaDoc** - Code documentation (standard)
+
+## Testing Framework
+
+### Testing Stack
+- **JUnit Platform** - Test execution platform
+- **Spring Boot Test** - Integration testing support
+- **Spring Security Test** - Security testing utilities
+- **H2 Database** - Test database
+
+## Logging and Monitoring
+
+### Logging Framework
+- **Logback** - Logging implementation
+- **SLF4J** - Logging facade
+- **Custom Log Configuration** - `logback-spring.xml`
+
+### Log Levels
+- **DEBUG** - Application-level debugging
+- **SQL Logging** - Hibernate SQL statement logging
+- **Parameter Binding** - SQL parameter tracing
+
+## Server Configuration
+
+### Application Server
+- **Embedded Tomcat** - Default Spring Boot server
+- **Port**: 8081 (custom configuration)
+
+### Profile Management
+- **Multiple Profiles** - postgres, h2 configurations
+- **Environment-specific Properties** - Separate config files
+
+## Security Technologies
+
+### Authentication & Authorization
+- **Spring Security 6** - Security framework
+- **BCrypt** - Password hashing (standard)
+- **Session Management** - HTTP session handling
+- **CSRF Protection** - Cross-site request forgery prevention
+
+### Security Configuration
+- **Role-based Access Control** - Admin/User roles
+- **Custom Authentication Success Handler**
+- **UserDetailsService Implementation**
+
+## Data Processing
+
+### JSON Processing
+- **Jackson** - JSON serialization/deserialization (Spring Boot default)
+- **Amadeus Data** - JSON flight data caching
+
+### Date/Time Handling
+- **Java Time API** - Modern date/time processing
+- **LocalDateTime**, **LocalDate** - Temporal data types
 
 ## Development Commands
 
-### Build & Run
+### Build Commands
 ```bash
 # Build project
 ./gradlew build
 
 # Run application
 ./gradlew bootRun
-
-# Run with H2 profile
-./gradlew bootRun --args='--spring.profiles.active=h2'
 
 # Run tests
 ./gradlew test
@@ -119,62 +149,65 @@ junit-platform-launcher
 ./gradlew clean build
 ```
 
-### Database
+### Database Commands
 ```bash
-# Run database tests
-./gradlew test --tests DatabaseConnectionTest
+# Test database connection
+test-database.bat
 
-# Execute SQL scripts manually via PostgreSQL client
-psql -U postgres -d sufrirIntegrador -f data.sql
+# Apply database fixes
+# Execute fix_sequence.sql
 ```
 
-## Configuration Profiles
+## Deployment Configuration
 
-### Default (PostgreSQL)
-- Database: PostgreSQL on localhost:8180
-- Port: 8081
-- DDL: update (preserves data)
-- SQL init: always
+### Environment Variables
+- **Database Credentials** - Externalized for production
+- **API Keys** - Amadeus credentials
+- **Server Configuration** - Port and context settings
 
-### H2 Profile
-- Database: In-memory H2
-- Console: Enabled at /h2-console
-- DDL: create-drop (fresh on each start)
-- Port: 8081
+### Production Considerations
+- **PostgreSQL** - Production database
+- **Logging** - File-based logging with rotation
+- **Security** - Production security configurations
+- **Performance** - Connection pooling and caching
 
-## Logging Configuration
-- **Framework**: Logback
-- **Config**: logback-spring.xml
-- **Log Location**: ./logs/travel4u.log
-- **Rotation**: Daily, 30-day retention, 1GB max
-- **Levels**: 
-  - com.travel4u.demo: DEBUG
-  - org.hibernate.SQL: DEBUG
-  - Root: INFO
+## Dependencies Overview
 
-## Server Configuration
-- **Port**: 8081
-- **Context Path**: / (root)
-- **Base URL**: http://localhost:8081
+### Core Dependencies
+```gradle
+spring-boot-starter-data-jpa
+spring-boot-starter-web
+spring-boot-starter-thymeleaf
+spring-boot-starter-security
+```
 
-## Security Configuration
-- **Password Encoding**: NoOpPasswordEncoder (DEVELOPMENT ONLY - insecure)
-- **Session Management**: Default Spring Security
-- **CSRF**: Enabled
-- **Login**: Form-based at /login
-- **Logout**: POST to /logout
+### External Libraries
+```gradle
+amadeus-java:8.1.0
+jsoup:1.17.2
+jasperreports:6.21.0
+```
 
-## Report Templates
-- **Format**: JRXML (JasperReports XML)
-- **Location**: src/main/resources/reports/
-- **Templates**:
-  - boleta-reserva.jrxml: Booking receipt
-  - Reservas.jrxml: User reservations report
-  - Reporte-usuario.jrxml: User management report
-  - Reporte-Promociones.jrxml: Promotions report
+### Database Drivers
+```gradle
+postgresql (runtime)
+h2database (runtime)
+```
 
-## Static Assets
-- **CSS**: /static/css/ (component-specific stylesheets)
-- **JavaScript**: /static/js/ (form validation, animations)
-- **Images**: /static/img/ (logos, backgrounds)
-- **Theme Color**: Purple (#7b1fa2)
+### Development Tools
+```gradle
+lombok (compile-only)
+spring-boot-devtools (development-only)
+```
+
+## Version Compatibility
+
+### Java Compatibility
+- **Minimum**: Java 21
+- **Target**: Java 21 LTS
+- **Toolchain**: Gradle Java 21 toolchain
+
+### Spring Boot Compatibility
+- **Version**: 3.5.6
+- **Spring Framework**: 6.x (included)
+- **Jakarta EE**: 9+ (Spring Boot 3.x requirement)

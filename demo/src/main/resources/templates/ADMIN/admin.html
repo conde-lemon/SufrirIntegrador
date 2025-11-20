@@ -27,7 +27,7 @@
 
         /* Header */
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #7c4dff 0%, #9c27b0 100%);
             color: white;
             padding: 1rem 2rem;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -48,7 +48,7 @@
         /* Sidebar */
         .sidebar {
             width: 250px;
-            background: #2c3e50;
+            background: linear-gradient(180deg, #5e35b1 0%, #7c4dff 100%);
             color: white;
             padding: 2rem 0;
         }
@@ -63,15 +63,15 @@
         }
 
         .sidebar-item:hover {
-            background: #34495e;
+            background: rgba(255, 255, 255, 0.1);
             color: white;
-            border-left-color: #3498db;
+            border-left-color: #e1bee7;
         }
 
         .sidebar-item.active {
-            background: #34495e;
+            background: rgba(255, 255, 255, 0.15);
             color: white;
-            border-left-color: #3498db;
+            border-left-color: #e1bee7;
             font-weight: 600;
         }
 
@@ -152,12 +152,12 @@
         }
 
         .btn-primary {
-            background: #3498db;
+            background: linear-gradient(135deg, #7c4dff, #9c27b0);
             color: white;
         }
 
         .btn-primary:hover {
-            background: #2980b9;
+            background: linear-gradient(135deg, #651fff, #7b1fa2);
         }
 
         .btn-danger {
@@ -230,8 +230,8 @@
 
         .form-input:focus {
             outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+            border-color: #7c4dff;
+            box-shadow: 0 0 0 2px rgba(124, 77, 255, 0.2);
         }
 
         .form-actions {
@@ -286,7 +286,7 @@
         }
 
         th {
-            background: #34495e;
+            background: linear-gradient(135deg, #7c4dff, #9c27b0);
             color: white;
             padding: 1rem;
             text-align: left;
@@ -414,8 +414,8 @@
 
         .form-select:focus {
             outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+            border-color: #7c4dff;
+            box-shadow: 0 0 0 2px rgba(124, 77, 255, 0.2);
         }
 
         /* Responsive */
@@ -965,7 +965,7 @@
                 const tbody = document.getElementById('usuarios-tbody');
                 tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Cargando usuarios...</td></tr>';
                 
-                // Usar endpoint existente
+                // Usar endpoint corregido
                 const response = await fetch('/usuarios');
                 
                 if (!response.ok) {
@@ -1014,7 +1014,7 @@
                 const tbody = document.getElementById('servicios-tbody');
                 tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">Cargando servicios...</td></tr>';
                 
-                // Usar endpoint existente
+                // Usar endpoint corregido
                 const response = await fetch('/servicios');
                 
                 if (!response.ok) {

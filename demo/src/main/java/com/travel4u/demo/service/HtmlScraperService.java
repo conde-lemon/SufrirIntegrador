@@ -31,13 +31,10 @@ public class HtmlScraperService {
     
     private boolean hasExecuted = false;
 
-    @EventListener(ApplicationReadyEvent.class)
+    // @EventListener(ApplicationReadyEvent.class) - DESHABILITADO
     public void scrapeTrivagoHtmlAuto() {
-        if (!autoScrapingEnabled) {
-            logger.info("Scraper HTML automático deshabilitado");
-            return;
-        }
-        scrapeTrivagoHtml();
+        // Método deshabilitado para evitar ejecución automática
+        logger.info("Scraper HTML automático completamente deshabilitado");
     }
     
     public void scrapeTrivagoHtml() {
@@ -98,8 +95,19 @@ public class HtmlScraperService {
             String name = extractText(hotel, "[data-testid='item-name'], .hotel-name, h3, h4");
             hotelData.put("name", name);
             
-            // Extraer imagen
-            String image = extractAttribute(hotel, "img[data-testid='accommodation-main-image'], img", "src");
+            // Extraer imagen con múltiples selectores
+            String image = extractAttribute(hotel, "img[data-testid='accommodation-main-image'], img[data-testid='item-image'], .accommodation-image img, img", "src");
+            // Si no hay imagen, usar data-src o srcset
+            if (image.isEmpty()) {
+                image = extractAttribute(hotel, "img", "data-src");
+            }
+            if (image.isEmpty()) {
+                String srcset = extractAttribute(hotel, "img", "srcset");
+                if (!srcset.isEmpty()) {
+                    // Extraer la primera URL del srcset
+                    image = srcset.split(",")[0].split(" ")[0];
+                }
+            }
             hotelData.put("image", image);
             
             // Extraer rating

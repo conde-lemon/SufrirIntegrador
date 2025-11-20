@@ -21,6 +21,26 @@
     <parameter name="estado" class="java.lang.String"/>
     <parameter name="observaciones" class="java.lang.String"/>
     
+    <!-- Nuevos parámetros de Detalle_Reserva -->
+    <parameter name="pasajeroNombre" class="java.lang.String"/>
+    <parameter name="pasajeroApellido" class="java.lang.String"/>
+    <parameter name="pasajeroDocumento" class="java.lang.String"/>
+    <parameter name="pasajeroTelefono" class="java.lang.String"/>
+    <parameter name="asientoSeleccionado" class="java.lang.String"/>
+    <parameter name="servicioNombre" class="java.lang.String"/>
+    <parameter name="servicioOrigen" class="java.lang.String"/>
+    <parameter name="servicioDestino" class="java.lang.String"/>
+    <parameter name="precioServicio" class="java.math.BigDecimal"/>
+    <parameter name="equipajeTotal" class="java.math.BigDecimal"/>
+    <parameter name="pasajeroCorreo" class="java.lang.String"/>
+    <parameter name="pasajeroSexo" class="java.lang.String"/>
+    <parameter name="fechaNacimiento" class="java.lang.String"/>
+    <parameter name="fechaReserva" class="java.lang.String"/>
+    <parameter name="servicioTipo" class="java.lang.String"/>
+    <parameter name="puertaAbordaje" class="java.lang.String"/>
+    <parameter name="fechaSalidaVuelo" class="java.lang.String"/>
+    <parameter name="horaSalidaVuelo" class="java.lang.String"/>
+    
     <!-- Query vacía para usar solo parámetros -->
     <queryString><![CDATA[SELECT 1 as dummy]]></queryString>
 
@@ -86,10 +106,10 @@
     </title>
 
     <detail>
-        <band height="300">
+        <band height="450">
             <!-- Información del cliente -->
             <rectangle>
-                <reportElement x="0" y="20" width="535" height="100" backcolor="#f8f9fa"/>
+                <reportElement x="0" y="20" width="535" height="120" backcolor="#f8f9fa"/>
                 <graphicElement>
                     <pen lineWidth="1" lineColor="#ddd"/>
                 </graphicElement>
@@ -100,59 +120,242 @@
                 <textElement>
                     <font fontName="Arial" size="14" isBold="true"/>
                 </textElement>
-                <text><![CDATA[INFORMACIÓN DEL CLIENTE]]></text>
+                <text><![CDATA[INFORMACIÓN DEL CLIENTE Y PASAJERO]]></text>
             </staticText>
             
+            <!-- Usuario que reserva -->
             <staticText>
-                <reportElement x="20" y="60" width="60" height="15"/>
+                <reportElement x="20" y="55" width="60" height="12"/>
                 <textElement>
-                    <font fontName="Arial" size="10" isBold="true"/>
+                    <font fontName="Arial" size="9" isBold="true"/>
                 </textElement>
-                <text><![CDATA[Nombre:]]></text>
+                <text><![CDATA[Usuario:]]></text>
             </staticText>
             
             <textField>
-                <reportElement x="90" y="60" width="200" height="15"/>
+                <reportElement x="85" y="55" width="180" height="12"/>
                 <textElement>
-                    <font fontName="Arial" size="10"/>
+                    <font fontName="Arial" size="9"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$P{clienteNombre}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$P{clienteEmail}]]></textFieldExpression>
             </textField>
             
             <staticText>
-                <reportElement x="20" y="80" width="60" height="15"/>
+                <reportElement x="280" y="55" width="80" height="12"/>
                 <textElement>
-                    <font fontName="Arial" size="10" isBold="true"/>
+                    <font fontName="Arial" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Fecha Reserva:]]></text>
+            </staticText>
+            
+            <textField>
+                <reportElement x="365" y="55" width="150" height="12"/>
+                <textElement>
+                    <font fontName="Arial" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{fechaReserva} != null ? $P{fechaReserva} : "No disponible"]]></textFieldExpression>
+            </textField>
+            
+            <!-- Datos del pasajero -->
+            <staticText>
+                <reportElement x="20" y="75" width="60" height="12"/>
+                <textElement>
+                    <font fontName="Arial" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Pasajero:]]></text>
+            </staticText>
+            
+            <textField>
+                <reportElement x="85" y="75" width="180" height="12"/>
+                <textElement>
+                    <font fontName="Arial" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{pasajeroNombre} + " " + $P{pasajeroApellido}]]></textFieldExpression>
+            </textField>
+            
+            <staticText>
+                <reportElement x="280" y="75" width="60" height="12"/>
+                <textElement>
+                    <font fontName="Arial" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Documento:]]></text>
+            </staticText>
+            
+            <textField>
+                <reportElement x="345" y="75" width="170" height="12"/>
+                <textElement>
+                    <font fontName="Arial" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{pasajeroDocumento}]]></textFieldExpression>
+            </textField>
+            
+            <!-- Contacto -->
+            <staticText>
+                <reportElement x="20" y="95" width="60" height="12"/>
+                <textElement>
+                    <font fontName="Arial" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Teléfono:]]></text>
+            </staticText>
+            
+            <textField>
+                <reportElement x="85" y="95" width="100" height="12"/>
+                <textElement>
+                    <font fontName="Arial" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{pasajeroTelefono}]]></textFieldExpression>
+            </textField>
+            
+            <staticText>
+                <reportElement x="200" y="95" width="50" height="12"/>
+                <textElement>
+                    <font fontName="Arial" size="9" isBold="true"/>
                 </textElement>
                 <text><![CDATA[Email:]]></text>
             </staticText>
             
             <textField>
-                <reportElement x="90" y="80" width="200" height="15"/>
+                <reportElement x="255" y="95" width="130" height="12"/>
                 <textElement>
-                    <font fontName="Arial" size="10"/>
+                    <font fontName="Arial" size="9"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$P{clienteEmail}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$P{pasajeroCorreo} != null ? $P{pasajeroCorreo} : "No disponible"]]></textFieldExpression>
             </textField>
             
-            <!-- Detalles de la reserva -->
+            <staticText>
+                <reportElement x="400" y="95" width="40" height="12"/>
+                <textElement>
+                    <font fontName="Arial" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Sexo:]]></text>
+            </staticText>
+            
+            <textField>
+                <reportElement x="445" y="95" width="70" height="12"/>
+                <textElement>
+                    <font fontName="Arial" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{pasajeroSexo} != null ? $P{pasajeroSexo} : "No especificado"]]></textFieldExpression>
+            </textField>
+            
+            <!-- Fecha de nacimiento -->
+            <staticText>
+                <reportElement x="20" y="115" width="100" height="12"/>
+                <textElement>
+                    <font fontName="Arial" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Fecha de Nacimiento:]]></text>
+            </staticText>
+            
+            <textField>
+                <reportElement x="125" y="115" width="100" height="12"/>
+                <textElement>
+                    <font fontName="Arial" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{fechaNacimiento} != null ? $P{fechaNacimiento} : "No disponible"]]></textFieldExpression>
+            </textField>
+            
+            <!-- Detalles del servicio -->
             <rectangle>
-                <reportElement x="0" y="140" width="535" height="120" backcolor="#ffffff"/>
+                <reportElement x="0" y="160" width="535" height="180" backcolor="#ffffff"/>
                 <graphicElement>
                     <pen lineWidth="1" lineColor="#ddd"/>
                 </graphicElement>
             </rectangle>
             
             <staticText>
-                <reportElement x="20" y="150" width="200" height="20"/>
+                <reportElement x="20" y="170" width="200" height="20"/>
                 <textElement>
                     <font fontName="Arial" size="14" isBold="true"/>
                 </textElement>
-                <text><![CDATA[DETALLES DE LA RESERVA]]></text>
+                <text><![CDATA[DETALLES DEL VIAJE]]></text>
             </staticText>
             
+            <!-- Servicio y tipo -->
             <staticText>
-                <reportElement x="20" y="180" width="60" height="15"/>
+                <reportElement x="20" y="200" width="60" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Servicio:]]></text>
+            </staticText>
+            
+            <textField>
+                <reportElement x="90" y="200" width="180" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{servicioNombre}]]></textFieldExpression>
+            </textField>
+            
+            <staticText>
+                <reportElement x="280" y="200" width="60" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Tipo:]]></text>
+            </staticText>
+            
+            <textField>
+                <reportElement x="345" y="200" width="170" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{servicioTipo} != null ? $P{servicioTipo} : "Vuelo"]]></textFieldExpression>
+            </textField>
+            
+            <!-- Ruta -->
+            <staticText>
+                <reportElement x="20" y="220" width="60" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Ruta:]]></text>
+            </staticText>
+            
+            <textField>
+                <reportElement x="90" y="220" width="250" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="12" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{servicioOrigen} + " ✈ " + $P{servicioDestino}]]></textFieldExpression>
+            </textField>
+            
+            <!-- Asiento y Estado -->
+            <staticText>
+                <reportElement x="20" y="240" width="60" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Asiento:]]></text>
+            </staticText>
+            
+            <textField>
+                <reportElement x="90" y="240" width="80" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="12" isBold="true" color="#7b1fa2"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{asientoSeleccionado}]]></textFieldExpression>
+            </textField>
+            
+            <staticText>
+                <reportElement x="180" y="240" width="50" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Puerta:]]></text>
+            </staticText>
+            
+            <textField>
+                <reportElement x="235" y="240" width="60" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="10" isBold="true" color="#ff6f00"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{puertaAbordaje} != null && !$P{puertaAbordaje}.isEmpty() ? $P{puertaAbordaje} : "Asignado automáticamente"]]></textFieldExpression>
+            </textField>
+            
+            <staticText>
+                <reportElement x="310" y="240" width="50" height="15"/>
                 <textElement>
                     <font fontName="Arial" size="10" isBold="true"/>
                 </textElement>
@@ -160,49 +363,131 @@
             </staticText>
             
             <textField>
-                <reportElement x="90" y="180" width="100" height="15"/>
+                <reportElement x="365" y="240" width="150" height="15"/>
                 <textElement>
-                    <font fontName="Arial" size="10"/>
+                    <font fontName="Arial" size="10" isBold="true" color="#28a745"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$P{estado}]]></textFieldExpression>
             </textField>
             
+            <!-- Información de vuelo -->
             <staticText>
-                <reportElement x="20" y="200" width="60" height="15"/>
+                <reportElement x="20" y="300" width="100" height="15"/>
                 <textElement>
                     <font fontName="Arial" size="10" isBold="true"/>
                 </textElement>
-                <text><![CDATA[Detalles:]]></text>
+                <text><![CDATA[Fecha de Salida:]]></text>
+            </staticText>
+            
+            <textField>
+                <reportElement x="130" y="300" width="100" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="10" isBold="true" color="#1976d2"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{fechaSalidaVuelo} != null && !$P{fechaSalidaVuelo}.isEmpty() ? $P{fechaSalidaVuelo} : "Generado automáticamente"]]></textFieldExpression>
+            </textField>
+            
+            <staticText>
+                <reportElement x="250" y="300" width="80" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Hora de Salida:]]></text>
+            </staticText>
+            
+            <textField>
+                <reportElement x="340" y="300" width="175" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="10" isBold="true" color="#1976d2"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{horaSalidaVuelo} != null && !$P{horaSalidaVuelo}.isEmpty() ? $P{horaSalidaVuelo} : "Generado automáticamente"]]></textFieldExpression>
+            </textField>
+            
+            <!-- Observaciones -->
+            <staticText>
+                <reportElement x="20" y="260" width="80" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Observaciones:]]></text>
             </staticText>
             
             <textField textAdjust="StretchHeight">
-                <reportElement x="90" y="200" width="400" height="30"/>
+                <reportElement x="110" y="260" width="405" height="30"/>
                 <textElement>
-                    <font fontName="Arial" size="10"/>
+                    <font fontName="Arial" size="9"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$P{observaciones} != null ? $P{observaciones} : "Sin observaciones"]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$P{observaciones} != null && !$P{observaciones}.isEmpty() ? $P{observaciones} : "Sin observaciones adicionales"]]></textFieldExpression>
             </textField>
             
-            <!-- Total -->
+            <!-- Desglose de precios -->
             <rectangle>
-                <reportElement x="350" y="180" width="165" height="40" backcolor="#7b1fa2"/>
+                <reportElement x="0" y="360" width="535" height="80" backcolor="#f0f8ff"/>
+                <graphicElement>
+                    <pen lineWidth="1" lineColor="#7b1fa2"/>
+                </graphicElement>
+            </rectangle>
+            
+            <staticText>
+                <reportElement x="20" y="370" width="150" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="12" isBold="true" color="#7b1fa2"/>
+                </textElement>
+                <text><![CDATA[RESUMEN DE COSTOS]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement x="20" y="390" width="120" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Precio del Servicio:]]></text>
+            </staticText>
+            
+            <textField>
+                <reportElement x="150" y="390" width="80" height="15"/>
+                <textElement textAlignment="Right">
+                    <font fontName="Arial" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{moneda} + " " + $P{precioServicio}]]></textFieldExpression>
+            </textField>
+            
+            <staticText>
+                <reportElement x="20" y="410" width="120" height="15"/>
+                <textElement>
+                    <font fontName="Arial" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Equipaje Adicional:]]></text>
+            </staticText>
+            
+            <textField>
+                <reportElement x="150" y="410" width="80" height="15"/>
+                <textElement textAlignment="Right">
+                    <font fontName="Arial" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{moneda} + " " + ($P{equipajeTotal} != null ? $P{equipajeTotal} : "0.00")]]></textFieldExpression>
+            </textField>
+            
+            <!-- Total destacado -->
+            <rectangle>
+                <reportElement x="280" y="375" width="235" height="50" backcolor="#7b1fa2"/>
                 <graphicElement>
                     <pen lineWidth="0"/>
                 </graphicElement>
             </rectangle>
             
             <staticText>
-                <reportElement x="360" y="190" width="50" height="20" forecolor="#FFFFFF"/>
+                <reportElement x="300" y="385" width="100" height="30" forecolor="#FFFFFF"/>
                 <textElement verticalAlignment="Middle">
-                    <font fontName="Arial" size="12" isBold="true"/>
+                    <font fontName="Arial" size="16" isBold="true"/>
                 </textElement>
-                <text><![CDATA[TOTAL:]]></text>
+                <text><![CDATA[TOTAL A PAGAR]]></text>
             </staticText>
             
             <textField>
-                <reportElement x="420" y="190" width="85" height="20" forecolor="#FFFFFF"/>
+                <reportElement x="410" y="385" width="95" height="30" forecolor="#FFFFFF"/>
                 <textElement textAlignment="Right" verticalAlignment="Middle">
-                    <font fontName="Arial" size="14" isBold="true"/>
+                    <font fontName="Arial" size="18" isBold="true"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$P{moneda} + " " + $P{total}]]></textFieldExpression>
             </textField>

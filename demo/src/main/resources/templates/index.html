@@ -110,6 +110,49 @@
 
     <hr style="margin: 40px 0;">
 
+    <!-- Sección de hoteles de Trivago - Carousel -->
+    <section class="hotels-section" th:if="${hoteles != null and !hoteles.empty}">
+        <div class="carousel-header">
+            <h2 class="section-title">🏨 Hoteles en Tacna - Ofertas Especiales</h2>
+            <div class="carousel-controls">
+                <button class="carousel-btn prev-btn" onclick="scrollCarousel('left')">&lt;</button>
+                <button class="carousel-btn next-btn" onclick="scrollCarousel('right')">&gt;</button>
+            </div>
+        </div>
+        <div class="carousel-container">
+            <div class="carousel-track" id="hotelCarousel">
+                <div class="hotel-card" th:each="hotel : ${hoteles}">
+                    <div class="hotel-image">
+                        <img th:if="${hotel.image != null and !hotel.image.isEmpty()}" 
+                             th:src="${hotel.image}" 
+                             alt="Hotel" 
+                             onerror="this.src='https://via.placeholder.com/300x200/7c4dff/ffffff?text=Hotel'">
+                        <div th:unless="${hotel.image != null and !hotel.image.isEmpty()}" class="placeholder-image">
+                            <span>🏨</span>
+                        </div>
+                    </div>
+                    <div class="hotel-content">
+                        <h3 class="hotel-name" th:text="${hotel.name}">Nombre del Hotel</h3>
+                        <div class="hotel-rating" th:if="${hotel.stars != null and hotel.stars > 0}">
+                            <span class="stars" th:each="star : ${#numbers.sequence(1, hotel.stars)}">⭐</span>
+                            <span class="rating-text" th:if="${hotel.rating != null and !hotel.rating.isEmpty()}" 
+                                  th:text="${hotel.rating}">Rating</span>
+                        </div>
+                        <p class="hotel-highlights" th:if="${hotel.highlights != null and !hotel.highlights.isEmpty()}" 
+                           th:text="${hotel.highlights}">Características</p>
+                        <div class="hotel-footer">
+                            <span class="hotel-price" th:text="${hotel.price != null and !hotel.price.isEmpty() ? hotel.price : 'Consultar'}">Precio</span>
+                            <a href="https://www.trivago.com.mx/es-MX/srl/hoteles-tacna-per%C3%BA" 
+                               target="_blank" class="hotel-btn">Ver Oferta</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr style="margin: 40px 0;">
+
     <!-- Sección de reservas recientes con formato de reserva-card -->
     <section class="reservations-section">
         <h2 class="section-title">Reservas Recientes</h2>
@@ -155,6 +198,37 @@
 </div>
 
 <!-- ELIMINADO: El script js.js ya no es necesario para esta funcionalidad. -->
+
+<script>
+let currentScroll = 0;
+const scrollAmount = 300;
+
+function scrollCarousel(direction) {
+    const carousel = document.getElementById('hotelCarousel');
+    const maxScroll = carousel.scrollWidth - carousel.parentElement.clientWidth;
+    
+    if (direction === 'left') {
+        currentScroll = Math.max(0, currentScroll - scrollAmount);
+    } else {
+        currentScroll = Math.min(maxScroll, currentScroll + scrollAmount);
+    }
+    
+    carousel.style.transform = `translateX(-${currentScroll}px)`;
+}
+
+// Auto-scroll every 5 seconds
+setInterval(() => {
+    const carousel = document.getElementById('hotelCarousel');
+    if (carousel) {
+        const maxScroll = carousel.scrollWidth - carousel.parentElement.clientWidth;
+        if (currentScroll >= maxScroll) {
+            currentScroll = 0;
+        } else {
+            scrollCarousel('right');
+        }
+    }
+}, 5000);
+</script>
 
 </body>
 </html>

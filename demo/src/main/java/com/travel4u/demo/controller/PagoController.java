@@ -70,125 +70,9 @@ public class PagoController {
         return "redirect:/pago";
     }
 
-    @GetMapping("/reservar/crear")
-    public String crearReservaDirecta(
-            @RequestParam(name = "idServicio", required = false) Long idServicio,
-            @RequestParam(name = "asientoSeleccionado", required = false) String asientoSeleccionado,
-            @RequestParam(name = "equipajeIds", required = false) String equipajeIds,
-            @RequestParam(name = "observaciones", required = false) String observaciones,
-            Principal principal,
-            RedirectAttributes redirectAttributes) {
 
-        System.out.println("[DEBUG] GET /reservar/crear - Creación directa de reserva");
-        System.out.println("[DEBUG] Parámetros: idServicio=" + idServicio + ", asiento=" + asientoSeleccionado + ", observaciones=" + observaciones);
-        
-        if (principal == null) {
-            return "redirect:/login";
-        }
 
-        try {
-            Usuario usuario = usuarioDAO.findByEmail(principal.getName())
-                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-            Reserva reserva = new Reserva();
-            BigDecimal total = new BigDecimal("500.00"); // Precio temporal
-            
-            if (idServicio != null) {
-                Servicio servicio = servicioDAO.findById(idServicio).orElse(null);
-                if (servicio != null) {
-                    total = servicio.getPrecioBase().add(new BigDecimal("45.00"));
-                }
-            }
-
-            // Crear reserva temporal
-            reserva.setUsuario(usuario);
-            reserva.setEstado("Confirmada");
-            reserva.setFechaInicio(LocalDateTime.now().plusDays(30));
-            reserva.setMoneda("PEN");
-            reserva.setTotal(total);
-            String obsCompletas = "Asiento: " + (asientoSeleccionado != null ? asientoSeleccionado : "No especificado");
-            if (observaciones != null && !observaciones.trim().isEmpty()) {
-                obsCompletas += ", Pasajero: " + observaciones.trim();
-            }
-            if (equipajeIds != null && !equipajeIds.trim().isEmpty()) {
-                obsCompletas += ", Equipaje: " + equipajeIds;
-            }
-            reserva.setObservaciones(obsCompletas);
-
-            Reserva reservaGuardada = reservaDAO.save(reserva);
-            System.out.println("[DEBUG] Reserva creada con ID: " + reservaGuardada.getIdReserva());
-
-            return "redirect:/pago/paypal?idReserva=" + reservaGuardada.getIdReserva();
-            
-        } catch (Exception e) {
-            System.err.println("[ERROR] Error al crear reserva: " + e.getMessage());
-            e.printStackTrace();
-            return "redirect:/confirmacion-reserva";
-        }
-    }
-
-    @PostMapping("/reservar/crear")
-    public String procesarPago(
-            @RequestParam(name = "idServicio", required = false) Long idServicio,
-            @RequestParam(name = "asientoSeleccionado", required = false) String asientoSeleccionado,
-            @RequestParam(name = "equipajeIds", required = false) String equipajeIds,
-            @RequestParam(name = "metodoPago", required = false) String metodoPago,
-            Reserva reserva,
-            Principal principal,
-            RedirectAttributes redirectAttributes) {
-
-        System.out.println("[DEBUG] POST /reservar/crear recibido en PagoController");
-        System.out.println("[DEBUG] idServicio: " + idServicio + ", asiento: " + asientoSeleccionado);
-        
-        if (principal == null) {
-            return "redirect:/login";
-        }
-
-        try {
-            Usuario usuario = usuarioDAO.findByEmail(principal.getName())
-                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-            Servicio servicio = null;
-            BigDecimal total = new BigDecimal("0.00");
-            
-            if (idServicio != null) {
-                servicio = servicioDAO.findById(idServicio)
-                        .orElseThrow(() -> new RuntimeException("Servicio no encontrado"));
-                total = servicio.getPrecioBase().add(new BigDecimal("45.00")); // Tasas e impuestos
-            }
-
-            // Crear reserva
-            reserva.setUsuario(usuario);
-            reserva.setEstado("Confirmada");
-            reserva.setFechaInicio(LocalDateTime.now().plusDays(30));
-            reserva.setMoneda("PEN");
-            reserva.setTotal(total);
-            
-            if (asientoSeleccionado != null) {
-                reserva.setObservaciones("Asiento: " + asientoSeleccionado);
-            }
-
-            Reserva reservaGuardada = reservaDAO.save(reserva);
-
-            // Crear pago
-            Pago pago = new Pago();
-            pago.setReserva(reservaGuardada);
-            pago.setMonto(total);
-            pago.setMetodoPago(metodoPago != null ? metodoPago : "tarjeta");
-            pago.setEstadoPago("Completado");
-            pago.setFechaPago(LocalDateTime.now());
-            pago.setReferenciaPago("PAY-" + System.currentTimeMillis());
-
-            pagoDAO.save(pago);
-
-            redirectAttributes.addFlashAttribute("success", "¡Pago procesado exitosamente!");
-            return "redirect:/confirmacion-reserva?idReserva=" + reservaGuardada.getIdReserva();
-            
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Error al procesar el pago: " + e.getMessage());
-            return "redirect:/pago";
-        }
-    }
 
     @GetMapping("/pago/paypal")
     public String mostrarPasarelaPayPal(
@@ -257,6 +141,45 @@ public class PagoController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error al procesar el pago: " + e.getMessage());
             return "redirect:/pago/paypal?idReserva=" + idReserva;
+        }
+    }
+
+    @GetMapping("/pago/procesar/{idReserva}")
+    public String mostrarPagoProcesar(
+            @PathVariable Integer idReserva,
+            Model model,
+            Principal principal) {
+        
+        System.out.println("[DEBUG] Accediendo a /pago/procesar/" + idReserva);
+        
+        if (principal == null) {
+            System.out.println("[DEBUG] Usuario no autenticado, redirigiendo a login");
+            return "redirect:/login";
+        }
+        
+        try {
+            Reserva reserva = reservaDAO.findById(idReserva)
+                    .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+            
+            Usuario usuario = usuarioDAO.findByEmail(principal.getName())
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+            
+            // Verificar que la reserva pertenece al usuario
+            if (!reserva.getUsuario().getIdUsuario().equals(usuario.getIdUsuario())) {
+                return "redirect:/reservas";
+            }
+            
+            System.out.println("[DEBUG] Reserva encontrada: ID=" + reserva.getIdReserva() + ", Total=" + reserva.getTotal());
+            System.out.println("[DEBUG] Mostrando página de pago para usuario: " + usuario.getEmail());
+            
+            model.addAttribute("reserva", reserva);
+            model.addAttribute("emailUsuario", usuario.getEmail());
+            
+            return "pago";
+            
+        } catch (Exception e) {
+            System.err.println("[ERROR] Error al mostrar página de pago: " + e.getMessage());
+            return "redirect:/reservas";
         }
     }
 

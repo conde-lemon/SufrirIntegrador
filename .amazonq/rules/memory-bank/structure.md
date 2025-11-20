@@ -1,181 +1,171 @@
 # Travel4U - Project Structure
 
-## Root Directory Layout
+## Root Directory Organization
 
 ```
 demo (1)/
-├── .amazonq/rules/memory-bank/     # Project documentation
-├── amadeus_data/                   # Scraped flight offer JSON files
-├── demo/                           # Main Spring Boot application
-│   ├── src/main/java/              # Java source code
-│   ├── src/main/resources/         # Configuration and templates
-│   ├── src/test/java/              # Test classes
-│   ├── build.gradle                # Gradle build configuration
-│   └── gradlew, gradlew.bat        # Gradle wrapper scripts
-├── logs/                           # Application log files
-└── README.md                       # Project documentation
+├── .amazonq/rules/memory-bank/     # AI assistant memory bank
+├── amadeus_data/                   # Cached flight data from Amadeus API
+├── demo/                          # Main Spring Boot application
+├── logs/                          # Application log files
+├── README.md                      # Project documentation
+└── TravelReserva.sql             # Database schema
 ```
 
-## Java Package Structure
+## Main Application Structure (`demo/`)
 
+### Core Application Layout
 ```
-com.travel4u.demo/
-├── controller/                     # Web controllers (MVC)
-│   ├── HomeController              # Homepage and dashboard
-│   ├── ServiciosController         # Service search/listing
-│   ├── ReservaController           # Reservation workflow
-│   ├── PagoController              # Payment processing
-│   ├── AdminController             # Admin panel
-│   └── ReporteController           # Report generation
-├── model/                          # JPA entities
-│   ├── Usuario                     # User accounts
-│   ├── Servicio                    # Travel services
-│   ├── Proveedor                   # Service providers
-│   ├── Reserva                     # Bookings
-│   ├── DetalleReserva              # Booking details
-│   ├── Pago                        # Payments
-│   ├── Oferta                      # Promotional offers
-│   ├── Equipaje                    # Baggage options
-│   └── Paquete                     # Travel packages
-├── repository/                     # Data access layer
-│   ├── UsuarioRepository
-│   ├── ServicioRepository
-│   ├── ReservaRepository
-│   ├── PagoRepository
-│   └── OfertaRepository
-├── service/                        # Business logic
-│   ├── ReservaService
-│   ├── PagoService
-│   ├── OfertaService
-│   └── JasperReportService
-├── scraper/                        # Web scraping
-│   ├── service/
-│   │   ├── ScrapingService         # Skyscanner scraper
-│   │   └── AmadeusDataExtractorService
-│   └── model/                      # Scraper DTOs
-├── security/                       # Security configuration
-│   ├── WebSecurityConfig           # Spring Security setup
-│   └── CustomUserDetailsService    # User authentication
-└── DemoApplication.java            # Application entry point
+demo/src/main/java/com/travel4u/demo/
+├── config/                        # Configuration classes
+├── controller/                    # Web controllers (MVC)
+├── factory/                       # Factory pattern implementations
+├── oferta/                        # Offer/promotion domain
+├── reserva/                       # Reservation domain
+├── scraper/                       # Web scraping services
+├── security/                      # Security configuration
+├── service/                       # Business logic services
+├── servicio/                      # Service domain (flights, hotels)
+├── usuario/                       # User domain
+└── DemoApplication.java           # Spring Boot main class
 ```
 
-## Resources Structure
+## Domain-Driven Architecture
 
-```
-src/main/resources/
-├── templates/                      # Thymeleaf HTML templates
-│   ├── fragments/                  # Reusable template fragments
-│   │   ├── header.html             # Common header
-│   │   └── reserva-card.html       # Reservation card component
-│   ├── ADMIN/                      # Admin-specific templates
-│   │   └── admin.html              # Admin dashboard
-│   ├── index.html                  # Homepage
-│   ├── login.html                  # Login page
-│   ├── registrar.html              # Registration page
-│   ├── servicios-resultados.html   # Service search results
-│   ├── asientos.html               # Seat selection
-│   ├── pago.html                   # Payment form
-│   ├── pasarela-paypal.html        # PayPal gateway
-│   ├── confirmacion-pago.html      # Payment confirmation
-│   ├── reservas.html               # User reservations list
-│   └── reserva-detalle.html        # Reservation details
-├── static/
-│   ├── css/                        # Stylesheets
-│   │   ├── header_style.css        # Header component
-│   │   ├── index1_style.css        # Homepage styles
-│   │   ├── reservas_style.css      # Reservations styles
-│   │   ├── asientos_style.css      # Seat selection
-│   │   ├── pago_style.css          # Payment form
-│   │   └── confirmacion-pago.css   # Confirmation page
-│   ├── js/                         # JavaScript files
-│   │   ├── js.js                   # Common utilities
-│   │   ├── asientos.js             # Seat selection logic
-│   │   ├── pago.js                 # Payment form validation
-│   │   └── confirmacion-pago.js    # Confirmation animations
-│   └── img/                        # Images and icons
-├── reports/                        # JasperReports templates
-│   ├── boleta-reserva.jrxml        # Booking receipt
-│   ├── Reservas.jrxml              # User reservations
-│   ├── Reporte-usuario.jrxml       # User report
-│   └── Reporte-Promociones.jrxml   # Promotions report
-├── db/migration/                   # Database migrations
-│   ├── V2__add_missing_tables.sql
-│   ├── V3__add_more_services_and_reservations.sql
-│   └── V4__add_more_service_types.sql
-├── data.sql                        # Initial data seed
-├── data-h2.sql                     # H2-specific seed data
-├── application.properties          # Main configuration
-├── application-postgres.properties # PostgreSQL profile
-├── application-h2.properties       # H2 profile
-└── logback-spring.xml              # Logging configuration
-```
+### Reservation Domain (`reserva/`)
+- **Models**: `Reserva`, `Detalle_Reserva`, `Equipaje`, `Pago`, `Paquete`
+- **Controllers**: `ReservaController` - handles booking workflow
+- **Repositories**: JPA repositories for data access
+- **Services**: `PagoService` - payment processing logic
 
-## Component Relationships
+### User Domain (`usuario/`)
+- **Models**: `Usuario` - user entity with roles
+- **Controllers**: User management and authentication
+- **Repositories**: User data access layer
+- **Services**: User business logic
 
-### Reservation Flow
-```
-User → ServiciosController → Service Selection
-    → ReservaController → Seat Selection (asientos.html)
-    → PagoController → Payment Gateway (pasarela-paypal.html)
-    → PagoService → Payment Processing
-    → Confirmation (confirmacion-pago.html)
-```
+### Service Domain (`servicio/`)
+- **Models**: `Servicio` - travel services (flights, hotels, etc.)
+- **Controllers**: Service search and display
+- **Repositories**: Service data management
+- **Services**: Service business logic and JasperReports integration
 
-### Authentication Flow
+### Scraper Domain (`scraper/`)
+- **Models**: Data models for scraped content
+- **Controllers**: Scraping endpoints and testing
+- **Services**: `AmadeusDataExtractorService` - API integration
+
+## Configuration Layer (`config/`)
+
+### Database Configuration
+- `DatabaseConfig.java` - Primary database setup
+- `DatabaseInitializer.java` - Data initialization
+- `SafeDatabaseInitializer.java` - Safe startup procedures
+
+### Security Configuration (`security/`)
+- `WebSecurityConfig.java` - Spring Security setup
+- `UserDetailsServiceImpl.java` - Custom user details service
+- `CustomAuthenticationSuccessHandler.java` - Login success handling
+
+## Controller Layer Architecture
+
+### Main Controllers
+- `AppController.java` - Home page and main navigation
+- `ServiciosController.java` - Service search and display
+- `ReservaController.java` - Booking workflow
+- `PagoController.java` - Payment processing
+- `AdminController.java` - Administrative functions
+
+### Specialized Controllers
+- `AmadeusController.java` - Amadeus API integration
+- `ScraperController.java` - Web scraping operations
+- `ReporteController.java` - Report generation
+- `DiagnosticController.java` - System health checks
+
+## Resource Organization (`src/main/resources/`)
+
+### Templates (`templates/`)
 ```
-Login Request → WebSecurityConfig
-    → CustomUserDetailsService → UsuarioRepository
-    → Authentication Success → Redirect to Homepage
+templates/
+├── ADMIN/                         # Admin panel templates
+├── fragments/                     # Reusable template fragments
+├── *.html                        # Page templates (Thymeleaf)
 ```
 
-### Report Generation Flow
+### Static Resources (`static/`)
 ```
-Admin Request → ReporteController
-    → JasperReportService → Database Query
-    → JasperReports Engine → PDF Generation
-    → HTTP Response (application/pdf)
+static/
+├── css/                          # Stylesheets
+├── img/                          # Images and assets
+└── js/                           # JavaScript files
 ```
 
-### Scraping Flow
-```
-Scheduled Task → ScrapingService
-    → Jsoup HTTP Request → Skyscanner
-    → Parse HTML → Extract Offers
-    → OfertaService → Save to Database
-```
+### Configuration Files
+- `application.properties` - Main configuration
+- `application-postgres.properties` - PostgreSQL config
+- `application-h2.properties` - H2 database config
+- `logback-spring.xml` - Logging configuration
+
+### Database Scripts
+- `data.sql` - Initial data population
+- `add_missing_services.sql` - Service data additions
+- `schema.sql` - Database schema definitions
+
+### Reports (`reports/`)
+- `*.jrxml` - JasperReports templates for PDF generation
+
+## Architectural Patterns
+
+### MVC Pattern
+- **Models**: JPA entities in domain packages
+- **Views**: Thymeleaf templates with fragments
+- **Controllers**: Spring MVC controllers handling HTTP requests
+
+### Repository Pattern
+- Interface-based repositories extending `JpaRepository`
+- Custom query methods following Spring Data conventions
+- Separation of data access from business logic
+
+### Service Layer Pattern
+- Business logic encapsulated in service classes
+- Transaction management through Spring annotations
+- Clear separation between controllers and data access
+
+### Factory Pattern
+- `DAOFactory.java` - Centralized repository creation
+- Abstraction of data access object creation
 
 ## Data Flow Architecture
 
-### Read Operations
-```
-Controller → Service → Repository → Database
-    → Entity Mapping → Return to Service
-    → Business Logic → Return to Controller
-    → Model Attributes → Thymeleaf Rendering
-```
+### Request Processing Flow
+1. **HTTP Request** → Controller
+2. **Controller** → Service Layer
+3. **Service** → Repository Layer
+4. **Repository** → Database
+5. **Response** ← Template Engine (Thymeleaf)
 
-### Write Operations
-```
-Form Submission → Controller Validation
-    → Service Business Logic → Repository Save
-    → Database Transaction → Confirmation Response
-```
+### Security Flow
+1. **Authentication** → Spring Security Filter Chain
+2. **Authorization** → Role-based access control
+3. **Session Management** → Spring Security Session
 
-## Module Dependencies
+### Payment Flow
+1. **Reservation Creation** → Database
+2. **Payment Processing** → External Payment Gateway
+3. **Confirmation** → Email Service + PDF Generation
 
-### Core Dependencies
-- Spring Boot Starters → Spring Framework
-- Hibernate → Database ORM
-- PostgreSQL Driver → Database connectivity
+## Integration Points
 
-### Feature Dependencies
-- Jsoup → Web scraping capability
-- Amadeus SDK → Flight data integration
-- JasperReports → PDF generation
-- Thymeleaf Security → Template authorization
+### External APIs
+- **Amadeus API**: Flight data and booking
+- **PayPal API**: Payment processing
+- **Web Scraping**: Skyscanner data extraction
 
-## Configuration Hierarchy
-1. application.properties (base)
-2. application-{profile}.properties (profile-specific)
-3. Environment variables (override)
-4. Command-line arguments (highest priority)
+### Database Integration
+- **PostgreSQL**: Production database
+- **H2**: Development/testing database
+- **JPA/Hibernate**: ORM layer
+
+### Reporting Integration
+- **JasperReports**: PDF report generation
+- **Email Service**: Notification delivery

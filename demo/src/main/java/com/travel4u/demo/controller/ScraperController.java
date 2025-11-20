@@ -60,8 +60,5 @@ public class ScraperController {
         return ResponseEntity.ok(response);
     }
     
-    @GetMapping("/test")
-    public String getTestPage() {
-        return "scraper-test";
-    }
+
 }

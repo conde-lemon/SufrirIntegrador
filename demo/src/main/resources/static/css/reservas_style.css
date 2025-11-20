@@ -1,6 +1,7 @@
 /* Estilos para la página de "Mis Reservas" */
 body {
-    background-color: #f4f6f9;
+    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 50%, #ce93d8 100%);
+    min-height: 100vh;
     font-family: 'Arial', sans-serif;
 }
 
@@ -18,7 +19,10 @@ body {
 .page-title {
     font-size: 2.5rem;
     font-weight: bold;
-    color: #333;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin: 0;
 }
 
@@ -30,9 +34,11 @@ body {
 .no-reservations {
     text-align: center;
     padding: 50px;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
 }
 
 .no-reservations p {
@@ -49,12 +55,15 @@ body {
 }
 
 .btn-primary {
-    background-color: #7b1fa2;
+    background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .btn-primary:hover {
-    background-color: #5a1475;
+    background: linear-gradient(135deg, #9c27b0, #7b1fa2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(156, 39, 176, 0.3);
 }
 
 .reservations-grid {
@@ -63,22 +72,26 @@ body {
 }
 
 .reservation-card {
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
     overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .reservation-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(156, 39, 176, 0.2);
+    border-color: rgba(156, 39, 176, 0.3);
 }
 
 .reservation-header {
     padding: 15px 20px;
-    background-color: #fafafa;
-    border-bottom: 1px solid #eee;
+    background: linear-gradient(135deg, rgba(243, 229, 245, 0.6), rgba(225, 190, 231, 0.6));
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(156, 39, 176, 0.15);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -133,14 +146,29 @@ body {
     text-align: center;
 }
 
-.status-confirmed { background-color: #4CAF50; } /* Verde */
-.status-pending { background-color: #FFC107; } /* Amarillo */
-.status-cancelled { background-color: #F44336; } /* Rojo */
+.status-confirmed { 
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.status-pending { 
+    background: linear-gradient(135deg, #fed6e3, #a8edea);
+    color: #333;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(254, 214, 227, 0.4);
+}
+.status-cancelled { 
+    background: linear-gradient(135deg, #f3e5f5, #e3f2fd);
+    color: #666;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(243, 229, 245, 0.4);
+}
 
 .reservation-footer {
     padding: 15px 20px;
-    background-color: #fafafa;
-    border-top: 1px solid #eee;
+    background: linear-gradient(135deg, rgba(225, 190, 231, 0.4), rgba(206, 147, 216, 0.4));
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(156, 39, 176, 0.15);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -149,7 +177,10 @@ body {
 .reservation-price {
     font-size: 1.4rem;
     font-weight: bold;
-    color: #7b1fa2;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .action-buttons {
@@ -158,11 +189,14 @@ body {
 }
 
 .btn-outline {
-    background-color: transparent;
-    color: #7b1fa2;
-    border: 1px solid #7b1fa2;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    color: #9c27b0;
+    border: 2px solid rgba(156, 39, 176, 0.4);
 }
 
 .btn-outline:hover {
-    background-color: #f3e5f5;
+    background: rgba(243, 229, 245, 0.8);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(156, 39, 176, 0.2);
 }

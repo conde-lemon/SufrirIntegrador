@@ -376,3 +376,137 @@ body {
     box-shadow: 0 6px 20px rgba(123, 31, 162, 0.4);
 }
 
+/* Estilos para los nuevos campos del formulario detallado */
+.form-group label {
+    display: block;
+    color: #333;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.card-subtitle {
+    color: #7b1fa2;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 20px 0 15px 0;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Estilos para equipaje con iconos */
+.baggage-icon {
+    color: #7b1fa2;
+    font-size: 1.2rem;
+    margin-right: 10px;
+}
+
+.baggage-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-left: 10px;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #f8f9fa;
+}
+
+.baggage-label:hover {
+    background: white;
+    border-color: #7b1fa2;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(123, 31, 162, 0.1);
+}
+
+.baggage-option input[type="checkbox"]:checked + .baggage-label {
+    background: #f3e5f5;
+    border-color: #7b1fa2;
+    box-shadow: 0 2px 8px rgba(123, 31, 162, 0.2);
+}
+
+.baggage-type {
+    font-weight: 600;
+    color: #333;
+}
+
+/* Servicios adicionales */
+.extra-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.extra-option:hover {
+    background: #f8f9fa;
+}
+
+.extra-option input[type="checkbox"] {
+    margin-right: 12px;
+    transform: scale(1.2);
+}
+
+.extra-option label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 500;
+    color: #333;
+}
+
+.extra-option label i {
+    color: #7b1fa2;
+    margin-right: 8px;
+    font-size: 1.1rem;
+}
+
+/* Validación de campos */
+.form-input:invalid {
+    border-color: #e74c3c;
+}
+
+.form-input:valid {
+    border-color: #27ae60;
+}
+
+.form-input.error {
+    border-color: #e74c3c;
+    background-color: #fdf2f2;
+}
+
+.baggage-icon {
+    font-size: 1.2rem;
+    margin-right: 10px;
+}
+
+/* Texto muted para mensajes informativos */
+.text-muted {
+    color: #6c757d;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Responsive para formulario detallado */
+@media (max-width: 768px) {
+    .baggage-label {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .baggage-price {
+        align-self: flex-end;
+    }
+    
+    .extra-option {
+        padding: 8px;
+    }
+}
+

@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selección de Asientos - Travel For U</title>
+    <title>Reserva de Vuelo - Travel For U</title>
+
+    <!-- Estilos -->
     <link rel="stylesheet" th:href="@{/css/header_style.css}">
     <link rel="stylesheet" th:href="@{/css/asientos_style.css}">
 </head>
@@ -13,97 +15,219 @@
 <div th:replace="~{fragments/header :: main-header}"></div>
 
 <div class="container">
-    <form id="reservaForm" th:action="@{/reservar/crear}" method="get" th:object="${reserva}">
+    <form id="reservaForm" th:action="@{/reservar/crear}" method="get">
         <input type="hidden" name="idServicio" th:value="${servicio != null ? servicio.idServicio : ''}" />
-        
+
         <div class="page-header">
-            <h1 class="page-title">Selección de Asientos</h1>
-            <p class="page-subtitle">Elige tu asiento preferido para el vuelo</p>
+            <h1 class="page-title">Reserva de Vuelo</h1>
+            <p class="page-subtitle">Completa la información para confirmar tu reserva</p>
         </div>
 
         <div class="main-layout">
-            <!-- Mapa de asientos a la izquierda -->
+
+            <!-- ======================================================== -->
+            <!--                     MAPA DE ASIENTOS                     -->
+            <!-- ======================================================== -->
             <div class="seat-section">
                 <div class="seat-map-container">
                     <h3 class="section-title">Mapa de Asientos</h3>
+
                     <div class="seat-legend">
                         <div class="legend-item"><span class="seat available"></span> Disponible</div>
                         <div class="legend-item"><span class="seat occupied"></span> Ocupado</div>
                         <div class="legend-item"><span class="seat selected"></span> Seleccionado</div>
                     </div>
-                    
+
                     <div class="aircraft">
                         <div class="aircraft-header">✈️ Frente del Avión</div>
+
                         <div class="seat-rows">
                             <div class="seat-row" th:each="row : ${#numbers.sequence(1, 25)}">
                                 <span class="row-number" th:text="${row}">1</span>
+
                                 <div class="seats">
-                                    <button type="button" class="seat available" th:each="col : ${'A,B,C'.split(',')}" 
-                                            th:data-seat="${row + col}" th:text="${row + col}">1A</button>
+                                    <button type="button" class="seat available"
+                                            th:each="col : ${'A,B,C'.split(',')}"
+                                            th:data-seat="${row + col}"
+                                            th:text="${row + col}">A1</button>
+
                                     <div class="aisle"></div>
-                                    <button type="button" class="seat available" th:each="col : ${'D,E,F'.split(',')}" 
-                                            th:data-seat="${row + col}" th:text="${row + col}">1D</button>
+
+                                    <button type="button" class="seat available"
+                                            th:each="col : ${'D,E,F'.split(',')}"
+                                            th:data-seat="${row + col}"
+                                            th:text="${row + col}">D1</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <input type="hidden" name="asientoSeleccionado" id="asientoSeleccionado" required>
                 </div>
             </div>
 
-            <!-- Formulario de detalles a la derecha -->
+            <!-- ======================================================== -->
+            <!--                     FORMULARIO DERECHO                    -->
+            <!-- ======================================================== -->
             <div class="form-section">
-                <!-- Información del Vuelo -->
+
+                <!-- ======================================================== -->
+                <!--                     INFORMACIÓN DEL VUELO                -->
+                <!-- ======================================================== -->
                 <div class="info-card" th:if="${servicio != null}">
-                    <h3 class="card-title">Vuelo Seleccionado</h3>
+                    <h3 class="card-title">Detalles del Vuelo</h3>
+
                     <div class="flight-route">
                         <span class="origin" th:text="${servicio.origen}">Lima</span>
                         <span class="arrow">→</span>
                         <span class="destination" th:text="${servicio.destino}">Madrid</span>
                     </div>
+
                     <div class="flight-details">
-                        <p><strong>Servicio:</strong> <span th:text="${servicio.nombre}">Vuelo a Madrid</span></p>
-                        <p><strong>Precio base:</strong> <span th:text="'S/ ' + ${#numbers.formatDecimal(servicio.precioBase, 1, 'COMMA', 2, 'POINT')}">S/ 850.00</span></p>
+                        <p><strong>Servicio:</strong> <span th:text="${servicio.nombre}"></span></p>
+                        <p><strong>Tipo:</strong> <span th:text="${servicio.tipoServicio}"></span></p>
+                        <p><strong>Duración:</strong> <span>11h 20m</span></p>
+                        <p><strong>Precio Base:</strong>
+                            <span th:text="'S/ ' + ${#numbers.formatDecimal(servicio.precioBase, 1, 'COMMA', 2, 'POINT')}"></span>
+                        </p>
                     </div>
                 </div>
 
-                <!-- Datos del Pasajero -->
+                <!-- ======================================================== -->
+                <!--                 DATOS DEL PASAJERO COMPLETOS             -->
+                <!-- ======================================================== -->
                 <div class="info-card">
                     <h3 class="card-title">Datos del Pasajero</h3>
+
                     <div class="form-group">
-                        <label class="form-label">Nombre del Pasajero</label>
-                        <input type="text" class="form-input" placeholder="Ej: Juan Pérez" th:field="*{observaciones}" required>
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-input" id="nombre" name="nombre" placeholder="Juan" required title="Ingrese su nombre">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="apellido">Apellido</label>
+                        <input type="text" class="form-input" id="apellido" name="apellido" placeholder="Pérez" required title="Ingrese su apellido">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="documento">DNI o Pasaporte</label>
+                        <input type="text" class="form-input" id="documento" name="documento" placeholder="12345678" required title="Ingrese su documento de identidad">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fechaNacimiento">Fecha de Nacimiento</label>
+                        <input type="date" class="form-input" id="fechaNacimiento" name="fechaNacimiento" required title="Seleccione su fecha de nacimiento">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sexo">Sexo</label>
+                        <select class="form-input" id="sexo" name="sexo" required title="Seleccione su sexo">
+                            <option value="">Seleccionar</option>
+                            <option value="MASCULINO">Masculino</option>
+                            <option value="FEMENINO">Femenino</option>
+                            <option value="OTRO">Otro</option>
+                        </select>
+                    </div>
+
+                    <h4 class="card-subtitle">Contacto</h4>
+
+                    <div class="form-group">
+                        <label for="correo">Correo Electrónico</label>
+                        <input type="email" class="form-input" id="correo" name="correo" placeholder="correo@ejemplo.com" required title="Ingrese su correo electrónico">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" class="form-input" id="telefono" name="telefono" placeholder="987654321" required title="Ingrese su número de teléfono">
                     </div>
                 </div>
 
-                <!-- Selección de Equipaje -->
+                <!-- ======================================================== -->
+                <!--                     EQUIPAJE CON ICONOS                 -->
+                <!-- ======================================================== -->
                 <div class="info-card">
-                    <h3 class="card-title">Equipaje Adicional</h3>
-                    <div class="baggage-options" th:if="${!tiposDeEquipaje.isEmpty()}">
+                    <h3 class="card-title">Equipaje</h3>
+
+                    <div class="baggage-options" th:if="${tiposDeEquipaje != null and !tiposDeEquipaje.isEmpty()}">
                         <div class="baggage-option" th:each="equipaje : ${tiposDeEquipaje}">
-                            <input type="checkbox" name="equipajeIds" th:value="${equipaje.idEquipaje}" th:id="'equipaje-' + ${equipaje.idEquipaje}">
-                            <label th:for="'equipaje-' + ${equipaje.idEquipaje}" class="baggage-label">
+                            <input type="checkbox" name="equipajeIds"
+                                   th:id="'equipaje-' + ${equipaje.idEquipaje}"
+                                   th:value="${equipaje.idEquipaje}">
+
+                            <label class="baggage-label" th:for="'equipaje-' + ${equipaje.idEquipaje}">
+                                <span class="baggage-icon">🧳</span>
+
                                 <span class="baggage-type" th:text="${equipaje.tipo}">Equipaje de mano</span>
-                                <span class="baggage-price" th:text="'+ S/ ' + ${#numbers.formatDecimal(equipaje.precio, 1, 'COMMA', 2, 'POINT')}">+ S/ 50.00</span>
+
+                                <span class="baggage-price"
+                                      th:text="'+ S/ ' + ${#numbers.formatDecimal(equipaje.precio, 1, 'COMMA', 2, 'POINT')}">
+                                </span>
                             </label>
                         </div>
                     </div>
+                    
+                    <div th:if="${tiposDeEquipaje == null or tiposDeEquipaje.isEmpty()}">
+                        <p class="text-muted">No hay opciones de equipaje adicional disponibles.</p>
+                    </div>
                 </div>
 
-                <!-- Resumen -->
+                <!-- ======================================================== -->
+                <!--                SERVICIOS EXTRA OPCIONALES               -->
+                <!-- ======================================================== -->
+                <div class="info-card">
+                    <h3 class="card-title">Servicios Adicionales</h3>
+
+                    <div class="extra-option">
+                        <input type="checkbox" id="priority" name="extras" value="priority" title="Embarque prioritario">
+                        <label for="priority">⚡ Embarque prioritario</label>
+                    </div>
+
+                    <div class="extra-option">
+                        <input type="checkbox" id="meal" name="extras" value="meal" title="Comida a bordo">
+                        <label for="meal">🍽️ Comida a bordo</label>
+                    </div>
+
+                    <div class="extra-option">
+                        <input type="checkbox" id="insurance" name="extras" value="insurance" title="Seguro de viaje">
+                        <label for="insurance">🛡️ Seguro de viaje</label>
+                    </div>
+                </div>
+
+                <!-- ======================================================== -->
+                <!--                        RESUMEN                         -->
+                <!-- ======================================================== -->
+                <!-- INFORMACIÓN AUTOMÁTICA -->
+                <div class="info-card" style="background: #e8f5e8; border-left: 4px solid #28a745;">
+                    <h3 class="card-title" style="color: #28a745;">✈️ Información Automática</h3>
+                    <p style="margin: 0; font-size: 14px; color: #155724;">
+                        ✓ Puerta de abordaje asignada automáticamente<br>
+                        ✓ Fecha y hora de salida generadas<br>
+                        ✓ Información disponible en tu boleta
+                    </p>
+                </div>
+
                 <div class="info-card summary-card">
-                    <h3 class="card-title">Resumen de Reserva</h3>
+                    <h3 class="card-title">Resumen</h3>
+
                     <div class="summary-item">
-                        <span>Asiento seleccionado:</span>
+                        <span>Asiento:</span>
                         <span id="selected-seat-display">-</span>
                     </div>
+
                     <div class="summary-item">
-                        <span>Precio base:</span>
-                        <span th:text="'S/ ' + ${#numbers.formatDecimal(servicio.precioBase, 1, 'COMMA', 2, 'POINT')}">S/ 850.00</span>
+                        <span>Precio Base:</span>
+                        <span th:text="'S/ ' + ${#numbers.formatDecimal(servicio.precioBase, 1, 'COMMA', 2, 'POINT')}"></span>
                     </div>
+
+                    <div class="summary-item">
+                        <span>Equipaje:</span>
+                        <span id="equipaje-total">S/ 0.00</span>
+                    </div>
+
                     <div class="summary-total">
                         <span>Total:</span>
-                        <span id="total-price" th:text="'S/ ' + ${#numbers.formatDecimal(servicio.precioBase, 1, 'COMMA', 2, 'POINT')}">S/ 850.00</span>
+                        <span id="total-price"
+                              th:text="'S/ ' + ${#numbers.formatDecimal(servicio.precioBase, 1, 'COMMA', 2, 'POINT')}"></span>
                     </div>
                 </div>
 
@@ -112,6 +236,8 @@
         </div>
     </form>
 </div>
+
 <script th:src="@{/js/asientos.js}"></script>
+
 </body>
 </html>

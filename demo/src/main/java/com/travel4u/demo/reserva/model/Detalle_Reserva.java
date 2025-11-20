@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -31,13 +32,38 @@ public class Detalle_Reserva {
     @Column(precision = 10, scale = 2, nullable = false)
     private BigDecimal subtotal;
 
-    // CORRECCIÓN: La relación es ManyToOne, no OneToOne
-    @ManyToOne(fetch = FetchType.LAZY)
+    // Campos de datos del pasajero
+    private String nombre;
+    private String apellido;
+    private String documento;
+    
+    @Column(name = "fecha_nacimiento")
+    private LocalDate fechaNacimiento;
+    
+    private String sexo;
+    private String correo;
+    private String telefono;
+    
+    @Column(name = "asiento_seleccionado")
+    private String asientoSeleccionado;
+    
+    // NUEVO: Campos adicionales para vuelos
+    @Column(name = "puerta_abordaje")
+    private String puertaAbordaje;
+    
+    @Column(name = "fecha_salida")
+    private LocalDate fechaSalida;
+    
+    @Column(name = "hora_salida")
+    private String horaSalida;
+
+    // Relación 1:1 con Reserva
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_reserva", nullable = false)
     @ToString.Exclude
     private Reserva reserva;
 
-    // NUEVO: Relación con Servicio que faltaba
+    // Relación con Servicio
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_servicio", nullable = false)
     @ToString.Exclude
