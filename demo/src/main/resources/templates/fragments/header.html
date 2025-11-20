@@ -22,7 +22,7 @@
             position: sticky;
             top: 0;
             width: 100%;
-            background: linear-gradient(120deg, #7b2ff7, #00c6ff);
+            background: linear-gradient(120deg, #7c4dff, #9c27b0, #e1bee7);
             background-size: 200% 200%;
             animation: gradientFlow 6s ease infinite;
             padding: 1rem 2rem;
@@ -119,7 +119,7 @@
 
         .register-btn {
             background: #fff;
-            color: #7b2ff7;
+            color: #7c4dff;
         }
 
         .login-btn:hover,
@@ -169,7 +169,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .dropdown:hover .dropdown-menu {
+        .dropdown.active .dropdown-menu {
             display: block;
         }
 
@@ -184,7 +184,7 @@
         }
 
         .dropdown-item:hover {
-            background: linear-gradient(120deg, #7b2ff7, #00c6ff);
+            background: linear-gradient(120deg, #7c4dff, #9c27b0);
             padding-left: 1.3rem;
         }
 
@@ -231,6 +231,25 @@
         }
 
     </style>
+    <script>
+        function toggleDropdown(event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown) {
+                dropdown.classList.toggle('active');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('userDropdown');
+                if (dropdown && !dropdown.contains(event.target)) {
+                    dropdown.classList.remove('active');
+                }
+            });
+        });
+    </script>
+
 </head>
 <body>
 <header class="main-header" th:fragment="main-header">
@@ -254,9 +273,10 @@
             </div>
 
             <!-- Autenticado -->
-            <div sec:authorize="isAuthenticated()" class="dropdown">
-                <button class="dropdown-toggle">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" 
+            <div sec:authorize="isAuthenticated()" class="dropdown" id="userDropdown">
+                <button class="dropdown-toggle" onclick="toggleDropdown(event)">
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
                          stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 
                          0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
@@ -273,6 +293,35 @@
                     <a th:href="@{/reservas}" class="dropdown-item">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
                              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                             stroke-linejoin="round"><path d="M9 11H5a2 2 0 0 1-2-2V5a2 2 
+                             0 0 1 2-2h4"></path><polyline points="13,9 16,12 13,15"></polyline><path d="m16,12 -7,0"></path></svg>
+                        Mis Reservas
+                    </a>
+                    <div sec:authorize="hasRole('ADMIN')" class="dropdown-divider"></div>
+                    <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}" class="dropdown-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
+                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                             stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2H2.78"></path><path d="M21 14h-5"></path><path d="M16 16l2-2-2-2"></path><path d="M3 10h5"></path><path d="M8 8L6 10l2 2"></path></svg>
+                        Panel Admin
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <form th:action="@{/logout}" method="post" style="margin: 0;">
+                        <button type="submit" class="logout-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                                 stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 
+                                 0 0 1 2-2h4"></path><polyline points="16,17 21,12 16,7"></polyline><path d="m21,12 -8,0"></path></svg>
+                            Cerrar Sesión
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+</body>
+</html>width="2" stroke-linecap="round" 
                              stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" 
                              rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 
                              0 0 0-2 2v16"></path></svg>

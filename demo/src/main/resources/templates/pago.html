@@ -18,10 +18,8 @@
         <p class="page-subtitle">Completa tu información de pago para confirmar la reserva</p>
     </div>
 
-    <form th:action="@{/reservar/crear}" method="get" th:object="${reserva}">
-        <input type="hidden" name="idServicio" th:value="${param.idServicio}" />
-        <input type="hidden" name="asientoSeleccionado" th:value="${param.asientoSeleccionado}" />
-        <input type="hidden" name="equipajeIds" th:value="${param.equipajeIds}" />
+    <form th:action="@{/pago/paypal/procesar}" method="post">
+        <input type="hidden" name="idReserva" th:value="${reserva.idReserva}" />
 
         <div class="payment-layout">
             <!-- Formulario de pago -->
@@ -72,21 +70,16 @@
                 </div>
 
                 <div class="payment-card">
-                    <h3 class="card-title">Información de Facturación</h3>
+                    <h3 class="card-title">Información de Pago</h3>
                     
                     <div class="form-group">
-                        <label class="form-label">Nombre Completo</label>
-                        <input type="text" class="form-input" th:field="*{observaciones}" placeholder="Nombre para la reserva" required>
+                        <label class="form-label">Email PayPal</label>
+                        <input type="email" class="form-input" name="emailPayPal" th:value="${emailUsuario}" placeholder="correo@paypal.com" required>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-input" placeholder="correo@ejemplo.com" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Teléfono</label>
-                        <input type="tel" class="form-input" placeholder="+51 999 999 999" required>
+                        <label class="form-label">Contraseña PayPal</label>
+                        <input type="password" class="form-input" name="passwordPayPal" placeholder="Tu contraseña" required>
                     </div>
                 </div>
             </div>
@@ -96,42 +89,34 @@
                 <div class="summary-card">
                     <h3 class="card-title">Resumen de Reserva</h3>
                     
-                    <div class="flight-summary" th:if="${servicio != null}">
+                    <div class="flight-summary" th:if="${reserva != null}">
                         <div class="flight-route">
-                            <span th:text="${servicio.origen}">Lima</span>
-                            <span class="arrow">→</span>
-                            <span th:text="${servicio.destino}">Madrid</span>
+                            <span>Reserva</span>
+                            <span class="arrow">#</span>
+                            <span th:text="${reserva.idReserva}">001</span>
                         </div>
-                        <p class="flight-name" th:text="${servicio.nombre}">Vuelo a Madrid</p>
+                        <p class="flight-name">Reserva Confirmada</p>
                     </div>
 
                     <div class="summary-details">
                         <div class="detail-item">
-                            <span>Asiento:</span>
-                            <span th:text="${param.asientoSeleccionado}">12A</span>
+                            <span>Estado:</span>
+                            <span th:text="${reserva.estado}">CONFIRMADA</span>
                         </div>
                         <div class="detail-item">
-                            <span>Pasajeros:</span>
-                            <span>1 Adulto</span>
+                            <span>Moneda:</span>
+                            <span th:text="${reserva.moneda}">PEN</span>
                         </div>
                         <div class="detail-item">
-                            <span>Precio base:</span>
-                            <span th:text="'S/ ' + ${#numbers.formatDecimal(servicio.precioBase, 1, 'COMMA', 2, 'POINT')}">S/ 850.00</span>
-                        </div>
-                        <div class="detail-item">
-                            <span>Equipaje adicional:</span>
-                            <span>S/ 0.00</span>
-                        </div>
-                        <div class="detail-item">
-                            <span>Tasas e impuestos:</span>
-                            <span>S/ 45.00</span>
+                            <span>Usuario:</span>
+                            <span th:text="${reserva.usuario.email}">usuario@email.com</span>
                         </div>
                     </div>
 
                     <div class="total-section">
                         <div class="total-item">
                             <span>Total a Pagar:</span>
-                            <span class="total-amount" th:text="'S/ ' + ${#numbers.formatDecimal(servicio.precioBase + 45, 1, 'COMMA', 2, 'POINT')}">S/ 895.00</span>
+                            <span class="total-amount" th:text="'S/ ' + ${#numbers.formatDecimal(reserva.total, 1, 'COMMA', 2, 'POINT')}">S/ 900.00</span>
                         </div>
                     </div>
                 </div>

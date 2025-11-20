@@ -4,11 +4,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reserva de Vuelo - Travel For U</title>
+    <title>Reserva de Bus - Travel For U</title>
 
     <!-- Estilos -->
     <link rel="stylesheet" th:href="@{/css/header_style.css}">
     <link rel="stylesheet" th:href="@{/css/asientos_style.css}">
+    <style>
+        .bus-layout {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .bus-header {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #7b1fa2;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .bus-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            justify-content: center;
+        }
+        
+        .bus-seats {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        
+        .bus-aisle {
+            width: 30px;
+        }
+        
+        .seat.bus-seat {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            font-size: 11px;
+        }
+    </style>
 </head>
 
 <body>
@@ -19,15 +61,13 @@
         <input type="hidden" name="idServicio" th:value="${servicio != null ? servicio.idServicio : ''}" />
 
         <div class="page-header">
-            <h1 class="page-title">Reserva de Vuelo</h1>
-            <p class="page-subtitle">Completa la información para confirmar tu reserva</p>
+            <h1 class="page-title">Reserva de Bus</h1>
+            <p class="page-subtitle">Selecciona tu asiento y completa la información</p>
         </div>
 
         <div class="main-layout">
 
-            <!-- ======================================================== -->
-            <!--                     MAPA DE ASIENTOS                     -->
-            <!-- ======================================================== -->
+            <!-- MAPA DE ASIENTOS DE BUS -->
             <div class="seat-section">
                 <div class="seat-map-container">
                     <h3 class="section-title">Mapa de Asientos</h3>
@@ -38,25 +78,28 @@
                         <div class="legend-item"><span class="seat selected"></span> Seleccionado</div>
                     </div>
 
-                    <div class="aircraft">
-                        <div class="aircraft-header">✈️ Frente del Avión</div>
+                    <div class="bus-layout">
+                        <div class="bus-header">🚌 Frente del Bus</div>
 
                         <div class="seat-rows">
-                            <div class="seat-row" th:each="row : ${#numbers.sequence(1, 25)}">
+                            <!-- Filas de bus (2+2 configuración) -->
+                            <div class="bus-row" th:each="row : ${#numbers.sequence(1, 20)}">
                                 <span class="row-number" th:text="${row}">1</span>
 
-                                <div class="seats">
-                                    <button type="button" class="seat available"
-                                            th:each="col : ${'A,B,C'.split(',')}"
+                                <div class="bus-seats">
+                                    <!-- Lado izquierdo -->
+                                    <button type="button" class="seat available bus-seat"
+                                            th:each="col : ${'A,B'.split(',')}"
                                             th:data-seat="${row + col}"
                                             th:text="${row + col}">A1</button>
 
-                                    <div class="aisle"></div>
+                                    <div class="bus-aisle"></div>
 
-                                    <button type="button" class="seat available"
-                                            th:each="col : ${'D,E,F'.split(',')}"
+                                    <!-- Lado derecho -->
+                                    <button type="button" class="seat available bus-seat"
+                                            th:each="col : ${'C,D'.split(',')}"
                                             th:data-seat="${row + col}"
-                                            th:text="${row + col}">D1</button>
+                                            th:text="${row + col}">C1</button>
                                 </div>
                             </div>
                         </div>
@@ -66,36 +109,30 @@
                 </div>
             </div>
 
-            <!-- ======================================================== -->
-            <!--                     FORMULARIO DERECHO                    -->
-            <!-- ======================================================== -->
+            <!-- FORMULARIO DERECHO -->
             <div class="form-section">
 
-                <!-- ======================================================== -->
-                <!--                     INFORMACIÓN DEL VUELO                -->
-                <!-- ======================================================== -->
+                <!-- INFORMACIÓN DEL SERVICIO -->
                 <div class="info-card" th:if="${servicio != null}">
-                    <h3 class="card-title">Detalles del Vuelo</h3>
+                    <h3 class="card-title">Detalles del Viaje</h3>
 
                     <div class="flight-route">
                         <span class="origin" th:text="${servicio.origen}">Lima</span>
-                        <span class="arrow">→</span>
-                        <span class="destination" th:text="${servicio.destino}">Madrid</span>
+                        <span class="arrow">🚌</span>
+                        <span class="destination" th:text="${servicio.destino}">Arequipa</span>
                     </div>
 
                     <div class="flight-details">
                         <p><strong>Servicio:</strong> <span th:text="${servicio.nombre}"></span></p>
                         <p><strong>Tipo:</strong> <span th:text="${servicio.tipoServicio}"></span></p>
-                        <p><strong>Duración:</strong> <span>11h 20m</span></p>
+                        <p><strong>Duración:</strong> <span>8h 30m</span></p>
                         <p><strong>Precio Base:</strong>
                             <span th:text="'S/ ' + ${#numbers.formatDecimal(servicio.precioBase, 1, 'COMMA', 2, 'POINT')}"></span>
                         </p>
                     </div>
                 </div>
 
-                <!-- ======================================================== -->
-                <!--                 DATOS DEL PASAJERO COMPLETOS             -->
-                <!-- ======================================================== -->
+                <!-- DATOS DEL PASAJERO -->
                 <div class="info-card">
                     <h3 class="card-title">Datos del Pasajero</h3>
 
@@ -142,9 +179,7 @@
                     </div>
                 </div>
 
-                <!-- ======================================================== -->
-                <!--                     EQUIPAJE CON ICONOS                 -->
-                <!-- ======================================================== -->
+                <!-- EQUIPAJE -->
                 <div class="info-card">
                     <h3 class="card-title">Equipaje</h3>
 
@@ -155,9 +190,9 @@
                                    th:value="${equipaje.idEquipaje}">
 
                             <label class="baggage-label" th:for="'equipaje-' + ${equipaje.idEquipaje}">
-                                <span class="baggage-icon">🧳</span>
+                                <span class="baggage-icon">🎒</span>
 
-                                <span class="baggage-type" th:text="${equipaje.tipo}">Equipaje de mano</span>
+                                <span class="baggage-type" th:text="${equipaje.tipo}">Equipaje adicional</span>
 
                                 <span class="baggage-price"
                                       th:text="'+ S/ ' + ${#numbers.formatDecimal(equipaje.precio, 1, 'COMMA', 2, 'POINT')}">
@@ -171,41 +206,7 @@
                     </div>
                 </div>
 
-                <!-- ======================================================== -->
-                <!--                SERVICIOS EXTRA OPCIONALES               -->
-                <!-- ======================================================== -->
-                <div class="info-card">
-                    <h3 class="card-title">Servicios Adicionales</h3>
-
-                    <div class="extra-option">
-                        <input type="checkbox" id="priority" name="extras" value="priority" title="Embarque prioritario">
-                        <label for="priority">⚡ Embarque prioritario</label>
-                    </div>
-
-                    <div class="extra-option">
-                        <input type="checkbox" id="meal" name="extras" value="meal" title="Comida a bordo">
-                        <label for="meal">🍽️ Comida a bordo</label>
-                    </div>
-
-                    <div class="extra-option">
-                        <input type="checkbox" id="insurance" name="extras" value="insurance" title="Seguro de viaje">
-                        <label for="insurance">🛡️ Seguro de viaje</label>
-                    </div>
-                </div>
-
-                <!-- ======================================================== -->
-                <!--                        RESUMEN                         -->
-                <!-- ======================================================== -->
-                <!-- INFORMACIÓN AUTOMÁTICA -->
-                <div class="info-card" style="background: #e8f5e8; border-left: 4px solid #28a745;">
-                    <h3 class="card-title" style="color: #28a745;">✈️ Información Automática</h3>
-                    <p style="margin: 0; font-size: 14px; color: #155724;">
-                        ✓ Puerta de abordaje asignada automáticamente<br>
-                        ✓ Fecha y hora de salida generadas<br>
-                        ✓ Información disponible en tu boleta
-                    </p>
-                </div>
-
+                <!-- RESUMEN -->
                 <div class="info-card summary-card">
                     <h3 class="card-title">Resumen</h3>
 

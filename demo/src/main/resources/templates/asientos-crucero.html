@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva de Crucero - Travel For U</title>
+
+    <!-- Estilos -->
+    <link rel="stylesheet" th:href="@{/css/header_style.css}">
+    <link rel="stylesheet" th:href="@{/css/asientos_style.css}">
+    <style>
+        .cruise-layout {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .cruise-header {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #1976d2;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .deck-section {
+            margin-bottom: 30px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 10px;
+            padding: 15px;
+        }
+        
+        .deck-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #1976d2;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .cabin-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            justify-content: center;
+        }
+        
+        .cabin-side {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .cruise-corridor {
+            width: 50px;
+            text-align: center;
+            color: #666;
+            font-size: 10px;
+        }
+        
+        .seat.cabin {
+            width: 50px;
+            height: 35px;
+            border-radius: 6px;
+            font-size: 10px;
+            background: #e3f2fd;
+            border: 2px solid #1976d2;
+        }
+        
+        .seat.cabin.available:hover {
+            background: #bbdefb;
+        }
+        
+        .seat.cabin.selected {
+            background: #1976d2;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{fragments/header :: main-header}"></div>
+
+<div class="container">
+    <form id="reservaForm" th:action="@{/reservar/crear}" method="get">
+        <input type="hidden" name="idServicio" th:value="${servicio != null ? servicio.idServicio : ''}" />
+
+        <div class="page-header">
+            <h1 class="page-title">Reserva de Crucero</h1>
+            <p class="page-subtitle">Selecciona tu camarote y completa la información</p>
+        </div>
+
+        <div class="main-layout">
+
+            <!-- MAPA DE CAMAROTES -->
+            <div class="seat-section">
+                <div class="seat-map-container">
+                    <h3 class="section-title">Mapa de Camarotes</h3>
+
+                    <div class="seat-legend">
+                        <div class="legend-item"><span class="seat available cabin"></span> Disponible</div>
+                        <div class="legend-item"><span class="seat occupied cabin"></span> Ocupado</div>
+                        <div class="legend-item"><span class="seat selected cabin"></span> Seleccionado</div>
+                    </div>
+
+                    <div class="cruise-layout">
+                        <div class="cruise-header">🚢 Crucero - Vista Superior</div>
+
+                        <!-- Cubierta Superior -->
+                        <div class="deck-section">
+                            <div class="deck-title">Cubierta Superior - Suites</div>
+                            <div th:each="row : ${#numbers.sequence(1, 5)}" class="cabin-row">
+                                <span class="row-number" th:text="'S' + ${row}">S1</span>
+                                
+                                <div class="cabin-side">
+                                    <button type="button" class="seat available cabin"
+                                            th:each="col : ${'A,B'.split(',')}"
+                                            th:data-seat="'S' + ${row} + ${col}"
+                                            th:text="'S' + ${row} + ${col}">S1A</button>
+                                </div>
+
+                                <div class="cruise-corridor">Pasillo</div>
+
+                                <div class="cabin-side">
+                                    <button type="button" class="seat available cabin"
+                                            th:each="col : ${'C,D'.split(',')}"
+                                            th:data-seat="'S' + ${row} + ${col}"
+                                            th:text="'S' + ${row} + ${col}">S1C</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cubierta Principal -->
+                        <div class="deck-section">
+                            <div class="deck-title">Cubierta Principal - Balcón</div>
+                            <div th:each="row : ${#numbers.sequence(1, 8)}" class="cabin-row">
+                                <span class="row-number" th:text="'B' + ${row}">B1</span>
+                                
+                                <div class="cabin-side">
+                                    <button type="button" class="seat available cabin"
+                                            th:each="col : ${'A,B,C'.split(',')}"
+                                            th:data-seat="'B' + ${row} + ${col}"
+                                            th:text="'B' + ${row} + ${col}">B1A</button>
+                                </div>
+
+                                <div class="cruise-corridor">Pasillo</div>
+
+                                <div class="cabin-side">
+                                    <button type="button" class="seat available cabin"
+                                            th:each="col : ${'D,E,F'.split(',')}"
+                                            th:data-seat="'B' + ${row} + ${col}"
+                                            th:text="'B' + ${row} + ${col}">B1D</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cubierta Interior -->
+                        <div class="deck-section">
+                            <div class="deck-title">Cubierta Interior - Estándar</div>
+                            <div th:each="row : ${#numbers.sequence(1, 12)}" class="cabin-row">
+                                <span class="row-number" th:text="'I' + ${row}">I1</span>
+                                
+                                <div class="cabin-side">
+                                    <button type="button" class="seat available cabin"
+                                            th:each="col : ${'A,B,C,D'.split(',')}"
+                                            th:data-seat="'I' + ${row} + ${col}"
+                                            th:text="'I' + ${row} + ${col}">I1A</button>
+                                </div>
+
+                                <div class="cruise-corridor">Pasillo</div>
+
+                                <div class="cabin-side">
+                                    <button type="button" class="seat available cabin"
+                                            th:each="col : ${'E,F,G,H'.split(',')}"
+                                            th:data-seat="'I' + ${row} + ${col}"
+                                            th:text="'I' + ${row} + ${col}">I1E</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="asientoSeleccionado" id="asientoSeleccionado" required>
+                </div>
+            </div>
+
+            <!-- FORMULARIO DERECHO -->
+            <div class="form-section">
+
+                <!-- INFORMACIÓN DEL CRUCERO -->
+                <div class="info-card" th:if="${servicio != null}">
+                    <h3 class="card-title">Detalles del Crucero</h3>
+
+                    <div class="flight-route">
+                        <span class="origin" th:text="${servicio.origen}">Callao</span>
+                        <span class="arrow">⚓</span>
+                        <span class="destination" th:text="${servicio.destino}">Caribe</span>
+                    </div>
+
+                    <div class="flight-details">
+                        <p><strong>Crucero:</strong> <span th:text="${servicio.nombre}"></span></p>
+                        <p><strong>Tipo:</strong> <span th:text="${servicio.tipoServicio}"></span></p>
+                        <p><strong>Duración:</strong> <span>7 días / 6 noches</span></p>
+                        <p><strong>Precio Base:</strong>
+                            <span th:text="'S/ ' + ${#numbers.formatDecimal(servicio.precioBase, 1, 'COMMA', 2, 'POINT')}"></span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- DATOS DEL PASAJERO -->
+                <div class="info-card">
+                    <h3 class="card-title">Datos del Pasajero</h3>
+
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-input" id="nombre" name="nombre" placeholder="Juan" required title="Ingrese su nombre">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="apellido">Apellido</label>
+                        <input type="text" class="form-input" id="apellido" name="apellido" placeholder="Pérez" required title="Ingrese su apellido">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="documento">DNI o Pasaporte</label>
+                        <input type="text" class="form-input" id="documento" name="documento" placeholder="12345678" required title="Ingrese su documento de identidad">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fechaNacimiento">Fecha de Nacimiento</label>
+                        <input type="date" class="form-input" id="fechaNacimiento" name="fechaNacimiento" required title="Seleccione su fecha de nacimiento">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sexo">Sexo</label>
+                        <select class="form-input" id="sexo" name="sexo" required title="Seleccione su sexo">
+                            <option value="">Seleccionar</option>
+                            <option value="MASCULINO">Masculino</option>
+                            <option value="FEMENINO">Femenino</option>
+                            <option value="OTRO">Otro</option>
+                        </select>
+                    </div>
+
+                    <h4 class="card-subtitle">Contacto</h4>
+
+                    <div class="form-group">
+                        <label for="correo">Correo Electrónico</label>
+                        <input type="email" class="form-input" id="correo" name="correo" placeholder="correo@ejemplo.com" required title="Ingrese su correo electrónico">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" class="form-input" id="telefono" name="telefono" placeholder="987654321" required title="Ingrese su número de teléfono">
+                    </div>
+                </div>
+
+                <!-- SERVICIOS ADICIONALES -->
+                <div class="info-card">
+                    <h3 class="card-title">Servicios Adicionales</h3>
+
+                    <div class="extra-option">
+                        <input type="checkbox" id="spa" name="extras" value="spa" title="Paquete de spa">
+                        <label for="spa">🧖‍♀️ Paquete de Spa</label>
+                    </div>
+
+                    <div class="extra-option">
+                        <input type="checkbox" id="excursions" name="extras" value="excursions" title="Excursiones en puertos">
+                        <label for="excursions">🏝️ Excursiones en Puertos</label>
+                    </div>
+
+                    <div class="extra-option">
+                        <input type="checkbox" id="dining" name="extras" value="dining" title="Paquete de cenas especiales">
+                        <label for="dining">🍽️ Paquete de Cenas Especiales</label>
+                    </div>
+                </div>
+
+                <!-- RESUMEN -->
+                <div class="info-card summary-card">
+                    <h3 class="card-title">Resumen</h3>
+
+                    <div class="summary-item">
+                        <span>Camarote:</span>
+                        <span id="selected-seat-display">-</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Precio Base:</span>
+                        <span th:text="'S/ ' + ${#numbers.formatDecimal(servicio.precioBase, 1, 'COMMA', 2, 'POINT')}"></span>
+                    </div>
+
+                    <div class="summary-total">
+                        <span>Total:</span>
+                        <span id="total-price"
+                              th:text="'S/ ' + ${#numbers.formatDecimal(servicio.precioBase, 1, 'COMMA', 2, 'POINT')}"></span>
+                    </div>
+                </div>
+
+                <button type="submit" class="continue-button">Confirmar Reserva</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script th:src="@{/js/asientos.js}"></script>
+
+</body>
+</html>

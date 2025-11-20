@@ -7,6 +7,7 @@ import com.travel4u.demo.usuario.model.Usuario;
 import com.travel4u.demo.usuario.repository.IUsuarioDAO;
 import com.travel4u.demo.oferta.model.Oferta;
 import com.travel4u.demo.oferta.repository.IOfertaDAO;
+import com.travel4u.demo.service.HotelOfferService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class AppController {
@@ -27,12 +29,14 @@ public class AppController {
     private final IUsuarioDAO usuarioDAO;
     private final PasswordEncoder passwordEncoder;
     private final IOfertaDAO ofertaDAO;
+    private final HotelOfferService hotelOfferService;
 
-    public AppController(IReservaDAO reservaDAO, IUsuarioDAO usuarioDAO, PasswordEncoder passwordEncoder, IOfertaDAO ofertaDAO) {
+    public AppController(IReservaDAO reservaDAO, IUsuarioDAO usuarioDAO, PasswordEncoder passwordEncoder, IOfertaDAO ofertaDAO, HotelOfferService hotelOfferService) {
         this.reservaDAO = reservaDAO;
         this.usuarioDAO = usuarioDAO;
         this.passwordEncoder = passwordEncoder;
         this.ofertaDAO = ofertaDAO;
+        this.hotelOfferService = hotelOfferService;
     }
 
     /**
@@ -76,6 +80,11 @@ public class AppController {
             List<Oferta> ofertas = ofertaDAO.findAll();
             model.addAttribute("ofertas", ofertas);
             System.out.println("[DEBUG] Ofertas cargadas: " + ofertas.size());
+            
+            // Cargar hoteles de Trivago
+            List<Map<String, Object>> hoteles = hotelOfferService.getHotelOffers();
+            model.addAttribute("hoteles", hoteles);
+            System.out.println("[DEBUG] Hoteles cargados: " + hoteles.size());
             
             System.out.println("[DEBUG] Modelo configurado correctamente");
             

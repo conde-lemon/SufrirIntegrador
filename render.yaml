@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: travel4u
+    env: docker
+    plan: free
+    region: oregon
+    branch: main
+    healthCheckPath: /
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: render
+      - key: JAVA_OPTS
+        value: "-Xmx512m -Xms256m -XX:+UseG1GC"
+      - key: AMADEUS_API_KEY
+        value: GxhOKfHX2GTtZ9SHmWYAESyZDCytS1yL
+      - key: AMADEUS_API_SECRET
+        value: L84cTUBjiWCHBoAH
