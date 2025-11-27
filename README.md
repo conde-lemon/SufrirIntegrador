@@ -2,14 +2,13 @@
 Repositorio para subir los avances del proyecto para el curso Integrador I de la carrera de Ingeniería de Sistemas e Informática en la UTP.
 
 ## 📜 Descripción del Proyecto
-**Travel4U** es una aplicación web desarrollada con Spring Boot que busca centralizar la búsqueda y reserva de servicios de viaje. La plataforma integra funcionalidades de autenticación de usuarios, scraping de ofertas de vuelos en tiempo real, y una futura integración con la API de Amadeus para la búsqueda de vuelos.
+**Travel4U** es una aplicación web desarrollada con Spring Boot que busca centralizar la búsqueda y reserva de servicios de viaje. La plataforma integra funcionalidades de autenticación de usuarios, scraping de ofertas de vuelos en tiempo real.
 
 ## ✨ Características Principales
 - **Gestión de Usuarios:** Registro e inicio de sesión con Spring Security.
 - **Creación de Admin por Defecto:** Al iniciar, la aplicación crea un usuario administrador (`admin@travel4u.com`) si no existe.
 - **Web Scraping:** Extrae ofertas de vuelos de Skyscanner para mostrarlas en la página principal.
 - **Gestión de Reservas:** Los usuarios pueden ver y gestionar sus reservas.
-- **Integración con Amadeus:** Configurado para conectarse a la API de Amadeus (entorno de prueba).
 - **Módulos de Reportes:** Estructura preparada para la generación de reportes (visto en las ramas y configuración de seguridad).
 
 ## 🛠️ Tecnologías Utilizadas
@@ -44,16 +43,7 @@ El proyecto está configurado para conectarse a una base de datos PostgreSQL loc
 
 Puedes ajustar estos valores en el archivo `src/main/resources/application.properties`.
 
-### 3. Configuración de APIs Externas
-Las credenciales para servicios externos se encuentran en `application.properties`.
-
-- **Amadeus API:**
-    - `amadeus.api-key`
-    - `amadeus.api-secret`
-
-**Nota:** Para un entorno de producción, estas credenciales deben ser externalizadas usando variables de entorno o Spring Cloud Config para no exponerlas en el código fuente.
-
-### 4. Ejecutar la Aplicación
+### 3. Ejecutar la Aplicación
 1.  Clona el repositorio.
 2.  Asegúrate de que tu instancia de PostgreSQL esté activa y configurada como se indica arriba.
 3.  Abre el proyecto en tu IDE de preferencia (ej. IntelliJ IDEA, VSCode).

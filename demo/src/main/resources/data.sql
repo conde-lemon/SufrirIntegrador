@@ -124,15 +124,15 @@ SELECT 'Aventura Amazónica', 'Vuelo a Iquitos + lodge en la selva + excursiones
 
 -- ===== OFERTAS/PROMOCIONES =====
 INSERT INTO oferta (nombre, descripcion, precio, descuento, fecha_inicio, fecha_fin, etiquetas, url, fuente, fecha_extraccion, activa, fecha_creacion)
-SELECT 'Super Oferta Cusco', 'Vuelo a Cusco con 30% de descuento', 150.00, 30.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '30 days', 'cusco,descuento,nacional', null, 'SISTEMA', CURRENT_TIMESTAMP, true, CURRENT_TIMESTAMP
+SELECT 'Super Oferta Cusco', 'Vuelo a Cusco con 30% de descuento', 150.00, 30.00, CURRENT_TIMESTAMP, DATEADD('DAY', 30, CURRENT_TIMESTAMP), 'cusco,descuento,nacional', null, 'SISTEMA', CURRENT_TIMESTAMP, true, CURRENT_TIMESTAMP
     WHERE NOT EXISTS (SELECT 1 FROM oferta WHERE nombre = 'Super Oferta Cusco');
 
 INSERT INTO oferta (nombre, descripcion, precio, descuento, fecha_inicio, fecha_fin, etiquetas, url, fuente, fecha_extraccion, activa, fecha_creacion)
-SELECT 'Promo Europa Verano', 'Vuelos a Europa con hasta 25% de descuento', 1250.50, 25.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '60 days', 'europa,verano,internacional', null, 'SISTEMA', CURRENT_TIMESTAMP, true, CURRENT_TIMESTAMP
+SELECT 'Promo Europa Verano', 'Vuelos a Europa con hasta 25% de descuento', 1250.50, 25.00, CURRENT_TIMESTAMP, DATEADD('DAY', 60, CURRENT_TIMESTAMP), 'europa,verano,internacional', null, 'SISTEMA', CURRENT_TIMESTAMP, true, CURRENT_TIMESTAMP
     WHERE NOT EXISTS (SELECT 1 FROM oferta WHERE nombre = 'Promo Europa Verano');
 
 INSERT INTO oferta (nombre, descripcion, precio, descuento, fecha_inicio, fecha_fin, etiquetas, url, fuente, fecha_extraccion, activa, fecha_creacion)
-SELECT 'Flash Sale Buenos Aires', 'Oferta relámpago a Buenos Aires', 450.00, 20.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '7 days', 'argentina,flash,regional', null, 'SISTEMA', CURRENT_TIMESTAMP, true, CURRENT_TIMESTAMP
+SELECT 'Flash Sale Buenos Aires', 'Oferta relámpago a Buenos Aires', 450.00, 20.00, CURRENT_TIMESTAMP, DATEADD('DAY', 7, CURRENT_TIMESTAMP), 'argentina,flash,regional', null, 'SISTEMA', CURRENT_TIMESTAMP, true, CURRENT_TIMESTAMP
     WHERE NOT EXISTS (SELECT 1 FROM oferta WHERE nombre = 'Flash Sale Buenos Aires');
 
 -- ===== SERVICIOS ADICIONALES =====
@@ -169,19 +169,19 @@ WHERE NOT EXISTS (SELECT 1 FROM servicio WHERE nombre = v.nombre);
 -- ===== RESERVAS DE EJEMPLO =====
 -- Reservas para usuarios existentes
 INSERT INTO reserva (estado, total, fecha_inicio, fecha_fin, moneda, observaciones, id_usuario, created_at, updated_at)
-SELECT 'Confirmada', 150.00, CURRENT_TIMESTAMP + INTERVAL '15 days', CURRENT_TIMESTAMP + INTERVAL '18 days', 'PEN', 'Reserva de ejemplo - Vuelo a Cusco', u.id_usuario, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+SELECT 'Confirmada', 150.00, DATEADD('DAY', 15, CURRENT_TIMESTAMP), DATEADD('DAY', 18, CURRENT_TIMESTAMP), 'PEN', 'Reserva de ejemplo - Vuelo a Cusco', u.id_usuario, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
 FROM usuarios u 
 WHERE u.email = 'cliente@travel4u.com' 
 AND NOT EXISTS (SELECT 1 FROM reserva r WHERE r.id_usuario = u.id_usuario AND r.observaciones LIKE '%Vuelo a Cusco%');
 
 INSERT INTO reserva (estado, total, fecha_inicio, fecha_fin, moneda, observaciones, id_usuario, created_at, updated_at)
-SELECT 'Pendiente', 1250.50, CURRENT_TIMESTAMP + INTERVAL '45 days', CURRENT_TIMESTAMP + INTERVAL '52 days', 'PEN', 'Reserva de ejemplo - Vuelo a Madrid', u.id_usuario, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+SELECT 'Pendiente', 1250.50, DATEADD('DAY', 45, CURRENT_TIMESTAMP), DATEADD('DAY', 52, CURRENT_TIMESTAMP), 'PEN', 'Reserva de ejemplo - Vuelo a Madrid', u.id_usuario, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
 FROM usuarios u 
 WHERE u.email = 'maria.gonzalez@email.com' 
 AND NOT EXISTS (SELECT 1 FROM reserva r WHERE r.id_usuario = u.id_usuario AND r.observaciones LIKE '%Vuelo a Madrid%');
 
 INSERT INTO reserva (estado, total, fecha_inicio, fecha_fin, moneda, observaciones, id_usuario, created_at, updated_at)
-SELECT 'Confirmada', 450.00, CURRENT_TIMESTAMP + INTERVAL '30 days', CURRENT_TIMESTAMP + INTERVAL '35 days', 'PEN', 'Reserva de ejemplo - Buenos Aires', u.id_usuario, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+SELECT 'Confirmada', 450.00, DATEADD('DAY', 30, CURRENT_TIMESTAMP), DATEADD('DAY', 35, CURRENT_TIMESTAMP), 'PEN', 'Reserva de ejemplo - Buenos Aires', u.id_usuario, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
 FROM usuarios u 
 WHERE u.email = 'juan.perez@email.com' 
 AND NOT EXISTS (SELECT 1 FROM reserva r WHERE r.id_usuario = u.id_usuario AND r.observaciones LIKE '%Buenos Aires%');
@@ -193,32 +193,32 @@ SELECT 'Usuario', 'Especial', 'usuario17@travel4u.com', '1234', '999888777', 'CL
 
 -- Reservas adicionales para usuario ID 17
 INSERT INTO reserva (estado, total, fecha_inicio, fecha_fin, moneda, observaciones, id_usuario, created_at, updated_at)
-SELECT 'Confirmada', 850.00, CURRENT_TIMESTAMP + INTERVAL '20 days', CURRENT_TIMESTAMP + INTERVAL '27 days', 'PEN', 'Viaje de negocios a New York', 17, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+SELECT 'Confirmada', 850.00, DATEADD('DAY', 20, CURRENT_TIMESTAMP), DATEADD('DAY', 27, CURRENT_TIMESTAMP), 'PEN', 'Viaje de negocios a New York', 17, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
 WHERE EXISTS (SELECT 1 FROM usuarios WHERE id_usuario = 17)
 AND NOT EXISTS (SELECT 1 FROM reserva WHERE id_usuario = 17 AND observaciones = 'Viaje de negocios a New York');
 
 INSERT INTO reserva (estado, total, fecha_inicio, fecha_fin, moneda, observaciones, id_usuario, created_at, updated_at)
-SELECT 'Pendiente', 1100.00, CURRENT_TIMESTAMP + INTERVAL '35 days', CURRENT_TIMESTAMP + INTERVAL '42 days', 'PEN', 'Vacaciones en Londres', 17, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+SELECT 'Pendiente', 1100.00, DATEADD('DAY', 35, CURRENT_TIMESTAMP), DATEADD('DAY', 42, CURRENT_TIMESTAMP), 'PEN', 'Vacaciones en Londres', 17, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
 WHERE EXISTS (SELECT 1 FROM usuarios WHERE id_usuario = 17)
 AND NOT EXISTS (SELECT 1 FROM reserva WHERE id_usuario = 17 AND observaciones = 'Vacaciones en Londres');
 
 INSERT INTO reserva (estado, total, fecha_inicio, fecha_fin, moneda, observaciones, id_usuario, created_at, updated_at)
-SELECT 'Confirmada', 280.00, CURRENT_TIMESTAMP + INTERVAL '10 days', CURRENT_TIMESTAMP + INTERVAL '13 days', 'PEN', 'Fin de semana en Quito', 17, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+SELECT 'Confirmada', 280.00, DATEADD('DAY', 10, CURRENT_TIMESTAMP), DATEADD('DAY', 13, CURRENT_TIMESTAMP), 'PEN', 'Fin de semana en Quito', 17, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
 WHERE EXISTS (SELECT 1 FROM usuarios WHERE id_usuario = 17)
 AND NOT EXISTS (SELECT 1 FROM reserva WHERE id_usuario = 17 AND observaciones = 'Fin de semana en Quito');
 
 INSERT INTO reserva (estado, total, fecha_inicio, fecha_fin, moneda, observaciones, id_usuario, created_at, updated_at)
-SELECT 'Confirmada', 95.00, CURRENT_TIMESTAMP + INTERVAL '50 days', CURRENT_TIMESTAMP + INTERVAL '53 days', 'PEN', 'Visita familiar en Trujillo', 17, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+SELECT 'Confirmada', 95.00, DATEADD('DAY', 50, CURRENT_TIMESTAMP), DATEADD('DAY', 53, CURRENT_TIMESTAMP), 'PEN', 'Visita familiar en Trujillo', 17, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
 WHERE EXISTS (SELECT 1 FROM usuarios WHERE id_usuario = 17)
 AND NOT EXISTS (SELECT 1 FROM reserva WHERE id_usuario = 17 AND observaciones = 'Visita familiar en Trujillo');
 
 INSERT INTO reserva (estado, total, fecha_inicio, fecha_fin, moneda, observaciones, id_usuario, created_at, updated_at)
-SELECT 'Pendiente', 650.00, CURRENT_TIMESTAMP + INTERVAL '60 days', CURRENT_TIMESTAMP + INTERVAL '67 days', 'PEN', 'Exploración cultural en México', 17, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+SELECT 'Pendiente', 650.00, DATEADD('DAY', 60, CURRENT_TIMESTAMP), DATEADD('DAY', 67, CURRENT_TIMESTAMP), 'PEN', 'Exploración cultural en México', 17, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
 WHERE EXISTS (SELECT 1 FROM usuarios WHERE id_usuario = 17)
 AND NOT EXISTS (SELECT 1 FROM reserva WHERE id_usuario = 17 AND observaciones = 'Exploración cultural en México');
 
 INSERT INTO reserva (estado, total, fecha_inicio, fecha_fin, moneda, observaciones, id_usuario, created_at, updated_at)
-SELECT 'Confirmada', 140.00, CURRENT_TIMESTAMP + INTERVAL '25 days', CURRENT_TIMESTAMP + INTERVAL '28 days', 'PEN', 'Aventura en Tarapoto', 17, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+SELECT 'Confirmada', 140.00, DATEADD('DAY', 25, CURRENT_TIMESTAMP), DATEADD('DAY', 28, CURRENT_TIMESTAMP), 'PEN', 'Aventura en Tarapoto', 17, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
 WHERE EXISTS (SELECT 1 FROM usuarios WHERE id_usuario = 17)
 AND NOT EXISTS (SELECT 1 FROM reserva WHERE id_usuario = 17 AND observaciones = 'Aventura en Tarapoto');
 

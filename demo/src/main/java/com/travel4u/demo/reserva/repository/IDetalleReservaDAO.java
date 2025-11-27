@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.travel4u.demo.reserva.model.Reserva;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -14,5 +15,5 @@ import java.util.Optional;
  */
 @Repository
 public interface IDetalleReservaDAO extends JpaRepository<Detalle_Reserva, Integer> {
-    Optional<Detalle_Reserva> findByReserva(Reserva reserva);
+    List<Detalle_Reserva> findByReserva(Reserva reserva);
 }

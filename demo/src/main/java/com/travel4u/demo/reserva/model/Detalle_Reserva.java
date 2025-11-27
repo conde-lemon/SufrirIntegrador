@@ -57,8 +57,8 @@ public class Detalle_Reserva {
     @Column(name = "hora_salida")
     private String horaSalida;
 
-    // Relación 1:1 con Reserva
-    @OneToOne(fetch = FetchType.LAZY)
+    // Relación N:1 con Reserva
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_reserva", nullable = false)
     @ToString.Exclude
     private Reserva reserva;

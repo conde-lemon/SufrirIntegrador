@@ -88,32 +88,10 @@
 
     <hr style="margin: 40px 0;">
 
-    <!-- Sección de ofertas de Amadeus -->
-    <section class="offers-section" th:if="${ofertas != null and !ofertas.empty}">
-        <h2 class="section-title">Ofertas Especiales de Vuelos</h2>
-        <div class="packages-grid">
-            <article class="package-card" th:each="oferta : ${ofertas}">
-                <div class="package-content">
-                    <h3 class="package-title" th:text="${oferta.nombre}">Oferta de Vuelo</h3>
-                    <p class="package-description" th:text="${oferta.descripcion}">Descripción de la oferta</p>
-                    <div class="package-tags" th:if="${oferta.etiquetas != null}">
-                        <span th:each="tag : ${oferta.etiquetas.split(',')}" class="package-tag" th:text="${tag}">tag</span>
-                    </div>
-                    <div class="package-footer">
-                        <span class="package-price" th:text="'Desde S/ ' + ${#numbers.formatDecimal(oferta.precio, 1, 'COMMA', 2, 'POINT')}">Precio</span>
-                        <a th:href="@{/vuelos}" class="reserve-btn">Ver Ofertas</a>
-                    </div>
-                </div>
-            </article>
-        </div>
-    </section>
-
-    <hr style="margin: 40px 0;">
-
     <!-- Sección de hoteles de Trivago - Carousel -->
     <section class="hotels-section" th:if="${hoteles != null and !hoteles.empty}">
         <div class="carousel-header">
-            <h2 class="section-title">🏨 Hoteles en Tacna - Ofertas Especiales</h2>
+            <h2 class="section-title"><i class="bi bi-building"></i> Hoteles en Tacna - Ofertas Especiales</h2>
             <div class="carousel-controls">
                 <button class="carousel-btn prev-btn" onclick="scrollCarousel('left')">&lt;</button>
                 <button class="carousel-btn next-btn" onclick="scrollCarousel('right')">&gt;</button>
@@ -128,13 +106,13 @@
                              alt="Hotel" 
                              onerror="this.src='https://via.placeholder.com/300x200/7c4dff/ffffff?text=Hotel'">
                         <div th:unless="${hotel.image != null and !hotel.image.isEmpty()}" class="placeholder-image">
-                            <span>🏨</span>
+                            <i class="bi bi-building" style="font-size: 2rem; color: #6c757d;"></i>
                         </div>
                     </div>
                     <div class="hotel-content">
                         <h3 class="hotel-name" th:text="${hotel.name}">Nombre del Hotel</h3>
                         <div class="hotel-rating" th:if="${hotel.stars != null and hotel.stars > 0}">
-                            <span class="stars" th:each="star : ${#numbers.sequence(1, hotel.stars)}">⭐</span>
+                            <i class="bi bi-star-fill text-warning" th:each="star : ${#numbers.sequence(1, hotel.stars)}"></i>
                             <span class="rating-text" th:if="${hotel.rating != null and !hotel.rating.isEmpty()}" 
                                   th:text="${hotel.rating}">Rating</span>
                         </div>

@@ -109,7 +109,16 @@ public class ReservaController {
             List<Equipaje> tiposDeEquipaje = equipajeDAO.findAll();
             model.addAttribute("tiposDeEquipaje", tiposDeEquipaje);
             
-            return "asientos";
+            String tipoServicio = servicio.getTipoServicio();
+            switch (tipoServicio) {
+                case "BUS":
+                    return "asientos-bus";
+                case "CRUCERO":
+                    return "asientos-crucero";
+                case "VUELO":
+                default: // Default to vuelo if type is unknown or not specified
+                    return "asientos";
+            }
             
         } catch (Exception e) {
             System.err.println("[ERROR] Error al cargar servicio: " + e.getMessage());
@@ -117,43 +126,6 @@ public class ReservaController {
         }
     }
     
-    @GetMapping("/reservar/vuelo/{idVuelo}")
-    public String showAsientosPage(@PathVariable("idVuelo") Long idVuelo, Model model) {
-        return "redirect:/reservar/servicio/" + idVuelo;
-    }
-    
-    @GetMapping("/reservar/bus/{idBus}")
-    public String showAsientosBusPage(@PathVariable("idBus") Long idBus, Model model) {
-        try {
-            com.travel4u.demo.servicio.model.Servicio servicio = servicioDAO.findById(idBus)
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Servicio no encontrado"));
-            
-            model.addAttribute("servicio", servicio);
-            List<Equipaje> tiposDeEquipaje = equipajeDAO.findAll();
-            model.addAttribute("tiposDeEquipaje", tiposDeEquipaje);
-            
-            return "asientos-bus";
-        } catch (Exception e) {
-            System.err.println("[ERROR] Error al cargar servicio de bus: " + e.getMessage());
-            throw e;
-        }
-    }
-    
-    @GetMapping("/reservar/crucero/{idCrucero}")
-    public String showAsientosCruceroPage(@PathVariable("idCrucero") Long idCrucero, Model model) {
-        try {
-            com.travel4u.demo.servicio.model.Servicio servicio = servicioDAO.findById(idCrucero)
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Servicio no encontrado"));
-            
-            model.addAttribute("servicio", servicio);
-            
-            return "asientos-crucero";
-        } catch (Exception e) {
-            System.err.println("[ERROR] Error al cargar servicio de crucero: " + e.getMessage());
-            throw e;
-        }
-    }
-
     @GetMapping("/reservar/crear")
     public String crearReserva(
             @RequestParam("idServicio") Long idServicio,

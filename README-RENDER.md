@@ -27,8 +27,6 @@ Configura estas variables en Render:
 ```
 SPRING_PROFILES_ACTIVE=render
 JAVA_OPTS=-Xmx512m -Xms256m -XX:+UseG1GC
-AMADEUS_API_KEY=GxhOKfHX2GTtZ9SHmWYAESyZDCytS1yL
-AMADEUS_API_SECRET=L84cTUBjiWCHBoAH
 ```
 
 ### 5. Desplegar

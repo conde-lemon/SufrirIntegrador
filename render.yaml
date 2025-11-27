@@ -6,12 +6,21 @@ services:
     region: oregon
     branch: main
     healthCheckPath: /
+
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: render
+
+      # --- DATABASE: SUPABASE ---
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://db.tiifltprjgtyfimhnezi.supabase.co:5432/postgres
+
+      - key: SPRING_DATASOURCE_USERNAME
+        value: postgres
+
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false    # SE AGREGA DESDE EL PANEL DE RENDER
+
+      # --- JAVA OPTIONS ---
       - key: JAVA_OPTS
         value: "-Xmx512m -Xms256m -XX:+UseG1GC"
-      - key: AMADEUS_API_KEY
-        value: GxhOKfHX2GTtZ9SHmWYAESyZDCytS1yL
-      - key: AMADEUS_API_SECRET
-        value: L84cTUBjiWCHBoAH

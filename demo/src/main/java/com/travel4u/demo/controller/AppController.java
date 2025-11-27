@@ -76,7 +76,6 @@ public class AppController {
             
             model.addAttribute("reservas", listaReservas);
             
-            // Cargar ofertas de Amadeus para mostrar en el index
             List<Oferta> ofertas = ofertaDAO.findAll();
             model.addAttribute("ofertas", ofertas);
             System.out.println("[DEBUG] Ofertas cargadas: " + ofertas.size());
@@ -186,18 +185,12 @@ public class AppController {
         return "ofertas"; // Asume que tienes una plantilla ofertas.html
     }
 
+
+
     @GetMapping("/terminos-y-condiciones")
     public String showTerminosPage() {
         return "terminos_y_condiciones"; // Asume que tienes un terminos_y_condiciones.html
     }
-
-    @GetMapping("/amadeus-extractor")
-    public String showAmadeusExtractorPage() {
-        return "amadeus-extractor";
-    }
-
-
-
 
     @GetMapping("/confirmacion-reserva")
     public String showConfirmacionReservaPage(

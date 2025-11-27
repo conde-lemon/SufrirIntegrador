@@ -26,7 +26,7 @@
             <div class="payment-section">
                 <div class="payment-card">
                     <h3 class="card-title">Información de Pago</h3>
-                    
+
                     <div class="payment-methods">
                         <label class="payment-method">
                             <input type="radio" name="metodoPago" value="tarjeta" checked>
@@ -50,7 +50,7 @@
                             <label class="form-label">Número de Tarjeta</label>
                             <input type="text" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19" id="card-number">
                         </div>
-                        
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label">Fecha de Vencimiento</label>
@@ -61,7 +61,7 @@
                                 <input type="text" class="form-input" placeholder="123" maxlength="4" id="cvv">
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="form-label">Nombre del Titular</label>
                             <input type="text" class="form-input" placeholder="Juan Pérez" id="card-holder">
@@ -71,12 +71,12 @@
 
                 <div class="payment-card">
                     <h3 class="card-title">Información de Pago</h3>
-                    
+
                     <div class="form-group">
                         <label class="form-label">Email PayPal</label>
                         <input type="email" class="form-input" name="emailPayPal" th:value="${emailUsuario}" placeholder="correo@paypal.com" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="form-label">Contraseña PayPal</label>
                         <input type="password" class="form-input" name="passwordPayPal" placeholder="Tu contraseña" required>
@@ -88,7 +88,7 @@
             <div class="summary-section">
                 <div class="summary-card">
                     <h3 class="card-title">Resumen de Reserva</h3>
-                    
+
                     <div class="flight-summary" th:if="${reserva != null}">
                         <div class="flight-route">
                             <span>Reserva</span>
