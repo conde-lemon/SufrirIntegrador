@@ -8,18 +8,20 @@ services:
     healthCheckPath: /
 
     envVars:
-      - key: SPRING_PROFILES_ACTIVE
+
+      # --- PERFIL ---
+      - key: spring.profiles.active
         value: render
 
       # --- DATABASE: SUPABASE ---
-      - key: SPRING_DATASOURCE_URL
+      - key: spring.datasource.url
         value: jdbc:postgresql://db.tiifltprjgtyfimhnezi.supabase.co:5432/postgres
 
-      - key: SPRING_DATASOURCE_USERNAME
+      - key: spring.datasource.username
         value: postgres
 
-      - key: SPRING_DATASOURCE_PASSWORD
-        sync: false    # SE AGREGA DESDE EL PANEL DE RENDER
+      - key: spring.datasource.password
+        sync: false   # ingresa la contraseña en el panel de Render
 
       # --- JAVA OPTIONS ---
       - key: JAVA_OPTS
