@@ -1,0 +1,95 @@
+:root {
+    /* Colores */
+    --primary-color: #7b1fa2; /* Azul primario - Adjusted to match existing style */
+    --secondary-color: #6c757d; /* Gris secundario */
+    --success-color: #28a745; /* Verde para éxito */
+    --danger-color: #dc3545; /* Rojo para peligro/error */
+    --warning-color: #ffc107; /* Amarillo para advertencia */
+    --info-color: #17a2b8; /* Azul claro para información */
+    --light-color: #f8f9fa; /* Gris muy claro */
+    --dark-color: #343a40; /* Gris oscuro */
+    --white-color: #ffffff; /* Blanco */
+    --black-color: #000000; /* Negro */
+
+    /* Colores - Shades of primary */
+    --primary-color-dark: #5a1475; /* Darker shade of primary */
+    --primary-color-light-bg: #f3e5f5; /* Lighter shade of primary, used for backgrounds */
+    --primary-color-shadow-light: rgba(123, 31, 162, 0.1);
+    --primary-color-shadow-medium: rgba(123, 31, 162, 0.2);
+    --primary-color-shadow-dark: rgba(123, 31, 162, 0.3);
+    --primary-color-shadow-darker: rgba(123, 31, 162, 0.4);
+
+    /* Colores - Shades of success */
+    --success-color-light: #e8f5e8; /* Lighter shade of success */
+    --success-color-lighter: #d4edda; /* Even lighter shade of success */
+
+    /* Colores - Shades of danger */
+    --danger-color-light: #f8d7da; /* Lighter shade of danger */
+    --danger-color-lighter: #fdf2f2; /* Even lighter shade of danger */
+
+    /* Colores - Grays for borders/backgrounds */
+    --border-color-light: #e0e0e0;
+    --border-color-medium: #f0f0f0;
+    --text-color-medium-gray: #666; /* Specific medium gray text color */
+    --text-color-light-gray: #999; /* Specific light gray text color */
+    --border-color-darker-light: #ddd; /* Specific border color */
+    --background-light-blue: #e3f2fd; /* Specific light blue background */
+
+
+    /* Colores de texto */
+    --text-color-dark: #333; /* Adjusted to match existing style */
+    --text-color-light: #ffffff;
+
+    /* Tamaños de fuente */
+    --font-size-base: 1rem; /* 16px */
+    --font-size-sm: 0.875rem; /* 14px */
+    --font-size-xs: 0.75rem; /* 12px */
+    --font-size-xxs: 0.625rem; /* 10px */
+    --font-size-lg: 1.25rem; /* 20px */
+    --font-size-xl: 1.5rem; /* 24px */
+    --font-size-h1: 2.5rem;
+    --font-size-h2: 2.2rem; /* Adjusted to match existing style */
+    --font-size-h3: 1.75rem;
+    --font-size-h4: 1.3rem; /* Adjusted to match existing style */
+    --font-size-h5: 1.5rem; /* Adjusted to match existing style */
+    --font-size-h6: 1.1rem; /* Adjusted to match existing style */
+    --font-size-header-logo: 1.5rem; /* Specific for logo */
+    --font-size-tab-item: 1.1rem; /* Specific for tab item */
+    --font-size-aircraft-header: 1.125rem; /* 18px */
+    --font-size-card-title: 1.2rem; /* Specific for card title */
+    --font-size-flight-route: 1.25rem; /* 20px */
+    --font-size-summary-total: 1.2rem; /* Specific for summary total */
+    --font-size-page-title: 2.2rem; /* Specific for page title */
+    --font-size-page-subtitle: 1.1rem; /* Specific for page subtitle */
+    --font-size-section-title: 1.3rem; /* Specific for section title */
+    --font-size-form-label: 0.9rem; /* Specific for form label */
+    --font-size-continue-button: 1.1rem; /* Specific for continue button */
+    --font-size-baggage-icon: 1.2rem; /* Specific for baggage icon */
+    --font-size-extra-option-icon: 1.1rem; /* Specific for extra option icon */
+
+
+    /* Espaciado */
+    --spacing-xxs: 0.25rem; /* 4px */
+    --spacing-xs: 0.3125rem; /* 5px */
+    --spacing-sm: 0.5rem; /* 8px */
+    --spacing-md: 0.625rem; /* 10px */
+    --spacing-lg: 0.75rem; /* 12px */
+    --spacing-xl: 0.9375rem; /* 15px */
+    --spacing-xxl: 1.25rem; /* 20px */
+    --spacing-3xl: 1.5rem; /* 24px */
+    --spacing-4xl: 1.875rem; /* 30px */
+    --spacing-5xl: 2.5rem; /* 40px */
+    --spacing-6xl: 3.125rem; /* 50px */
+
+
+    /* Bordes y sombras */
+    --border-radius: 0.25rem;
+    --border-radius-sm: 0.375rem; /* 6px */
+    --border-radius-md: 0.5rem; /* 8px */
+    --border-radius-lg: 0.625rem; /* 10px */
+    --border-radius-xl: 0.75rem; /* 12px */
+    --border-radius-xxl: 0.9375rem; /* 15px */
+    --border-radius-3xl: 1.25rem; /* 20px */
+    --box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --box-shadow-medium: 0 4px 15px rgba(0,0,0,0.1);
+}
