@@ -1,37 +1,22 @@
-# Dockerfile optimizado para Render
-FROM eclipse-temurin:21-jdk-alpine
-
-# Instalar dependencias necesarias
-RUN apk add --no-cache curl
-
-# Crear directorio de trabajo
+FROM eclipse-temurin:21-jdk AS build
 WORKDIR /app
 
-# Copiar archivos de Gradle
-COPY demo/gradle/ gradle/
-COPY demo/gradlew .
-COPY demo/gradlew.bat .
-COPY demo/build.gradle .
-COPY demo/settings.gradle .
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle .
+COPY settings.gradle .
+COPY src src
 
-# Dar permisos de ejecución
-RUN chmod +x ./gradlew
+RUN chmod +x gradlew
+RUN ./gradlew build -x test
 
-# Copiar código fuente
-COPY demo/src/ src/
+FROM eclipse-temurin:21-jre
+WORKDIR /app
 
-# Construir la aplicación (sin tests para acelerar)
-RUN ./gradlew build -x test --no-daemon
+COPY --from=build /app/build/libs/*.jar app.jar
 
-# Crear directorio para logs
-RUN mkdir -p /app/logs
+EXPOSE 8080
 
-# Exponer puerto (Render usa PORT env variable)
-EXPOSE $PORT
-
-# Variables de entorno para Render
-ENV SPRING_PROFILES_ACTIVE=render
 ENV JAVA_OPTS="-Xmx512m -Xms256m"
 
-# Comando de inicio con puerto dinámico de Render
-CMD java $JAVA_OPTS -Dserver.port=$PORT -jar build/libs/demo-0.0.1-SNAPSHOT.jar
+CMD ["sh", "-c", "java $JAVA_OPTS -Dserver.port=$PORT -jar app.jar"]
