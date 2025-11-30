@@ -32,12 +32,6 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
 
-        @keyframes gradientFlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
         .header-content {
             display: flex;
             align-items: center;
@@ -183,7 +177,7 @@
         }
 
         .dropdown-item:hover {
-            background: linear-gradient(120deg, #7c4dff, #9c27b0);
+            background: linear-gradient(135deg, #8e44ad, #c2185b);
             padding-left: 1.3rem;
         }
 
@@ -205,6 +199,8 @@
             align-items: center;
             gap: 0.5rem;
             transition: background 0.3s ease;
+            font-family: inherit;
+            font-size: inherit;
         }
 
         .logout-button:hover {
@@ -232,64 +228,11 @@
         /* Forzar que hover no abra el dropdown (solo click lo hará) */
         .dropdown:hover .dropdown-menu { display: none !important; }
         .admin-btn { font-weight: 600; }
-        .dropdown-toggle:focus { outline: 2px solid rgba(124,77,255,0.6); }
+        .dropdown-toggle:focus { outline: 2px solid rgba(255,255,255,0.6); }
         .dropdown-toggle { user-select: none; }
     </style>
 </head>
 <body>
-
-<!-- =====================================================
-     FUNCIÓN GLOBAL - DEBE ESTAR ANTES DEL HTML
-     ===================================================== -->
-<script>
-// Función GLOBAL para toggle dropdown
-function toggleDropdown(event) {
-    event.stopPropagation();
-    event.preventDefault();
-    const dropdown = document.getElementById('userDropdown');
-    if (!dropdown) return;
-    const isActive = dropdown.classList.toggle('active');
-    const btn = dropdown.querySelector('.dropdown-toggle');
-    if (btn) btn.setAttribute('aria-expanded', isActive ? 'true' : 'false');
-}
-
-// Inicializar eventos cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', function() {
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(event) {
-        const dropdown = document.getElementById('userDropdown');
-        if (dropdown && !dropdown.contains(event.target)) {
-            dropdown.classList.remove('active');
-            const btn = dropdown.querySelector('.dropdown-toggle');
-            if (btn) btn.setAttribute('aria-expanded', 'false');
-        }
-    });
-
-    // Close dropdown with Escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            const dropdown = document.getElementById('userDropdown');
-            if (dropdown) {
-                dropdown.classList.remove('active');
-                const btn = dropdown.querySelector('.dropdown-toggle');
-                if (btn) btn.setAttribute('aria-expanded', 'false');
-            }
-        }
-    });
-
-    // Support keyboard toggle (Enter / Space)
-    const userToggle = document.getElementById('userDropdownToggle');
-    if (userToggle) {
-        userToggle.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                toggleDropdown(e);
-            }
-        });
-    }
-});
-</script>
-
 <header class="main-header" th:fragment="main-header">
     <div class="header-content">
         <a th:href="@{/}" class="logo">Travel For U</a>
@@ -355,6 +298,57 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 </header>
 
+<script>
+// =====================================================
+// FUNCIÓN GLOBAL toggleDropdown - FUERA DEL DOMContentLoaded
+// =====================================================
+function toggleDropdown(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    const dropdown = document.getElementById('userDropdown');
+    if (!dropdown) return;
+    const isActive = dropdown.classList.toggle('active');
+    const btn = dropdown.querySelector('.dropdown-toggle');
+    if (btn) btn.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+}
+
+// Event listeners adicionales
+document.addEventListener('DOMContentLoaded', function() {
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('userDropdown');
+        if (dropdown && !dropdown.contains(event.target)) {
+            dropdown.classList.remove('active');
+            const btn = dropdown.querySelector('.dropdown-toggle');
+            if (btn) btn.setAttribute('aria-expanded', 'false');
+        }
+    });
+
+    // Close dropdown with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown) {
+                dropdown.classList.remove('active');
+                const btn = dropdown.querySelector('.dropdown-toggle');
+                if (btn) btn.setAttribute('aria-expanded', 'false');
+            }
+        }
+    });
+
+    // Support keyboard toggle (Enter / Space) on the dropdown button
+    const userToggle = document.getElementById('userDropdownToggle');
+    if (userToggle) {
+        userToggle.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleDropdown(e);
+            }
+        });
+    }
+});
+</script>
 
 </body>
 </html>
+

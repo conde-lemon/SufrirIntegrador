@@ -16,11 +16,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
+@RequestMapping
 public class BoletaController {
 
     private static final Logger logger = LoggerFactory.getLogger(BoletaController.class);
@@ -30,6 +33,47 @@ public class BoletaController {
 
     @Autowired
     private JasperReportService jasperReportService;
+
+    // Endpoint REST para devolver boletas como JSON para el panel admin
+    @GetMapping(path = "/api/boletas", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<Map<String, Object>>> listarBoletasJson() {
+        try {
+            List<Reserva> reservas = reservaRepository.findAll();
+            List<Map<String, Object>> result = new ArrayList<>();
+
+            for (Reserva r : reservas) {
+                Map<String, Object> item = new HashMap<>();
+                item.put("idBoleta", r.getIdReserva());
+                String cliente = r.getUsuario() != null ? (r.getUsuario().getNombres() + " " + r.getUsuario().getApellidos()) : "N/A";
+                item.put("usuario", cliente);
+
+                // Servicio: tomar el primer detalle si existe
+                String servicioNombre = "N/A";
+                String fecha = r.getCreatedAt() != null ? r.getCreatedAt().toString() : null;
+                String estado = r.getEstado();
+                java.math.BigDecimal precio = r.getTotal();
+
+                if (r.getDetalleReservas() != null && !r.getDetalleReservas().isEmpty()) {
+                    Detalle_Reserva det = r.getDetalleReservas().iterator().next();
+                    if (det.getServicio() != null) servicioNombre = det.getServicio().getNombre();
+                    if (det.getSubtotal() != null) precio = det.getSubtotal();
+                }
+
+                item.put("servicio", servicioNombre);
+                item.put("fecha", fecha);
+                item.put("precio", precio != null ? precio.toString() : "0.00");
+                item.put("estado", estado != null ? estado : "N/A");
+
+                result.add(item);
+            }
+
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            logger.error("Error listando boletas JSON", e);
+            return ResponseEntity.internalServerError().body(new ArrayList<>());
+        }
+    }
 
     @GetMapping("/boletas")
     public String listarReservas(Model model) {

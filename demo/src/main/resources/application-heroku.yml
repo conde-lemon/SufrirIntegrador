@@ -1,0 +1,41 @@
+# ==========================================
+# PERFIL DE SPRING BOOT PARA HEROKU
+# ==========================================
+spring:
+  application:
+    name: travel4u
+
+  # Base de datos Supabase
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  # Thymeleaf
+  thymeleaf:
+    cache: true
+    prefix: classpath:/templates/
+    suffix: .html
+
+# Server
+server:
+  port: ${PORT:8081}
+  compression:
+    enabled: true
+
+# Logging
+logging:
+  level:
+    root: INFO
+    com.travel4u.demo: INFO
+

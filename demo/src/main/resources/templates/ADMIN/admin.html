@@ -442,6 +442,28 @@
                 flex-direction: column;
             }
         }
+
+        /* Badge Styles */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.375rem;
+        }
+
+        .bg-success {
+            background-color: #27ae60;
+        }
+
+        .bg-secondary {
+            background-color: #95a5a6;
+        }
     </style>
 </head>
 
@@ -456,8 +478,10 @@
     <aside class="sidebar">
         <a href="#dashboard" class="sidebar-item active">Dashboard</a>
         <a href="#usuarios" class="sidebar-item">Usuarios</a>
-        <a href="#promociones" class="sidebar-item">Promociones</a>
+        <a href="#servicios" class="sidebar-item">Servicios</a>
         <a href="#estadisticas" class="sidebar-item">Estadisticas</a>
+        <!-- Nueva opción Boletas -->
+        <a href="#boletas" class="sidebar-item">Boletas</a>
     </aside>
 
     <!-- Main Content -->
@@ -611,20 +635,20 @@
             </div>
         </section>
 
-        <!-- Promociones Section -->
-        <section id="promociones-section" style="display: none">
-            <h2 class="section-title">Gestión de Promociones</h2>
+        <!-- Servicios Section -->
+        <section id="servicios-section" style="display: none">
+            <h2 class="section-title">Gestión de Servicios</h2>
 
             <div class="toolbar">
-                <button class="btn btn-primary" id="new-promocion-btn">Nueva Promocion</button>
-                <input type="text" class="search-input" id="search-promociones" placeholder="Buscar promocion...">
-                <select class="select-filter">
-                    <option>Todas las promociones</option>
-                    <option>Activas</option>
-                    <option>Programadas</option>
-                    <option>Vencidas</option>
+                <button class="btn btn-primary" id="new-servicio-btn">Nuevo Servicio</button>
+                <input type="text" class="search-input" id="search-servicios" placeholder="Buscar servicio...">
+                <select class="select-filter" id="filter-tipo-servicio">
+                    <option value="">Todos los tipos</option>
+                    <option value="VUELO">Vuelos</option>
+                    <option value="BUS">Buses</option>
+                    <option value="CRUCERO">Cruceros</option>
                 </select>
-                <button class="btn btn-small btn-success" id="generate-report-promociones">
+                <button class="btn btn-small btn-success" id="generate-report-servicios">
                     <i class="bi bi-file-earmark-pdf"></i> Generar Reporte
                 </button>
             </div>
@@ -659,6 +683,37 @@
                 <iframe title="Prueba" width="1000" height="1000"
                         src="https://app.powerbi.com/view?r=eyJrIjoiYTIzNzFiMjItZmMzMi00M2FhLWFiMDktN2UzMTJhMTNmNDM0IiwidCI6ImM0YTY2YzM0LTJiYjctNDUxZi04YmUxLWIyYzI2YTQzMDE1OCIsImMiOjR9"
                         frameborder="0" allowfullscreen="true"></iframe>
+            </div>
+        </section>
+
+        <!-- Boletas Section -->
+        <section id="boletas-section" style="display: none">
+            <h2 class="section-title">Gestión de Boletas</h2>
+
+            <div class="toolbar">
+                <input type="text" class="search-input" id="search-boletas" placeholder="Buscar boletas...">
+                <div class="action-buttons">
+                    <button class="btn btn-small btn-success" id="export-boletas"><i class="bi bi-file-earmark-pdf"></i> Exportar</button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuario</th>
+                        <th>Servicio</th>
+                        <th>Fecha</th>
+                        <th>Precio</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody id="boletas-tbody">
+                        <!-- Las boletas se cargarán dinámicamente -->
+                    </tbody>
+                </table>
             </div>
         </section>
     </main>
@@ -727,56 +782,85 @@
     </div>
 </div>
 
-<!-- Modal para crear nueva promoción -->
-<div class="modal" id="new-promocion-modal">
-    <div class="modal-content">
+<!-- Modal para crear nuevo servicio -->
+<div class="modal" id="new-servicio-modal">
+    <div class="modal-content" style="max-width: 800px;">
         <div class="modal-header">
-            <h3 class="modal-title">Nueva Promoción</h3>
+            <h3 class="modal-title">Nuevo Servicio</h3>
             <button class="close-modal">&times;</button>
         </div>
-        <form id="new-promocion-form">
+        <form id="new-servicio-form">
+            <!-- Tipo de Servicio -->
             <div class="form-group">
-                <label class="form-label" for="promo-nombre">Nombre de la Promoción *</label>
-                <input type="text" class="form-input" id="promo-nombre" required
-                       placeholder="Ej: Super Descuento Verano 2025" />
+                <label class="form-label" for="servicio-tipo">Tipo de Servicio *</label>
+                <select class="form-input" id="servicio-tipo" required>
+                    <option value="">Seleccione un tipo</option>
+                    <option value="VUELO">✈️ Vuelo</option>
+                    <option value="BUS">🚌 Bus</option>
+                    <option value="CRUCERO">🚢 Crucero</option>
+                </select>
             </div>
+
+            <!-- Información Básica -->
             <div class="form-group">
-                <label class="form-label" for="promo-descripcion">Descripción</label>
-                <textarea class="form-input" id="promo-descripcion" rows="3"
-                          placeholder="Describe los detalles de la promoción..."></textarea>
+                <label class="form-label" for="servicio-nombre">Nombre del Servicio *</label>
+                <input type="text" class="form-input" id="servicio-nombre" required
+                       placeholder="Ej: Vuelo Lima - Madrid" />
             </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label class="form-label" for="servicio-origen">Origen *</label>
+                    <input type="text" class="form-input" id="servicio-origen" required
+                           placeholder="Ej: Lima" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="servicio-destino">Destino *</label>
+                    <input type="text" class="form-input" id="servicio-destino" required
+                           placeholder="Ej: Madrid" />
+                </div>
+            </div>
+
+            <!-- Precio y Disponibilidad -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label class="form-label" for="servicio-precio">Precio Base (S/) *</label>
+                    <input type="number" class="form-input" id="servicio-precio" required
+                           step="0.01" min="0" placeholder="Ej: 299.99" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="servicio-disponibilidad">Disponibilidad (asientos) *</label>
+                    <input type="number" class="form-input" id="servicio-disponibilidad" required
+                           min="1" placeholder="Ej: 150" />
+                </div>
+            </div>
+
+            <!-- Descripción -->
             <div class="form-group">
-                <label class="form-label" for="promo-precio">Precio Original *</label>
-                <input type="number" class="form-input" id="promo-precio" required
-                       step="0.01" min="0" placeholder="Ej: 299.99" />
+                <label class="form-label" for="servicio-descripcion">Descripción</label>
+                <textarea class="form-input" id="servicio-descripcion" rows="3"
+                          placeholder="Describe los detalles del servicio..."></textarea>
             </div>
+
+            <!-- Tags -->
             <div class="form-group">
-                <label class="form-label" for="promo-descuento">Descuento (%) *</label>
-                <input type="number" class="form-input" id="promo-descuento" required
-                       step="0.01" min="0" max="100" placeholder="Ej: 15.50" />
+                <label class="form-label" for="servicio-tags">Etiquetas (Tags)</label>
+                <input type="text" class="form-input" id="servicio-tags"
+                       placeholder="Ej: vacaciones,top ventas,familiar (separadas por comas)" />
             </div>
+
+            <!-- Estado Activo -->
             <div class="form-group">
-                <label class="form-label" for="promo-fecha-inicio">Fecha de Inicio *</label>
-                <input type="datetime-local" class="form-input" id="promo-fecha-inicio" required />
+                <label class="checkbox-label">
+                    <input type="checkbox" id="servicio-activo" checked>
+                    Servicio activo y disponible para reservas
+                </label>
             </div>
-            <div class="form-group">
-                <label class="form-label" for="promo-fecha-fin">Fecha de Fin *</label>
-                <input type="datetime-local" class="form-input" id="promo-fecha-fin" required />
-            </div>
-            <div class="form-group">
-                <label class="form-label" for="promo-etiquetas">Etiquetas</label>
-                <input type="text" class="form-input" id="promo-etiquetas"
-                       placeholder="Ej: verano, playa, familiar (separadas por comas)" />
-            </div>
-            <div class="form-group">
-                <label class="form-label" for="promo-url">URL (Opcional)</label>
-                <input type="url" class="form-input" id="promo-url"
-                       placeholder="https://example.com/oferta" />
-            </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn close-modal">Cancelar</button>
                 <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-save"></i> Guardar Promoción
+                    <i class="bi bi-save"></i> Guardar Servicio
                 </button>
             </div>
         </form>
@@ -826,27 +910,27 @@
             });
         }
 
-        // Generar Reporte de Promociones
-        const generateReportPromocionesBtn = document.getElementById('generate-report-promociones');
-        if (generateReportPromocionesBtn) {
-            generateReportPromocionesBtn.addEventListener('click', async function() {
+        // Generar Reporte de Servicios
+        const generateReportServiciosBtn = document.getElementById('generate-report-servicios');
+        if (generateReportServiciosBtn) {
+            generateReportServiciosBtn.addEventListener('click', async function() {
                 try {
                     this.disabled = true;
                     this.innerHTML = '<i class="bi bi-hourglass-split"></i> Generando...';
 
-                    const response = await fetch('http://localhost:8081/api/reportes/promociones?formato=pdf', {
+                    const response = await fetch('http://localhost:8081/api/reportes/servicios?formato=pdf', {
                         method: 'GET',
                     });
 
                     if (!response.ok) {
-                        throw new Error('Error al generar el reporte de promociones');
+                        throw new Error('Error al generar el reporte de servicios');
                     }
 
                     const blob = await response.blob();
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = 'Reporte_Promociones_' + new Date().toISOString().slice(0,10) + '.pdf';
+                    a.download = 'Reporte_Servicios_' + new Date().toISOString().slice(0,10) + '.pdf';
                     document.body.appendChild(a);
                     a.click();
                     window.URL.revokeObjectURL(url);
@@ -855,7 +939,7 @@
                     this.disabled = false;
                     this.innerHTML = '<i class="bi bi-file-earmark-pdf"></i> Generar Reporte';
 
-                    alert('✓ Reporte de promociones generado exitosamente');
+                    alert('✓ Reporte de servicios generado exitosamente');
                 } catch (error) {
                     console.error('Error:', error);
                     alert('✗ Error al generar el reporte: ' + error.message);
@@ -866,47 +950,49 @@
             });
         }
 
-        // --- Gestión de Promociones ---
-        const newPromocionBtn = document.getElementById('new-promocion-btn');
-        const newPromocionModal = document.getElementById('new-promocion-modal');
-        const newPromocionForm = document.getElementById('new-promocion-form');
+        // --- Gestión de Servicios ---
+        const newServicioBtn = document.getElementById('new-servicio-btn');
+        const newServicioModal = document.getElementById('new-servicio-modal');
+        const newServicioForm = document.getElementById('new-servicio-form');
 
-        if (newPromocionBtn && newPromocionModal) {
-            newPromocionBtn.addEventListener('click', function() {
-                newPromocionModal.classList.add('active');
+        if (newServicioBtn && newServicioModal) {
+            newServicioBtn.addEventListener('click', function() {
+                newServicioModal.classList.add('active');
             });
         }
 
-        if (newPromocionForm) {
-            newPromocionForm.addEventListener('submit', async function(e) {
+        if (newServicioForm) {
+            newServicioForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
 
-                const nombre = document.getElementById('promo-nombre').value.trim();
-                const descripcion = document.getElementById('promo-descripcion').value.trim();
-                const precio = parseFloat(document.getElementById('promo-precio').value);
-                const descuento = parseFloat(document.getElementById('promo-descuento').value);
-                const fechaInicio = document.getElementById('promo-fecha-inicio').value;
-                const fechaFin = document.getElementById('promo-fecha-fin').value;
-                const etiquetas = document.getElementById('promo-etiquetas').value.trim();
-                const url = document.getElementById('promo-url').value.trim();
+                const tipoServicio = document.getElementById('servicio-tipo').value.trim();
+                const nombre = document.getElementById('servicio-nombre').value.trim();
+                const origen = document.getElementById('servicio-origen').value.trim();
+                const destino = document.getElementById('servicio-destino').value.trim();
+                const precio = parseFloat(document.getElementById('servicio-precio').value);
+                const disponibilidad = parseInt(document.getElementById('servicio-disponibilidad').value);
+                const descripcion = document.getElementById('servicio-descripcion').value.trim();
+                const tags = document.getElementById('servicio-tags').value.trim();
+                const activo = document.getElementById('servicio-activo').checked;
 
-                if (!nombre) { alert('El nombre de la promoción es requerido'); return; }
+                // Validaciones
+                if (!tipoServicio) { alert('Por favor selecciona el tipo de servicio'); return; }
+                if (!nombre) { alert('El nombre del servicio es requerido'); return; }
+                if (!origen) { alert('El origen es requerido'); return; }
+                if (!destino) { alert('El destino es requerido'); return; }
                 if (isNaN(precio) || precio <= 0) { alert('El precio debe ser mayor a 0'); return; }
-                if (isNaN(descuento) || descuento < 0 || descuento > 100) { alert('El descuento debe estar entre 0 y 100'); return; }
-                if (!fechaInicio) { alert('La fecha de inicio es requerida'); return; }
-                if (!fechaFin) { alert('La fecha de fin es requerida'); return; }
-                if (new Date(fechaFin) <= new Date(fechaInicio)) { alert('La fecha de fin debe ser posterior a la fecha de inicio'); return; }
+                if (isNaN(disponibilidad) || disponibilidad < 1) { alert('La disponibilidad debe ser al menos 1'); return; }
 
-                const promocionData = {
+                const servicioData = {
+                    tipoServicio: tipoServicio,
                     nombre: nombre,
+                    origen: origen,
+                    destino: destino,
+                    precioBase: precio,
+                    disponibilidad: disponibilidad,
                     descripcion: descripcion || null,
-                    precio: precio,
-                    descuento: descuento,
-                    fechaInicio: fechaInicio + ':00',
-                    fechaFin: fechaFin + ':00',
-                    etiquetas: etiquetas || null,
-                    url: url || null,
-                    fuente: 'ADMIN_PANEL'
+                    tags: tags || null,
+                    activo: activo
                 };
 
                 try {
@@ -915,41 +1001,42 @@
                     submitBtn.disabled = true;
                     submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Guardando...';
 
-                    console.log('Enviando datos de promoción:', promocionData);
+                    console.log('Enviando datos de servicio:', servicioData);
 
-                    const response = await fetch('http://localhost:8081/api/ofertas', {
+                    const response = await fetch('/api/servicios', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(promocionData)
+                        body: JSON.stringify(servicioData)
                     });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(errorText || 'Error al crear el servicio');
+                    }
 
                     const result = await response.json();
 
-                    if (response.ok && result.success) {
-                        const precioFinal = precio * (1 - descuento/100);
-                        alert('✓ Promoción creada exitosamente!\n\n' +
-                              'Nombre: ' + result.data.nombre + '\n' +
-                              'Descuento: ' + descuento + '%\n' +
-                              'Precio final: S/' + precioFinal.toFixed(2));
-                        console.log('Promoción creada:', result.data);
+                    alert('✓ Servicio creado exitosamente!\n\n' +
+                          'Tipo: ' + tipoServicio + '\n' +
+                          'Nombre: ' + nombre + '\n' +
+                          'Ruta: ' + origen + ' → ' + destino + '\n' +
+                          'Precio: S/' + precio.toFixed(2));
+                    console.log('Servicio creado:', result);
 
-                        newPromocionModal.classList.remove('active');
-                        newPromocionForm.reset();
-                        cargarServicios(); // Reload services to show the new promotion
-                    } else {
-                        throw new Error(result.message || 'Error al crear la promoción');
-                    }
+                    newServicioModal.classList.remove('active');
+                    newServicioForm.reset();
+                    cargarServicios(); // Recargar la tabla de servicios
 
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalText;
 
                 } catch (error) {
                     console.error('Error:', error);
-                    alert('✗ Error al crear la promoción: ' + error.message);
+                    alert('✗ Error al crear el servicio: ' + error.message);
 
                     const submitBtn = this.querySelector('button[type="submit"]');
                     submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<i class="bi bi-save"></i> Guardar Promoción';
+                    submitBtn.innerHTML = '<i class="bi bi-save"></i> Guardar Servicio';
                 }
             });
         }
@@ -1014,9 +1101,9 @@
                 const tbody = document.getElementById('servicios-tbody');
                 tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">Cargando servicios...</td></tr>';
                 
-                // Usar endpoint corregido
-                const response = await fetch('/servicios');
-                
+                // Usar endpoint REST de API
+                const response = await fetch('/api/servicios');
+
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
@@ -1033,14 +1120,24 @@
                 servicios.forEach(servicio => {
                     const row = document.createElement('tr');
                     const precio = servicio.precioBase ? parseFloat(servicio.precioBase).toFixed(2) : '0.00';
+
+                    // Icono según tipo de servicio
+                    let tipoIcon = '';
+                    switch(servicio.tipoServicio) {
+                        case 'VUELO': tipoIcon = '✈️ '; break;
+                        case 'BUS': tipoIcon = '🚌 '; break;
+                        case 'CRUCERO': tipoIcon = '🚢 '; break;
+                        default: tipoIcon = '📋 ';
+                    }
+
                     row.innerHTML = `
                         <td>${servicio.idServicio || 'N/A'}</td>
                         <td>${servicio.nombre || 'Sin nombre'}</td>
                         <td>${servicio.origen || 'N/A'}</td>
                         <td>${servicio.destino || 'N/A'}</td>
                         <td>S/ ${precio}</td>
-                        <td>${servicio.tipoServicio || 'N/A'}</td>
-                        <td>${servicio.activo ? 'Activo' : 'Inactivo'}</td>
+                        <td>${tipoIcon}${servicio.tipoServicio || 'N/A'}</td>
+                        <td><span class="badge ${servicio.activo ? 'bg-success' : 'bg-secondary'}">${servicio.activo ? 'Activo' : 'Inactivo'}</span></td>
                         <td>
                             <div class="action-buttons">
                                 <button class="btn btn-small btn-primary" onclick="editarServicio(${servicio.idServicio})">Editar</button>
@@ -1050,11 +1147,50 @@
                     `;
                     tbody.appendChild(row);
                 });
+
+                // Aplicar filtro si existe
+                aplicarFiltroServicios();
             } catch (error) {
                 console.error('Error cargando servicios:', error);
                 const tbody = document.getElementById('servicios-tbody');
                 tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: red;">Error al cargar servicios: ${error.message}</td></tr>`;
             }
+        }
+
+        // Función para aplicar filtro de tipo de servicio
+        function aplicarFiltroServicios() {
+            const filtroTipo = document.getElementById('filter-tipo-servicio');
+            const searchInput = document.getElementById('search-servicios');
+
+            if (filtroTipo) {
+                filtroTipo.addEventListener('change', filtrarServicios);
+            }
+            if (searchInput) {
+                searchInput.addEventListener('input', filtrarServicios);
+            }
+        }
+
+        function filtrarServicios() {
+            const filtroTipo = document.getElementById('filter-tipo-servicio').value.toLowerCase();
+            const searchTerm = document.getElementById('search-servicios').value.toLowerCase();
+            const rows = document.querySelectorAll('#servicios-tbody tr');
+
+            rows.forEach(row => {
+                const tipo = row.children[5]?.textContent.toLowerCase() || '';
+                const nombre = row.children[1]?.textContent.toLowerCase() || '';
+                const origen = row.children[2]?.textContent.toLowerCase() || '';
+                const destino = row.children[3]?.textContent.toLowerCase() || '';
+
+                const matchTipo = !filtroTipo || tipo.includes(filtroTipo);
+                const matchSearch = !searchTerm || nombre.includes(searchTerm) ||
+                                   origen.includes(searchTerm) || destino.includes(searchTerm);
+
+                if (matchTipo && matchSearch) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
         }
 
         // --- User Management Modals and Forms ---
@@ -1198,12 +1334,75 @@
                     targetSection.style.display = "block";
                 }
 
-                // Special handling for promotions section to load services
-                if (target === 'promociones') {
+                // Special handling for sections to load data
+                if (target === 'servicios') {
                     cargarServicios();
+                }
+                // Cargar boletas cuando se seleccione la sección
+                if (target === 'boletas') {
+                    cargarBoletas();
                 }
             });
         });
+
+        // Función para cargar boletas (consume JSON desde /api/boletas)
+        async function cargarBoletas() {
+            try {
+                console.log('Cargando boletas...');
+                const tbody = document.getElementById('boletas-tbody');
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Cargando boletas...</td></tr>';
+
+                const response = await fetch('/api/boletas');
+                if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                const boletas = await response.json();
+
+                tbody.innerHTML = '';
+                if (!Array.isArray(boletas) || boletas.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No hay boletas</td></tr>';
+                    return;
+                }
+
+                boletas.forEach(b => {
+                    const row = document.createElement('tr');
+                    const fecha = b.fecha ? new Date(b.fecha).toLocaleString() : 'N/A';
+                    const precio = b.precio ? parseFloat(b.precio).toFixed(2) : '0.00';
+                    const id = b.idBoleta || 'N/A';
+                    row.innerHTML = `
+                        <td>${id}</td>
+                        <td>${b.usuario || 'N/A'}</td>
+                        <td>${b.servicio || 'N/A'}</td>
+                        <td>${fecha}</td>
+                        <td>S/ ${precio}</td>
+                        <td>${b.estado || 'N/A'}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-small btn-primary" onclick="verBoleta(${id})">Ver</button>
+                                <button class="btn btn-small btn-secondary" onclick="imprimirBoleta(${id})">Imprimir</button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error cargando boletas:', error);
+                const tbody = document.getElementById('boletas-tbody');
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: red;">Error al cargar boletas: ${error.message}</td></tr>`;
+            }
+        }
+
+        // Abrir preview de boleta en nueva pestaña (expuesta al scope global)
+        window.verBoleta = function(id) {
+            if (!id) return alert('ID de boleta no disponible');
+            const url = `/boleta/reserva/${id}/preview`;
+            window.open(url, '_blank');
+        };
+
+        // Abrir PDF de boleta en nueva pestaña (imprimir desde allí, expuesta al scope global)
+        window.imprimirBoleta = function(id) {
+            if (!id) return alert('ID de boleta no disponible');
+            const url = `/boleta/reserva/${id}/pdf`;
+            window.open(url, '_blank');
+        };
 
         // --- Advanced Filters and Form Toggles ---
         const toggleFiltersBtn = document.getElementById("toggle-filters");
@@ -1295,3 +1494,4 @@
 </body>
 
 </html>
+

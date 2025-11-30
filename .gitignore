@@ -1,56 +1,29 @@
-# Compiled class file
-*.class
-
-# Log file
-*.log
-logs/
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# virtual machine crash logs
-hs_err_pid*
-replay_pid*
-
 # Gradle
 .gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
 
 # IDE
 .idea/
-.vscode/
 *.iml
-*.ipr
 *.iws
+.vscode/
+.project
+.classpath
+.settings/
+
+# Logs
+logs/
+*.log
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Spring Boot
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-# Application specific
-amadeus_data/
-temp/
+# Application
+application-local.properties
+application-dev.properties
 
 # Docker
-.dockerignore
+docker-compose.override.yml
+

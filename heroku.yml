@@ -1,0 +1,8 @@
+# Configuración para Heroku con Docker
+build:
+  docker:
+    web: Dockerfile
+
+run:
+  web: java $JAVA_OPTS -Dserver.port=$PORT -jar app.jar
+

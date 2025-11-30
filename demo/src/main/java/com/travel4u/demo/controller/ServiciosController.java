@@ -1,21 +1,182 @@
 package com.travel4u.demo.controller;
 
+import com.travel4u.demo.servicio.model.Servicio;
+import com.travel4u.demo.servicio.repository.IServicioDAO;
+import com.travel4u.demo.servicio.repository.IProveedorDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/servicios")
+@RequestMapping("/api")
 public class ServiciosController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ServiciosController.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @PostMapping("/add-missing")
+    @Autowired
+    private IServicioDAO servicioDAO;
+
+    @Autowired
+    private IProveedorDAO proveedorDAO;
+
+    // ==========================================
+    // ENDPOINTS PARA EL PANEL DE ADMINISTRACIÓN
+    // ==========================================
+
+    /**
+     * GET /api/servicios - Listar todos los servicios
+     * Usado por el panel de administración para mostrar la tabla de servicios
+     */
+    @GetMapping("/servicios")
+    public ResponseEntity<List<Servicio>> listarServicios() {
+        try {
+            logger.info("Listando todos los servicios");
+            List<Servicio> servicios = servicioDAO.findAll();
+            return ResponseEntity.ok(servicios);
+        } catch (Exception e) {
+            logger.error("Error al listar servicios", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
+     * POST /api/servicios - Crear un nuevo servicio
+     * Usado por el panel de administración para crear servicios (vuelos, buses, cruceros)
+     */
+    @PostMapping("/servicios")
+    public ResponseEntity<Servicio> crearServicio(@RequestBody Servicio servicio) {
+        try {
+            logger.info("Creando nuevo servicio: {} - {}", servicio.getTipoServicio(), servicio.getNombre());
+
+            // Validaciones básicas
+            if (servicio.getNombre() == null || servicio.getNombre().trim().isEmpty()) {
+                logger.warn("Intento de crear servicio sin nombre");
+                return ResponseEntity.badRequest().build();
+            }
+
+            if (servicio.getTipoServicio() == null || servicio.getTipoServicio().trim().isEmpty()) {
+                logger.warn("Intento de crear servicio sin tipo");
+                return ResponseEntity.badRequest().build();
+            }
+
+            // Si no tiene proveedor, asignar uno por defecto según el tipo
+            if (servicio.getProveedor() == null) {
+                try {
+                    var proveedores = proveedorDAO.findAll();
+                    var proveedorDefault = proveedores.stream()
+                        .filter(p -> p.getTipoProveedor() != null &&
+                                   p.getTipoProveedor().equalsIgnoreCase(servicio.getTipoServicio()))
+                        .findFirst()
+                        .orElse(proveedores.isEmpty() ? null : proveedores.get(0));
+
+                    if (proveedorDefault != null) {
+                        servicio.setProveedor(proveedorDefault);
+                        logger.info("Proveedor asignado automáticamente: {}", proveedorDefault.getNombre());
+                    }
+                } catch (Exception e) {
+                    logger.warn("No se pudo asignar proveedor automáticamente", e);
+                }
+            }
+
+            // Guardar el servicio
+            Servicio servicioGuardado = servicioDAO.save(servicio);
+            logger.info("Servicio creado exitosamente con ID: {}", servicioGuardado.getIdServicio());
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(servicioGuardado);
+
+        } catch (Exception e) {
+            logger.error("Error al crear servicio", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
+     * GET /api/servicios/{id} - Obtener un servicio por ID
+     */
+    @GetMapping("/servicios/{id}")
+    public ResponseEntity<Servicio> obtenerServicio(@PathVariable Long id) {
+        try {
+            logger.info("Obteniendo servicio con ID: {}", id);
+            return servicioDAO.findById(id)
+                    .map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            logger.error("Error al obtener servicio", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
+     * PUT /api/servicios/{id} - Actualizar un servicio existente
+     */
+    @PutMapping("/servicios/{id}")
+    public ResponseEntity<Servicio> actualizarServicio(@PathVariable Long id, @RequestBody Servicio servicio) {
+        try {
+            logger.info("Actualizando servicio con ID: {}", id);
+
+            return servicioDAO.findById(id)
+                    .map(servicioExistente -> {
+                        servicio.setIdServicio(id);
+                        Servicio servicioActualizado = servicioDAO.save(servicio);
+                        logger.info("Servicio actualizado exitosamente");
+                        return ResponseEntity.ok(servicioActualizado);
+                    })
+                    .orElse(ResponseEntity.notFound().build());
+
+        } catch (Exception e) {
+            logger.error("Error al actualizar servicio", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
+     * DELETE /api/servicios/{id} - Desactivar un servicio (soft delete)
+     */
+    @DeleteMapping("/servicios/{id}")
+    public ResponseEntity<Map<String, Object>> eliminarServicio(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            logger.info("Desactivando servicio con ID: {}", id);
+
+            return servicioDAO.findById(id)
+                    .map(servicio -> {
+                        servicio.setActivo(false);
+                        servicioDAO.save(servicio);
+                        response.put("success", true);
+                        response.put("message", "Servicio desactivado correctamente");
+                        logger.info("Servicio desactivado exitosamente");
+                        return ResponseEntity.ok(response);
+                    })
+                    .orElseGet(() -> {
+                        response.put("success", false);
+                        response.put("message", "Servicio no encontrado");
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+                    });
+
+        } catch (Exception e) {
+            logger.error("Error al eliminar servicio", e);
+            response.put("success", false);
+            response.put("message", "Error al eliminar servicio: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    // ==========================================
+    // ENDPOINTS LEGACY (mantener compatibilidad)
+    // ==========================================
+
+    @PostMapping("/servicios/add-missing")
     public ResponseEntity<Map<String, Object>> addMissingServices() {
         Map<String, Object> response = new HashMap<>();
         
@@ -194,7 +355,7 @@ public class ServiciosController {
         }
     }
 
-    @GetMapping("/count")
+    @GetMapping("/servicios/count")
     public ResponseEntity<Map<String, Object>> getServicesCount() {
         Map<String, Object> response = new HashMap<>();
         

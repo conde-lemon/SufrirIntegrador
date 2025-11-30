@@ -1,183 +1,341 @@
-/* Estilos para el Header (Versión PRO con Dropdown) */
+/* ============================================
+   TRAVEL FOR U - HEADER STYLES
+   Versión 2.0 - Rediseño Completo
+   ============================================ */
+
+/* Reset y fuentes base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+}
+
+/* ============================================
+   HEADER PRINCIPAL
+   ============================================ */
 .main-header {
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-    padding: 0 40px;
     position: sticky;
     top: 0;
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     z-index: 1000;
-    height: 70px;
+    padding: 0 2rem;
 }
 
 .header-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
+    height: 70px;
 }
 
+/* ============================================
+   LOGO
+   ============================================ */
 .logo {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: #7b1fa2; /* Morado corporativo */
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #ffffff;
     text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.logo:hover {
+    transform: translateY(-2px);
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   NAVEGACIÓN PRINCIPAL
+   ============================================ */
 .main-nav ul {
-    margin: 0;
-    padding: 0;
     list-style: none;
     display: flex;
-    gap: 35px;
+    gap: 2.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.main-nav li {
+    position: relative;
 }
 
 .main-nav a {
+    color: #ffffff;
     text-decoration: none;
-    color: #333;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.5rem 0;
     position: relative;
-    padding: 5px 0;
-    transition: color 0.3s ease;
-}
-
-.main-nav a:hover {
-    color: #7b1fa2;
-}
-
-/* Línea animada debajo de los links de navegación */
-.main-nav a::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: #7b1fa2;
-    transform: scaleX(0);
-    transform-origin: bottom right;
-    transition: transform 0.3s ease-out;
-}
-
-.main-nav a:hover::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
-}
-
-.user-actions {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.action-btn {
-    text-decoration: none;
-    padding: 8px 18px;
-    border-radius: 20px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    border: 1px solid transparent;
-}
-
-.login-btn {
-    color: #7b1fa2;
-    border-color: #7b1fa2;
-}
-.login-btn:hover {
-    background-color: #f3e5f5;
-}
-
-.register-btn {
-    background-color: #7b1fa2;
-    color: white;
-    border-color: #7b1fa2;
-}
-.register-btn:hover {
-    background-color: #5a1475;
-    border-color: #5a1475;
-}
-
-/* --- ESTILOS PARA EL NUEVO MENÚ DESPLEGABLE --- */
-.dropdown {
-    position: relative;
+    transition: all 0.3s ease;
     display: inline-block;
 }
 
+.main-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: #ffffff;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.main-nav a:hover {
+    transform: translateY(-2px);
+}
+
+.main-nav a:hover::after {
+    width: 100%;
+}
+
+/* ============================================
+   ACCIONES DE USUARIO
+   ============================================ */
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.action-btn {
+    padding: 0.6rem 1.5rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.login-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.login-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.register-btn {
+    background: #ffffff;
+    color: #667eea;
+    border: 2px solid #ffffff;
+}
+
+.register-btn:hover {
+    background: transparent;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   BOTÓN ADMIN (Solo para administradores)
+   ============================================ */
+.admin-btn {
+    background: rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    border: 2px solid rgba(255, 255, 255, 0.6) !important;
+    padding: 0.6rem 1.2rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px;
+}
+
+.admin-btn:hover {
+    background: rgba(255, 255, 255, 0.35) !important;
+    border-color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   DROPDOWN DE USUARIO
+   ============================================ */
+.dropdown {
+    position: relative;
+}
+
 .dropdown-toggle {
-    background-color: #f5f5f5;
-    color: #333;
-    padding: 8px 15px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    border: 1px solid #ddd;
-    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 25px;
+    color: #ffffff;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px;
-    transition: background-color 0.2s;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
 }
 
 .dropdown-toggle:hover {
-    background-color: #e9e9e9;
+    background: rgba(255, 255, 255, 0.3);
+    border-color: #ffffff;
+    transform: translateY(-2px);
 }
 
+.dropdown-toggle:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+.dropdown-toggle svg {
+    flex-shrink: 0;
+}
+
+/* Menú desplegable */
 .dropdown-menu {
-    display: none; /* Oculto por defecto */
+    display: none;
     position: absolute;
+    top: calc(100% + 10px);
     right: 0;
-    top: 120%; /* Un poco separado del botón */
-    background-color: white;
-    min-width: 200px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-    border-radius: 8px;
-    z-index: 1;
-    padding: 8px 0;
+    background: #ffffff;
+    border-radius: 12px;
+    min-width: 220px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     overflow: hidden;
+    animation: fadeInDown 0.3s ease;
 }
 
-/* Muestra el menú al pasar el mouse sobre el contenedor .dropdown */
-.dropdown:hover .dropdown-menu {
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown.active .dropdown-menu {
     display: block;
 }
 
 .dropdown-item {
     color: #333;
-    padding: 10px 20px;
     text-decoration: none;
+    padding: 0.9rem 1.2rem;
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 0.95rem;
-    transition: background-color 0.2s;
+    gap: 0.75rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
 }
 
 .dropdown-item:hover {
-    background-color: #f5f5f5;
+    background: linear-gradient(90deg, #f3f4f6 0%, #ffffff 100%);
+    border-left-color: #667eea;
+    padding-left: 1.5rem;
+}
+
+.dropdown-item svg {
+    flex-shrink: 0;
+    opacity: 0.7;
 }
 
 .dropdown-divider {
     height: 1px;
-    margin: 8px 0;
-    background-color: #eee;
+    background: #e5e7eb;
+    margin: 0.5rem 0;
 }
 
-.logout-form {
-    margin: 0;
-}
-
+/* Botón de logout especial */
 .logout-button {
     width: 100%;
-    border: none;
     background: none;
+    border: none;
+    color: #ef4444;
     text-align: left;
-    cursor: pointer;
-    color: #d32f2f; /* Color rojo para la acción de salir */
+    padding: 0.9rem 1.2rem;
     font-family: inherit;
+    font-size: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
 }
 
 .logout-button:hover {
-    color: #d32f2f;
-    background-color: #fdecea;
+    background: #fef2f2;
+    border-left-color: #ef4444;
+    padding-left: 1.5rem;
+}
+
+.logout-button svg {
+    flex-shrink: 0;
+    opacity: 0.7;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+    .main-header {
+        padding: 0 1rem;
+    }
+
+    .header-content {
+        height: 60px;
+    }
+
+    .logo {
+        font-size: 1.4rem;
+    }
+
+    .main-nav {
+        display: none; /* Ocultar navegación en móvil */
+    }
+
+    .user-actions {
+        gap: 0.5rem;
+    }
+
+    .action-btn,
+    .dropdown-toggle {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-content {
+        height: 55px;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .action-btn,
+    .dropdown-toggle {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
 }
