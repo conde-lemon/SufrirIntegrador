@@ -26,11 +26,11 @@ WORKDIR /app
 # Copiar JAR construido
 COPY --from=build /app/build/libs/*.jar app.jar
 
-# Heroku asigna el puerto dinámicamente
-EXPOSE $PORT
+# Puerto por defecto (Railway/Heroku lo sobrescriben con $PORT)
+EXPOSE 8080
 
-# Configuración de JVM optimizada para Heroku
+# Configuración de JVM optimizada
 ENV JAVA_OPTS="-Xmx512m -Xms256m -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
 
-# Comando de inicio - Heroku provee $PORT
-CMD ["sh", "-c", "java $JAVA_OPTS -Dserver.port=$PORT -jar app.jar"]
+# Comando de inicio - usa $PORT si existe, sino 8080
+CMD ["sh", "-c", "java $JAVA_OPTS -Dserver.port=${PORT:-8080} -jar app.jar"]
