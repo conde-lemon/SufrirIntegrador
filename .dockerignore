@@ -6,10 +6,9 @@ Dockerfile
 docker-compose.yml
 .dockerignore
 
-# Directorios de build
+# Directorios de build (pero NO el wrapper de Gradle)
 demo/build/
 demo/.gradle/
-demo/gradle/wrapper/gradle-wrapper.jar
 
 # Logs
 logs/
