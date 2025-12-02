@@ -86,6 +86,7 @@ Write-Host ""
 # Limpiar archivos obsoletos
 Write-Host "Limpiando archivos obsoletos..." -ForegroundColor Yellow
 $archivosObsoletos = @(
+    # Documentacion obsoleta
     "RAILWAY_QUICKSTART.md",
     "GUIA_DESPLIEGUE_RAILWAY.md",
     "RAILWAY_VARIABLES.md",
@@ -94,8 +95,29 @@ $archivosObsoletos = @(
     "DONDE_EJECUTAR.md",
     "DEPLOY-RAILWAY.md",
     "COMANDOS_UTILES.md",
+    "DEPLOY-RENDER.md",
+    "README-RENDER.md",
+
+    # Scripts obsoletos
     "setup-railway.ps1",
-    "update-railway.ps1"
+    "update-railway.ps1",
+    "railway-deploy.ps1",
+    "setup-heroku.ps1",
+    "deploy-heroku.ps1",
+
+    # Archivos de plataformas no usadas
+    "build-render.bat",
+    "heroku.yml",
+    "render.yaml",
+
+    # SQL obsoletos
+    "TravelReserva.sql",
+    "init-db.sql",
+
+    # Archivos dentro de demo/
+    "demo\DATABASE_FIX_GUIDE.md",
+    "demo\test-database.bat",
+    "demo\fix_sequence.sql"
 )
 
 $eliminados = 0

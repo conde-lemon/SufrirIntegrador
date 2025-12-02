@@ -14,11 +14,6 @@ Este script:
 - ✅ Sube el código a GitHub
 - ✅ Te dice exactamente qué hacer después
 
-### Opción B - Manual:
-```powershell
-cd "C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)"
-.\railway-deploy.ps1
-```
 
 ### Opción B - Manual:
 ```powershell
@@ -169,5 +164,5 @@ JAVA_OPTS=-Xmx400m -Xms200m
 
 ---
 
-**¿Listo? Ejecuta: `.\railway-deploy.ps1` 🚀**
+**¿Listo? Ejecuta: `.\deploy.ps1` 🚀**
 
