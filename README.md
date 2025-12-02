@@ -1,6 +1,29 @@
 # SufrirIntegrador
 Repositorio para subir los avances del proyecto para el curso Integrador I de la carrera de Ingeniería de Sistemas e Informática en la UTP.
 
+## 🚀 DESPLIEGUE EN RAILWAY
+
+**¿Quieres desplegar esta aplicación en Railway (GRATIS)?**
+
+### Opción 1: Script Automatizado ⚡
+```powershell
+.\setup-railway.ps1
+```
+
+### Opción 2: Guía Paso a Paso 📚
+Ver: **[RAILWAY_QUICKSTART.md](./RAILWAY_QUICKSTART.md)** para inicio rápido
+
+Ver: **[GUIA_DESPLIEGUE_RAILWAY.md](./GUIA_DESPLIEGUE_RAILWAY.md)** para guía completa
+
+### Archivos de Ayuda
+- 🚀 [RAILWAY_QUICKSTART.md](./RAILWAY_QUICKSTART.md) - Inicio rápido (3 pasos)
+- 📖 [GUIA_DESPLIEGUE_RAILWAY.md](./GUIA_DESPLIEGUE_RAILWAY.md) - Guía completa paso a paso
+- 🔐 [RAILWAY_VARIABLES.md](./RAILWAY_VARIABLES.md) - Variables de entorno explicadas
+- 🛠️ [COMANDOS_UTILES.md](./COMANDOS_UTILES.md) - Comandos útiles para desarrollo
+- 📜 [DEPLOY-RAILWAY.md](./DEPLOY-RAILWAY.md) - Documentación adicional
+
+---
+
 ## 📜 Descripción del Proyecto
 **Travel4U** es una aplicación web desarrollada con Spring Boot que busca centralizar la búsqueda y reserva de servicios de viaje. La plataforma integra funcionalidades de autenticación de usuarios, scraping de ofertas de vuelos en tiempo real.
 
