@@ -1,26 +1,16 @@
 # SufrirIntegrador
 Repositorio para subir los avances del proyecto para el curso Integrador I de la carrera de Ingeniería de Sistemas e Informática en la UTP.
 
-## 🚀 DESPLIEGUE EN RAILWAY
+## 🚀 DESPLIEGUE EN RAILWAY (GRATIS - 500 horas/mes)
 
-**¿Quieres desplegar esta aplicación en Railway (GRATIS)?**
-
-### Opción 1: Script Automatizado ⚡
+### Script Automatizado ⚡
 ```powershell
-.\setup-railway.ps1
+.\deploy.ps1
 ```
+Este script verifica todo, limpia archivos obsoletos y sube el código.
 
-### Opción 2: Guía Paso a Paso 📚
-Ver: **[RAILWAY_QUICKSTART.md](./RAILWAY_QUICKSTART.md)** para inicio rápido
-
-Ver: **[GUIA_DESPLIEGUE_RAILWAY.md](./GUIA_DESPLIEGUE_RAILWAY.md)** para guía completa
-
-### Archivos de Ayuda
-- 🚀 [RAILWAY_QUICKSTART.md](./RAILWAY_QUICKSTART.md) - Inicio rápido (3 pasos)
-- 📖 [GUIA_DESPLIEGUE_RAILWAY.md](./GUIA_DESPLIEGUE_RAILWAY.md) - Guía completa paso a paso
-- 🔐 [RAILWAY_VARIABLES.md](./RAILWAY_VARIABLES.md) - Variables de entorno explicadas
-- 🛠️ [COMANDOS_UTILES.md](./COMANDOS_UTILES.md) - Comandos útiles para desarrollo
-- 📜 [DEPLOY-RAILWAY.md](./DEPLOY-RAILWAY.md) - Documentación adicional
+### Guía Completa 📚
+Ver: **[RAILWAY_DEPLOY.md](./RAILWAY_DEPLOY.md)** - Guía paso a paso completa
 
 ---
 
