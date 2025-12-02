@@ -45,19 +45,57 @@ git push origin main
 
 ---
 
-## PASO 3: CONFIGURAR VARIABLES DE ENTORNO
+## PASO 3: CONFIGURAR VARIABLES DE ENTORNO ⚠️ CRÍTICO
 
-En Railway → Tu proyecto → **Variables**, añade:
+**🔴 SIN ESTAS VARIABLES LA APP NO FUNCIONA - CRASHEARÁ**
 
+En Railway → Tu proyecto → **Variables**, añade estas 5 variables:
+
+### Variable 1: SPRING_PROFILES_ACTIVE
 ```
 SPRING_PROFILES_ACTIVE=heroku
+```
+
+### Variable 2: SPRING_DATASOURCE_URL
+```
 SPRING_DATASOURCE_URL=jdbc:postgresql://db.tiifltprjgtyfimhnezi.supabase.co:5432/postgres
+```
+⚠️ Si tu URL de Supabase es diferente, cámbiala aquí.
+
+### Variable 3: SPRING_DATASOURCE_USERNAME
+```
 SPRING_DATASOURCE_USERNAME=postgres
-SPRING_DATASOURCE_PASSWORD=TU_PASSWORD_DE_SUPABASE
+```
+
+### Variable 4: SPRING_DATASOURCE_PASSWORD 🔴 REQUERIDO
+```
+SPRING_DATASOURCE_PASSWORD=tu_password_real_aqui
+```
+⚠️ **REEMPLAZA** `tu_password_real_aqui` con tu contraseña **REAL** de Supabase.
+
+**¿Dónde encontrar tu contraseña?**
+1. Ve a: https://supabase.com/dashboard
+2. Selecciona tu proyecto
+3. Settings → Database
+4. "Database Password" (si no la recuerdas, resetéala)
+
+### Variable 5: PORT
+```
 PORT=8080
 ```
 
-⚠️ **IMPORTANTE:** Reemplaza `TU_PASSWORD_DE_SUPABASE` con tu contraseña real.
+---
+
+### ✅ VERIFICAR QUE LAS 5 VARIABLES ESTÉN CONFIGURADAS
+
+Railway → Tu proyecto → Variables → Deberías ver:
+- ✅ SPRING_PROFILES_ACTIVE = heroku
+- ✅ SPRING_DATASOURCE_URL = jdbc:postgresql://...
+- ✅ SPRING_DATASOURCE_USERNAME = postgres
+- ✅ SPRING_DATASOURCE_PASSWORD = ********
+- ✅ PORT = 8080
+
+**Después de añadir las variables, Railway redesplegarás automáticamente.**
 
 ---
 
@@ -95,6 +133,37 @@ Railway redesplegarás automáticamente en 3-5 minutos.
 ---
 
 ## 🐛 SOLUCIÓN DE PROBLEMAS
+
+### Error: "The connection attempt failed" ⚠️ MÁS COMÚN
+
+**Síntomas:**
+```
+SQL Error: 0, SQLState: 08001
+The connection attempt failed
+Could not obtain connection to query metadata
+```
+
+**Causa:** Variables de entorno **NO configuradas** o incorrectas.
+
+**Solución:**
+1. Ve a Railway → Tu proyecto → **Variables**
+2. Verifica que las 5 variables existan:
+   - SPRING_PROFILES_ACTIVE
+   - SPRING_DATASOURCE_URL
+   - SPRING_DATASOURCE_USERNAME
+   - SPRING_DATASOURCE_PASSWORD ← **Verifica especialmente esta**
+   - PORT
+3. Si faltan, añádelas (ver Paso 3)
+4. Railway redesplegarás automáticamente
+5. Espera 2-3 minutos y revisa los logs
+
+**Checklist de verificación:**
+- [ ] ¿La contraseña de Supabase es correcta?
+- [ ] ¿La URL incluye el puerto `:5432`?
+- [ ] ¿No hay espacios extras en las variables?
+- [ ] ¿Supabase permite conexiones externas? (debería ser Sí por defecto)
+
+---
 
 ### Error: "Unable to access jarfile gradle-wrapper.jar"
 

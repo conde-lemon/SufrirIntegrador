@@ -23,6 +23,7 @@ Thumbs.db
 # Application
 application-local.properties
 application-dev.properties
+.env
 
 # Docker
 docker-compose.override.yml

@@ -3,6 +3,10 @@ Repositorio para subir los avances del proyecto para el curso Integrador I de la
 
 ## 🚀 DESPLIEGUE EN RAILWAY (GRATIS - 500 horas/mes)
 
+### ⚠️ IMPORTANTE: Variables de Entorno (Session Pooler)
+**Después del primer deploy, configura las 5 variables de entorno con el Session Pooler de Supabase.**
+Ver: **[RAILWAY_VARIABLES_FINAL.md](./RAILWAY_VARIABLES_FINAL.md)** 🔴
+
 ### Script Automatizado ⚡
 ```powershell
 .\deploy.ps1
