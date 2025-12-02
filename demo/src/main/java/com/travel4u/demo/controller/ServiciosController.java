@@ -74,9 +74,15 @@ public class ServiciosController {
             if (servicio.getProveedor() == null) {
                 try {
                     var proveedores = proveedorDAO.findAll();
+                    // Mapear tipoServicios a tipos de proveedor conocidos
+                    String lookupTipo;
+                    if (servicio.getTipoServicio() == null) lookupTipo = null;
+                    else if (servicio.getTipoServicio().equalsIgnoreCase("VUELO")) lookupTipo = "AEROLINEA";
+                    else lookupTipo = servicio.getTipoServicio().toUpperCase();
+
                     var proveedorDefault = proveedores.stream()
-                        .filter(p -> p.getTipoProveedor() != null &&
-                                   p.getTipoProveedor().equalsIgnoreCase(servicio.getTipoServicio()))
+                        .filter(p -> lookupTipo != null && p.getTipoProveedor() != null &&
+                                   p.getTipoProveedor().equalsIgnoreCase(lookupTipo))
                         .findFirst()
                         .orElse(proveedores.isEmpty() ? null : proveedores.get(0));
 

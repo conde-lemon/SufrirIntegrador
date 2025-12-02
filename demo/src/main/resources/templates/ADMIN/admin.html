@@ -1352,8 +1352,20 @@
                 const tbody = document.getElementById('boletas-tbody');
                 tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Cargando boletas...</td></tr>';
 
-                const response = await fetch('/api/boletas');
-                if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                const response = await fetch('/api/boletas', { credentials: 'same-origin' });
+                const contentType = response.headers.get('content-type') || '';
+
+                if (!response.ok) {
+                    // Obtener texto para ayudar al debug (puede ser HTML de login o error)
+                    const text = await response.text();
+                    throw new Error(`HTTP ${response.status}: ${response.statusText} - ${text.substring(0,200)}`);
+                }
+
+                if (!contentType.includes('application/json')) {
+                    const text = await response.text();
+                    throw new Error('Respuesta no es JSON. Contenido: ' + text.substring(0,300));
+                }
+
                 const boletas = await response.json();
 
                 tbody.innerHTML = '';
@@ -1367,20 +1379,42 @@
                     const fecha = b.fecha ? new Date(b.fecha).toLocaleString() : 'N/A';
                     const precio = b.precio ? parseFloat(b.precio).toFixed(2) : '0.00';
                     const id = b.idBoleta || 'N/A';
-                    row.innerHTML = `
-                        <td>${id}</td>
-                        <td>${b.usuario || 'N/A'}</td>
-                        <td>${b.servicio || 'N/A'}</td>
-                        <td>${fecha}</td>
-                        <td>S/ ${precio}</td>
-                        <td>${b.estado || 'N/A'}</td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="btn btn-small btn-primary" onclick="verBoleta(${id})">Ver</button>
-                                <button class="btn btn-small btn-secondary" onclick="imprimirBoleta(${id})">Imprimir</button>
-                            </div>
-                        </td>
-                    `;
+
+                    // Crear celdas
+                    const tdId = document.createElement('td'); tdId.textContent = id;
+                    const tdUsuario = document.createElement('td'); tdUsuario.textContent = b.usuario || 'N/A';
+                    const tdServicio = document.createElement('td'); tdServicio.textContent = b.servicio || 'N/A';
+                    const tdFecha = document.createElement('td'); tdFecha.textContent = fecha;
+                    const tdPrecio = document.createElement('td'); tdPrecio.textContent = 'S/ ' + precio;
+                    const tdEstado = document.createElement('td'); tdEstado.textContent = b.estado || 'N/A';
+
+                    const tdAcciones = document.createElement('td');
+                    const actionsDiv = document.createElement('div'); actionsDiv.className = 'action-buttons';
+
+                    const btnVer = document.createElement('button');
+                    btnVer.className = 'btn btn-small btn-primary';
+                    btnVer.type = 'button';
+                    btnVer.textContent = 'Ver';
+                    btnVer.addEventListener('click', function () { verBoleta(id); });
+
+                    const btnImprimir = document.createElement('button');
+                    btnImprimir.className = 'btn btn-small btn-secondary';
+                    btnImprimir.type = 'button';
+                    btnImprimir.textContent = 'Imprimir';
+                    btnImprimir.addEventListener('click', function () { imprimirBoleta(id); });
+
+                    actionsDiv.appendChild(btnVer);
+                    actionsDiv.appendChild(btnImprimir);
+                    tdAcciones.appendChild(actionsDiv);
+
+                    row.appendChild(tdId);
+                    row.appendChild(tdUsuario);
+                    row.appendChild(tdServicio);
+                    row.appendChild(tdFecha);
+                    row.appendChild(tdPrecio);
+                    row.appendChild(tdEstado);
+                    row.appendChild(tdAcciones);
+
                     tbody.appendChild(row);
                 });
             } catch (error) {
@@ -1390,15 +1424,15 @@
             }
         }
 
-        // Abrir preview de boleta en nueva pestaña (expuesta al scope global)
-        window.verBoleta = function(id) {
+        // Abrir preview de boleta en nueva pestaña (declaraciones hoisted)
+        function verBoleta(id) {
             if (!id) return alert('ID de boleta no disponible');
             const url = `/boleta/reserva/${id}/preview`;
             window.open(url, '_blank');
-        };
+        }
 
-        // Abrir PDF de boleta en nueva pestaña (imprimir desde allí, expuesta al scope global)
-        window.imprimirBoleta = function(id) {
+        // Abrir PDF de boleta en nueva pestaña (imprimir desde allí)
+        function imprimirBoleta(id) {
             if (!id) return alert('ID de boleta no disponible');
             const url = `/boleta/reserva/${id}/pdf`;
             window.open(url, '_blank');

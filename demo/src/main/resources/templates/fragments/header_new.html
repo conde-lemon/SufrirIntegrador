@@ -298,57 +298,6 @@
     </div>
 </header>
 
-<script>
-// =====================================================
-// FUNCIÓN GLOBAL toggleDropdown - FUERA DEL DOMContentLoaded
-// =====================================================
-function toggleDropdown(event) {
-    event.stopPropagation();
-    event.preventDefault();
-    const dropdown = document.getElementById('userDropdown');
-    if (!dropdown) return;
-    const isActive = dropdown.classList.toggle('active');
-    const btn = dropdown.querySelector('.dropdown-toggle');
-    if (btn) btn.setAttribute('aria-expanded', isActive ? 'true' : 'false');
-}
-
-// Event listeners adicionales
-document.addEventListener('DOMContentLoaded', function() {
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(event) {
-        const dropdown = document.getElementById('userDropdown');
-        if (dropdown && !dropdown.contains(event.target)) {
-            dropdown.classList.remove('active');
-            const btn = dropdown.querySelector('.dropdown-toggle');
-            if (btn) btn.setAttribute('aria-expanded', 'false');
-        }
-    });
-
-    // Close dropdown with Escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            const dropdown = document.getElementById('userDropdown');
-            if (dropdown) {
-                dropdown.classList.remove('active');
-                const btn = dropdown.querySelector('.dropdown-toggle');
-                if (btn) btn.setAttribute('aria-expanded', 'false');
-            }
-        }
-    });
-
-    // Support keyboard toggle (Enter / Space) on the dropdown button
-    const userToggle = document.getElementById('userDropdownToggle');
-    if (userToggle) {
-        userToggle.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                toggleDropdown(e);
-            }
-        });
-    }
-});
-</script>
-
+<script th:src="@{/js/header.js}"></script>
 </body>
 </html>
-
