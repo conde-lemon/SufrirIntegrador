@@ -15,41 +15,8 @@
     <!-- ================================================== -->
     <!-- NUEVO: Buscador integrado en la página de resultados -->
     <!-- ================================================== -->
-    <section class="search-section">
-        <h2 class="search-title">Busca otro vuelo</h2>
-        <form class="search-form" th:action="@{/vuelos/buscar}" method="GET">
-            <div class="form-group">
-                <label class="form-label" for="select-from">Desde:</label>
-                <select class="form-select" id="select-from" name="origen" required>
-                    <option value="">Selecciona un origen</option>
-                    <option value="Peru">Perú</option>
-                    <option value="Argentina">Argentina</option>
-                    <option value="Brasil">Brasil</option>
-                    <option value="Chile">Chile</option>
-                    <option value="Colombia">Colombia</option>
-                    <option value="Mexico">México</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="form-label" for="select-to">Hacia:</label>
-                <select class="form-select" id="select-to" name="destino" required>
-                    <option value="">Selecciona un destino</option>
-                    <option value="Peru">Perú</option>
-                    <option value="Argentina">Argentina</option>
-                    <option value="Brasil">Brasil</option>
-                    <option value="Chile">Chile</option>
-                    <option value="Colombia">Colombia</option>
-                    <option value="Mexico">México</option>
-                    <option value="Espana">España</option>
-                    <option value="Francia">Francia</option>
-                    <option value="Italia">Italia</option>
-                </select>
-            </div>
-            <div class="form-group-full">
-                <button type="submit" class="search-flight-btn">Buscar Vuelos</button>
-            </div>
-        </form>
-    </section>
+    <!-- Buscador reutilizable -->
+    <div th:replace="~{fragments/search-form :: section}" th:with="titulo='Busca otro vuelo', action=@{/vuelos/buscar}, tipoServicio='VUELO'"></div>
 
     <hr style="margin: 40px 0;">
 

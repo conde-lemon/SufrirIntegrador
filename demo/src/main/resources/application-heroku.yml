@@ -1,11 +1,11 @@
 # ==========================================
-# PERFIL DE SPRING BOOT PARA HEROKU
+# PERFIL DE SPRING BOOT PARA RAILWAY/HEROKU
 # ==========================================
 spring:
   application:
     name: travel4u
 
-  # Base de datos Supabase
+  # Base de datos Supabase (Sobrescribe application.properties)
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
@@ -16,10 +16,16 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
+
+  # Desactivar H2 console en producción
+  h2:
+    console:
+      enabled: false
 
   # Thymeleaf
   thymeleaf:

@@ -4,18 +4,22 @@
 FROM eclipse-temurin:21-jdk AS build
 WORKDIR /app
 
-# Copiar archivos de configuración de Gradle (mantener estructura)
-COPY demo/gradlew .
-COPY demo/gradlew.bat .
-COPY demo/gradle/ gradle/
-COPY demo/build.gradle .
-COPY demo/settings.gradle .
+# Copiar archivos de Gradle wrapper primero (IMPORTANTE: mantener estructura exacta)
+COPY demo/gradlew ./
+COPY demo/gradlew.bat ./
+COPY demo/gradle ./gradle
+
+# Copiar archivos de configuración de Gradle
+COPY demo/build.gradle ./
+COPY demo/settings.gradle ./
 
 # Copiar código fuente
-COPY demo/src/ src/
+COPY demo/src ./src
 
-# Dar permisos de ejecución y construir
+# Dar permisos de ejecución
 RUN chmod +x gradlew
+
+# Construir la aplicación
 RUN ./gradlew clean build -x test --no-daemon
 
 # ==========================================

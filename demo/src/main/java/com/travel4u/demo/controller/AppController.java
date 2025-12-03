@@ -8,6 +8,8 @@ import com.travel4u.demo.usuario.repository.IUsuarioDAO;
 import com.travel4u.demo.oferta.model.Oferta;
 import com.travel4u.demo.oferta.repository.IOfertaDAO;
 import com.travel4u.demo.service.HotelOfferService;
+import com.travel4u.demo.scraper.service.ScrapingService;
+import com.travel4u.demo.scraper.model.OfertaScraping;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,13 +32,16 @@ public class AppController {
     private final PasswordEncoder passwordEncoder;
     private final IOfertaDAO ofertaDAO;
     private final HotelOfferService hotelOfferService;
+    private final ScrapingService scrapingService;
 
-    public AppController(IReservaDAO reservaDAO, IUsuarioDAO usuarioDAO, PasswordEncoder passwordEncoder, IOfertaDAO ofertaDAO, HotelOfferService hotelOfferService) {
+    public AppController(IReservaDAO reservaDAO, IUsuarioDAO usuarioDAO, PasswordEncoder passwordEncoder,
+                        IOfertaDAO ofertaDAO, HotelOfferService hotelOfferService, ScrapingService scrapingService) {
         this.reservaDAO = reservaDAO;
         this.usuarioDAO = usuarioDAO;
         this.passwordEncoder = passwordEncoder;
         this.ofertaDAO = ofertaDAO;
         this.hotelOfferService = hotelOfferService;
+        this.scrapingService = scrapingService;
     }
 
     /**
@@ -76,10 +81,17 @@ public class AppController {
             
             model.addAttribute("reservas", listaReservas);
             
+            // ===== WEB SCRAPING DE SKYSCANNER =====
+            // Obtener ofertas de vuelos desde Skyscanner mediante web scraping
+            List<OfertaScraping> ofertasScraping = scrapingService.scrapeOfertasPrincipales();
+            model.addAttribute("ofertasScraping", ofertasScraping);
+            System.out.println("[DEBUG] Ofertas de Skyscanner (scraping) cargadas: " + ofertasScraping.size());
+
+            // Ofertas de la base de datos (mantener como respaldo)
             List<Oferta> ofertas = ofertaDAO.findAll();
             model.addAttribute("ofertas", ofertas);
-            System.out.println("[DEBUG] Ofertas cargadas: " + ofertas.size());
-            
+            System.out.println("[DEBUG] Ofertas de BD cargadas: " + ofertas.size());
+
             // Cargar hoteles de Trivago
             List<Map<String, Object>> hoteles = hotelOfferService.getHotelOffers();
             model.addAttribute("hoteles", hoteles);

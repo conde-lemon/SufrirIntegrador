@@ -1,0 +1,49 @@
+<!-- Fragmento reutilizable para el buscador de servicios/vuelos -->
+<section class="search-section">
+    <h2 class="search-title" th:text="${titulo != null} ? ${titulo} : 'Busca tu próximo servicio'">Busca tu próximo servicio</h2>
+    <form class="search-form" th:action="${action != null} ? ${action} : @{/servicios/buscar}" method="GET">
+        <input type="hidden" name="tipo" th:value="${tipoServicio != null} ? ${tipoServicio} : 'VUELO'">
+        <div class="form-group">
+            <label class="form-label" for="select-from">Desde:</label>
+            <select class="form-select" id="select-from" name="origen" required>
+                <option value="">Selecciona un origen</option>
+                <option value="Peru">Perú</option>
+                <option value="Argentina">Argentina</option>
+                <option value="Brasil">Brasil</option>
+                <option value="Chile">Chile</option>
+                <option value="Colombia">Colombia</option>
+                <option value="Mexico">México</option>
+                <option value="Miami">Miami</option>
+                <option value="Barcelona">Barcelona</option>
+                <option value="Bergen">Bergen</option>
+                <option value="Southampton">Southampton</option>
+                <option value="Seattle">Seattle</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="select-to">Hacia:</label>
+            <select class="form-select" id="select-to" name="destino" required>
+                <option value="">Selecciona un destino</option>
+                <option value="Peru">Perú</option>
+                <option value="Argentina">Argentina</option>
+                <option value="Brasil">Brasil</option>
+                <option value="Chile">Chile</option>
+                <option value="Colombia">Colombia</option>
+                <option value="Mexico">México</option>
+                <option value="Miami">Miami</option>
+                <option value="Barcelona">Barcelona</option>
+                <option value="Bergen">Bergen</option>
+                <option value="Southampton">Southampton</option>
+                <option value="Seattle">Seattle</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="fecha">Fecha:</label>
+            <input type="date" class="form-input" id="fecha" name="fecha" required>
+        </div>
+        <div class="form-group-full">
+            <button type="submit" class="search-flight-btn">Buscar</button>
+        </div>
+    </form>
+</section>
+

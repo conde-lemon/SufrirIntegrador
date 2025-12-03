@@ -10,40 +10,7 @@ body {
     color: #333;
 }
 
-/* Header principal */
-.main-header {
-    background: #7b1fa2;
-    padding: 15px 0;
-}
 
-.header-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-}
-
-.logo {
-    color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.main-nav {
-    display: flex;
-    list-style: none;
-    gap: 30px;
-}
-
-.main-nav a {
-    color: white;
-    text-decoration: none;
-    padding: 10px 15px;
-    border-radius: 8px;
-    font-weight: 500;
-}
 
 /* Contenedor principal */
 .container {

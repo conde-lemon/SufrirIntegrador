@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Botón Service Desk WhatsApp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .test-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 4px solid #25D366;
+        }
+
+        .instructions h3 {
+            color: #25D366;
+            margin-bottom: 10px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .status {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .status-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .status-value {
+            color: #666;
+        }
+
+        /* Botón flotante de ayuda */
+        .help-float-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .help-float-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+        }
+
+        /* Modal de quejas */
+        .complaint-modal {
+            display: none;
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 320px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            animation: slideUp 0.3s ease;
+        }
+
+        .complaint-modal.active {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #25D366;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .submit-complaint {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-complaint:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-info {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .test-button {
+            background: #25D366;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .test-button:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid #c3e6cb;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="test-container">
+        <h1>🧪 Test - Botón Service Desk</h1>
+
+        <div class="instructions">
+            <h3>📋 Instrucciones de Prueba</h3>
+            <ol>
+                <li>Busca el <strong>botón verde flotante</strong> con el símbolo "?" en la esquina inferior derecha</li>
+                <li>Haz <strong>click en el botón</strong> para abrir el formulario</li>
+                <li>Completa los campos del formulario:
+                    <ul>
+                        <li>Nombre</li>
+                        <li>Email</li>
+                        <li>Descripción de la queja</li>
+                    </ul>
+                </li>
+                <li>Haz click en <strong>"Enviar por WhatsApp"</strong></li>
+                <li>Verifica que:
+                    <ul>
+                        <li>Se abre una nueva pestaña de WhatsApp</li>
+                        <li>El mensaje está pre-formateado con tus datos</li>
+                        <li>El enlace es: <code>https://wa.link/v156kr</code></li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div class="status">
+            <div class="status-item">
+                <span class="status-label">Estado del Botón:</span>
+                <span class="status-value" id="btnStatus">⏳ Esperando interacción...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Modal:</span>
+                <span class="status-value" id="modalStatus">Cerrado</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Formulario:</span>
+                <span class="status-value" id="formStatus">Sin datos</span>
+            </div>
+        </div>
+
+        <button class="test-button" onclick="testDirectWhatsApp()">
+            Probar WhatsApp Directo (sin formulario)
+        </button>
+
+        <div class="success-message" id="successMsg">
+            ✅ ¡Prueba exitosa! El botón funciona correctamente.
+        </div>
+    </div>
+
+    <!-- Botón flotante de ayuda -->
+    <button class="help-float-btn" onclick="toggleComplaintModal()" title="¿Necesitas ayuda?">
+        ?
+    </button>
+
+    <!-- Modal de quejas -->
+    <div class="complaint-modal" id="complaintModal">
+        <div class="modal-header">
+            <h3>Registrar Queja</h3>
+            <button class="close-modal" onclick="toggleComplaintModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="complaintForm" onsubmit="sendToWhatsApp(event)">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre completo">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required placeholder="tu@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="queja">Descripción de la queja:</label>
+                    <textarea id="queja" name="queja" required placeholder="Describe tu inconveniente..."></textarea>
+                </div>
+                <button type="submit" class="submit-complaint">
+                    Enviar por WhatsApp
+                </button>
+                <p class="whatsapp-info">
+                    Serás redirigido a WhatsApp para completar tu reporte
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Actualizar estado inicial
+        updateStatus('btnStatus', '✅ Botón cargado correctamente');
+
+        // Funciones para el modal de quejas
+        function toggleComplaintModal() {
+            const modal = document.getElementById('complaintModal');
+            const isActive = modal.classList.toggle('active');
+
+            if (isActive) {
+                updateStatus('modalStatus', '✅ Abierto');
+                updateStatus('btnStatus', '🟢 Botón clickeado - Modal abierto');
+            } else {
+                updateStatus('modalStatus', '❌ Cerrado');
+                updateStatus('btnStatus', '✅ Botón listo');
+            }
+        }
+
+        // Cerrar modal al hacer click fuera
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('complaintModal');
+            const btn = document.querySelector('.help-float-btn');
+
+            if (modal && modal.classList.contains('active')) {
+                if (!modal.contains(event.target) && !btn.contains(event.target)) {
+                    modal.classList.remove('active');
+                    updateStatus('modalStatus', '❌ Cerrado (click fuera)');
+                }
+            }
+        });
+
+        // Enviar queja por WhatsApp
+        function sendToWhatsApp(event) {
+            event.preventDefault();
+
+            const nombre = document.getElementById('nombre').value;
+            const email = document.getElementById('email').value;
+            const queja = document.getElementById('queja').value;
+
+            updateStatus('formStatus', `📝 ${nombre} - ${email}`);
+
+            // Construir el mensaje para WhatsApp
+            const mensaje = `*QUEJA - Travel4U*%0A%0A` +
+                           `*Nombre:* ${encodeURIComponent(nombre)}%0A` +
+                           `*Email:* ${encodeURIComponent(email)}%0A%0A` +
+                           `*Descripción:*%0A${encodeURIComponent(queja)}%0A%0A` +
+                           `_Enviado desde Travel4U_`;
+
+            // Redirigir a WhatsApp
+            const whatsappURL = `https://wa.link/v156kr?text=${mensaje}`;
+
+            console.log('🚀 Abriendo WhatsApp:', whatsappURL);
+            updateStatus('btnStatus', '✅ Redirigiendo a WhatsApp...');
+
+            window.open(whatsappURL, '_blank');
+
+            // Cerrar modal y limpiar formulario
+            setTimeout(() => {
+                toggleComplaintModal();
+                document.getElementById('complaintForm').reset();
+                updateStatus('formStatus', '✅ Enviado correctamente');
+                showSuccess();
+            }, 500);
+        }
+
+        // Test directo de WhatsApp
+        function testDirectWhatsApp() {
+            const mensaje = `*TEST - Travel4U*%0A%0AEsta es una prueba directa del botón de Service Desk.`;
+            const whatsappURL = `https://wa.link/v156kr?text=${mensaje}`;
+
+            console.log('🧪 Test directo:', whatsappURL);
+            updateStatus('btnStatus', '🧪 Prueba directa en progreso...');
+
+            window.open(whatsappURL, '_blank');
+
+            setTimeout(() => {
+                updateStatus('btnStatus', '✅ Test completado');
+                showSuccess();
+            }, 1000);
+        }
+
+        // Funciones auxiliares
+        function updateStatus(elementId, message) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = message;
+                console.log(`[${elementId}] ${message}`);
+            }
+        }
+
+        function showSuccess() {
+            const successMsg = document.getElementById('successMsg');
+            successMsg.classList.add('show');
+            setTimeout(() => {
+                successMsg.classList.remove('show');
+            }, 3000);
+        }
+
+        // Logging en consola
+        console.log('✅ Service Desk Test cargado correctamente');
+        console.log('📱 URL de WhatsApp: https://wa.link/v156kr');
+        console.log('🎯 Listo para probar el botón flotante');
+    </script>
+
+</body>
+</html>
+

@@ -23,4 +23,14 @@ public class TestController {
     public String showTestForm() {
         return "test-form";
     }
+
+    @GetMapping("/header")
+    public String showHeaderTest() {
+        return "header_test";
+    }
+
+    @GetMapping("/servicedesk")
+    public String showServiceDeskTest() {
+        return "servicedesk_test";
+    }
 }
