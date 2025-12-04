@@ -19,34 +19,33 @@ if (Test-Path "demo\src") {
     exit 1
 }
 
-# 2. Verificar gradle-wrapper.jar
-Write-Host "[2/5] Verificando gradle-wrapper.jar..." -ForegroundColor Yellow
-if (Test-Path "demo\gradle\wrapper\gradle-wrapper.jar") {
-    $size = (Get-Item "demo\gradle\wrapper\gradle-wrapper.jar").Length
-    Write-Host "      OK - Archivo existe ($size bytes)`n" -ForegroundColor Green
-} else {
-    Write-Host "      ERROR - gradle-wrapper.jar no existe`n" -ForegroundColor Red
-    $errores++
-}
-
-# 3. Verificar Dockerfile
-Write-Host "[3/5] Verificando Dockerfile..." -ForegroundColor Yellow
+# 2. Verificar Dockerfile (que use Gradle instalado, NO wrapper)
+Write-Host "[2/5] Verificando Dockerfile..." -ForegroundColor Yellow
 $dockerContent = Get-Content "Dockerfile" -Raw
-if ($dockerContent -match "COPY demo/gradle/ gradle/") {
-    Write-Host "      OK - Dockerfile correcto`n" -ForegroundColor Green
+if ($dockerContent -match "gradle-8\.5-bin\.zip") {
+    Write-Host "      OK - Dockerfile usa Gradle instalado`n" -ForegroundColor Green
 } else {
-    Write-Host "      ERROR - Dockerfile tiene sintaxis incorrecta`n" -ForegroundColor Red
+    Write-Host "      ERROR - Dockerfile debe instalar Gradle`n" -ForegroundColor Red
+    Write-Host "      Debe contener: wget https://services.gradle.org/distributions/gradle-8.5-bin.zip`n" -ForegroundColor Yellow
     $errores++
 }
 
-# 4. Verificar .dockerignore
-Write-Host "[4/5] Verificando .dockerignore..." -ForegroundColor Yellow
-$dockerignoreContent = Get-Content ".dockerignore" -Raw
-if ($dockerignoreContent -match "gradle-wrapper\.jar") {
-    Write-Host "      ERROR - .dockerignore bloquea gradle-wrapper.jar`n" -ForegroundColor Red
+# 3. Verificar que Dockerfile NO use gradlew
+Write-Host "[3/5] Verificando que NO use gradlew..." -ForegroundColor Yellow
+if ($dockerContent -match "\.\/gradlew" -or $dockerContent -match "COPY demo/gradlew") {
+    Write-Host "      ERROR - Dockerfile usa ./gradlew (debe usar 'gradle')`n" -ForegroundColor Red
     $errores++
 } else {
-    Write-Host "      OK - .dockerignore correcto`n" -ForegroundColor Green
+    Write-Host "      OK - No usa gradlew`n" -ForegroundColor Green
+}
+
+# 4. Verificar que use comando 'gradle'
+Write-Host "[4/5] Verificando comando gradle..." -ForegroundColor Yellow
+if ($dockerContent -match "RUN gradle clean build") {
+    Write-Host "      OK - Usa comando 'gradle'`n" -ForegroundColor Green
+} else {
+    Write-Host "      ERROR - Debe usar 'gradle clean build'`n" -ForegroundColor Red
+    $errores++
 }
 
 # 5. Verificar Git
@@ -64,7 +63,19 @@ if ($errores -gt 0) {
     Write-Host "   ENCONTRADOS $errores ERRORES" -ForegroundColor Red
     Write-Host "========================================" -ForegroundColor Cyan
     Write-Host ""
-    Write-Host "Corrige los errores antes de continuar." -ForegroundColor Yellow
+    Write-Host "SOLUCION:" -ForegroundColor Yellow
+    Write-Host "Tu Dockerfile debe tener estas lineas:" -ForegroundColor White
+    Write-Host ""
+    Write-Host "  RUN apt-get update && \" -ForegroundColor Cyan
+    Write-Host "      apt-get install -y wget unzip && \" -ForegroundColor Cyan
+    Write-Host "      wget https://services.gradle.org/distributions/gradle-8.5-bin.zip && \" -ForegroundColor Cyan
+    Write-Host "      unzip gradle-8.5-bin.zip && \" -ForegroundColor Cyan
+    Write-Host "      mv gradle-8.5 /opt/gradle" -ForegroundColor Cyan
+    Write-Host ""
+    Write-Host "  ENV PATH=`"/opt/gradle/bin:`${PATH}`"" -ForegroundColor Cyan
+    Write-Host ""
+    Write-Host "  RUN gradle clean build -x test --no-daemon" -ForegroundColor Cyan
+    Write-Host ""
     exit 1
 }
 
@@ -151,7 +162,7 @@ Write-Host ""
 
 # Commit
 $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm"
-$commitMsg = "Fix: Railway deploy - Dockerfile y dockerignore corregidos - $timestamp"
+$commitMsg = "Fix: Usar Gradle instalado en lugar de wrapper - $timestamp"
 Write-Host "Commit: $commitMsg" -ForegroundColor Yellow
 git commit -m "$commitMsg"
 
@@ -181,6 +192,7 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host "   Deployments > Ultimo deploy > View Logs" -ForegroundColor White
     Write-Host ""
     Write-Host "BUSCAR EN LOGS:" -ForegroundColor Yellow
+    Write-Host "   'Downloading Gradle 8.5' ✅" -ForegroundColor Green
     Write-Host "   'BUILD SUCCESSFUL in Xs Ym' ✅" -ForegroundColor Green
     Write-Host "   'Started DemoApplication in X.XXX seconds' ✅" -ForegroundColor Green
     Write-Host ""
@@ -201,4 +213,3 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host "Verifica con: git remote -v" -ForegroundColor Cyan
     Write-Host ""
 }
-
