@@ -1,5 +1,6 @@
 package com.travel4u.demo.controller;
 
+import com.travel4u.demo.controller.dto.ServicioDTO;
 import com.travel4u.demo.servicio.model.Servicio;
 import com.travel4u.demo.servicio.repository.IServicioDAO;
 import com.travel4u.demo.servicio.repository.IProveedorDAO;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -39,15 +41,47 @@ public class ServiciosController {
      * Usado por el panel de administración para mostrar la tabla de servicios
      */
     @GetMapping("/servicios")
-    public ResponseEntity<List<Servicio>> listarServicios() {
+    public ResponseEntity<?> listarServicios() {
         try {
             logger.info("Listando todos los servicios");
             List<Servicio> servicios = servicioDAO.findAll();
-            return ResponseEntity.ok(servicios);
+            logger.info("Se encontraron {} servicios", servicios.size());
+
+            // Convertir a DTO para evitar problemas de serialización
+            List<ServicioDTO> serviciosDTO = servicios.stream()
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
+
+            return ResponseEntity.ok(serviciosDTO);
         } catch (Exception e) {
-            logger.error("Error al listar servicios", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            logger.error("Error al listar servicios: {}", e.getMessage(), e);
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Error al obtener servicios");
+            error.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
+    }
+
+    /**
+     * Convierte un Servicio a ServicioDTO
+     */
+    private ServicioDTO convertirADTO(Servicio servicio) {
+        return ServicioDTO.builder()
+            .idServicio(servicio.getIdServicio())
+            .tipoServicio(servicio.getTipoServicio())
+            .nombre(servicio.getNombre())
+            .origen(servicio.getOrigen())
+            .destino(servicio.getDestino())
+            .tags(servicio.getTags())
+            .precioBase(servicio.getPrecioBase())
+            .disponibilidad(servicio.getDisponibilidad())
+            .descripcion(servicio.getDescripcion())
+            .activo(servicio.isActivo())
+            .createdAt(servicio.getCreatedAt())
+            .idProveedor(servicio.getProveedor() != null ? servicio.getProveedor().getIdProveedor() : null)
+            .nombreProveedor(servicio.getProveedor() != null ? servicio.getProveedor().getNombre() : null)
+            .tipoProveedor(servicio.getProveedor() != null ? servicio.getProveedor().getTipoProveedor() : null)
+            .build();
     }
 
     /**
@@ -380,3 +414,4 @@ public class ServiciosController {
         }
     }
 }
+

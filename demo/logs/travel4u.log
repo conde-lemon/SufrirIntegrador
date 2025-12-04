@@ -1,78 +1,29 @@
-2025-12-03 09:17:59.849 [Test worker] INFO  c.t.d.s.s.ScrapingServiceIntegrationTest - Starting ScrapingServiceIntegrationTest using Java 21.0.7 with PID 5132 (started by LENOVO in C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)\demo)
-2025-12-03 09:17:59.858 [Test worker] INFO  c.t.d.s.s.ScrapingServiceIntegrationTest - The following 1 profile is active: "test"
-2025-12-03 09:18:00.864 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-12-03 09:18:00.970 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 91 ms. Found 10 JPA repository interfaces.
-2025-12-03 09:18:02.308 [Test worker] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-12-03 09:18:02.347 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-12-03 09:18:04.622 [Test worker] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3bf26810
-2025-12-03 09:18:04.628 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-12-03 09:18:04.795 [Test worker] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-12-03 09:18:05.207 [Test worker] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2003, org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@74a03bd5) replaced previous registration(org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@87fc0fc)
-2025-12-03 09:18:05.207 [Test worker] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(6, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@671f545b) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@c335b9)
-2025-12-03 09:18:13.632 [Test worker] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-12-03 09:18:14.175 [Test worker] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-12-03 09:18:14.929 [Test worker] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-12-03 09:18:14.976 [Test worker] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
-2025-12-03 09:18:15.260 [Test worker] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
-2025-12-03 09:18:15.831 [Test worker] INFO  c.t.d.s.s.ScrapingServiceIntegrationTest - Started ScrapingServiceIntegrationTest in 16.435 seconds (process running for 17.98)
-2025-12-03 09:18:17.392 [Test worker] INFO  c.t.d.s.service.ScrapingService - Se encontraron 0 tarjetas de oferta en Skyscanner.
-2025-12-03 09:18:17.392 [Test worker] WARN  c.t.d.s.service.ScrapingService - El scraping no devolvió resultados. Usando datos de respaldo.
-2025-12-03 09:18:17.834 [Test worker] INFO  c.t.d.s.service.ScrapingService - Se encontraron 0 tarjetas de oferta en Skyscanner.
-2025-12-03 09:18:17.834 [Test worker] WARN  c.t.d.s.service.ScrapingService - El scraping no devolvió resultados. Usando datos de respaldo.
-2025-12-03 09:18:18.457 [Test worker] INFO  c.t.d.s.service.ScrapingService - Se encontraron 0 tarjetas de oferta en Skyscanner.
-2025-12-03 09:18:18.457 [Test worker] WARN  c.t.d.s.service.ScrapingService - El scraping no devolvió resultados. Usando datos de respaldo.
-2025-12-03 09:18:20.085 [Test worker] INFO  c.t.d.s.service.ScrapingService - Se encontraron 0 tarjetas de oferta en Skyscanner.
-2025-12-03 09:18:20.085 [Test worker] WARN  c.t.d.s.service.ScrapingService - El scraping no devolvió resultados. Usando datos de respaldo.
-2025-12-03 09:18:20.604 [Test worker] INFO  c.t.d.s.service.ScrapingService - Se encontraron 0 tarjetas de oferta en Skyscanner.
-2025-12-03 09:18:20.604 [Test worker] WARN  c.t.d.s.service.ScrapingService - El scraping no devolvió resultados. Usando datos de respaldo.
-2025-12-03 09:18:21.000 [Test worker] INFO  c.t.d.s.service.ScrapingService - Se encontraron 0 tarjetas de oferta en Skyscanner.
-2025-12-03 09:18:21.000 [Test worker] WARN  c.t.d.s.service.ScrapingService - El scraping no devolvió resultados. Usando datos de respaldo.
-2025-12-03 09:18:21.418 [Test worker] INFO  c.t.d.s.service.ScrapingService - Se encontraron 0 tarjetas de oferta en Skyscanner.
-2025-12-03 09:18:21.418 [Test worker] WARN  c.t.d.s.service.ScrapingService - El scraping no devolvió resultados. Usando datos de respaldo.
-2025-12-03 09:18:21.816 [Test worker] INFO  c.t.d.s.service.ScrapingService - Se encontraron 0 tarjetas de oferta en Skyscanner.
-2025-12-03 09:18:21.816 [Test worker] WARN  c.t.d.s.service.ScrapingService - El scraping no devolvió resultados. Usando datos de respaldo.
-2025-12-03 09:18:22.233 [Test worker] INFO  c.t.d.s.service.ScrapingService - Se encontraron 0 tarjetas de oferta en Skyscanner.
-2025-12-03 09:18:22.233 [Test worker] WARN  c.t.d.s.service.ScrapingService - El scraping no devolvió resultados. Usando datos de respaldo.
-2025-12-03 09:18:22.601 [Test worker] INFO  c.t.d.s.service.ScrapingService - Se encontraron 0 tarjetas de oferta en Skyscanner.
-2025-12-03 09:18:22.601 [Test worker] WARN  c.t.d.s.service.ScrapingService - El scraping no devolvió resultados. Usando datos de respaldo.
-2025-12-03 09:18:23.320 [Test worker] INFO  c.t.d.s.service.ScrapingService - Se encontraron 1 tarjetas de oferta en Skyscanner.
-2025-12-03 09:18:23.361 [Test worker] ERROR c.t.d.s.service.ScrapingService - Error durante el web scraping a https://www.espanol.skyscanner.com/: Connection failed
-2025-12-03 09:18:23.363 [Test worker] WARN  c.t.d.s.service.ScrapingService - El scraping no devolvió resultados. Usando datos de respaldo.
-2025-12-03 09:18:23.371 [Test worker] INFO  c.t.d.s.service.ScrapingService - Se encontraron 0 tarjetas de oferta en Skyscanner.
-2025-12-03 09:18:23.371 [Test worker] WARN  c.t.d.s.service.ScrapingService - El scraping no devolvió resultados. Usando datos de respaldo.
-2025-12-03 09:18:23.381 [Test worker] INFO  c.t.d.s.service.ScrapingService - Se encontraron 1 tarjetas de oferta en Skyscanner.
-2025-12-03 09:18:23.381 [Test worker] WARN  c.t.d.s.service.ScrapingService - El scraping no devolvió resultados. Usando datos de respaldo.
-2025-12-03 09:18:23.392 [Test worker] INFO  c.t.d.s.service.ScrapingService - Se encontraron 1 tarjetas de oferta en Skyscanner.
-2025-12-03 09:18:23.405 [Test worker] INFO  c.t.d.s.service.ScrapingService - Se encontraron 1 tarjetas de oferta en Skyscanner.
-2025-12-03 09:18:23.443 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-12-03 09:18:23.449 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-12-03 09:18:25.509 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2025-12-03 09:18:54.536 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Starting DemoApplication using Java 21.0.7 with PID 23444 (C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)\demo\build\classes\java\main started by LENOVO in C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)\demo)
-2025-12-03 09:18:54.536 [restartedMain] INFO  com.travel4u.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
-2025-12-03 09:18:54.575 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2025-12-03 09:18:54.575 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2025-12-03 09:18:55.226 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-12-03 09:18:55.305 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 68 ms. Found 10 JPA repository interfaces.
-2025-12-03 09:18:55.953 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
-2025-12-03 09:18:55.969 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
-2025-12-03 09:18:55.969 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-12-03 09:18:55.969 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.46]
-2025-12-03 09:18:56.016 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-12-03 09:18:56.016 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1441 ms
-2025-12-03 09:18:56.503 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-12-03 09:18:56.538 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-12-03 09:18:58.309 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1d6b2b03
-2025-12-03 09:18:58.309 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-12-03 09:18:58.481 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-12-03 09:18:58.888 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2003, org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@212f1ea9) replaced previous registration(org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@62ade9f3)
-2025-12-03 09:18:58.888 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(6, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@2269b0e) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@1f923767)
-2025-12-03 09:19:07.297 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-12-03 09:19:07.650 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-12-03 09:19:08.187 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-12-03 09:19:08.218 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
-2025-12-03 09:19:08.412 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
-2025-12-03 09:19:08.828 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://aws-1-us-east-1.pooler.supabase.com:5432/postgres?user=postgres.tiifltprjgtyfimhnezi'
-2025-12-03 09:19:08.911 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2025-12-03 09:19:08.931 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8081"]
-2025-12-03 09:19:08.944 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
-2025-12-03 09:19:08.957 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Started DemoApplication in 14.908 seconds (process running for 15.343)
+2025-12-04 09:09:48.340 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Starting DemoApplication using Java 21.0.7 with PID 14732 (C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)\demo\build\classes\java\main started by LENOVO in C:\Users\LENOVO\Documents\utp\ciclo7\integrador\demo (1)\demo)
+2025-12-04 09:09:48.346 [restartedMain] INFO  com.travel4u.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+2025-12-04 09:09:48.405 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-04 09:09:48.406 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-04 09:09:49.192 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-04 09:09:49.322 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 114 ms. Found 10 JPA repository interfaces.
+2025-12-04 09:09:49.925 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2025-12-04 09:09:49.936 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
+2025-12-04 09:09:49.937 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-04 09:09:49.938 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-12-04 09:09:49.979 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-12-04 09:09:49.980 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1572 ms
+2025-12-04 09:09:50.475 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-04 09:09:50.501 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-12-04 09:09:52.516 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6269a715
+2025-12-04 09:09:52.517 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-12-04 09:09:52.749 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-04 09:09:53.232 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2003, org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@64e546b0) replaced previous registration(org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@147d198e)
+2025-12-04 09:09:53.232 [restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(6, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@18b95927) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@489cc41c)
+2025-12-04 09:10:01.860 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-04 09:10:02.222 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-04 09:10:02.795 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-04 09:10:02.833 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-12-04 09:10:03.024 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-12-04 09:10:03.445 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://aws-1-us-east-1.pooler.supabase.com:5432/postgres?user=postgres.tiifltprjgtyfimhnezi'
+2025-12-04 09:10:03.512 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-12-04 09:10:03.526 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8081"]
+2025-12-04 09:10:03.541 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2025-12-04 09:10:03.548 [restartedMain] INFO  com.travel4u.demo.DemoApplication - Started DemoApplication in 15.815 seconds (process running for 16.354)

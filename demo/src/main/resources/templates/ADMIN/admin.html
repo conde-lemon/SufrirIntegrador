@@ -25,19 +25,64 @@
             color: #333;
         }
 
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, #7c4dff 0%, #9c27b0 100%);
-            color: white;
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        /* ========================================= */
+        /* ESTILOS PARA EL HEADER (VERSIÓN SIMPLE - SOLO LOGOUT) */
+        /* ========================================= */
+        .main-header {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            padding: 0 40px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 70px;
         }
 
-        .header h1 {
-            margin: 0;
-            font-size: 1.8rem;
-            font-weight: 600;
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
         }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #7b1fa2;
+            text-decoration: none;
+        }
+
+        .btn-logout {
+            padding: 10px 24px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-logout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+            background: linear-gradient(135deg, #c0392b, #a93226);
+        }
+
+        .btn-logout svg {
+            width: 18px;
+            height: 18px;
+        }
+        /* ========================================= */
+        /* FIN ESTILOS HEADER */
+        /* ========================================= */
 
         /* Container principal */
         .container {
@@ -469,8 +514,17 @@
 
 <body>
 <!-- Header -->
-<header class="header">
-    <h1>Panel de Administración</h1>
+<header class="main-header">
+    <div class="header-content">
+        <a href="#" class="logo">AdminPanel</a>
+
+        <!-- Botón de logout (cerrar sesión) -->
+        <form action="/logout" method="POST" class="logout-form">
+            <button type="submit" class="btn-logout">
+                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+            </button>
+        </form>
+    </div>
 </header>
 
 <div class="container">
@@ -513,9 +567,7 @@
                 <button class="toggle-filters" id="toggle-filters">Filtros Avanzados</button>
 
                 <div class="action-buttons">
-                    <button class="btn btn-small btn-success" id="generate-report">
-                        <i class="bi bi-file-earmark-pdf"></i> Generar Reporte
-                    </button>
+
                     <button class="btn btn-small btn-danger btn-delete" id="toggle-delete">
                         Eliminar
                     </button>
@@ -693,7 +745,6 @@
             <div class="toolbar">
                 <input type="text" class="search-input" id="search-boletas" placeholder="Buscar boletas...">
                 <div class="action-buttons">
-                    <button class="btn btn-small btn-success" id="export-boletas"><i class="bi bi-file-earmark-pdf"></i> Exportar</button>
                 </div>
             </div>
 
@@ -723,7 +774,7 @@
 <div class="modal" id="edit-user-modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 class="modal-title">Editar Usuario</h3>
+
             <button class="close-modal">&times;</button>
         </div>
         <form id="edit-user-form">
@@ -1140,7 +1191,7 @@
                         <td><span class="badge ${servicio.activo ? 'bg-success' : 'bg-secondary'}">${servicio.activo ? 'Activo' : 'Inactivo'}</span></td>
                         <td>
                             <div class="action-buttons">
-                                <button class="btn btn-small btn-primary" onclick="editarServicio(${servicio.idServicio})">Editar</button>
+
                                 <button class="btn btn-small btn-danger" onclick="eliminarServicio(${servicio.idServicio})">Eliminar</button>
                             </div>
                         </td>

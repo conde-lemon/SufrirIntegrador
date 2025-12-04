@@ -1,5 +1,6 @@
 package com.travel4u.demo.servicio.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -45,9 +46,10 @@ public class Servicio {
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="id_proveedor")
     @ToString.Exclude // <-- ¡MUY IMPORTANTE para romper el ciclo!
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Proveedor proveedor;
 
     private boolean activo = true;
