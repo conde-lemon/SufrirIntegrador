@@ -1,6 +1,6 @@
-# 👤 MANUAL DE USUARIO - TRAVEL4U
+# MANUAL DE USUARIO - TRAVEL4U
 
-## 📋 Tabla de Contenidos
+## Tabla de Contenidos
 
 1. [Introducción](#introducción)
 2. [Acceso al Sistema](#acceso-al-sistema)
@@ -18,17 +18,17 @@
 
 ---
 
-## 🌟 Introducción
+## Introducción
 
 **Travel4U** es tu plataforma integral para reservar servicios de viaje:
-- ✈️ **Vuelos** nacionales e internacionales
-- 🚢 **Cruceros** a destinos increíbles
-- 🚌 **Buses** interprovinciales
-- 🏨 **Hoteles** (próximamente)
+- **Vuelos** nacionales e internacionales
+- **Cruceros** a destinos increíbles
+- **Buses** interprovinciales
+- **Hoteles** (próximamente)
 
 ---
 
-## 🔐 Acceso al Sistema
+## Acceso al Sistema
 
 ### URL de Acceso
 
@@ -280,7 +280,7 @@ Verás todas tus reservas con:
 │ Reserva #12345                         │
 │ Lima - Cusco                           │
 │ Fecha: 15/12/2025                      │
-│ Estado: ✅ CONFIRMADA                  │
+│ Estado: CONFIRMADA                     │
 │ Precio: S/ 150.00                      │
 │ [Ver Detalle] [Descargar Boleta]      │
 └────────────────────────────────────────┘
@@ -348,11 +348,11 @@ Verás y podrás editar:
 
 ---
 
-## 💳 Realizar Pagos
+## Realizar Pagos
 
 ### Métodos de Pago Disponibles
 
-- 💳 **Tarjeta de Crédito/Débito**
+- **Tarjeta de Crédito/Débito**
 - 🌐 **PayPal**
 - 💰 **Transferencia Bancaria**
 
@@ -397,7 +397,7 @@ Si el pago falla:
 
 ---
 
-## 🧾 Ver Boletas
+## Ver Boletas
 
 ### Acceder a Boletas
 
@@ -443,7 +443,7 @@ Verás todas las boletas emitidas:
 
 ---
 
-## ❓ Solución de Problemas
+## Solución de Problemas
 
 ### No puedo iniciar sesión
 
@@ -510,9 +510,9 @@ Verás todas las boletas emitidas:
 
 ---
 
-## 📱 Consejos de Uso
+## Consejos de Uso
 
-### ✅ Mejores Prácticas
+### Mejores Prácticas
 
 1. **Reserva con anticipación**: Mejores precios y disponibilidad
 2. **Compara opciones**: Revisa diferentes vuelos/buses antes de reservar
@@ -520,7 +520,7 @@ Verás todas las boletas emitidas:
 4. **Verifica datos**: Revisa bien los datos de pasajeros antes de confirmar
 5. **Completa el pago rápido**: Las reservas sin pagar expiran en 24h
 
-### ⚡ Atajos de Teclado
+### Atajos de Teclado
 
 - `Ctrl + F`: Buscar en la página
 - `F5`: Refrescar página
@@ -530,20 +530,20 @@ Verás todas las boletas emitidas:
 ### 📧 Notificaciones por Email
 
 Recibirás emails cuando:
-- ✅ Completes una reserva
-- 💳 Se procese un pago
-- 🎫 Se emita una boleta
-- ⏰ Recordatorio de viaje (24h antes)
-- ❌ Se cancele una reserva
+- Completes una reserva
+- Se procese un pago
+- Se emita una boleta
+- Recordatorio de viaje (24h antes)
+- Se cancele una reserva
 
 ---
 
-## 📞 Soporte y Contacto
+## Soporte y Contacto
 
 ### Contactar Soporte
 
-- 📧 **Email**: soporte@travel4u.com
-- 📱 **WhatsApp**: +51 987 654 321
+- **Email**: soporte@travel4u.com
+- **WhatsApp**: +51 987 654 321
 - ⏰ **Horario**: Lun-Dom 8:00 AM - 10:00 PM
 
 ### Preguntas Frecuentes
@@ -566,7 +566,7 @@ Recibirás emails cuando:
 
 ---
 
-## 🎯 Flujo Completo de Uso
+## Flujo Completo de Uso
 
 ```
 1. Registrarse/Iniciar Sesión

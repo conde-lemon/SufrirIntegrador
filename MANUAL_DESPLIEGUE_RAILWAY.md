@@ -1,528 +1,344 @@
-# [RAILWAY] MANUAL DE DESPLIEGUE EN RAILWAY - TRAVEL4U
+# 🚀 MANUAL DE DESPLIEGUE EN RAILWAY - TRAVEL4U
 
-## [INDICE] Tabla de Contenidos
+## 📋 Tabla de Contenidos
 
 1. [Preparación](#preparación)
-2. [Despliegue del Backend (Microservicio)](#despliegue-del-backend)
-3. [Despliegue del Frontend (React)](#despliegue-del-frontend)
-4. [Configuración de Variables de Entorno](#configuración-de-variables)
-5. [Verificación y Testing](#verificación)
-6. [Solución de Problemas](#solución-de-problemas)
+2. [Crear Proyecto en Railway](#crear-proyecto-en-railway)
+3. [Configurar Variables de Entorno](#configurar-variables-de-entorno)
+4. [Generar Dominio Público](#generar-dominio-público)
+5. [Verificación del Despliegue](#verificación-del-despliegue)
+6. [Actualizar la Aplicación](#actualizar-la-aplicación)
 
 ---
 
-## [PKG] Preparación
+## 📦 Preparación
 
 ### Requisitos Previos
 
 - ✅ Cuenta en [Railway.app](https://railway.app)
 - ✅ Cuenta en GitHub
 - ✅ Base de datos Supabase configurada
-- ✅ Código del proyecto en GitHub
 
-### Estructura del Proyecto
+### Repositorio del Proyecto
 
+El código está alojado en:
 ```
-travel4u-microservices/
-├── backend/
-│   └── servicios-service/        # Microservicio Spring Boot
-└── frontend/
-    └── travel4u-frontend/        # Aplicación React
+https://github.com/conde-lemon/SufrirIntegrador
 ```
+
+**No necesitas subir nada a GitHub**, el código ya está en el repositorio listo para desplegar.
 
 ---
 
-## [TOOL] PARTE 1: Despliegue del Backend
+## 🚂 PASO 1: Crear Proyecto en Railway
 
-### Paso 1: Preparar el Repositorio
+## 🚂 PASO 1: Crear Proyecto en Railway
 
-1. **Crear repositorio en GitHub** (si no existe):
+1. **Ir a Railway:**
+   - Abre: https://railway.app
+   - Haz login con GitHub
 
-```bash
-cd travel4u-microservices
-git init
-git add .
-git commit -m "Initial commit - Travel4U microservices"
-git remote add origin https://github.com/TU-USUARIO/travel4u-microservices.git
-git push -u origin main
+2. **Crear nuevo proyecto:**
+   - Click en **"New Project"**
+   - Selecciona **"Deploy from GitHub repo"**
+   - Autoriza el acceso a GitHub si es necesario
+
+3. **Seleccionar repositorio:**
+   - Busca y selecciona: **`conde-lemon/SufrirIntegrador`**
+   - Click en el repositorio
+
+4. **Railway detectará automáticamente:**
+   - El Dockerfile
+   - Comenzará a construir la aplicación
+   - Verás los logs de build en tiempo real
+
+5. **Esperar el primer build:**
+   - Puede tomar 5-8 minutos
+   - Railway descargará dependencias y compilará
+
+---
+
+## ⚙️ PASO 2: Configurar Variables de Entorno
+
+### ⚠️ CRÍTICO - SIN ESTAS VARIABLES LA APP NO FUNCIONA
+
+En Railway:
+1. Click en tu proyecto
+2. Ve a **"Variables"** (en el menú lateral)
+3. Agrega las siguientes 5 variables:
+
+### Variable 1: SPRING_PROFILES_ACTIVE
 ```
-
-2. **Asegurar que existe `system.properties`** en `backend/servicios-service/`:
-
-```properties
-java.runtime.version=17
+SPRING_PROFILES_ACTIVE=heroku
 ```
+**Qué hace:** Activa el perfil de configuración para producción
 
-### Paso 2: Crear Proyecto en Railway
+### Variable 2: SPRING_DATASOURCE_URL
+```
+SPRING_DATASOURCE_URL=jdbc:postgresql://db.tiifltprjgtyfimhnezi.supabase.co:5432/postgres
+```
+**Qué hace:** URL de conexión a tu base de datos Supabase
 
-1. Ir a [railway.app](https://railway.app)
-2. Click en **"New Project"**
-3. Seleccionar **"Deploy from GitHub repo"**
-4. Autorizar acceso a GitHub
-5. Seleccionar el repositorio `travel4u-microservices`
+⚠️ **IMPORTANTE:** Si tu URL de Supabase es diferente, cámbiala aquí.
 
-### Paso 3: Configurar el Servicio Backend
+**¿Cómo obtener tu URL de Supabase?**
+1. Ve a: https://supabase.com/dashboard
+2. Selecciona tu proyecto
+3. Settings → Database
+4. Busca "Connection string" o "Host"
+5. El formato debe ser: `jdbc:postgresql://TU-HOST:5432/postgres`
 
-1. **Configurar Root Directory**:
-   - Click en el servicio
-   - Settings → Root Directory
-   - Establecer: `backend/servicios-service`
-
-2. **Configurar Build Command**:
-   - Settings → Build
-   - Build Command: `./gradlew build -x test`
-
-3. **Configurar Start Command**:
-   - Settings → Deploy
-   - Start Command: `java -jar build/libs/servicios-service-1.0.0.jar`
-
-### Paso 4: Configurar Variables de Entorno
-
-En Settings → Variables, agregar:
-
-```env
-# Base de Datos
-SPRING_DATASOURCE_URL=jdbc:postgresql://aws-1-us-east-1.pooler.supabase.com:5432/postgres
+### Variable 3: SPRING_DATASOURCE_USERNAME
+```
 SPRING_DATASOURCE_USERNAME=postgres
+```
+**Qué hace:** Usuario de la base de datos (normalmente es "postgres")
+
+### Variable 4: SPRING_DATASOURCE_PASSWORD 🔴 REQUERIDO
+```
 SPRING_DATASOURCE_PASSWORD=zoet5w5ksSEdkikt
-
-# JPA
-SPRING_JPA_HIBERNATE_DDL_AUTO=update
-SPRING_JPA_SHOW_SQL=false
-
-# Servidor
-SERVER_PORT=8080
-SPRING_PROFILES_ACTIVE=railway
-
-# CORS (usar el dominio del frontend cuando esté desplegado)
-CORS_ALLOWED_ORIGINS=*
 ```
+**Qué hace:** Contraseña de tu base de datos Supabase
 
-### Paso 5: Actualizar application.yml
+⚠️ **REEMPLAZA** `zoet5w5ksSEdkikt` con tu contraseña **REAL** de Supabase.
 
-Crear `application-railway.yml` en `src/main/resources/`:
+**¿Dónde encontrar tu contraseña?**
+1. Ve a: https://supabase.com/dashboard
+2. Selecciona tu proyecto
+3. Settings → Database
+4. Busca "Database Password"
+5. Si no la recuerdas, puedes resetearla allí
 
-```yaml
-spring:
-  application:
-    name: servicios-service
-  
-  datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-    hikari:
-      maximum-pool-size: 5
-      minimum-idle: 2
-  
-  jpa:
-    hibernate:
-      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
-    show-sql: ${SPRING_JPA_SHOW_SQL:false}
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-
-server:
-  port: ${PORT:8080}
-
-logging:
-  level:
-    root: INFO
-    com.travel4u: INFO
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info
+### Variable 5: PORT
 ```
-
-### Paso 6: Actualizar SecurityConfig para CORS
-
-En `SecurityConfig.java`:
-
-```java
-@Configuration
-@EnableWebSecurity
-public class SecurityConfig {
-
-    @Value("${CORS_ALLOWED_ORIGINS:*}")
-    private String corsAllowedOrigins;
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/**").permitAll()
-                .requestMatchers("/actuator/**").permitAll()
-                .anyRequest().authenticated()
-            );
-
-        return http.build();
-    }
-
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(corsAllowedOrigins.split(",")));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setAllowCredentials(false);
-        
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
-}
+PORT=8080
 ```
+**Qué hace:** Puerto en el que la aplicación escuchará
 
-### Paso 7: Desplegar
+---
 
-1. Hacer commit de los cambios:
+### ✅ Verificar Variables Configuradas
 
-```bash
-git add .
-git commit -m "Configure for Railway deployment"
-git push
-```
+En Railway → Variables, deberías ver:
 
-2. Railway detectará el push y comenzará el despliegue automáticamente
+| Variable | Valor |
+|----------|-------|
+| SPRING_PROFILES_ACTIVE | `heroku` |
+| SPRING_DATASOURCE_URL | `jdbc:postgresql://...` |
+| SPRING_DATASOURCE_USERNAME | `postgres` |
+| SPRING_DATASOURCE_PASSWORD | `********` (oculta) |
+| PORT | `8080` |
 
-3. Esperar a que el deploy termine (5-10 minutos)
+**Después de agregar las variables:**
+- Railway redespleará automáticamente
+- Espera 2-3 minutos
+- Verifica los logs para confirmar que inició correctamente
 
-4. Railway te dará una URL pública, ejemplo:
+---
+
+## 🌐 PASO 3: Generar Dominio Público
+
+1. En Railway, ve a tu proyecto
+2. Click en **"Settings"** (engranaje)
+3. Sección **"Domains"**
+4. Click en **"Generate Domain"**
+5. Railway te dará una URL pública, ejemplo:
    ```
-   https://servicios-service-production.up.railway.app
+   https://travel4u-production.up.railway.app
    ```
 
-### Paso 8: Verificar el Despliegue
-
-Probar el health endpoint:
-
-```bash
-curl https://TU-URL.railway.app/actuator/health
-```
-
-Respuesta esperada:
-```json
-{"status":"UP"}
-```
-
-Probar la API:
-```bash
-curl https://TU-URL.railway.app/api/vuelos
-```
+**Esta es la URL que usarás para acceder a tu aplicación.**
 
 ---
 
-## [WEB] PARTE 2: Despliegue del Frontend
+## ✅ PASO 4: Verificar Despliegue Exitoso
 
-### Paso 1: Preparar el Frontend para Producción
+### Ver Logs del Despliegue
 
-1. **Actualizar `serviciosAPI.js`** para usar variables de entorno:
+1. En Railway → Tu proyecto
+2. Tab **"Deployments"**
+3. Click en el último deployment
+4. Ver **"View Logs"**
 
-```javascript
-// src/services/serviciosAPI.js
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8083/api';
+### Buscar Mensajes de Éxito
 
-const serviciosAPI = {
-  // ...resto del código sin cambios
-};
+Deberías ver algo como:
+
+```
+✅ BUILD SUCCESSFUL in 3m 24s
+✅ Started DemoApplication in 45.123 seconds
+✅ Tomcat started on port(s): 8080
+✅ Application is ready to serve requests
 ```
 
-2. **Crear archivo `.env.production`** en `frontend/travel4u-frontend/`:
+### Probar la Aplicación
 
-```env
-REACT_APP_API_URL=https://TU-BACKEND-URL.railway.app/api
-```
+1. **Abrir en el navegador:**
+   ```
+   https://TU-APP.up.railway.app
+   ```
 
-### Paso 2: Crear Nuevo Servicio en Railway
+2. **Probar endpoints:**
+   ```
+   https://TU-APP.up.railway.app/
+   https://TU-APP.up.railway.app/vuelos
+   https://TU-APP.up.railway.app/login
+   ```
 
-1. En el mismo proyecto de Railway
-2. Click en **"New"** → **"GitHub Repo"**
-3. Seleccionar el mismo repositorio
-4. Configurar:
-   - **Root Directory**: `frontend/travel4u-frontend`
-   - **Build Command**: `npm install && npm run build`
-   - **Start Command**: `npx serve -s build -p $PORT`
-
-### Paso 3: Configurar Variables de Entorno del Frontend
-
-En Settings → Variables:
-
-```env
-REACT_APP_API_URL=https://TU-BACKEND-URL.railway.app/api
-NODE_VERSION=18
-```
-
-### Paso 4: Actualizar package.json
-
-Agregar al `package.json`:
-
-```json
-{
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "serve": "serve -s build -p $PORT"
-  },
-  "dependencies": {
-    // ...dependencias existentes
-    "serve": "^14.2.0"
-  }
-}
-```
-
-### Paso 5: Desplegar Frontend
-
-```bash
-git add .
-git commit -m "Configure frontend for Railway"
-git push
-```
-
-Railway desplegará automáticamente.
-
-### Paso 6: Actualizar CORS en Backend
-
-Una vez que tengas la URL del frontend, actualiza la variable de entorno del backend:
-
-```env
-CORS_ALLOWED_ORIGINS=https://TU-FRONTEND-URL.railway.app
-```
+3. **Verificar que funcione:**
+   - La página principal carga
+   - Puedes hacer búsquedas
+   - El formulario responde
+   - Los datos se muestran correctamente
 
 ---
 
-## [SYNC] Configuración de Dominios Personalizados (Opcional)
+## 🔄 PASO 5: Actualizar la Aplicación (Deploys Futuros)
 
-### Backend
+**Railway detecta automáticamente los cambios** en el repositorio de GitHub.
 
-1. En Railway, ir al servicio backend → Settings → Domains
-2. Click en **"Generate Domain"** o agregar dominio personalizado
-3. Ejemplo: `api.travel4u.com`
+Cada vez que se haga un push al repositorio `conde-lemon/SufrirIntegrador`:
 
-### Frontend
+**Railway automáticamente:**
+- ✅ Detectará el push
+- ✅ Iniciará un nuevo build
+- ✅ Desplegará la nueva versión
+- ✅ Tiempo estimado: 3-5 minutos
 
-1. En Railway, ir al servicio frontend → Settings → Domains
-2. Click en **"Generate Domain"** o agregar dominio personalizado
-3. Ejemplo: `www.travel4u.com`
+**No necesitas hacer nada adicional**, Railway sincroniza automáticamente con el repositorio.
 
 ---
 
-## [GRAPH] Monitoreo y Logs
+## 📊 Monitoreo y Métricas
+
+### Ver Métricas en Tiempo Real
+
+Railway proporciona automáticamente:
+
+1. **CPU Usage** - Uso del procesador
+2. **Memory Usage** - Uso de RAM
+3. **Network** - Tráfico de entrada/salida
+4. **Deployments** - Historial de despliegues
+
+**Cómo acceder:**
+- Railway → Tu proyecto → Tab "Metrics"
 
 ### Ver Logs en Tiempo Real
 
-1. Click en el servicio
-2. Tab **"Deployments"**
-3. Click en el último deployment
-4. Ver logs en tiempo real
-
-### Métricas
-
-Railway proporciona automáticamente:
-- CPU usage
-- Memory usage
-- Network traffic
-- Request count
-
----
-
-## 🔍 Verificación Final
-
-### Checklist de Despliegue
-
-#### Backend
-- [ ] Servicio desplegado exitosamente
-- [ ] Health endpoint responde: `/actuator/health`
-- [ ] API endpoints responden: `/api/vuelos`
-- [ ] Conexión a Supabase funciona
-- [ ] CORS configurado correctamente
-
-#### Frontend
-- [ ] Build exitoso
-- [ ] Aplicación accesible en URL pública
-- [ ] Conecta correctamente con backend
-- [ ] Páginas cargan sin errores
-- [ ] Búsquedas funcionan
-
-### URLs de Prueba
-
-```bash
-# Backend
-curl https://TU-BACKEND.railway.app/actuator/health
-curl https://TU-BACKEND.railway.app/api/vuelos
-curl https://TU-BACKEND.railway.app/api/cruceros
-
-# Frontend
-# Abrir en navegador
-https://TU-FRONTEND.railway.app
-https://TU-FRONTEND.railway.app/vuelos
-https://TU-FRONTEND.railway.app/cruceros
+```
+Railway → Deployments → Latest → View Logs
 ```
 
----
-
-## [DEBUG] Solución de Problemas
-
-### Backend no inicia
-
-**Problema**: Error en el build
-- Verificar logs en Railway
-- Verificar que Java 17 está configurado
-- Verificar que Gradle compila localmente
-
-**Problema**: Error de conexión a BD
-- Verificar variables de entorno
-- Verificar credenciales de Supabase
-- Verificar que IP de Railway está permitida en Supabase
-
-### Frontend no conecta con Backend
-
-**Problema**: CORS errors
-- Verificar variable `CORS_ALLOWED_ORIGINS` en backend
-- Debe incluir la URL del frontend
-
-**Problema**: API URL incorrecta
-- Verificar `REACT_APP_API_URL` en frontend
-- Debe apuntar a la URL del backend
-
-### Deploy falla
-
-**Problema**: Build timeout
-- Reducir dependencias innecesarias
-- Optimizar build process
-- Aumentar timeout en Railway settings
-
-**Problema**: Port binding error
-- Asegurar que se usa variable `$PORT`
-- Railway asigna puerto automáticamente
+Los logs muestran:
+- Startup de la aplicación
+- Requests HTTP
+- Errores y excepciones
+- Consultas a la base de datos (si está habilitado)
 
 ---
 
-## 💰 Costos y Límites
+## 💰 Plan Gratuito de Railway
 
-### Plan Gratuito de Railway
+### Lo que incluye:
 
-- **$5 USD de crédito mensual gratuito**
-- Suficiente para:
-  - 1 backend pequeño
-  - 1 frontend estático
-  - Tráfico moderado
+- ✅ **$5 USD de crédito mensual gratis**
+- ✅ **500 horas de ejecución/mes**
+- ✅ **NO requiere tarjeta de crédito**
+- ✅ **Deploy automático desde GitHub**
+- ✅ **SSL/HTTPS incluido gratis**
+- ✅ **Builds ilimitados**
 
-### Optimización de Costos
+### Suficiente para:
+- 1 aplicación Spring Boot pequeña-mediana
+- Tráfico moderado (no masivo)
+- Desarrollo y demos
+- Proyectos académicos
 
-1. **Usar sleep mode**: Railway pausa servicios inactivos
-2. **Optimizar resources**: Configurar límites de memoria/CPU
-3. **Cachear builds**: Railway cachea dependencias
+### Optimización de costos:
 
----
-
-## [DOC] Mantenimiento
-
-### Actualizar el Código
-
-```bash
-# Local
-git add .
-git commit -m "Update: descripción"
-git push
-
-# Railway desplegará automáticamente
-```
-
-### Rollback a Versión Anterior
-
-1. En Railway → Deployments
-2. Click en deployment anterior
-3. Click en **"Redeploy"**
-
-### Escalar Verticalmente
-
-1. Settings → Resources
-2. Ajustar CPU/RAM según necesidad
-3. Costo aumenta proporcionalmente
+1. **Railway pausa servicios inactivos** automáticamente
+2. **Configura sleep mode** para ahorrar horas
+3. **Monitorea el uso** en el dashboard
 
 ---
 
-## [TARGET] Arquitectura Final
+## 📋 Checklist Final
 
-```
-Internet
-    ↓
-Railway Frontend (React)
-https://travel4u-frontend.railway.app
-    ↓ HTTP Requests
-Railway Backend (Spring Boot)
-https://travel4u-backend.railway.app
-    ↓ JDBC
-Supabase PostgreSQL
-aws-1-us-east-1.pooler.supabase.com
-```
-
----
-
-## [OK] Checklist Final de Despliegue
-
-### Pre-Deploy
-- [ ] Código funciona localmente
-- [ ] Tests pasan
-- [ ] Variables de entorno documentadas
-- [ ] .gitignore actualizado
-
-### Deploy Backend
-- [ ] Repositorio en GitHub
-- [ ] Proyecto creado en Railway
-- [ ] Variables de entorno configuradas
-- [ ] Build exitoso
-- [ ] Health check funciona
-
-### Deploy Frontend
-- [ ] API URL configurada
-- [ ] Build de producción exitoso
-- [ ] Conecta con backend
-- [ ] CORS configurado
+### Deploy
+- [ ] Proyecto creado en Railway desde `conde-lemon/SufrirIntegrador`
+- [ ] Variables de entorno configuradas (las 5)
+- [ ] Build exitoso sin errores
+- [ ] Dominio generado
 
 ### Post-Deploy
-- [ ] Ambos servicios funcionando
-- [ ] URLs públicas funcionando
-- [ ] Monitoreo configurado
-- [ ] Documentación actualizada
+- [ ] Aplicación accesible en la URL pública
+- [ ] Página principal carga correctamente
+- [ ] Búsquedas funcionan
+- [ ] Login/registro funciona
+- [ ] Conexión a base de datos OK
 
 ---
 
-## [BOOK] Recursos Adicionales
+## 📚 Recursos y Documentación
 
-- [Railway Documentation](https://docs.railway.app/)
-- [Spring Boot on Railway](https://docs.railway.app/guides/java)
-- [React on Railway](https://docs.railway.app/guides/react)
-- [Supabase Documentation](https://supabase.com/docs)
+### Railway
+- **Dashboard:** https://railway.app/dashboard
+- **Documentación:** https://docs.railway.app
+- **Discord:** https://discord.gg/railway
+- **Status:** https://status.railway.app
 
----
+### Supabase
+- **Dashboard:** https://supabase.com/dashboard
+- **Documentación:** https://supabase.com/docs
+- **Status:** https://status.supabase.com
 
-## [HELP] Soporte
-
-### Railway Discord
-- [Discord Community](https://discord.gg/railway)
-
-### Logs y Debugging
-```bash
-# Ver logs en tiempo real
-railway logs
-
-# Conectar a shell del servicio
-railway shell
-```
+### Spring Boot
+- **Documentación:** https://spring.io/projects/spring-boot
+- **Guides:** https://spring.io/guides
 
 ---
 
-**Fecha de Creación**: 2025-12-03  
-**Versión**: 1.0  
-**Estado**: ✅ COMPLETO
+## 🎯 Resumen Rápido
 
-*** ¡Tu aplicación Travel4U está lista para producción en Railway! ***
+| Paso | Acción | Tiempo Estimado |
+|------|--------|-----------------|
+| 1 | Crear proyecto Railway | 1 minuto |
+| 2 | Configurar variables (5) | 2 minutos |
+| 3 | Generar dominio | 1 minuto |
+| | **Build inicial** | 5-8 minutos |
+| | **TOTAL** | **~12 minutos** |
+
+---
+
+## ✅ Verificación Final
+
+Una vez desplegado, verifica:
+
+1. **URL funciona:**
+   ```
+   https://tu-app.up.railway.app
+   ```
+
+2. **Endpoints principales:**
+   - `/` - Página principal
+   - `/login` - Login
+   - `/registrar` - Registro
+   - `/vuelos` - Búsqueda de vuelos
+
+3. **Funcionalidades:**
+   - Búsqueda de servicios
+   - Login/registro
+   - Reservas
+   - Perfil de usuario
+
+---
+
+**Fecha:** 2025-12-04  
+**Versión:** 3.0 - Desde Repositorio Existente  
+**Estado:** ✅ LISTO PARA USAR
+
+---
+
+**¡Tu aplicación Travel4U está lista para Railway! 🎉**
+
+**Repositorio:** https://github.com/conde-lemon/SufrirIntegrador

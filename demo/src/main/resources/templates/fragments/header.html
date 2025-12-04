@@ -1,82 +1,156 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Travel For U</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <!-- Enlazar CSS externo del header -->
-    <link rel="stylesheet" th:href="@{/css/header_style.css}">
-    <!-- CARGAR JS EN EL HEAD para que esté disponible ANTES del HTML -->
-    <script th:src="@{/js/header.js}"></script>
 </head>
 <body>
 
+<!-- Fragment: Main Header -->
 <header class="main-header" th:fragment="main-header">
-    <div class="header-content">
-        <a th:href="@{/}" class="logo">✈ Travel4U</a>
+    <div class="header-container">
+        <!-- Logo -->
+        <a href="/" class="logo">
+            <div class="logo-icon">✈</div>
+            <span>Travel4U</span>
+        </a>
 
-        <nav class="main-nav">
-            <ul>
-                <li><a th:href="@{/}">Inicio</a></li>
-                <li><a th:href="@{/vuelos}">Vuelos</a></li>
-                <li><a th:href="@{/cruceros}">Cruceros</a></li>
-                <li><a th:href="@{/bus}">Buses</a></li>
+        <!-- Botón hamburguesa (móvil) -->
+        <button class="hamburger-btn" id="btn-navbar" aria-label="Menú">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+
+        <!-- Navegación principal -->
+        <nav class="main-nav" id="id_ul_navbar">
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link active">Inicio</a></li>
+                <li><a href="#" class="nav-link" data-tipo="VUELO">Vuelos</a></li>
+                <li><a href="#" class="nav-link" data-tipo="CRUCERO">Cruceros</a></li>
+                <li><a href="#" class="nav-link" data-tipo="BUS">Buses</a></li>
+
+                <!-- Opciones de usuario autenticado -->
+                <li sec:authorize="isAuthenticated()"><a href="/reservas" class="nav-link">Mis Reservas</a></li>
+                <li sec:authorize="isAuthenticated()"><a href="/perfil" class="nav-link">Mi Perfil</a></li>
             </ul>
+
+            <!-- Usuario autenticado - Botón de cerrar sesión -->
+            <div class="user-info" sec:authorize="isAuthenticated()">
+                <span class="user-name" sec:authentication="name">Usuario</span>
+                <a href="/logout" class="btn-logout">Cerrar Sesión</a>
+            </div>
+
+            <!-- Botones de autenticación (no autenticado) -->
+            <div class="auth-buttons" sec:authorize="!isAuthenticated()">
+                <a href="/login" class="btn-login">Iniciar Sesión</a>
+                <a href="/registrar" class="btn-register">Registrarse</a>
+            </div>
         </nav>
-
-        <!-- Botón visible sólo para ADMIN -->
-        <div sec:authorize="hasRole('ADMIN')" style="margin-left: 1rem;">
-            <a th:href="@{/admin}" class="action-btn admin-btn">Panel Admin</a>
-        </div>
-
-        <div class="user-actions">
-            <!-- No autenticado -->
-            <div sec:authorize="!isAuthenticated()">
-                <a th:href="@{/login}" class="action-btn login-btn">Iniciar Sesión</a>
-                <a th:href="@{/registrar}" class="action-btn register-btn">Registrarse</a>
-            </div>
-
-            <!-- Autenticado -->
-            <div sec:authorize="isAuthenticated()" class="dropdown" id="userDropdown">
-                <button id="userDropdownToggle" class="dropdown-toggle" onclick="toggleDropdown(event)" aria-expanded="false" aria-controls="userMenu">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                         stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4
-                         0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    <span sec:authentication="principal.username"></span>
-                    <span style="margin-left:6px; font-size:0.9rem; opacity:0.95;">▼</span>
-                </button>
-                <div id="userMenu" class="dropdown-menu" role="menu" aria-labelledby="userDropdownToggle">
-                    <a th:href="@{/perfil}" class="dropdown-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                             stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4
-                             0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                        Mi Perfil
-                    </a>
-                    <a th:href="@{/reservas}" class="dropdown-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                             stroke-linejoin="round"><path d="M9 11H5a2 2 0 0 1-2-2V5a2 2
-                             0 0 1 2-2h4"></path><polyline points="13,9 16,12 13,15"></polyline><path d="m16,12 -7,0"></path></svg>
-                        Mis Reservas
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <form th:action="@{/logout}" method="post" style="margin: 0;">
-                        <button type="submit" class="logout-button">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                 stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2
-                                 0 0 1 2-2h4"></path><polyline points="16,17 21,12 16,7"></polyline><path d="m21,12 -8,0"></path></svg>
-                            Cerrar Sesión
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
     </div>
 </header>
 
+<!-- JavaScript para el header -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Toggle menú hamburguesa
+    const btnNavbar = document.getElementById('btn-navbar');
+    const mainNav = document.getElementById('id_ul_navbar');
+
+    if (btnNavbar && mainNav) {
+        const newBtnNavbar = btnNavbar.cloneNode(true);
+        btnNavbar.parentNode.replaceChild(newBtnNavbar, btnNavbar);
+
+        newBtnNavbar.addEventListener('click', (e) => {
+            e.stopPropagation();
+            newBtnNavbar.classList.toggle('active');
+            mainNav.classList.toggle('active');
+
+            if (window.innerWidth <= 768) {
+                document.body.style.overflow = mainNav.classList.contains('active') ? 'hidden' : 'auto';
+            }
+        });
+
+        const navLinks = mainNav.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    newBtnNavbar.classList.remove('active');
+                    mainNav.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+    }
+
+    // Marcar enlace activo según la URL
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        link.classList.remove('active');
+
+        if (href === currentPath || (currentPath === '/' && href === '/')) {
+            link.classList.add('active');
+        }
+    });
+
+    // Integración con el formulario de búsqueda
+    const categoryItems = document.querySelectorAll('.nav-link[data-tipo]');
+    const serviceTypeInput = document.getElementById('service-type');
+    const searchTitle = document.getElementById('search-title');
+    const searchBtn = document.getElementById('search-service-btn');
+
+    if (categoryItems.length > 0 && serviceTypeInput) {
+        const serviceConfig = {
+            'VUELO': { title: 'Busca tu próximo vuelo', button: 'Buscar Vuelos' },
+            'CRUCERO': { title: 'Busca tu próximo crucero', button: 'Buscar Cruceros' },
+            'BUS': { title: 'Busca tu próximo bus', button: 'Buscar Buses' }
+        };
+
+        categoryItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                const searchSection = document.querySelector('.search-section');
+                if (searchSection) {
+                    searchSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+
+                const tipo = item.dataset.tipo;
+                const config = serviceConfig[tipo];
+
+                if (config) {
+                    serviceTypeInput.value = tipo;
+                    if (searchTitle) searchTitle.textContent = config.title;
+                    if (searchBtn) searchBtn.textContent = config.button;
+
+                    document.querySelectorAll('.category-item').forEach(cat => {
+                        cat.classList.remove('active');
+                        if (cat.dataset.tipo === tipo) {
+                            cat.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    // Restaurar scroll al cambiar tamaño de ventana
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            document.body.style.overflow = 'auto';
+            if (mainNav) mainNav.classList.remove('active');
+            const hamburger = document.getElementById('btn-navbar');
+            if (hamburger) hamburger.classList.remove('active');
+        }
+    });
+});
+</script>
 
 </body>
 </html>
+

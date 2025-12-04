@@ -1,6 +1,6 @@
-# 👨‍💼 MANUAL DE ADMINISTRADOR - TRAVEL4U
+# MANUAL DE ADMINISTRADOR - TRAVEL4U
 
-## 📋 Tabla de Contenidos
+## Tabla de Contenidos
 
 1. [Introducción](#introducción)
 2. [Acceso al Panel de Administración](#acceso-al-panel)
@@ -15,19 +15,19 @@
 
 ---
 
-## 🎯 Introducción
+## Introducción
 
 Como administrador de Travel4U, tienes acceso completo para:
-- ✅ Gestionar servicios (vuelos, cruceros, buses)
-- ✅ Administrar proveedores
-- ✅ Supervisar usuarios y reservas
-- ✅ Generar reportes
-- ✅ Configurar el sistema
-- ✅ Monitorear el rendimiento
+- Gestionar servicios (vuelos, cruceros, buses)
+- Administrar proveedores
+- Supervisar usuarios y reservas
+- Generar reportes
+- Configurar el sistema
+- Monitorear el rendimiento
 
 ---
 
-## 🔐 Acceso al Panel de Administración
+## Acceso al Panel de Administración
 
 ### Credenciales de Administrador
 
@@ -37,7 +37,7 @@ Email: admin@travel4u.com
 Contraseña: Admin123!
 ```
 
-> ⚠️ **IMPORTANTE**: Cambia la contraseña predeterminada inmediatamente después del primer acceso.
+> **IMPORTANTE**: Cambia la contraseña predeterminada inmediatamente después del primer acceso.
 
 ### Acceder al Panel
 
@@ -49,15 +49,15 @@ Contraseña: Admin123!
 ### Permisos de Administrador
 
 Los administradores pueden:
-- ✅ Ver y modificar TODO el contenido
-- ✅ Acceder a funciones restringidas
-- ✅ Generar reportes
-- ✅ Configurar el sistema
-- ❌ Los usuarios regulares NO pueden acceder a estas funciones
+- Ver y modificar TODO el contenido
+- Acceder a funciones restringidas
+- Generar reportes
+- Configurar el sistema
+- Los usuarios regulares NO pueden acceder a estas funciones
 
 ---
 
-## 🛫 Gestión de Servicios
+## Gestión de Servicios
 
 ### Ver Todos los Servicios
 
@@ -127,13 +127,13 @@ Verás una tabla con todos los servicios:
 2. Confirmar la acción en el modal
 3. El servicio se marca como **inactivo** (soft delete)
 
-> 📝 **Nota**: No se elimina físicamente, solo se desactiva para mantener el historial de reservas.
+> **Nota**: No se elimina físicamente, solo se desactiva para mantener el historial de reservas.
 
 ### Activar/Desactivar Servicio
 
 **Toggle de Estado**:
-- ✅ **Activo**: Visible para usuarios
-- ❌ **Inactivo**: Oculto para usuarios, solo visible en admin
+- **Activo**: Visible para usuarios
+- **Inactivo**: Oculto para usuarios, solo visible en admin
 
 ### Importar Servicios desde CSV
 
@@ -268,7 +268,7 @@ Click en **"Ver"** para ver:
    - **ADMIN**: Administrador
 3. Click en **"Actualizar"**
 
-> ⚠️ **CUIDADO**: Solo asignar rol ADMIN a personal de confianza.
+> **CUIDADO**: Solo asignar rol ADMIN a personal de confianza.
 
 ### Restablecer Contraseña de Usuario
 
@@ -288,7 +288,7 @@ Filtros disponibles:
 
 ---
 
-## 📋 Gestión de Reservas
+## Gestión de Reservas
 
 ### Ver Todas las Reservas
 
@@ -303,11 +303,11 @@ Vista de reservas:
 
 ### Estados de Reserva
 
-- 🟢 **CONFIRMADA**: Reserva pagada y confirmada
-- 🟡 **PENDIENTE**: Esperando pago (24h)
-- 🔴 **CANCELADA**: Cancelada por usuario o admin
-- ⏰ **EXPIRADA**: No se completó el pago
-- ✈️ **COMPLETADA**: Viaje realizado
+- **CONFIRMADA**: Reserva pagada y confirmada
+- **PENDIENTE**: Esperando pago (24h)
+- **CANCELADA**: Cancelada por usuario o admin
+- **EXPIRADA**: No se completó el pago
+- **COMPLETADA**: Viaje realizado
 
 ### Ver Detalle de Reserva
 
@@ -338,7 +338,7 @@ Click en **"Ver"** para mostrar:
 │ Comprobante: TXN-12345678              │
 │ Total: S/ 300.00                       │
 │                                         │
-│ ESTADO: ✅ CONFIRMADA                  │
+│ ESTADO: CONFIRMADA                     │
 │                                         │
 │ [Descargar Boleta] [Enviar Email]     │
 │ [Cancelar Reserva]                     │
@@ -672,9 +672,9 @@ Usuario: maria@email.com
 
 ---
 
-## 🔧 Mantenimiento
+## Mantenimiento
 
-### Respaldo de Base de Datos
+### Backup de Base de Datos
 
 **URL**: `/admin/mantenimiento/backup`
 
@@ -838,10 +838,10 @@ El panel de administración es **responsive** y funciona en:
 
 ### Contacto de Emergencia
 
-- 📧 **Email**: tech@travel4u.com
-- 📱 **Teléfono**: +51 987 654 321
-- 💬 **Slack**: #admin-support
-- ⏰ **Disponibilidad**: 24/7 para emergencias
+- **Email**: tech@travel4u.com
+- **Teléfono**: +51 987 654 321
+- **Slack**: #admin-support
+- **Disponibilidad**: 24/7 para emergencias
 
 ### Documentación Técnica
 

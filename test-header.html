@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Header - Travel4U</title>
+    <link rel="stylesheet" href="demo/src/main/resources/static/css/header_style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .test-content {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .test-content h1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .test-content p {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .feature-card {
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .feature-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .feature-desc {
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="main-header">
+    <div class="header-container">
+        <!-- Logo -->
+        <a href="/" class="logo">
+            <div class="logo-icon">✈</div>
+            <span>Travel4U</span>
+        </a>
+
+        <!-- Botón hamburguesa (móvil) -->
+        <button class="hamburger-btn" id="btn-navbar" aria-label="Menú">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+
+        <!-- Navegación principal -->
+        <nav class="main-nav" id="id_ul_navbar">
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link active">Inicio</a></li>
+                <li><a href="#" class="nav-link" data-tipo="VUELO">Vuelos</a></li>
+                <li><a href="#" class="nav-link" data-tipo="CRUCERO">Cruceros</a></li>
+                <li><a href="#" class="nav-link" data-tipo="BUS">Buses</a></li>
+            </ul>
+
+            <!-- Usuario autenticado (DEMO) -->
+            <div class="user-dropdown">
+                <button class="user-btn" id="user-dropdown-btn">
+                    <span class="user-icon">👤</span>
+                    <span>Juan Pérez</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item" onclick="alert('Ir a Mi Perfil'); return false;">
+                        <span class="dropdown-icon">👤</span>
+                        <span>Mi Perfil</span>
+                    </a>
+                    <a href="#" class="dropdown-item" onclick="alert('Ir a Mis Reservas'); return false;">
+                        <span class="dropdown-icon">📋</span>
+                        <span>Mis Reservas</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item" onclick="alert('Cerrar Sesión'); return false;">
+                        <span class="dropdown-icon">🚪</span>
+                        <span>Cerrar Sesión</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Para ver botones de login/registro, comenta el bloque anterior y descomenta este:
+            <div class="auth-buttons">
+                <a href="/login" class="btn-login">Iniciar Sesión</a>
+                <a href="/registrar" class="btn-register">Registrarse</a>
+            </div>
+            -->
+        </nav>
+    </div>
+</header>
+
+<!-- Contenido de prueba -->
+<div class="test-content">
+    <h1>🎉 Header Travel4U Funcionando!</h1>
+    <p>Este es un archivo de prueba para verificar el funcionamiento del header.</p>
+
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="feature-icon">✈️</div>
+            <div class="feature-title">Vuelos</div>
+            <div class="feature-desc">Encuentra los mejores vuelos a los mejores precios</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🚢</div>
+            <div class="feature-title">Cruceros</div>
+            <div class="feature-desc">Disfruta de increíbles cruceros por todo el mundo</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🚌</div>
+            <div class="feature-title">Buses</div>
+            <div class="feature-desc">Viaja cómodamente en bus a tu destino favorito</div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript del header -->
+<script src="demo/src/main/resources/static/js/header.js"></script>
+
+</body>
+</html>
+

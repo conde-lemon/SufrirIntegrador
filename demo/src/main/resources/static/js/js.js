@@ -1,15 +1,9 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Menú hamburguesa
-    const btnNavbar = document.getElementById("btn-navbar");
-    if (btnNavbar) {
-        btnNavbar.addEventListener("click", () => {
-            const menu = document.getElementById("id_ul_navbar");
-            if (menu) {
-                menu.classList.toggle("active");
-            }
-        });
-    }
+/**
+ * Travel4U - Formulario de Búsqueda
+ * Maneja la interacción del formulario de búsqueda de servicios
+ */
 
+document.addEventListener('DOMContentLoaded', () => {
     // Elementos del formulario de búsqueda
     const selectFrom = document.getElementById('select-from');
     const selectTo = document.getElementById('select-to');
@@ -18,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchTitle = document.getElementById('search-title');
     const categoryItems = document.querySelectorAll('.category-item');
 
+    // Si no existen los elementos del formulario, salir
     if (!selectFrom || !selectTo || !searchBtn) {
         return;
     }
@@ -29,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'BUS': { title: 'Busca tu próximo bus', button: 'Buscar Buses' }
     };
 
-    // Cambiar tipo de servicio
+    // Cambiar tipo de servicio desde los botones de categoría
     categoryItems.forEach(item => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
@@ -42,18 +37,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const tipo = item.dataset.tipo;
             const config = serviceConfig[tipo];
             
-            // Actualizar formulario
-            serviceTypeInput.value = tipo;
-            searchTitle.textContent = config.title;
-            searchBtn.textContent = config.button;
+            // Actualizar formulario si la configuración existe
+            if (config) {
+                serviceTypeInput.value = tipo;
+                if (searchTitle) searchTitle.textContent = config.title;
+                if (searchBtn) searchBtn.textContent = config.button;
+            }
         });
     });
 
-    // Validación del formulario
+    // Validación del formulario de búsqueda
     const checkSelectors = () => {
         const fromValue = selectFrom.value;
         const toValue = selectTo.value;
 
+        // Mostrar botón solo si ambos campos están llenos y son diferentes
         if (fromValue && toValue && fromValue !== toValue) {
             searchBtn.classList.remove('hidden');
         } else {
@@ -61,6 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Listeners para validación en tiempo real
     selectFrom.addEventListener('change', checkSelectors);
     selectTo.addEventListener('change', checkSelectors);
+
+    // Validación inicial al cargar la página
+    checkSelectors();
 });
