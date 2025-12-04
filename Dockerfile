@@ -4,10 +4,11 @@
 FROM eclipse-temurin:21-jdk AS build
 WORKDIR /app
 
-# Copiar archivos de Gradle wrapper primero (IMPORTANTE: mantener estructura exacta)
+# Copiar wrapper de Gradle de forma explícita
 COPY demo/gradlew ./
 COPY demo/gradlew.bat ./
-COPY demo/gradle ./gradle/
+COPY demo/gradle/wrapper/gradle-wrapper.jar ./gradle/wrapper/gradle-wrapper.jar
+COPY demo/gradle/wrapper/gradle-wrapper.properties ./gradle/wrapper/gradle-wrapper.properties
 
 # Copiar archivos de configuración de Gradle
 COPY demo/build.gradle ./
@@ -20,7 +21,7 @@ COPY demo/src ./src
 RUN chmod +x gradlew
 
 # Verificar que el wrapper existe (debug)
-RUN ls -la gradle/wrapper/ || echo "ERROR: wrapper directory not found"
+RUN ls -laR gradle/
 
 # Construir la aplicación
 RUN ./gradlew clean build -x test --no-daemon
