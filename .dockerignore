@@ -2,13 +2,17 @@
 .git
 .gitignore
 README.md
-Dockerfile
 docker-compose.yml
 .dockerignore
 
 # Directorios de build (pero NO el wrapper de Gradle)
 demo/build/
 demo/.gradle/
+# IMPORTANTE: NO excluir gradle/wrapper/
+!demo/gradle/
+!demo/gradle/wrapper/
+!demo/gradle/wrapper/gradle-wrapper.jar
+!demo/gradle/wrapper/gradle-wrapper.properties
 
 # Logs
 logs/
