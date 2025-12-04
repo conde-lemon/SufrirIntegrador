@@ -7,7 +7,7 @@ WORKDIR /app
 # Copiar archivos de Gradle wrapper primero (IMPORTANTE: mantener estructura exacta)
 COPY demo/gradlew ./
 COPY demo/gradlew.bat ./
-COPY demo/gradle ./gradle
+COPY demo/gradle ./gradle/
 
 # Copiar archivos de configuración de Gradle
 COPY demo/build.gradle ./
@@ -18,6 +18,9 @@ COPY demo/src ./src
 
 # Dar permisos de ejecución
 RUN chmod +x gradlew
+
+# Verificar que el wrapper existe (debug)
+RUN ls -la gradle/wrapper/ || echo "ERROR: wrapper directory not found"
 
 # Construir la aplicación
 RUN ./gradlew clean build -x test --no-daemon
