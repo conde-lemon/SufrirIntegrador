@@ -4,27 +4,25 @@
 FROM eclipse-temurin:21-jdk AS build
 WORKDIR /app
 
-# Copiar wrapper de Gradle de forma explícita
-COPY demo/gradlew ./
-COPY demo/gradlew.bat ./
-COPY demo/gradle/wrapper/gradle-wrapper.jar ./gradle/wrapper/gradle-wrapper.jar
-COPY demo/gradle/wrapper/gradle-wrapper.properties ./gradle/wrapper/gradle-wrapper.properties
+# Instalar Gradle directamente (evitar problemas con el wrapper)
+RUN apt-get update && \
+    apt-get install -y wget unzip && \
+    wget https://services.gradle.org/distributions/gradle-8.5-bin.zip && \
+    unzip gradle-8.5-bin.zip && \
+    mv gradle-8.5 /opt/gradle && \
+    rm gradle-8.5-bin.zip && \
+    apt-get clean
 
-# Copiar archivos de configuración de Gradle
+# Agregar Gradle al PATH
+ENV PATH="/opt/gradle/bin:${PATH}"
+
+# Copiar archivos del proyecto
 COPY demo/build.gradle ./
 COPY demo/settings.gradle ./
-
-# Copiar código fuente
 COPY demo/src ./src
 
-# Dar permisos de ejecución
-RUN chmod +x gradlew
-
-# Verificar que el wrapper existe (debug)
-RUN ls -laR gradle/
-
-# Construir la aplicación
-RUN ./gradlew clean build -x test --no-daemon
+# Construir la aplicación con Gradle instalado
+RUN gradle clean build -x test --no-daemon
 
 # ==========================================
 # STAGE 2: Runtime
